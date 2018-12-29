@@ -1,0 +1,24 @@
+{
+"data": [
+{% for consultor in entities %}
+    [
+    "{{ consultor.id }}",
+    "{{ consultor.id }}",
+    "{{ consultor.legajo }}",
+    "{{ consultor.CUIT }}",
+    "{{ consultor.razonSocial|decode }}",
+    {
+    "show" : " {{ path( "consultor_show", { "id": consultor.id }) }}"
+    {% if is_granted("ROLE_EDITAR_CONSULTOR") %}
+        ,"edit" : " {{ path( "consultor_edit", { "id": consultor.id }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_VER_CC_CONSULTOR") %}
+        ,"cuenta_corriente" : "{{ path( 'consultor_cta_cte_detalle_total', { "idConsultor": consultor.id }) }} "
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_EMPLEADOS") %}
+        ,"desactivar" : "{{ path( 'consultor_activar', { 'id': consultor.id, 'activo': 0 }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

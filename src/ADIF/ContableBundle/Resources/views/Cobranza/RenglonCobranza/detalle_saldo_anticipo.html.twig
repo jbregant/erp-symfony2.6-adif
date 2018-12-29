@@ -1,0 +1,106 @@
+<table id="table-anticipo" class="table table-bordered table-striped table-condensed table-hover">
+    <thead> 
+        <tr class="headers">
+            <th colspan="4" class="text-center">Estado del anticipo</th>                                                   
+        </tr>        
+        <tr class="headers">
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Cliente</th>
+            <th class="text-center">Total</th>                                    
+            <th class="text-center">Saldo</th>                                                    
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-center">{{ anticipo.fecha|date('d/m/Y') }}</td>
+            <td class="text-center">{{ anticipo.cliente.clienteProveedor.razonSocial ~ '<br/>' ~ anticipo.cliente.clienteProveedor.cuit }}</td>
+            <td class="text-center">{{ anticipo.monto|money_format }}</td>
+            <td class="text-center">{{ anticipo.saldo|money_format }}</td>
+        </tr>    
+    </tbody>
+</table>
+{% if anticipo.cobroRenglonCobranza.renglonesCobranza is not empty %}
+<br>     
+<table id="table-cobranzas-banco" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr class="headers">
+            <th colspan="4" class="text-center">Cobranzas bancarias asociadas</th>                                                   
+        </tr>          
+        <tr class="headers">
+            <th class="text-center">Fecha</th>
+            <th class="text-center">N&uacute;mero</th>
+            <th class="text-center">C&oacute;digo</th>                                    
+            <th class="text-center">Monto</th>                                                    
+        </tr>
+    </thead>
+    <tbody>
+        {% for renglonBanco in anticipo.cobroRenglonCobranza.renglonesCobranza %}
+        <tr>
+            <td class="text-center">{{ renglonBanco.fecha|date('d/m/Y') }}</td>
+            <td class="text-center">{{ renglonBanco.numeroTransaccion }}</td>
+            <td class="text-center">{{ renglonBanco.codigo }}</td>
+            <td class="text-center">{{ renglonBanco.monto|money_format }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>   
+{% endif %}    
+{% if anticipo.cobroRenglonCobranza.cheques is not empty %}
+<br>
+<table id="table-cobranzas-cheque" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr class="headers">
+            <th colspan="4" class="text-center">Cobranzas por cheque</th>                                                   
+        </tr>          
+        <tr class="headers">
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Banco</th>
+            <th class="text-center">N&uacute;mero</th>                                    
+            <th class="text-center">Monto</th>                                                    
+        </tr>
+    </thead>
+    <tbody>
+        {% for renglonCheque in anticipo.cobroRenglonCobranza.cheques %}
+        <tr>
+            <td class="text-center">{{ renglonCheque.fecha|date('d/m/Y') }}</td>
+            <td class="text-center">{{ renglonCheque.banco }}</td>
+            <td class="text-center">{{ renglonCheque.numero }}</td>
+            <td class="text-center">{{ renglonCheque.monto|money_format }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+{% endif %}  
+{% if anticipo.cobrosAnticipoCliente is not empty %}
+<br>
+<table id="table-usos" class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr class="headers">
+            <th colspan="4" class="text-center">Aplicaciones del anticipo</th>                                                   
+        </tr>          
+        <tr class="headers">
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Comprobante</th>
+            <th class="text-center">Contrato</th>                                    
+            <th class="text-center">Monto</th>                                                    
+        </tr>
+    </thead>
+    <tbody>
+        {% for cobro in anticipo.cobrosAnticipoCliente %}
+        {% set comprobante = cobro.comprobantes|first %}    
+        <tr>
+            <td class="text-center">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+            <td class="text-center">
+                {%if comprobante.letraComprobante %}
+                    {{ comprobante.tipoComprobante ~ ' (' ~ comprobante.letraComprobante ~ ')' ~ comprobante.numeroCompleto }}
+                {% else %}
+                    {{ comprobante.tipoComprobante ~ ' ' ~ comprobante.numeroCompleto }}
+                {% endif %}
+            </td>
+            <td class="text-center">{{ comprobante.contrato.numeroContrato|default('-') }}</td>
+            <td class="text-center">{{ cobro.monto|money_format }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>     
+{% endif %}  

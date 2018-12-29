@@ -1,0 +1,136 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent()}}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+    
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/egreso_valor/new.css') }}" rel="stylesheet" type="text/css" />
+    
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}
+
+{% set ConstanteConceptoPercepcion = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteConceptoPercepcion' %}
+{% set ConstanteLetraComprobante = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteLetraComprobante' %}
+{% set ConstanteTipoComprobante = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoComprobanteCompra' %}
+{% set ConstanteTipoResponsable = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoResponsable' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+
+    <div class="form-body form-comprobante">
+
+        <div class="div_ctn_seccion">
+            <div class="btn btn-info btn-sm label_seccion">Egreso de valor</div>
+            {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.datos_egreso_valor.html.twig') %}
+        </div>
+
+        {# Tabla de comprobantes #}
+        {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.tabla_comprobantes.html.twig') %}
+
+        <div class="div_ctn_seccion" style="min-height: 45px">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <a class="btn btn-sm green tooltips link-agregar-devolucion" 
+                           data-placement="right" data-original-title="Agregar devoluci&oacute;n de dinero">
+                            Agregar devolución <i class="fa fa-plus"></i>
+                        </a>
+                        <a class="btn btn-sm blue tooltips link-agregar-comprobante" 
+                           data-placement="right" data-original-title="Agregar comprobante">
+                            Agregar comprobante <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    <div class="pull-right" style="display:none">
+                        <a class="btn btn-sm purple tooltips link-cerrar-rendicion" 
+                           data-placement="left" data-original-title=" Cerrar rendici&oacute;n"
+                           href="{{ path( 'egresovalor_rendir', { 'id': egresoValor.id }) }}">
+                            Cerrar rendici&oacute;n
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="boton_cancelar_general form-actions">
+            <div class="pull-left">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('egresovalor') }}">Cancelar</button>
+            </div>
+        </div>
+
+        {# Formulario de devolucion de dinero #}
+        {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.formulario_devolucion.html.twig') %}
+
+        {# Formulario del comprobante #}
+        {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.formulario_comprobante.html.twig') %}
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+    
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script>
+        var prefijo = 'egresovalor';
+        
+        var __numeroReferencia = "{{ numeroReferencia is defined and numeroReferencia is not null ? numeroReferencia : "" }}";
+        var __fechaIngresoADIF = "{{ fechaIngresoADIF is defined and fechaIngresoADIF is not null ? fechaIngresoADIF|date('d/m/Y') : "" }}";
+
+        var __letraComprobanteA = "{{ constant(ConstanteLetraComprobante ~ '::A') }}";
+        var __letraComprobanteALeyenda = "{{ constant(ConstanteLetraComprobante ~ '::A_CON_LEYENDA') }}";
+        var __letraComprobanteC = "{{ constant(ConstanteLetraComprobante ~ '::C') }}";
+        var __letraComprobanteY = "{{ constant(ConstanteLetraComprobante ~ '::Y') }}";
+        var __letraComprobanteM = "{{ constant(ConstanteLetraComprobante ~ '::M') }}";
+        
+        var __responsableMonotributo = "{{ constant(ConstanteTipoResponsable ~ '::RESPONSABLE_MONOTRIBUTO') }}";
+        
+        var __percepcionIIBB = "{{ constant(ConstanteConceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IIBB') }}";
+                
+        var __tipoComprobanteCupon = "{{ constant(ConstanteTipoComprobante ~ '::CUPON') }}";
+        
+        var __jurisdiccionCABA = "{{ jurisdiccionCABA is not null ? jurisdiccionCABA : 'null' }}";
+    </script>
+
+    <script type="text/javascript">
+        var tope ={{ tope|json_encode|raw }} ;
+        var limiteRendicion ={{ limiteRendicion|json_encode|raw }} ;
+    </script>
+
+
+    <script src="{{ asset('js/custom/contable/comprobante/new.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/comprobante/egreso_valor/new.js') }}" ></script>
+
+    <script>
+        {% if(entity.renglonesComprobante|length) %}   
+            {% for renglon in entity.renglonesComprobante %}
+                crearRenglonComprobanteEgresoValor({{ renglon.conceptoEgresoValor.id }}, '{{ renglon.descripcion }}', {{ renglon.cantidad }}, {{ renglon.precioUnitario }}, {{ renglon.montoNeto }}, {{ renglon.alicuotaIva.id }}, {{ renglon.montoIva }});
+            {% endfor %}
+            restringir_iva();
+            recalcular_netos();
+            //$('input[name^="adif_contablebundle_comprobante"][name$="\[precioUnitario\]"]').rules('remove', 'valor_maximo');
+            $('.formulario-devolucion').hide();
+            $('.formulario-comprobante').show();
+            $('.link-agregar-devolucion').parents('.div_ctn_seccion').remove();
+            $('.boton_cancelar_general').hide();
+        {% endif %}
+
+        {% for renglonPercepcion in entity.renglonesPercepcion %}
+            crear_renglon_percepcion_impuesto('percepcion', {conceptoPercepcion:{{ renglonPercepcion.conceptoPercepcion.id }}, jurisdiccion:{{ renglonPercepcion.jurisdiccion.id }}, monto: {{ renglonPercepcion.monto }} }, null);{% endfor %}                        {% for renglonImpuesto in entity.renglonesImpuesto %}
+            crear_renglon_percepcion_impuesto('impuesto', null, {conceptoImpuesto:{{ renglonImpuesto.conceptoImpuesto.id }}, detalle: '{{ renglonImpuesto.detalle }}', monto: {{ renglonImpuesto.monto }} });{% endfor %}
+    </script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{
+"data": [
+{% for entity in entities %}
+
+    {% set esOrdenPago = entity.ordenPago.numeroOrdenPago is not null %}
+
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.proveedor.cuitAndRazonSocial|default('-') }}", 
+    "{{ entity.comprobante.tipoComprobante|default('-') ~ ' (' ~ entity.comprobante.letraComprobante|default('-') ~ ') - ' ~  entity.comprobante.numeroCompleto|default('-') }}", 
+    "{{ entity.comprobante.total|default('-')|money_format }}", 
+    "{{ entity.fechaPago|date('d/m/Y') }}",
+    "{{ entity.importe|money_format }}",
+    {% if esOrdenPago %}
+        "{{ "OP n&deg; " ~ entity.ordenPago.numeroOrdenPago }}",
+    {% else %} 
+        "{{ "AC n&deg; " ~ entity.ordenPago.numeroAutorizacionContable }}",
+    {% endif %}
+    {
+    "estado" : "{{ entity.ordenPago.estadoOrdenPago }}",
+    "estadoClass" : "{{ (entity.ordenPago.estadoOrdenPago.tipoImportancia is not null ? entity.ordenPago.estadoOrdenPago.tipoImportancia.aliasTipoImportancia : 'default') }}"   
+    },
+    {
+    "show" : "{{ path( entity.ordenPago.path ~ '_show', { 'id': entity.ordenPago.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,20 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.tipoContratacion.alias|default('-') }}",
+    "{{ entity.numero|default('-') }}", 
+    "{{ entity.anio|default('-') }}", 
+    {% if entity.fechaApertura %}"{{ entity.fechaApertura|date('d/m/Y') }}",{% endif %} 
+    "{{ entity.importePliego|money_format }}", 
+    "{{ entity.importeLicitacion|money_format }}", 
+    "{{ entity.porcentajeAdjudicado|default(0) ~ ' %' }}", 
+    {
+    "show" : " {{ path( "licitacion_obra_show", { "id": entity.id }) }}",
+    "new_tramo" : " {{ path( "obras_tramos_new", { "licitacion": entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,66 @@
+<div class="div_ctn_seccion">
+    <div class="btn btn-info btn-sm label_seccion">Datos iniciales del comprobante</div>
+
+    <div class="row margin-top-20">
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.tipoComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoComprobante) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.letraComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.letraComprobante) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.strPuntoVenta) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.strPuntoVenta) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.numero) }}
+                <div class="input-group">
+                    {{ form_widget(form.numero) }}
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.fechaComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fechaComprobante) }}
+                </div>
+            </div>
+        </div>
+		
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.fechaVencimiento) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fechaVencimiento) }}
+                </div>
+            </div>
+        </div>
+    </div>
+	
+</div>

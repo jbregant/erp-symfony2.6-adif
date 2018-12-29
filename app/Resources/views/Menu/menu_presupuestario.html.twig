@@ -1,0 +1,94 @@
+
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Presupuesto <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu">
+
+        {# CONFIGURACION PRESUPUESTARIO #}
+        {% if is_granted('ROLE_MENU_PRESUPUESTARIO_CONFIGURACION') %}
+            {% include ':Menu:menu_configuracion_presupuestario.html.twig' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_PRESUPUESTARIO_PROVISORIOS') %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Provisorios
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('provisoriosueldo') }}">
+                            Provisorio de sueldos
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_PRESUPUESTARIO_MOVIMIENTO_PRESUPUESTARIO') %}
+            <li>
+                <a href="{{ path('movimientopresupuestario') }}">
+                    Movimientos presupuestarios
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_PRESUPUESTARIO_ADMINISTRACION_PRESUPUESTO') %}
+            <li>
+                <a href="{{ path('presupuesto') }}">
+                    Administraci&oacute;n de presupuesto
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_PRESUPUESTARIO_REPORTES') %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Reportes
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('presupuesto_epe_1') }}">
+                            EPE 1 - Cuenta ahorro inversi&oacute;n financiamiento
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_2') }}">
+                            EPE 2 - Ejecuci&oacute;n de caja
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_3') }}">
+                            EPE 3 - Remuneraciones
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_4') }}">
+                            EPE 4 - Deuda p&uacute;blica
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_5') }}">
+                            EPE 5 - Servicios no personales
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_6') }}">
+                            EPE 6 - Vol&uacute;men de producci&oacute;n
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_7') }}">
+                            EPE 7 - Nivel de ventas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('presupuesto_epe_8') }}">
+                            EPE 8 - Dotaci&oacute;n de personal y movimientos de dotaci&oacute;n
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>

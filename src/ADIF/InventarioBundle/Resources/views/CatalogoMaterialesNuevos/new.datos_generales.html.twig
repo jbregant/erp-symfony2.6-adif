@@ -1,0 +1,88 @@
+<fieldset class="form-section-fieldset">
+
+  <legend class="form-section-legend">Datos principales</legend>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        {{ form_label(form.fabricante) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.fabricante) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.unidadMedida) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.unidadMedida) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.tipoEnvio) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.tipoEnvio) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.transportePallet) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.transportePallet) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.transporteCajas) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.transporteCajas) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        {{ form_label(form.observacion) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.observacion) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.unidadesPallet) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.unidadesPallet, { 'id': 'unidadesxPallet' }) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.unidadesCajas) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.unidadesCajas, { 'id': 'unidadesxCajas' }) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</fieldset>

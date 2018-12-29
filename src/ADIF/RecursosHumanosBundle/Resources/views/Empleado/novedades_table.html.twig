@@ -1,0 +1,23 @@
+{
+  "data": [
+{% for empleado in empleados %}
+[
+    { 
+        "id" : "{{ empleado[0].id }}",
+        "novedades_codigos" : [ {{ empleado[1] }}],
+        "novedades_valores" : [ {{ empleado[2] }}]
+    },
+    "{{ empleado[0].id }}",
+    "",
+    "{{ empleado[0].nroLegajo }}",
+    "{{ empleado[0].persona.cuil }}",
+    "{{ empleado[0].persona.apellido }}",
+    "{{ empleado[0].persona.nombre }}",
+    "{{ empleado[0].idSubcategoria.idCategoria.idConvenio.nombre }}"{{ novedades|length > 0 ? ',' : ''}}
+    {% for novedad in novedades %}
+        ""{{ (loop.last ? '' : ',') }}
+    {% endfor %}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]
+}

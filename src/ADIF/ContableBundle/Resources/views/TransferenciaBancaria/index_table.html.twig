@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.numeroTransferencia|default('-') }}", 
+    "{{ entity.idCuenta|default('-') }}", 
+{
+"show" : " {{ path( "transferencia_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "transferencia_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,478 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %} {{ parent() }} {% endblock%}
+
+{% block body %}
+    {% set estadoEvaluacion =  datosUsuario.proveedorEvaluacion.estadoEvaluacionGafImpuestos.id %}
+    {% set idProveedorEvaluacion  =   datosUsuario.proveedorEvaluacion.id | format_file_from_text %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="col-lg-12 caption">
+                        <div class="col-lg-7">
+                            Evaluaci&oacute;n de Interesado GAF
+                        </div>
+                        <div class="col-lg-3">
+                            Email: {{ datosUsuario.email }}
+                        </div>
+                        <div class="col-lg-2">
+                            {% if datosUsuario.extranjero %}
+                                Nro. de Identificación tributara: {{ datosUsuario.numeroIdTributaria }}
+                            {% else %}
+                                CUIT: {{ datosUsuario.cuit }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">Gerencia Adm. Impuestos</div>
+                            </div>
+                            <div class="portlet-body">
+
+                                <!-- Datos Persona Física -->
+                                {% if datosUsuario.tipoProveedor.id == 1 %}
+                                    <fieldset class="form-section-fieldset">
+                                        <legend class="form-section-legend">Datos de la Persona F&iacute;sica</legend>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Nombre</label>
+                                                <div class="detalle_show">{{ datosUsuario.nombre }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Apellido</label>
+                                                <div class="detalle_show">{{ datosUsuario.apellido }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Tipo de Documento</label>
+                                                <div class="detalle_show">{{ datosUsuario.tipoDocumento }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">N&uacute;mero de Documento</label>
+                                                <div class="detalle_show">{{ datosUsuario.numeroDocumento }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'21'} %}
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'11'} %}
+                                        </div>
+                                    </fieldset>
+                                {% endif %}
+                                <!-- Fin Datos Persona Física -->
+
+                                <!-- Datos Persona Jurídica -->
+                                {% if datosUsuario.tipoProveedor.id == 2 %}
+                                    <fieldset class="form-section-fieldset">
+                                        <legend class="form-section-legend">Datos de la Persona Jur&iacute;dica</legend>
+
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Tipo de Persona Jur&iacute;dica</label>
+                                                <div class="detalle_show">{{ datosUsuario.tipoPersonaJuridica.denominacion }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Fecha de Inicio de Actividad</label>
+                                                <div class="detalle_show">{{ datosUsuario.fechaInicioActividades|date('d-m-Y') }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Razon Social</label>
+                                                <div class="detalle_show">{{ datosUsuario.razonSocial }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="control-label">Datos de Miembros (en caso de corresponder)</label>
+                                            <table class="table table-bordered" id="" dataexport-title="">
+                                                <thead>
+                                                <tr class="headers">
+                                                    <th class="text-center">CUIT</th>
+                                                    <th class="text-center">Nombre</th>
+                                                    <th class="text-center">Apellido</th>
+                                                    <th class="text-center">Porcentaje de Participaci&oacute;n</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for datoMiembros in datosUsuario.proveedorPersonaJuridicaMiembros %}
+                                                    {% if datoMiembros.fechaBaja is null %}
+                                                        <tr>
+                                                            <td>{{datoMiembros.cuit }}</td>
+                                                            <td>{{datoMiembros.nombre }}</td>
+                                                            <td>{{datoMiembros.apellido }}</td>
+                                                            <td>{{datoMiembros.participacion }} %</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'17'} %}
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'12'} %}
+                                        </div>
+                                    </fieldset>
+                                {% endif %}
+                                <!-- Fin Datos Persona Jurídica -->
+
+                                <!-- Datos Contratos de Colaboración Empresaria -->
+                                {% if datosUsuario.tipoProveedor.id == 3 %}
+                                    <fieldset class="form-section-fieldset">
+                                        <legend class="form-section-legend">Datos de Contratos de Colaboración Empresaria (UTE, ACE)</legend>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Denominaci&oacute;n Contrato Asociativo (UTE)</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.denominacion }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">N° de Inscripción (IGJ Registro P&uacute;blico de Comercio, etc.)</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.numeroInscripcion }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Fecha de Constituci&oacute;n de contrato</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.fechaConstitucion|date('d-m-Y') }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Raz&oacute;n Social</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.razonSocial }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Fecha de Finalizaci&oacute;n de contrato</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.fechaFinalizacion|date('d-m-Y') }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Nombre Fantas&iacute;a</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.nombreFantasia }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Dirección Web</label>
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorUte.url }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="control-label">Datos de Miembros (en cado de corresponder)</label>
+                                            <table class="table table-bordered" id="" dataexport-title="">
+                                                <thead>
+                                                <tr class="headers">
+                                                    <th class="text-center">CUIT</th>
+                                                    <th class="text-center">Raz&oacute;n Social</th>
+                                                    <th class="text-center">N° de inscripci&oacute;n</th>
+                                                    <th class="text-center">% Participaci&oacute;n en Gcias</th>
+                                                    <th class="text-center">% Participaci&oacute;n en Remun.</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for datoMiembros in datosUsuario.proveedorUte.proveedorUteMiembros %}
+                                                    {% if datoMiembros.fechaBaja is null %}
+                                                        <tr>
+                                                            <td>{{datoMiembros.cuit }}</td>
+                                                            <td>{{datoMiembros.razonSocial }}</td>
+                                                            <td>{{datoMiembros.numeroInscripcion }}</td>
+                                                            <td>{{datoMiembros.participacionGanancias }} %</td>
+                                                            <td>{{datoMiembros.participacionRemunerativa }} %</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'16'} %}
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'13'} %}
+                                        </div>
+                                    </fieldset>
+                                {% endif %}
+                                <!-- Fin Datos Contratos de Colaboración Empresaria -->
+
+                                <!-- Datos Persona Física Extranjera -->
+                                {% if datosUsuario.tipoProveedor.id == 4 %}
+                                    <fieldset class="form-section-fieldset">
+                                        <legend class="form-section-legend">Datos de la Persona F&iacute;sica Extranjera</legend>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Nombre</label>
+                                                <div class="detalle_show">{{ datosUsuario.nombre }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Apellido</label>
+                                                <div class="detalle_show">{{ datosUsuario.apellido }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Tipo de Documento</label>
+                                                <div class="detalle_show">{{ datosUsuario.tipoDocumento }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">N&uacute;mero de Documento</label>
+                                                <div class="detalle_show">{{ datosUsuario.numeroDocumento }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Pa&iacute;s de Radicaci&oacute;n</label>
+                                                <div class="detalle_show">{{ datosUsuario.paisRadicacion }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Documentaci&oacute;n</label>
+                                                <div class="detalle_show">
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion_gaf_impuestos.html.twig' with {'idDocumentacion':'24','idDocumentacionConstanciaInscripcion':'12','idDocumentacionDdjj':'29' } %}
+                                                </div>
+                                            </div>
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'14'} %}
+                                        </div>
+                                    </fieldset>
+                                {% endif %}
+                                <!-- Fin Datos Persona Física Extranjera -->
+
+                                <!-- Datos Persona Jurídica Extranjera -->
+                                {% if datosUsuario.tipoProveedor.id == 5 %}
+                                    <fieldset class="form-section-fieldset">
+                                        <legend class="form-section-legend">Datos de la Persona Jur&iacute;dica Extranjera</legend>
+
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Tipo de Persona Jur&iacute;dica</label>
+                                                <div class="detalle_show">{{ datosUsuario.tipoPersonaJuridica != NULL ? datosUsuario.tipoPersonaJuridica.denominacion : 'NO' }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Fecha de Inicio de Actividad</label>
+                                                <div class="detalle_show">{{ datosUsuario.fechaInicioActividades|date('d-m-Y') }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Razon Social</label>
+                                                <div class="detalle_show">{{ datosUsuario.razonSocial }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="control-label">Pa&iacute;s de Radicaci&oacute;n</label>
+                                                <div class="detalle_show">{{ datosUsuario.paisRadicacion }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'25','idDocumentacionConstanciaInscripcion':'12','idDocumentacionDdjj':'29'} %}
+
+                                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'15'} %}
+                                        </div>
+                                    </fieldset>
+                                {% endif %}
+                                <!-- Fin Datos Persona Jurídica Extranjera -->
+                                {% if datosUsuario.ProveedorDatoImpositivo is not null %}
+                                    <!-- Datos Datos Impositivos -->
+                                    <fieldset class="form-section-fieldset">
+                                        <legend class="form-section-legend">Datos Impositivos</legend>
+
+                                        <div class="row">
+                                            <fieldset class="form-section-fieldset">
+                                                <legend class="form-section-legend">IVA</legend>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Tipo</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.tipoIva.denominacion }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Otros</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.otros }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label class="control-label">Exento</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.exento ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label">¿Es sujeto pasible de retenci&oacute;n?</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.retencion ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                </div>
+
+                                                {% if datosUsuario.ProveedorDatoImpositivo.proveedorIva.exento == true and datosUsuario.ProveedorDatoImpositivo.proveedorIva.datoExento is not null %}
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_dato_exento.html.twig' %}
+                                                {% endif %}
+
+                                                <div class="row">
+                                                    {#{% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'8'} %}#}
+
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'17'} %}
+                                                </div>
+                                            </fieldset>
+                                            <fieldset class="form-section-fieldset">
+                                                <legend class="form-section-legend">Regimen de la Seguridad Social(SUSS)</legend>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Tipo</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorSuss.tipoIva.denominacion }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Personal a Cargo</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorSuss.personalACargo }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-2">
+                                                        <label class="control-label">Exento</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorSuss.exento ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">¿Es sujeto pasible de retenci&oacute;n?</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorSuss.retencion ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    {#{% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'9'} %}#}
+
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'18'} %}
+                                                </div>
+                                            </fieldset>
+                                            <fieldset class="form-section-fieldset">
+                                                <legend class="form-section-legend">Ganancias</legend>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Tipo</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorGanancias.tipoIva.denominacion }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Otros</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorGanancias.otros }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label class="control-label">Exento</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorGanancias.exento ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">¿Es sujeto pasible de retenci&oacute;n?</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorGanancias.retencion ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    {#{% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'10'} %}#}
+
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'19'} %}
+                                                </div>
+                                            </fieldset>
+                                            <fieldset class="form-section-fieldset">
+                                                <legend class="form-section-legend">Ingresos Brutos</legend>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Tipo</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.tipoIva.denominacion }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Tipo Inscripto</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.tipoIvaInscripto.denominacion }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">N&uacute;mero de Inscripci&oacute;n</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.numeroInscripcion }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Jurisdicci&oacute;n Sede</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.jurisdiccion }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">Otros</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.otros }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label class="control-label">Exento(CABA)</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.exento ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">¿Es sujeto pasible de retenci&oacute;n?(CABA)</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIibb.retencion ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    {#{% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'11'} %}#}
+
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'20'} %}
+                                                </div>
+                                            </fieldset>
+                                            <fieldset class="form-section-fieldset">
+                                                <legend class="form-section-legend">Comprobantes</legend>
+                                                <div class="row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">CAE</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.cae ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="control-label">CAI</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.cai ? 'SI':'NO' }}</div>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label class="control-label">Otros</label>
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.otros ? datosUsuario.ProveedorDatoImpositivo.otros:'NO' }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'12'} %}
+
+                                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'22'} %}
+                                                </div>
+                                            </fieldset>
+
+                                        </div>
+
+                                    </fieldset>
+
+
+                                {% endif %}
+                                <!-- Fin Datos Impositivos -->
+
+                                {% if datosUsuario.proveedorEvaluacion.motivoRechazoGafImpuestos is not null and datosUsuario.proveedorEvaluacion.motivoRechazoInternoGafImpuestos is not null %}
+                                    {% set motivoRechazo = datosUsuario.proveedorEvaluacion.motivoRechazoGafImpuestos|raw %}
+                                    {% set motivoRechazoInterno = datosUsuario.proveedorEvaluacion.motivoRechazoInternoGafImpuestos|raw %}
+                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_motivo_rechazo_gerencia.html.twig' with {'motivoRechazo': motivoRechazo, 'motivoRechazoInterno': motivoRechazoInterno } %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        {%  if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GAF_IMPUESTOS") %}
+                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:btn_form_actions.html.twig' with {'idGerencia':5} %}
+                        {% endif %}
+                        <button type="button" class="btn default button-back" back-url="{{ path('proveedor_evaluacion') }}">
+                            <i class="m-icon-swapleft"></i>
+                            Volver
+                        </button>
+                    </div>
+                    {{ form_widget(form._token) }}
+                    {{ form_end(form, {"render_rest": false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/portalproveedores/detalle/index.js') }}" ></script>
+{% endblock %}

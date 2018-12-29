@@ -1,0 +1,140 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la chequera: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+
+            <div class="row">    
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Banco</label>
+                        <div class="detalle_show">
+                            {{ entity.cuenta.idBanco }}
+                        </div>
+                    </div>
+                </div>   
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tipo de cuenta</label>
+                        <div class="detalle_show">
+                            {{ entity.cuenta.idTipoCuenta }}
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta</label>
+                        <div class="detalle_show">
+                            {{ entity.cuenta.cbu }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tipo chequera</label>
+                        <div class="detalle_show">
+                            {{ entity.tipoChequera|default('-') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm; serie</label>
+                        <div class="detalle_show">         
+                            {{ entity.numeroSerie }}      
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm; inicial</label>
+                        <div class="detalle_show numero-inicial">
+                            {{ entity.numeroInicial }}    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm; final</label>
+                        <div class="detalle_show numero-final">        
+                            {{ entity.numeroFinal }}    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Siguiente n&ordm;</label>
+                        <div class="detalle_show">     
+                            {{ entity.numeroSiguiente }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Responsable</label>
+                        <div class="detalle_show">     
+                            {{ entity.responsable|default('-') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('chequera') }}">
+                        <i class="m-icon-swapleft"></i> Volver
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn red link-anular-cheque"  
+                            href="{{ path( 'chequera_anular_siguiente_cheque', { 'id': entity.id }) }}" >
+                        Anular cheque
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="numero_cheque_content" class="hidden">     
+        <form name="adif_contablebundle_numero_cheque" 
+              method="post" action="" class="horizontal-form" novalidate="novalidate">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label required" for="adif_contablebundle_chequera_numeroCheque">N&deg; de cheque</label>
+                        <div class="input-icon right">
+                            <i class="fa" data-original-title=""></i>
+                            <input type="text" id="adif_contablebundle_chequera_numeroCheque" 
+                                   name="adif_contablebundle_chequera[numeroCheque]" 
+                                   required="required" class="form-control">
+                        </div>
+                    </div> 
+                </div> 
+            </div> 
+        </form>           
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/chequera/show.js') }}" ></script>
+
+{% endblock %}

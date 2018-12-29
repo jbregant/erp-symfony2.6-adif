@@ -1,0 +1,152 @@
+{% extends '::base.html.twig' %} 
+{% block stylesheets %} {{ parent() }} {% endblock%} 
+
+{% block body %}
+    {% set estadoEvaluacion =  datosUsuario.proveedorEvaluacion.estadoEvaluacionGcshm.id %}
+    {% set idProveedorEvaluacion  =   datosUsuario.proveedorEvaluacion.id | format_file_from_text %} 
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="col-lg-12 caption">
+                        <div class="col-lg-7">
+                            Evaluaci&oacute;n de Interesado GCSHM
+                            |
+                            {{ datosUsuario.extranjero ? 'Extranjero' : 'No extranjero' }}
+                            |
+                            {{ datosUsuario.tipoProveedor.denominacion }}
+                        </div>
+                        <div class="col-lg-3">
+                            Email: {{ datosUsuario.email }}
+                        </div>
+                        <div class="col-lg-2">
+                            {% if datosUsuario.extranjero %}
+                                Nro. de Identificación tributara: {{ datosUsuario.numeroIdTributaria }}
+                            {% else %}
+                                CUIT: {{ datosUsuario.cuit }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">Gerencia de Certificaci&oacute;n de Calidad, Seguridad e Higiene y Medioambiente </div>
+                            </div>
+                            <div class="portlet-body">
+
+                                <!-- Datos GCSHM -->
+                                <fieldset class="form-section-fieldset">
+                                    <legend class="form-section-legend">Datos GCSHM</legend>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">¿Posee Certificaci&oacute;n ISO9001 o Plan de Gesti&oacute;n y Control de Calidad (PGC)?</label>
+                                            {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.certificacionIso9001 ? 'SI' : 'NO' }}</div>
+                                            {% else %}
+                                                <div class="detalle_show">NO</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">¿Posee Certificaci&oacute;n ISO14001 o An&aacute;lisis de Riesgos y Plan de Gesti&oacute;n Ambiental (PGA)?</label>
+                                            {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.certificacionIso14001 ? 'SI' : 'NO' }}</div>
+                                            {% else %}
+                                                <div class="detalle_show">NO</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">¿Posee Certificaci&oacute;n OSHA 18001 o Programa de Seguridad (PdS)?</label>
+                                            {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.certificacionOsha18001 ? 'SI' : 'NO' }}</div>
+                                            {% else %}
+                                                <div class="detalle_show">NO</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <fieldset class="form-section-fieldset">
+                                            <legend class="form-section-legend">Otros</legend>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">Permisos Ambientales Provinciales Nacionales</label>
+                                                    {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.permisosAmbientales ? 'SI' : 'NO' }}</div>
+                                                    {% else %}
+                                                        <div class="detalle_show">NO</div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">Documentaci&oacute;n oficial de evaluac&oacute;n de proveedor</label>
+                                                    {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.documentacionEvaluacion ? 'SI' : 'NO' }}</div>
+                                                    {% else %}
+                                                        <div class="detalle_show">NO</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">Organigrama de Calidad, Ambiente y Seguridad e Higiene (Institucional y Obra)</label>
+                                                    {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.organigramaInstitucionalObra ? 'SI' : 'NO' }}</div>
+                                                    {% else %}
+                                                        <div class="detalle_show">NO</div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">¿Se encuentra dentro del Programa de Empleados con Siniestralidad Elevada (P.E.S.E.)?</label>
+                                                    {% if  datosUsuario.ProveedorDatoGcshm is not null %}
+                                                        <div class="detalle_show">{{ datosUsuario.ProveedorDatoGcshm.pese ? 'SI' : 'NO' }}</div>
+                                                    {% else %}
+                                                        <div class="detalle_show">NO</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </fieldset>    
+                                    </div>
+                                    <div class="row">
+
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion_gcshm.html.twig' with {'idDocumentacion':'15','idDocumentacionGcshmIso9001':'26','idDocumentacionGcshmIso14001':'27','idDocumentacionGcshmOsha18001':'28'} %}
+
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'21'} %}
+                                    </div>
+                                </fieldset>    
+                                <!-- Fin Datos GCSHM -->
+
+                                {% if datosUsuario.proveedorEvaluacion.motivoRechazoGcshm is not null and datosUsuario.proveedorEvaluacion.motivoRechazoInternoGcshm is not null %}
+                                    {% set motivoRechazo = datosUsuario.proveedorEvaluacion.motivoRechazoGcshm|raw %}
+                                    {% set motivoRechazoInterno = datosUsuario.proveedorEvaluacion.motivoRechazoInternoGcshm|raw %}
+                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_motivo_rechazo_gerencia.html.twig' with {'motivoRechazo': motivoRechazo, 'motivoRechazoInterno': motivoRechazoInterno } %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>                  
+                    <div class="form-actions">
+                        {%  if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GCSHM") %}
+                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:btn_form_actions.html.twig' with {'idGerencia':3} %}
+                        {% endif %}
+                        <button type="button" class="btn default button-back" back-url="{{ path('proveedor_evaluacion') }}">
+                            <i class="m-icon-swapleft"></i>
+                            Volver
+                        </button>
+                    </div>
+                    {{ form_widget(form._token) }}
+                    {{ form_end(form, {"render_rest": false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/portalproveedores/detalle/index.js') }}" ></script>
+{% endblock %}

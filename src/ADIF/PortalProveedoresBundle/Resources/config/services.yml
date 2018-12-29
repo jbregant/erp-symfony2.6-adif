@@ -1,0 +1,9 @@
+services:
+    adif.crossbundle.listener.proveedores:
+        class: ADIF\PortalProveedoresBundle\EventListener\PostLoadEventSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+        arguments:
+            - @doctrine

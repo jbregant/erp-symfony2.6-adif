@@ -1,0 +1,40 @@
+{
+"data": [
+{% for comprobante in comprobantes %}
+    [
+    "{{ comprobante.numeroDocumento }}",
+    "{{ comprobante.razonSocial }}",
+    "{{ comprobante.tipoProveedor }}",
+    "{{ comprobante.tipoComprobante }}",
+    "{{ comprobante.numeroComprobante }}",
+    "{{ comprobante.numero_referencia|escape_json|default('-') }}",
+    "{{ comprobante.importe|money_format }}",
+    {% if ( comprobante.fechaComprobante != null ) %}
+        "{{ comprobante.fechaComprobante|date('d/m/Y') }}",
+    {% else %}
+        "- ",
+    {% endif %}
+    {% if ( comprobante.fechaIngresoADIF != null ) %}
+        "{{ comprobante.fechaIngresoADIF|date('d/m/Y') }}",
+    {% else %}
+        "- ",
+    {% endif %}
+    {% if ( comprobante.fechaVencimientoComprobante != null ) %}
+        "{{ comprobante.fechaVencimientoComprobante|date('d/m/Y') }}",
+    {% else %}
+        "- ",
+    {% endif %}
+{#    "{{ comprobante.plazoPrevistoPago }}",#}
+    {% if ( comprobante.fechaVencimientoComprobante != null ) %}
+    "{{ comprobante.estaVencida }}",
+    {% else %}
+        "- ",
+    {% endif %}
+    {% if ( comprobante.fechaVencimientoComprobante != null ) %}
+    "{{ comprobante.diasDeVencimiento }}" 
+    {% else %}
+        "- "
+    {% endif %}
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}                            

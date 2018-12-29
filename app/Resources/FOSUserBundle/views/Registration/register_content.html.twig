@@ -1,0 +1,243 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% set edit = form.vars.value.id != null %}
+
+<div id="usuario_form_paso_1" class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">Crear un usuario</div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div> 
+    <div class="portlet-body" id="blockui_sample_1_portlet_body">
+        <p>Para la creación de usuarios, se cuenta con dos opciones</p>
+        <ul>
+            <li>Puede crear un usuario en base a los datos de su cuenta de Active Directory</li>
+            <li>Puede crear un usuario sin relacionarlo a una cuenta de Active Directory. Para esta opci&oacute;n deber&aacute; proporcionar todos los datos del usuario manualmente</li>
+        </ul>
+        <p>
+            <a href="javascript:;" class="btn red" id="sin_ad">
+                Crear usuario sin cuenta de Active Directory </a>
+        </p>
+        <p>
+            <a href="javascript:;" class="btn green" id="con_ad">
+                Crear usuario con cuenta de Active Directory existente </a>
+        </p>
+        <div class="form-actions">
+            <button type="button" class="btn default button-back" >
+                <i class="m-icon-swapleft"></i> Volver
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div id="usuario_form_paso_2" class="portlet box blue hidden">
+    <div class="portlet-title">
+        <div class="caption">
+            Crear un usuario
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div> 
+    <div class="portlet-body" id="blockui_sample_1_portlet_body">
+        <table class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect" id="table-ad" dataexport-title="ad">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th class="entity_id"></th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Nombre de usuario</th>
+                    <th class="not-in-filter"></th>
+                </tr>
+                <tr class="headers">  
+                    <th class="no-order"></th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Nombre de usuario</th>
+                    <th class="text-center no-order ctn_acciones">Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in active_directory %}
+                    <tr>
+                        <td><input type="hidden" e_id id=" {{ loop.index }} "/></td>
+                        <td class="ad_nombre">{{ entity['givenname'][0]|default('-') }}</td>
+                        <td class="ad_apellido">{{ entity['sn'][0]|default('-') }}</td>
+                        <td class="ad_mail">{{ entity['mail'][0]|default('-') }}</td>
+                        <td class="ad_user">{{ entity['samaccountname'][0]|default('-') }}</td>
+                        <td class="ctn_acciones text-center">
+                            <button type="button" class="btn blue seleccionado">Seleccionar</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+        <div class="form-actions">
+            <a type="button" class="btn default btn-icon icon-left back_paso_1" 
+               href="#">Cancelar<i class="entypo-left"></i></a>
+        </div>
+    </div>   
+</div>
+
+<div id="usuario_form_paso_3" class="portlet box blue hidden">
+    <div class="portlet-title">
+        <div class="caption">
+            Crear un usuario
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(form, {
+                'attr' : { 
+                    'class'  : 'fos_user_registration_register',
+                    'action' :  path('fos_user_registration_register'),
+                    'method' : 'POST',
+                    'novalidate' : 'novalidate'
+                }                   
+        }) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+        {% if edit %} 
+            <input type="hidden" name="_method" value="PUT" />
+        {% endif %} 
+                
+        {{ form_widget(form.usuario_ad) }}
+        
+        <div class="form-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.nombre, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.apellido, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.apellido) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.email, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.email) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.username, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.username) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.plainPassword.first, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.plainPassword.second, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.area)  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.area) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.groups, 'Grupos', {'label_attr': {'class': 'control-label'}})  }}
+						<div id="div_grupos_append">
+							<div class="input-icon right">
+								<i class="fa"></i>
+								{{ form_widget(form.groups) }}
+							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.enabled, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.enabled) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						{{ form_label(form.empresas, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.empresas) }}
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4">
+					<div class="form-group">
+						{{ form_label(form.usuarioComo, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.usuarioComo) }}
+						</div>
+					</div>
+				</div>
+				
+			</div>
+        </div>
+
+        {{ form_rest(form) }}
+
+        <div class="form-actions">  
+            <div class="pull-left">
+                <button type="button" class="btn default back_paso_1">Cancelar</button>
+            </div>
+            <div class="pull-right">
+                <input type="submit" class="btn blue" value="{{ 'registration.submit'|trans }}" />            
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>

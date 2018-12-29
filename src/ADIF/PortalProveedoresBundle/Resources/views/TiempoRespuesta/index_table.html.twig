@@ -1,0 +1,18 @@
+{
+    "data": [
+    {% for entity in entities %}
+        [
+        "",
+        "",
+        {% if entity.gFecha %}"{{ entity.gFecha|date('d/m/Y') }}",{% endif %}
+        "{{ entity.accion|default('-') }}",
+        "{{ entity.tiempo_min|default('-') }}", 
+        "{{ entity.tiempo_promedio|round(2)|default('-') }}", 
+        "{{ entity.tiempo_max|default('-') }}", 
+        {
+            "show" : "#" 
+        }
+        ]{{ (loop.last ? '' : ',') }}
+    {% endfor %}
+    ]
+}

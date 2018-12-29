@@ -1,0 +1,14 @@
+{
+"data": [
+{% for orden_compra in ordenes_compra %}
+    [
+    "{{ orden_compra.id }}",
+    "{{ orden_compra.numeroOrdenCompra }}",
+    "{{ orden_compra.fechaOrdenCompra }}",
+    "{{ orden_compra.numeroCarpeta }}",
+    "{{ orden_compra.observacion|escape_json }}",
+    "{{ orden_compra.total|money_format(orden_compra.simbolo) }}",
+    "{{ orden_compra.saldo|money_format(orden_compra.simbolo) }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

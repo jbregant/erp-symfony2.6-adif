@@ -1,0 +1,185 @@
+{% extends '::base.html.twig' %}  
+
+{% set ConstanteTipoOperacionContable = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoOperacionContable' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/asientocontable/asientocontable.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(theme_path ~ 'plugins/jstree/dist/themes/default/style.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Movimientos cliente</div>
+                </div>
+
+                <div class="portlet-body">        
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="adif_contablebundle_filtro_cliente">Búsqueda de cliente</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" id="adif_contablebundle_filtro_cliente" 
+                                           name="adif_contablebundle_filtro[cliente]" 
+                                           class="form-control no-editable">
+                                    <input type="hidden" id="adif_contablebundle_filtro_idCliente" 
+                                           name="adif_contablebundle_filtro[idCliente]" required="required">
+                                </div>
+                            </div>
+                        </div>                     
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label " for="adif_contablebundle_filtro_cliente_razonSocial">Cliente</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" id="adif_contablebundle_filtro_cliente_razonSocial" 
+                                           name="adif_contablebundle_filtro[cliente_razonSocial]" disabled="disabled" class=" form-control">
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label " for="adif_contablebundle_filtro_cliente_cuit">CUIT</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" id="adif_contablebundle_filtro_cliente_cuit" 
+                                           name="adif_contablebundle_filtro[cliente_cuit]" disabled="disabled" class=" form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaInicio" 
+                                           class="control-label">Fecha inicio</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                               name="adif_contablebundle_filtro[fechaInicio]" 
+                                               class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaFin" 
+                                           class="control-label">Fecha fin</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                               name="adif_contablebundle_filtro[fechaFin]" 
+                                               class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button class="btn btn-small blue-hoki form-control" id="btn-filtrar">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box reporte-portlet">
+                                <div class="">
+                                    <div class="caption reporte_contable_title col-md-10" style="display:none">
+                                        <span class="caption-cliente bold"></span>
+                                        — <span class="caption-fecha-desde bold"></span>
+                                        - <span class="caption-fecha-hasta bold"></span>
+                                    </div>                                    
+                                    <div class="export-tools">
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body reporte_content">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-bordered table-condensed export-custom" 
+                                               id="reporte_table" 
+                                               dataexport-title="Movimientos_cliente" 
+                                               dataexport-title-alternativo="" 
+                                               style="display:none">
+                                            <thead>
+                                                <tr class="headers">
+                                                    <th width="5%" class="text-middle">Fecha</th>
+                                                    <th width="14%" class="text-middle">Raz&oacute;n social</th>
+                                                    <th width="7%" class="text-middle">N&deg; documento</th>
+                                                    <th width="5%" class="text-middle">N&ordm; original</th>
+                                                    <th width="5%" class="text-middle">N&ordm; asiento</th>
+                                                    <th width="13%" class="text-middle">Concepto</th>
+                                                    <th width="7%" class="text-middle">Debe</th>
+                                                    <th width="7%" class="text-middle">Haber</th>
+                                                    <th width="17%" class="text-middle">T&iacute;tulo</th>
+                                                    <th width="11%" class="text-middle">Detalle</th>
+                                                </tr>
+                                            </thead> 
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="6" class="text-right tr-total">Total</td>
+                                                    <td class="text-right nowrap hlt total-debe"></td>
+                                                    <td class="text-right nowrap hlt total-haber"></td>
+                                                </tr>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        var $tipoOperacionDebe = "{{ constant(ConstanteTipoOperacionContable ~ '::DEBE') }}";
+        var $tipoOperacionHaber = "{{ constant(ConstanteTipoOperacionContable ~ '::HABER') }}";
+    </script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/reporte.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/movimientos_cliente.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

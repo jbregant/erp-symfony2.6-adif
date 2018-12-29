@@ -1,0 +1,62 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos comerciales</legend>
+
+    <div class="row">   
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Tipo de pago</label>
+                <div class="detalle_show">
+                    {{ proveedor.tipoPago|default('-') }}
+                </div>
+            </div>
+        </div>         
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Tipo de moneda</label>
+                <div class="detalle_show">
+                    {{ proveedor.tipoMoneda|default('-') }}
+                </div>
+            </div>
+        </div>            
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Banco</label>
+                <div class="detalle_show">
+                    {{ proveedor.cuenta is not null ? proveedor.cuenta.idBanco : '-' }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Tipo de cuenta</label>
+                <div class="detalle_show">
+                    {{ proveedor.cuenta is not null ? proveedor.cuenta.idTipoCuenta : '-' }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">CBU</label>
+                <div class="detalle_show">
+                    {{ proveedor.cuenta is not null ? proveedor.cuenta.cbu : '-' }}
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Cuenta contable</label>
+                <div class="detalle_show">
+                    {{ proveedor.cuentaContable|default('-') }}
+                </div>
+            </div>
+        </div>   
+    </div>
+</fieldset>

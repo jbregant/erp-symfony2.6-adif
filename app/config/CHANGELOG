@@ -1,0 +1,109 @@
+10/05/2018 - 1.3.0:
+- Módulo RRHH: 
+    - Nueva formato de formulario 649 válidos para años 2017 en adelante
+    - Para la importación de 572 web (siradig), se tienen en cuenta conceptos de otros empleadores que no se tenian en cuenta como: 
+        cuotas sindicales, jubilación, obra social y retenciones.
+        Entonces para el cálculo de los conceptos en siga, con los conceptos de vienen del siradig de otros empleadores son: 
+            - Remuneraciones informadas de otro empleador: ganBrut + retribNoHab + ajuste + sac + horasExtGr
+            - Aportes jubilatorios otros empleos: segSoc
+            - Aportes obra social otros empleos: obraSoc
+            - Cuota sindical otros empleos: sind
+            - Retenciones otros empleos: retGan
+
+11/05/2018 - 1.3.1:
+- Módulo Contabilidad:
+    - Cobranza de clientes: se agregan campos de nro de referencia de cobro, para el reporte de recibos y desimputaciones.
+
+15/05/2018 - 1.3.2
+- Módulo de Compras:
+    - Se quitaron las firmas de Gerente y Subgerente en impresión de OC
+16/05/2018
+- Módulo de obras:
+    - Renglon de obra/Tramo: se cambia el saldo de documentos financieros, al saldo financiero real, para que tomen FC, ND y que devuelva
+    saldo cuando se ingrese NC
+
+17/05/2018 - 1.3.3:
+- Módulo administración de fondos:
+    - Desimputaciones: se arregla busqueda cuando seleccionas comprobantes con imputaciones realizadas
+21/05/2018 - 1.3.4
+- Módulo de Compras:
+    - Se agregaron las firmas de Gerente y Subgerente en impresión de OC
+
+22/05/2018 - 1.3.5
+- Módulo de Compras: (Reporte de vencimiento)
+    - En la grilla, los registros que no tienen cargado fecha de vencimiento, se les reemplazó el resultado de los campos "fecha vto", "Vencida" y "Dias venc" por "-"
+    - Se modificaron titulos
+    - Se hizo reestructuracion de Informe AGING
+    - Se agregó total
+    - Se agruparon todos los comprobantes que no tienen cargado fecha de vencimiento.
+    - Se cambió diseño del informe AGING
+    - Se quitó la fila de "Plazo 0 días" y se agregó "≥0"
+    - Se modificaron stored procedures "sp_reporte_vencimiento_comprobantes" y "sp_reporte_vencimiento_resumen_aging"
+
+- Módulo de inventarios - 1.3.6
+    - Activos lineales: creacion de rol solo para visualización
+
+29/05/2018 - 1.3.7
+- Módulo de RRHH: 
+    - Se agregó validación a los campos Categoría y Subcategoria en ABM Empleados
+
+- Módulo contabilidad 1.3.8
+    - Cuentas por cobrar: Fix en desimputaciones de clientes: no traia la imputación de comprobantes que no sean cupones
+
+30/05/2018 - 1.3.9
+    - Módulo de RRHH:
+        - Se arregla calculo en la liquidacion mensual que tome los conceptos del Form 572 (siradig) de otros empleadores para el calculo
+
+- Módulo de RRHH - 1.3.10
+    - Se arregla el redondeo cuando el bruto (bruto 1 + bruto 2) sea 0, se pone el redondeo en 0 tambien
+    - Si se liquida y el bruto (bruto 1 + bruto 2) es <= 2400, por detraccion tributaria las contribuciones van todas en 0, 
+    a excepcion de los conceptos 205 (ART Fija) y 207 (Seguro de Vida Colectivo), que los mismos no tienen que cambiar
+
+04/06/2018 - 1.3.11
+    - Módulo de RRHH:
+        - Se agrega al txt de retenciones, que sume el concepto 998.4 - Ajuste liquidacion anual impuesto a las ganancias #año#
+05/06/2018 - 1.3.12
+    - Módulo de RRHH:
+        - Fix al sacar excel IG empleado 
+05/06/2018 - 1.3.13
+    - Módulo de Compras:
+        - Fix Grilla Reporte General 
+07/06/2018 - 1.3.14
+    - Módulo de RRHH:
+        - Fix en año de reporte de mejor remunerativo
+08/06/2018 - 1.3.15
+    - Módulo de contabilidad
+        - Cuentas por pagar: en el ingreso de comprobantes de compra, cuando la OC es de moneda extranjera, no sumar al total del comprobante 
+            el total de impuestos y percepciones para las validaciones contra la OC
+11/06/2018
+- Módulo de RRHH - 1.3.16
+    - Fix en calculo para SAC (conceptos rem que no integran sac)
+    - Se agrega campo "adicional remunerativos retroactivos" para casos de arreglos de paritarias con conceptos remunerativos que tienen que ser
+        retroactivo a un "x" mes
+12/06/2018
+- Modulo de RRHH - 1.3.17
+    - Fix en neto a pagar en licencias sin goce de haberes: no estaba teniendo en cuenta conceptos no remunerativos
+18/06/2018
+- Modulo de RRHH - 1.3.18
+	- Fix en reporte de mejor remunerativo: se arregla columna 'Mejor remunerativo final' y en el detalle, los ajustes resta y suma, van a 
+		tomar en cuenta lo conceptos que no sean remunerativos y ademas que integren SAC
+21/06/2018
+- Modulo de RRHH - 1.3.19
+    - Fix en liquidacion de sueldos sin goce de haberes cuando hay devolucion
+27/06/2018 
+- Modulo de RRHH - 1.3.20
+    - Fix en registracion asiento contable de la liquidación de SAC las contribuciones patronales y ART
+28/06/2018 - 1.3.21
+- Modulo de RRHH 
+    - Se agrega campo mail al extendido de empleados
+    - Fix general: en los exporaadores de excel, cuando se selecciona exportar seleccionados, validar que se haya seleccionado algo
+29/06/2018 - 1.3.22
+- Modulo de cuentas por cobrar
+    - Rendicion liquido producto en negativo + asiento contra-asiento
+02/07/2018 - 1.3.23
+    - Contabilidad: en la importacion de un asiento manual por medio de un excel, se mejoro la interfaz de usuario para evitar 2 veces
+        el reproceso de la importacion
+03/07/2018 - 1.3.24
+	- Cuentas por cobrar: se agrega columna 'comprobante' al reporte de recibos
+05/07/2018 - 1.3.25
+    - RRHH: validacion en localidad y provincia en datos personales del empleado

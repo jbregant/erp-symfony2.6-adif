@@ -1,0 +1,122 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/reporte_general.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte de mejor remunerativo</div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="adif_rrhhbundle_filtro_semestre" 
+                                       class="control-label">Per&iacute;odo</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <select name="adif_rrhhbundle_filtro[semestre]" id="adif_rrhhbundle_filtro_semestre" class="form-control">
+                                        <option value="1">Primer Semestre</option>
+                                        <option value="2">Segundo Semestre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="adif_rrhhbundle_filtro_anio" 
+                                       class="control-label">A&ntilde;o</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <select name="adif_rrhhbundle_filtro[anio]" id="adif_rrhhbundle_filtro_anio" class="form-control">
+                                        {% for anio in anios %}
+                                            <option value="{{ anio }}">{{ anio }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button class="btn btn-small blue-hoki form-control" id="filtrar_reporte">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box reporte-portlet">
+                                <div class="portlet-title">
+
+                                    <div class="caption reporte_title" style="display:none">
+                                        <span class="bold">
+                                            REPORTE MEJOR REMUNERATIVO                                             
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body reporte_content">
+                                    <div class="table-toolbar export-tools"></div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-bordered table-condensed export-excel" 
+                                               id="reporte_table" dataexport-title="Reporte_Mejor_Remunerativo" style="display:none"
+                                               data-toggler="1">
+                                            <thead>
+                                                <tr class="replace-inputs filter">
+                                                    <th class="text-center nowrap">Legajo</th>
+                                                    <th class="text-center nowrap">CUIL</th>
+                                                    <th class="text-center nowrap">Apellido</th>
+                                                    <th class="text-center nowrap">Nombre</th>
+                                                    <th class="text-center nowrap">B&aacute;sico</th>
+                                                    <th class="text-center nowrap">Mejor Remunerativo</th>
+                                                    <th class="text-center nowrap">Mejor Remunerativo Final</th>
+                                                    <th class="text-center nowrap">Días para el c&aacute;lculo SAC</th>
+                                                    <th class="not-in-filter"></th>
+                                                </tr>
+                                                <tr class="headers">
+                                                    <th class="text-center nowrap">Legajo</th>
+                                                    <th class="text-center nowrap">CUIL</th>
+                                                    <th class="text-center nowrap">Apellido</th>
+                                                    <th class="text-center nowrap">Nombre</th>
+                                                    <th class="text-center nowrap">B&aacute;sico</th>
+                                                    <th class="text-center nowrap">Mejor Remunerativo</th>
+                                                    <th class="text-center nowrap">Mejor Remunerativo Final</th>
+                                                    <th class="text-center nowrap">Días para el c&aacute;lculo SAC</th>
+                                                    <th class="text-center no-order ctn_acciones">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/rrhh/liquidacion/reporte_mejor_remunerativo.js') }}" ></script>
+
+{% endblock %}

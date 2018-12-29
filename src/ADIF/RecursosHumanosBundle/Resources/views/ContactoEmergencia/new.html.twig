@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/contactoemergencia/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>ContactoEmergencia
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+        
+        {% include ':Form:fieldsErrors.html.twig' %}
+            
+         
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+        
+            
+            <div class="form-body">
+                <div class="row">                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.idEmpleado, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.idEmpleado) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.idPersona, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.idPersona) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.idTipoRelacion, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.idTipoRelacion) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                    </div>
+            </div>
+            <div class="form-actions right">
+                <button type="button" class="btn default button-back" back-url="{{ path('contactos_emergencia') }}">Cancelar</button>
+                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+            </div>
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

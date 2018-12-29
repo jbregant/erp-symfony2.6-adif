@@ -1,0 +1,134 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la autorizaci&oacute;n contable: <strong>{{ entity.id }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Fecha autorizaci&oacute;n contable</label>
+                            <div class="detalle_show">{{ entity.fechaAutorizacionContable|date('d/m/Y') }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">N&uacute;mero autorizaci&oacute;n contable</label>
+                            <div class="detalle_show">{{ entity.numeroAutorizacionContable|default('-') }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Concepto</label>
+                            <div class="detalle_show">{{ entity.concepto|default('-') }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">                      
+
+                    <div class="col-md-12">
+                        <h3>Datos del beneficiario</h3>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Raz&oacute;n social</label>
+                                <div class="detalle_show">{{ entity.proveedor.clienteProveedor.razonSocial }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">CUIT</label>
+                                <div class="detalle_show">{{ entity.proveedor.clienteProveedor.CUIT }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>Comprobantes cancelados</h3>
+                        <div class="form-group">
+                            <table id="table_comprobantes_compra" class="table table-bordered table-striped table-condensed flip-content">
+                                <thead>
+                                    <tr class="headers">
+                                        <th date >Fecha</th>
+                                        <th >Comprobante</th>
+                                        <th numeric >N&uacute;mero</th>
+                                        <th>Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for comprobanteCompra in entity.comprobantes %}
+                                        <tr>
+                                    <input class="hidden" name="ids[]" value="{{ comprobanteCompra.id }}" />
+                                    <td>
+                                        {% if comprobanteCompra.fechaComprobante %}
+                                            {{ comprobanteCompra.fechaComprobante|date('d/m/Y') }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ comprobanteCompra.tipoComprobante ~ ' (' ~ comprobanteCompra.letraComprobante ~ ')' }}</td>
+                                    <td>{{ comprobanteCompra.puntoVenta ~ '-' ~ comprobanteCompra.numero }}</td>
+                                    <td class="text-right">{{ comprobanteCompra.total|money_format }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Retenciones</h3>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <table id="table_comprobantes_compra" class="table table-bordered table-striped table-condensed flip-content">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-right">Total bruto</td>
+                                            <td class="text-right">{{ 0|money_format }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">Retenci&oacute;n IIBB</td>
+                                            <td class="text-right">{{ 0|money_format }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-right">Total neto a pagar</td>
+                                            <td class="text-right">{{ 0|money_format }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('autorizacioncontable') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}   
+
+    <script src="{{ asset('js/custom/contable/ordenpago/comprobante/show.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

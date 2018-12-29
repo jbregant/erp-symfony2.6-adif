@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}  
+
+
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Configuraci&oacute;n EPE 5</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                    </div>
+                    <table class="table table-striped table-hover table-bordered table-condensed export-custom" 
+                           id="configuracion_epe_5" dataexport-title="EPE_5">
+                        <thead>
+                            <tr class="headers">
+                                <th>Concepto</th>
+                                <th>Cuentas Contables</th>
+                                <th class="text-center ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for concepto in epe5Configuracion %}
+                                <tr>
+                                    <td>3.{{loop.index}}. {{concepto.denominacion}}</td>
+                                    <td>{{concepto.cuentas}}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href="" class="btn btn-xs green tooltips asignar-conceptos" data-id-concepto="{{concepto.id}}" data-concepto="{{concepto.denominacion}}" data-original-title="Asignar cuentas">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/contable/presupuesto/configuracion_epe5.js') }}" ></script>
+{% endblock %}

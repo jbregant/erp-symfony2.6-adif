@@ -1,0 +1,50 @@
+<div class="portlet box green-seagreen">
+    <div class="portlet-title">
+        <div class="caption">
+            Detalle de las imputaciones
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="table-toolbar clear">  
+
+            <div class="btn-group pull-right" id="desimputar" style="display:none">
+                <a class="btn btn-sm red accion-borrar tooltips" data-original-title="Desimputar" href="">
+                    <i class="fa fa-times"></i>
+                    Desimputar
+                </a>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect" id="table-cobros-por-comprobante">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th></th>
+                    <th class="not-in-filter"></th>
+                    <th>Cobro</th>                    
+                    <th>Imputaci&oacute;n</th>                    
+                    <th>Descripci&oacute;n</th>                    
+                    <th>Monto</th>
+                    <th class="not-in-filter hidden "></th>
+                </tr>                
+                <tr class="headers">
+                    <th class="no-order entity_id"></th>
+                    <th class="text-center table-checkbox no-order">
+                        <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-cobros-por-comprobante .checkboxes" />
+                    </th> 
+                    <th date export-format="date" class="nowrap">Cobro</th>
+                    <th date export-format="date" class="nowrap">Imputaci&oacute;n</th>
+                    <th>Descripci&oacute;n</th>                    
+                    <th>Monto</th>
+                    <th class="hidden"></th>                                                                                                           
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

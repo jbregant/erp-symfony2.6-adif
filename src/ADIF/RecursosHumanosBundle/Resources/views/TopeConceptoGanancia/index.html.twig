@@ -1,0 +1,69 @@
+ {% extends '::base.html.twig' %}  
+
+
+ 
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Tope concepto ganancia</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear tope concepto ganancia" href=" {{ path( 'tope_concepto_new') }} ">
+                            Crear tope concepto ganancia <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                    id="table-topeconceptoganancia"
+                    dataexport-title="topeconceptoganancia">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                                                        <th>Rango de remuneraci&oacute;n</th>
+														<th>Rango vigente</th>
+														<th>Concepto ganancia</th>
+                                                        <th>Valor tope</th>
+                                                        <th>Es porcentaje</th>
+                                                        <th>Es valor anual</th>
+                                                        <th>Tope vigente</th>
+                                                        <th>Fecha desde</th>
+                                                        <th>Fecha hasta</th>
+                                                        <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-topeconceptoganancia .checkboxes" />
+                            </th>
+                                                        <th>Rango de remuneraci&oacute;n</th>
+														<th>Rango vigente</th>
+														<th>Concepto ganancia</th>
+                                                        <th>Valor tope</th>
+                                                        <th>Es porcentaje</th>
+                                                        <th>Es valor anual</th>
+                                                        <th>Tope vigente</th>
+                                                        <th>Fecha desde</th>
+                                                        <th>Fecha hasta</th>
+                                                        <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/topeconceptoganancia/index.js') }}" ></script>
+{% endblock %}

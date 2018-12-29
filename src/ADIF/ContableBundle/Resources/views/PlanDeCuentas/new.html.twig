@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Configuraci&oacute;n del plan de cuentas</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'id' : 'form-plandecuentas', 'class' : 'horizontal-form', 'novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body">            
+
+                <div class="segmentos" 
+                     data-prototype="{% filter escape %}{% include 'ADIFContableBundle:PlanDeCuentas:prototype.segmento.html.twig' with {'segmento': form.segmentos.vars.prototype} %}{% endfilter %}">
+
+                    {% for segmento in form.segmentos %}
+                        {% include 'ADIFContableBundle:PlanDeCuentas:prototype.segmento.html.twig' %}
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#" class="btn green agregar-segmento-link">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back">Cancelar</button>
+
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/plandecuentas/new.js') }}" ></script>
+
+{% endblock %}

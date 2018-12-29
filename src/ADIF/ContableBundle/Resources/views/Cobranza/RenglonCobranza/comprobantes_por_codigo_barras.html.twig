@@ -1,0 +1,52 @@
+{% if comprobantes is not empty %}
+<table id="table-anticipo" class="table table-bordered table-striped table-condensed table-hover">
+    <thead> 
+        <tr class="headers">
+            <th class="text-center">Cliente</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Contrato</th>                                    
+            <th class="text-center">Comprobante</th>                                                    
+            <th class="text-center">Total</th>                                                    
+            <th class="text-center">Saldo</th>                                                    
+        </tr>
+    </thead>
+    <tbody>
+        {% for comprobante in comprobantes %}
+        <tr>
+            <td class="text-center">{{ comprobante.cliente.clienteProveedor.razonSocial }}
+                                    {% if comprobante.cliente.clienteProveedor.cuit %}
+                                         <br> {{ comprobante.cliente.clienteProveedor.cuit }}
+                                    {% endif %}    
+                                    </td>
+            <td class="text-center">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+            <td class="text-center">{{ comprobante.contrato.numeroContrato|default('-') }}</td>
+            <td class="text-center">
+                {%if comprobante.letraComprobante %}
+                    {{ comprobante.tipoComprobante ~ ' (' ~ comprobante.letraComprobante ~ ') ' ~ comprobante.numeroCompleto }}
+                {% else %}
+                    {{ comprobante.tipoComprobante ~ ' ' ~ comprobante.numeroCompleto }}
+                {% endif %}
+            </td>
+            {% if comprobante.generaDeuda %}
+
+            <td class="text-center">{{ comprobante.total|money_format }}</td>
+            <td class="text-center">{{ comprobante.saldo|money_format }}</td>
+            
+            {% else %}
+                        
+            <td colspan="2" class="text-center">{{ "-" }}</td>
+            
+            {% endif %}
+            
+            
+            
+
+     
+        
+        </tr> 
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    No se encontraron comprobantes para el c&oacute;digo de barras
+{% endif%}    

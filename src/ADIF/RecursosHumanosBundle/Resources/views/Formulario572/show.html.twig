@@ -1,0 +1,211 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+
+        .link-detalle-concepto {
+            width: 21px;
+        }  
+
+        .link-detalle-concepto i {
+            font-size: 11px;
+        }
+
+        .portlet-body {
+            min-height: 150px;
+        }
+
+        .modal-dialog {
+            width: 80%;
+        }
+
+        .modal-body {
+            padding: 21px;
+        }
+
+        .cambio-vista {
+            margin-bottom: 5px;
+        }
+    </style>
+
+{% endblock%}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del Formulario 572
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Empleado</label>
+                        <div class="detalle_show">{{ entity.empleado }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">CUIL</label>
+                        <div class="detalle_show">{{ entity.empleado.persona.cuil }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Año</label>
+                        <div class="detalle_show">{{ entity.anio }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">&Uacute;ltima Presentaci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.fechaFormulario|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row cambio-vista">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <button type="button" class="btn blue-hoki agrupado" style="margin-right: 5px">
+                            <i class="fa fa-list-alt"></i> Ver agrupado por conceptos
+                        </button>
+                    </div>
+                    <div class="pull-left">
+                        <button type="button" class="btn blue-sharp todos">
+                            <i class="fa fa-list"></i> Ver todos los conceptos
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet box blue-hoki div-agrupado">
+                <div class="portlet-title">
+                    <div class="caption">Montos totales por conceptos</div>
+                    <div class="tools">
+                        <a class="collapse" href="javascript:;"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table 
+                            class="table table-bordered table-striped table-expanded mostrar-todos datatable flip-content" 
+                            id="table-formulario572-viejo">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th>Concepto</th>
+                                    <th>Monto total</th>
+                                </tr>
+                                <tr class="headers">
+                                    <th>Concepto</th>
+                                    <th currency >Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for concepto in totalByConcepto %}
+                                    <tr>
+                                        <td width="89%">{{ concepto.concepto }}</td>
+                                        <td class="monto-concepto text-right bold" width="11%">
+                                            <button  data-concepto="{{concepto.id}}"
+                                                     <button  data-concepto-nombre="{{concepto.concepto}}"
+                                                     class="btn btn-xs btn-circle green-seagreen pull-left tooltips link-detalle-concepto" 
+                                                     style="display: none"
+                                                     data-original-title="Ver detalle">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                                {{ concepto.monto|money_format }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet box blue-sharp div-todos" style="display: none">
+                <div class="portlet-title">
+                    <div class="caption">Detalle de conceptos del formulario</div>
+                    <div class="tools">
+                        <a class="collapse" href="javascript:;"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">       
+
+                        <table 
+                            class="table table-bordered table-striped table-expanded mostrar-todos datatable flip-content" 
+                            id="table-formulario572-viejo">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th>Concepto</th>
+                                    <th>Per&iacute;odo</th>
+                                    <th>Monto</th>
+                                    <th>CUIT</th>
+                                    <th>Detalle</th>
+                                </tr>
+                                <tr class="headers">
+                                    <th>Concepto</th>
+                                    <th>Per&iacute;odo</th>
+                                    <th currency >Monto</th>
+                                    <th>CUIT</th>
+                                    <th>Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for concepto in entity.conceptos %}
+                                    <tr idConcepto="{{ concepto.conceptoGanancia.id }}">
+                                        <td>{{ concepto.conceptoGanancia }}</td>
+                                        <td class="nowrap" >{{concepto.detalleConceptoFormulario572Aplicado is not null ? concepto.detalleConceptoFormulario572Aplicado.periodo : concepto.mesDesde ~ '-' ~ concepto.mesHasta }}</td>
+                                        <td class="nowrap text-right bold" >{{ concepto.monto|money_format }}</td>
+                                        <td class="nowrap" >{{ concepto.detalleConceptoFormulario572 is not null ? concepto.detalleConceptoFormulario572.cuit|default('-') : '-' }}</td>
+                                        <td>{{ concepto.detalleConceptoFormulario572 is not null ? concepto.detalleConceptoFormulario572.detalle|default('-') : '-' }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" >
+                        <i class="m-icon-swapleft"></i> Volver
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <a href=" {{ path( 'formulario572_edit', { 'id': entity.id }) }} " 
+                       class="btn green tooltips" data-original-title="Editar">
+                        <i class="fa fa-pencil"></i> Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>             
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}" type="text/javascript"></script>      
+
+    <script src="{{ asset('js/custom/rrhh/formulario572/show.js') }}" ></script>
+
+{% endblock%}

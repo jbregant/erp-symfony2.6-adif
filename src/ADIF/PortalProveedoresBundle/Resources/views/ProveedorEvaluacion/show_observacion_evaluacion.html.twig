@@ -1,0 +1,22 @@
+{% for observacion in form.observacionEvaluacion  %}
+    {%  if  observacion.vars.value.tipoObservacion == idTipoObservacion %}
+        <div class="form-group col-md-6 pull-right">
+            {{ form_widget(observacion.tipoObservacion, {value:idTipoObservacion }) }}
+            {{ form_widget(observacion.proveedorEvaluacion, {value:  idProveedorEvaluacion}) }}
+            {{ form_label(observacion.observaciones) }}
+            {%  if  estadoEvaluacion != 1 %}
+                {% for obs in observacion.vars.value.observacionesHistorico %}
+                    {% if loop.first %}<br>{% endif %}
+                    <label>Fecha de creacion:  {{ obs.fechaCreacion.date |date("d/m/Y g:h:s") }}</label>
+                <input type="text"  class=" form-control" disabled="disabled" value="{{ obs.observacion }}" style="height: auto;"><br>
+                {% endfor %}
+            {% else %}
+                {{ form_widget(observacion.observaciones) }}
+                {% for obs in observacion.vars.value.observacionesHistorico %}
+                    <label>Fecha de creacion:  {{ obs.fechaCreacion.date |date("d/m/Y g:h:s") }}</label>
+                    <input type="text"  class=" form-control" disabled="disabled" value="{{ obs.observacion }}" style="height: auto;"><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}

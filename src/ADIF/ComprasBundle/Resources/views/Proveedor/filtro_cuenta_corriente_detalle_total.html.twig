@@ -1,0 +1,223 @@
+{% set tipoCuentaCorriente = '' %}
+{% if ordenesCompra is not empty %}
+    {% set tipoCuentaCorriente = 'Orden de compra' %}
+    {% if tramos is not empty %}
+        {% set tipoCuentaCorriente = 'Orden de compra / Tramo' %}
+    {% endif %}
+{% elseif tramos is not empty %}
+    {% set tipoCuentaCorriente = 'Tramo' %}
+{% endif %}
+
+<div class="col-md-12">
+    {% if (ordenesCompra is not empty) or (tramos is not empty) or (anticiposSinOC is not empty) %}
+        <div class="table-toolbar">
+            <div class="text-align:right checkbox-detalle">
+                <input id="checkbox-detalle" type="checkbox">
+                <input type="hidden" id="saldoTotal" value="{{ saldoTotal < 0 ? '(' ~ (saldoTotal * -1 )|money_format ~ ')' : saldoTotal|money_format }}">
+                <label  for="checkbox-detalle" class="control-label">Mostrar hist&oacute;rico</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">                      
+                <table 
+                    class="mostrar-todos table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                    id="cuenta_corriente_proveedor" dataexport-title="cuenta_corriente_proveedor"
+                    data-toggler="1" data-no-ordenable="1">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th class="not-in-filter hidden entity_id"></th>
+                            <th>{{tipoCuentaCorriente}}</th>
+                            <th data-type="date">Fecha</th>
+                            <th>Tipo de comprobante</th>
+                            <th>ID - N&ordm; de comprobante</th>
+                            <th>Monto</th>
+                            <th>Saldo</th>
+                            <th>Saldo {{tipoCuentaCorriente}}</th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order hidden"></th>
+                            <th class="no-order">{{tipoCuentaCorriente}}</th>
+                            <th class="no-order" date export-format="date" width="10%">Fecha</th>
+                            <th class="no-order">Tipo de comprobante</th>
+                            <th class="no-order" width="15%">ID - N&ordm; de comprobante</th>
+                            <th class="no-order" width="12%">Monto</th>
+                            <th class="no-order" width="12%">Saldo</th>
+                            <th class="no-order">Saldo {{tipoCuentaCorriente}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ordenesCompra is not empty %}
+                            {% for ordenCompra in ordenesCompra if ordenCompra.comprobantes is not empty or ordenCompra.ordenes_pago is not empty %}                            
+                                <tr data-oc="{{ ordenCompra.id }}" class="suma {{ordenCompra.saldo == 0? 'hidden ocultable' : ''}} oscuro row-cc">
+                                    <td></td>
+                                    <td>
+                                        {% if ordenCompra.es_servicio %}
+                                            <i>Comprobante de servicio</i>
+                                        {% else %}
+                                            <i>{{ ordenCompra.nombre | upper }}</i>
+                                            {#<a href="" class="mostrar-oc tooltips" 
+                                               data-placement="top" 
+                                               data-original-title="Ver detalle de la OC" target="" id="{{ ordenCompra.id }}">
+                                                <i class="fa fa-search"></i>
+                                            </a>#}
+                                        {% endif %}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right"><i>{{ ordenCompra.saldo < 0 ? '(' ~ (ordenCompra.saldo * -1)|money_format ~ ')' : ordenCompra.saldo|money_format}}</i></td>
+                                </tr>
+                                {% for comprobante in ordenCompra.comprobantes %}
+                                    {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': comprobante}  %}
+                                    {% for nota_credito in comprobante.notas_credito %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': nota_credito}  %}
+                                    {% endfor %}
+                                    {% for pago_parcial in comprobante.pagos_parciales %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': pago_parcial}  %}
+                                    {% endfor %}
+									{% for comprobante_ajuste in comprobante.comprobantes_ajustes %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': comprobante_ajuste, 'id_comprobante_ajuste': comprobante_ajuste.id}  %}
+                                    {% endfor %}
+                                {% endfor %}
+                                {% if(ordenCompra.ordenes_pago is not empty) %}
+                                    {% if(ordenCompra.comprobantes is not empty) %}
+                                        <tr class="{{ordenCompra.saldo == 0? ' hidden ocultable ' : ''}} row-cc">
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% for orden_pago in ordenCompra.ordenes_pago %}
+                                        {% for comprobante in orden_pago.comprobantes %}
+                                            {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': comprobante}  %}
+                                            {% for nota_credito in comprobante.notas_credito %}
+                                                {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': nota_credito}  %}
+                                            {% endfor %}
+                                            {% for pago_parcial in comprobante.pagos_parciales %}
+                                                {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': pago_parcial}  %}
+                                            {% endfor %}
+											{% for comprobante_ajuste in comprobante.comprobantes_ajustes %}
+												{% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': comprobante_ajuste, 'id_comprobante_ajuste': comprobante_ajuste.id}  %}
+											{% endfor %}
+                                        {% endfor %} 
+                                        {% for anticipo in orden_pago.anticipos %}
+                                            {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': anticipo}  %}
+                                        {% endfor %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': orden_pago}  %}
+                                        {% if(not loop.last) %}
+                                            <tr class="{{ordenCompra.saldo == 0? ' hidden ocultable ' : ''}} row-cc">
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        {% endif %}            
+                                    {% endfor %}
+                                {% endif %}
+                                {% if ordenCompra.anticipos is not empty %}
+                                    {% for anticipo in ordenCompra.anticipos %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': ordenCompra, 'item': anticipo}  %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if tramos is not empty %}
+                            {% for tramo in tramos if tramo.comprobantes is not empty or tramo.ordenes_pago is not empty %}
+                                <tr class="suma {{tramo.saldo == 0? 'hidden ocultable' : ''}} oscuro row-cc" >
+                                    <td></td>
+                                    <td>
+                                        <i>{{ tramo.nombre | upper }}</i>
+                                        <a href="" class="mostrar-tramo tooltips" 
+                                           data-placement="top" 
+                                           data-original-title="Ver detalle del Tramo" target="" id="{{ tramo.id }}">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right"><i>{{ tramo.saldo < 0 ? '(' ~ (tramo.saldo * -1)|money_format ~ ')' : tramo.saldo|money_format}}</i></td>
+                                </tr>
+                                {% for comprobante in tramo.comprobantes %}
+                                    {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': comprobante}  %}
+                                    {% for nota_credito in comprobante.notas_credito %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': nota_credito}  %}
+                                    {% endfor %}
+                                    {% for pago_parcial in comprobante.pagos_parciales %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': pago_parcial}  %}
+                                    {% endfor %}
+									{% for comprobante_ajuste in comprobante.comprobantes_ajustes %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': comprobante_ajuste, 'id_comprobante_ajuste': comprobante_ajuste.id}  %}
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for orden_pago in tramo.ordenes_pago %}
+                                    <tr class="{{tramo.saldo == 0? ' hidden ocultable ' : ''}} row-cc">
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    {% for comprobante in orden_pago.comprobantes %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': comprobante}  %}
+                                        {% for nota_credito in comprobante.notas_credito %}
+                                            {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': nota_credito}  %}
+                                        {% endfor %}
+                                        {% for pago_parcial in comprobante.pagos_parciales %}
+                                            {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': pago_parcial}  %}
+                                        {% endfor %}
+										{% for comprobante_ajuste in comprobante.comprobantes_ajustes %}
+											{% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': comprobante_ajuste, 'id_comprobante_ajuste': comprobante_ajuste.id}  %}
+										{% endfor %}
+                                    {% endfor %} 
+                                    {% for anticipo in orden_pago.anticipos %}
+                                        {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': anticipo}  %}
+                                    {% endfor %}
+                                    {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': tramo, 'item': orden_pago}  %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if anticiposSinOC is not empty %}
+                            <tr class="suma {{saldoAnticiposSinOC == 0? 'hidden ocultable' : ''}} oscuro row-cc">
+                                <td></td>
+                                <td>
+                                    <i>ANTICIPOS SIN ORDENES DE COMPRA</i>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right"><i>{{ saldoAnticiposSinOC < 0 ? '(' ~ (saldoAnticiposSinOC * -1)|money_format ~ ')' : saldoAnticiposSinOC|money_format}}</i></td>
+                            </tr>
+                            {% for anticipoSinOC in anticiposSinOC %}
+                                {% include '@ADIFCompras/Proveedor/row_resumen_cc.html.twig' with {'contenedor': anticipoSinOC, 'item': anticipoSinOC}  %}
+                            {% endfor %}
+                        {% endif %}                                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="note note-info">
+            <h4 class="block">El proveedor no posee datos en su cuenta corriente</h4>
+        </div>
+    {% endif %}                
+</div>

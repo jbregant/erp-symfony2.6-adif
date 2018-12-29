@@ -1,0 +1,100 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% if ( idEmpresa != null ) and ( idEmpresa ) == 2 %}
+                    {% include('PDF/logo.datos.fase.html.twig') %}
+                {% else %}
+                    {% include('PDF/logo.datos.adif.html.twig') %}
+                {% endif %}
+                
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">Asiento Contable N&ordm;</div>
+                    <div class="w-100 f-12 t-center">{{ asientoContable.numeroAsiento }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ asientoContable.fechaContable|date("d/m/Y") }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}
+
+    <label class="control-label f-12">T&iacute;tulo</label>
+    <div class="detalle_show f-12">{{ entity.denominacionAsientoContable }}</div>
+    <br>
+    <label class="control-label f-12">Concepto</label>
+    <div class="detalle_show f-12">{{ entity.conceptoAsientoContable }}</div>
+
+    <table class="w-100 m-top" border="0" >
+        <thead>
+            <tr>
+                <th class="f-10 w-10 t-left">N&deg;</th>
+                <th class="f-10 w-25 t-left">Fecha contable</th>
+                <th class="f-10 w-25 t-left">N&deg; de documento</th>
+                <th class="f-10 w-40 t-left">Raz&oacute;n social</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="f-10 t-left detalle_table" style="border-top: 1px solid #ccc;">{{ entity.numeroAsiento }}</td>
+                <td class="f-10 t-left detalle_table" style="border-top: 1px solid #ccc;">{{ entity.fechaContable|date('d/m/Y') }}</td>
+                <td class="f-10 t-left detalle_table" style="border-top: 1px solid #ccc;">{{ entity.numeroDocumento|default('-') }}</td>
+                <td class="f-10 t-left detalle_table" style="border-top: 1px solid #ccc;">{{ entity.razonSocial|default('-') }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <span class="f-12">Detalle</span>
+    <table class="w-100 m-top table_asiento" border="1" >
+        <thead>
+            <tr>
+                <th class="f-10 w-50">Cuenta contable</th>
+                <th class="f-10 w-10">Debe</th>
+                <th class="f-10 w-10">Haber</th>
+                <th class="f-10 w-30">Detalle</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% set debe = 0 %}
+            {% set haber = 0 %}
+            {% for renglonAsientoContable in entity.renglonesAsientoContable %}
+                <tr>
+                    {% if (renglonAsientoContable.tipoOperacionContable == 'Haber') %}
+                        <td class="t-left f-10">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ renglonAsientoContable.cuentaContable }}
+                        </td>
+                    {% else %}
+                        <td class="t-left f-10">
+                            {{ renglonAsientoContable.cuentaContable }}
+                        </td>
+                    {% endif %}
+                    <td class="t-right f-10">
+                        {% if(renglonAsientoContable.tipoOperacionContable == 'Debe') %}
+                            {{renglonAsientoContable.importeMO|currency_format }}
+                            {% set debe = debe + renglonAsientoContable.importeMO|round(2) %}
+                        {% endif %}
+                    </td>
+                    <td class="t-right f-10">
+                        {% if(renglonAsientoContable.tipoOperacionContable == 'Haber') %}
+                            {{renglonAsientoContable.importeMO|currency_format }}
+                            {% set haber = haber + renglonAsientoContable.importeMO|round(2) %}
+                        {% endif %}
+                    </td>
+                    <td class="t-left f-10">{{ renglonAsientoContable.detalle }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="f-12 t-right tr-total">TOTAL</td>
+                <td class="f-12 t-right hlt total-debe">{{ debe|roundandmatch(haber)|currency_format }}</td>
+                <td class="f-12 t-right hlt total-haber">{{ haber|roundandmatch(debe)|currency_format }}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

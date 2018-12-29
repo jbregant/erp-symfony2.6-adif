@@ -1,0 +1,49 @@
+<fieldset class="form-section-fieldset">
+
+  <legend class="form-section-legend">Compras</legend>
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <div class="form-group">
+        {{ form_label(form.esSujetoImpuesto) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.esSujetoImpuesto) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        {{ form_label(form.idFabricante) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.idFabricante) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        {{ form_label(form.fechaAdquisicion) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.fechaAdquisicion) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        {{ form_label(form.valorAdquisicion) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.valorAdquisicion) }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</fieldset>

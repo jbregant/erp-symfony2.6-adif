@@ -1,0 +1,50 @@
+<fieldset class="form-section-fieldset">
+    <legend class="form-section-legend">{{ domicilio.tipoDomicilio.denominacion }}</legend>
+    <div class="row">
+        {% if domicilio.tipoDomicilio.id == 5 %}
+                <div class="form-group col-md-3">
+                    <label class="control-label">Pa&iacute;s</label>
+                    <div class="detalle_show">{{ domicilio.pais }}</div>
+                </div>
+        {% endif %}
+        <div class="form-group col-md-3">
+            <label class="control-label">Calle/Nro de calle</label>
+            <div class="detalle_show">{{ domicilio.calle }}</div>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="control-label">Piso</label>
+            <div class="detalle_show">{{ domicilio.piso }}</div>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="control-label">Departamento</label>
+            <div class="detalle_show">{{ domicilio.departamento }}</div>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="control-label">C&oacute;digo Postal</label>
+            <div class="detalle_show">{{ domicilio.codigoPostal }}</div>
+        </div>
+    </div>
+    <div class="row">
+        {% if domicilio.tipoDomicilio.id == 1 or domicilio.tipoDomicilio.id == 2 or domicilio.tipoDomicilio.id == 3 or domicilio.tipoDomicilio.id == 5 %}
+            <div class="form-group col-md-3">
+                <label class="control-label">Provincia</label>
+                <div class="detalle_show">{% if datosUsuario.extranjero and domicilio.provinciaEstadoExterior is not null %}{{ domicilio.provinciaEstadoExterior }}{% else %}{{ domicilio.provincia }}{% endif %}</div>
+            </div>
+        {% endif %}
+        {% if domicilio.tipoDomicilio.id == 1 or domicilio.tipoDomicilio.id == 2 or domicilio.tipoDomicilio.id == 3 %}
+            <div class="form-group col-md-3">
+                <label class="control-label">Localidad</label>
+                <div class="detalle_show">{{ domicilio.localidad }}</div>
+            </div>
+        {% endif %}
+        <div class="form-group col-md-4">
+            <label class="control-label">Tel&eacute;fono</label>
+            <div class="detalle_show">{{ domicilio.telefono }}</div>
+        </div>
+    </div>
+    <div class="row">
+
+        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion': idTipoObservacion} %}
+
+    </div>
+</fieldset>

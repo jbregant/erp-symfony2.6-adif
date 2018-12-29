@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la facturacion\polizaseguro: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Numeropoliza</label>
+                        <div class="detalle_show">                                {{ entity.numeroPoliza }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechavencimiento</label>
+                        <div class="detalle_show">                                {{ entity.fechaVencimiento|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Aseguradora</label>
+                        <div class="detalle_show">                                {{ entity.aseguradora }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Riesgocubierto</label>
+                        <div class="detalle_show">                                {{ entity.riesgoCubierto }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Numerotramiteenvio</label>
+                        <div class="detalle_show">                                {{ entity.numeroTramiteEnvio }}                        </div>
+                    </div>
+                </div>
+                                        </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('poliza') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

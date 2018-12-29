@@ -1,0 +1,60 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Calificaci&oacute;n fiscal</legend>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="control-label">C&oacute;digo de situaci&oacute;n</label>
+                <div class="detalle_show">
+                    {{ datosImpositivos.situacionClienteProveedor|default('-') }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Última actualización</label>
+                <div class="detalle_show">
+                    {{ datosImpositivos.fechaUltimaActualizacionCodigoSituacion is not null ? datosImpositivos.fechaUltimaActualizacionCodigoSituacion|date('d/m/Y') : '-' }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">                
+            <div class="form-group">
+                <label class="control-label">Tiene riesgo fiscal</label>
+                <div class="detalle_show">
+                    {{ datosImpositivos.tieneRiesgoFiscal ? 'Sí' : 'No' }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">                                        
+            <div class="form-group">
+                <label class="control-label">&Uacute;ltima actualizaci&oacute;n</label>
+                <div class="detalle_show">
+                    {{ datosImpositivos.fechaUltimaActualizacionRiesgoFiscal is not null ? datosImpositivos.fechaUltimaActualizacionRiesgoFiscal|date('d/m/Y') : '-' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Incluye magnitudes superadas</label>
+                <div class="detalle_show">
+                    {{ datosImpositivos.incluyeMagnitudesSuperadas ? 'Sí' : 'No' }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&Uacute;ltima actualizaci&oacute;n</label>
+                <div class="detalle_show">
+                    {{ datosImpositivos.fechaUltimaActualizacionIncluyeMagnitudesSuperadas is not null ? datosImpositivos.fechaUltimaActualizacionIncluyeMagnitudesSuperadas|date('d/m/Y') : '-' }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

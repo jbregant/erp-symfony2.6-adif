@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha|date('d/m/Y') }}",
+    "{{ entity.periodo }}",
+    "{{ entity.ordenPago is not null ? entity.ordenPago.numeroOrdenPago|default('-') : '-' }}",
+    "{{ entity.ordenPago is not null ? entity.ordenPago.pagoOrdenPago|default('-') : '-' }}",
+    "{{ entity.importe is not null ? entity.importe|money_format : 'Saldo a favor del contribuyente' }}",
+    {
+    "id" : "{{ entity.id }}",
+    "show" : "#",
+    "descargar" : "{{ path( entity.filePath, { "id": entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

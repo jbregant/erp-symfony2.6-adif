@@ -1,0 +1,100 @@
+<div class="portlet-body form" id="detalle_credito_fiscal">
+    <div class="form-body">
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">Total facturado</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="detalle_show">{{ entity.montoTotalFacturado|money_format }}</div>
+                </div>
+            </div>            
+        </div>
+        <div class="row espacio">            
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">Total gravado facturado</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="detalle_show">{{ entity.montoGravadoFacturado|money_format }}</div>
+                </div>
+            </div>           
+        </div>
+        <div class="row espacio">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label subtotal">Coeficiente de prorrateo</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="detalle_show">{{ entity.coeficienteProrrateo|money_format }}</div>
+                </div>                        
+            </div>
+        </div>
+        <div class="row espacio">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">Iva %10,5</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="detalle_show">{{ entity.MontoIva105|money_format }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">Iva %21</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="detalle_show">{{ entity.MontoIva21|money_format }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">Iva %27</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="detalle_show">{{ entity.MontoIva27|money_format }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label subtotal">Total IVA</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <div class="detalle_show">{{ entity.totalIva|money_format }}</div>
+                    </div>
+                </div>                        
+            </div>
+        </div>
+        <div class="row espacio">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">IVA CF Computable</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <div class="detalle_show">{{ entity.ivaCFComputable|money_format }}</div>
+                    </div>
+                </div>                        
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">IVA CF No Computable</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <div class="detalle_show">{{ entity.ivaCFNoComputable|money_format }}</div>
+                    </div>
+                </div>                        
+            </div>
+        </div>
+    </div>
+</div>

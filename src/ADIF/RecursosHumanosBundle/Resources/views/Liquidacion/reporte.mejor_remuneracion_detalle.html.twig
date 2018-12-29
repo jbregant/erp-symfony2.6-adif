@@ -1,0 +1,112 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/reporte_general.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <script>
+        var mejor_remuneracion = [];
+        var max;
+    </script>
+     <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Detalle del empleado: <b>{{ entities[0].empleado }}</b> </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar"></div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                        id="table-mejor-remuneracion-detalle"
+                        dataexport-title="Detalle mejor remuneracion mes a mes">
+                        <thead>
+                            <tr class="replace-inputs filter" >
+                                <th></th>
+                                <th class="not-in-filter"></th>                
+                                <th>Mes</th>
+                                <th>A&ntilde;o</th>
+                                <th>Tipo liquidaci&oacute;n</th>
+                                <th>B&aacute;sico</th>
+                                <th>Bruto 1</th>
+                                <th>Bruto 2</th>
+                                <th>Bruto sumado</th>
+                                <th>Ajuste suma</th>
+                                <th>Ajuste resta</th>
+								<th>Conceptos rem. no integra SAC</th>
+                                <th>Rem. retroactivo</th>
+                                <th>Mejor remuneraci&oacute;n</th>
+                                <!-- <th class="not-in-filter"></th> -->
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-cuenta .checkboxes" />
+                                </th>     
+                                <th>Mes</th>
+                                <th>A&ntilde;o</th>
+                                <th>Tipo liquidaci&oacute;n</th>
+                                <th>B&aacute;sico</th>
+                                <th>Bruto 1</th>
+                                <th>Bruto 2</th>
+                                <th>Bruto sumado</th>
+                                <th>Ajuste suma</th>
+                                <th>Ajuste resta</th>
+								<th>Conceptos rem. no integra SAC</th>
+                                <th>Rem. retroactivo</th>
+                                <th>Mejor remuneraci&oacute;n</th>
+                                <!-- <th class="text-center no-order ctn_acciones">Acciones</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td>{{ entity.id_empleado }}</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>  
+                                    <td>{{ entity.fecha_cierre_novedades|get_mes }}</td>
+                                    <td>{{ entity.anio_liquidacion }}</td>
+                                    <td>{{ entity.tipo_liquidacion }}</td>
+                                    <td>{{ entity.basico|money_format }}</td>
+                                    <td>{{ entity.bruto_1|money_format }}</td>
+                                    <td>{{ entity.bruto_2|money_format }}</td>
+                                    <td>{{ entity.bruto_sumado|money_format }}</td>
+                                    <td>{{ entity.ajuste_suma|money_format }}</td>
+                                    <td>{{ entity.ajuste_resta|money_format }}</td>
+									<td>{{ entity.monto_integra_sac|money_format }}</td>
+                                    <td>{{ entity.adicional_remunerativo_retroactivo|money_format }}</td>
+                                    <td class="td_mr_{{ entity.mejor_remuneracion|replace({'.': ''}) }}">{{ entity.mejor_remuneracion|money_format }}</td>
+                                    
+                                    <script> mejor_remuneracion.push("{{ entity.mejor_remuneracion|replace({'.': ''}) }}"); </script> 
+                                    
+                                    <!-- <td class="ctn_acciones text-center">
+                                       &nbsp;
+                                    </td> -->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+     <script>
+        $(document).ready(function(){
+            max = Math.max.apply(Math, mejor_remuneracion);
+            $(".td_mr_" + max).css('font-weight', 'bold');
+        });
+    </script>
+  
+{% endblock %}

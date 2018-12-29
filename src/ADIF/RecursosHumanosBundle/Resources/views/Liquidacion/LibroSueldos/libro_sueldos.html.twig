@@ -1,0 +1,123 @@
+{% set periodo_liquidacion = (
+    le.liquidacion.tipoLiquidacion.id == tl_sac ? 
+        (le.liquidacion.fechaCierreNovedades|date('n') > 7 ? '2' : '1' ) ~ '&ordm; SAC' :
+        le.liquidacion.fechaCierreNovedades|localizeddate('full','none',app.request.locale,null,'MMMM')|upper 
+    )
+    ~ ' ' ~ le.liquidacion.fechaCierreNovedades|date('Y')
+%}
+<table class="datos_basicos w-100" border="0" style="border-top: 2px solid #000000;">
+    <tbody>
+        <tr>
+            <td colspan="8">Per&iacute;odo de liquidaci&oacute;n: {{ periodo_liquidacion }}</td>
+        </tr>
+        <tr>
+            <td>Legajo</td>
+            <td>{{ empleado.nroLegajo }}</td>
+            <td>Apellido y nombre</td>
+            <td>{{ empleado.persona }}</td>
+            <td>Fecha de ingreso</td>
+            <td>{{ empleado.fechaIngreso|date('d/m/y') }}</td>
+            <td>Fecha de egreso</td>
+            <td>{{ empleado.fechaEgreso ? empleado.fechaEgreso|date('d/m/y') : '' }}</td>
+        </tr>
+        <tr>
+            <td>CUIL</td>
+            <td>{{ empleado.persona.cuil }}</td>
+            <td>Contrataci&oacute;n</td>
+	        <td>{{ empleado.tipoContratacionActual.tipoContrato.nombre }}</td>
+            <td>Lugar de trabajo</td>
+            <td>C.A.B.A.</td>
+            <td>Remuneraci&oacute;n</td>
+			{% if subcategoria_periodo %}
+            	<td>{{ subcategoria_periodo.subcategoria.montoBasico|number_format(2, ',', '.') }}</td>
+			{% else %}
+            	<td>{{ empleado.subcategoria.montoBasico|number_format(2, ',', '.') }}</td>
+			{% endif %}
+        </tr>
+        <tr>
+            <td>Secci&oacute;n</td>
+            <td>{{ empleado.gerencia }}</td>
+            <td>Categor&iacute;a</td>
+			{% if subcategoria_periodo %}
+            	<td>{{ subcategoria_periodo.subcategoria.categoria ~ ' ' ~ subcategoria_periodo.subcategoria}}</td>
+	            <td>Calificaci&oacute;n profesional</td>
+	            <td>{{ subcategoria_periodo.subcategoria.categoria ~ ' ' ~ subcategoria_periodo.subcategoria}}</td>
+			{% else %}
+	            <td>{{ empleado.subcategoria.categoria ~ ' ' ~ empleado.subcategoria}}</td>
+	            <td>Calificaci&oacute;n profesional</td>
+	            <td>{{ empleado.subcategoria.categoria ~ ' ' ~ empleado.subcategoria}}</td>
+			{% endif %}
+            <td>Mensual / jornal</td>
+            <td>{{ le.basico|number_format(2, ',', '.') }}</td>
+        </tr>
+        <tr>
+            <td>Registro previsional</td>
+            <td>Reparto</td>
+            <td>Fecha de nacimiento</td>
+            <td>{{ empleado.persona.fechaNacimiento|date('d/m/y') }}</td>
+            <td>Estado civil</td>
+            <td>{{ empleado.persona.estadoCivil }}</td>
+            <td>Domicilio</td>
+            <td>{{ empleado.persona.domicilio }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table_conceptos w-100" border="0">
+    <tbody>
+        <tr class="header">
+            <td class="w-5">C&oacute;digo</td>
+            <td class="w-25">Concepto</td>
+            <td class="w-10">Unidades</td>
+            <td class="w-10">Importes</td>
+            <td class="w-5">C&oacute;digo</td>
+            <td class="w-25">Concepto</td>
+            <td class="w-10">Unidades</td>
+            <td class="w-10">Importes</td>
+        </tr>
+        <tr class="concepto">
+            <td class="w-5 t-center">0001</td>
+            <td class="w-25">Salario b&aacute;sico</td>
+            <td class="w-10"></td>
+            <td class="w-10 t-right">{{ le.basico|number_format(2, ',', '.') }}</td>
+        {# </tr>
+        <tr class="concepto"> #}
+            {% set index = 2 %}
+            {% set tc_calculo_ganancias = 0 %}
+            {% for concepto in le.liquidacionEmpleadoConceptos %}
+                {% set c_version = concepto.conceptoVersion %}
+                {% if ((c_version.esNovedad and concepto.empleadoNovedad and concepto.empleadoNovedad.valor != 0) or (concepto.monto != 0)) %}
+                    {% if (c_version.idtipoConcepto == tc_ganancias and c_version.codigo != '999') %}
+                        {% set tc_calculo_ganancias = tc_calculo_ganancias + concepto.monto %}
+                    {% endif %}
+                    <td class="w-5 t-center">{{ c_version.codigo|str_pad(4,'0',0) }}</td>
+                    <td class="w-25">{{ c_version.leyenda }}</td>
+                    <td class="w-10">{{ (c_version.esNovedad ? ( c_version.formula|trim() == '#valor#' ? '' : (concepto.empleadoNovedad ? concepto.empleadoNovedad.valor|number_format(2, ',', '.') : '')) : '' ) }}</td>
+                    <td class="w-10 t-right">{{ concepto.monto|number_format(2, ',', '.') }}</td>
+                    {% if index % 2 == 0 %}
+                        </tr ><tr class="concepto">
+                    {% endif %}
+                    {% set index = index + 1 %}
+                {% endif %}
+            {% endfor %}
+            {% if index % 2 == 1 %}</tr ><tr class="concepto">{% endif %}
+            <td class="w-5 t-center">0997</td>
+            <td class="w-25">REDONDEO</td>
+            <td class="w-10"></td>
+            <td class=" t-right">{{ le.redondeo|number_format(2, ',', '.') }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table_totales w-100" border="0" style="margin-top: 10px;">
+    <tbody>
+        <tr>
+            <td class="w-15">Haberes remunerativos</td>
+            <td class="w-10">{{ (le.bruto1+le.bruto2)|number_format(2, ',', '.') }}</td>
+            <td class="w-15">Haberes no remunerativos</td>
+            <td class="w-10">{{ (le.noRemunerativo + le.redondeo)|number_format(2, ',', '.') }}</td>
+            <td class="w-15">Retenciones y desceuntos</td>
+            <td class="w-10">{{ (le.descuentos + tc_calculo_ganancias + (le.gananciaEmpleado ? le.gananciaEmpleado.saldoImpuestoMes : 0))|number_format(2, ',', '.') }}</td>
+            <td class="w-15">Neto</td>
+            <td class="w-10">{{ le.neto|number_format(2, ',', '.') }}</td>
+        </tr>
+    </tbody>
+</table>

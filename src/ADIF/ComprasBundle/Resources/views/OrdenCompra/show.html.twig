@@ -1,0 +1,337 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">    
+
+        .div_ctn_seccion table {
+            background-color: #FFF;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+
+    <div class="pull-left">
+        <h3 style="margin-top:0;">Detalles de la orden de compra {{ entity }}</h3>
+    </div>
+
+    <br />
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Detalle</div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Estado</label>
+                    <div class="detalle_show">
+                        {{ entity.estadoOrdenCompra|default('-') }}    
+                    </div>
+                </div>
+            </div>
+            {% if entity.fechaAnulacion is not null %}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha anulaci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.fechaAnulacion|date('d/m/Y') }}    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Motivo anulaci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.motivoAnulacion|default('-') }}    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        </div>
+    {% endif %}
+
+    <div class="row">    
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Fecha</label>
+                <div class="detalle_show">
+                    {{ entity.fechaOrdenCompra|date('d/m/Y') }}    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">N&ordm; de carpeta</label>
+                <div class="detalle_show">    
+                    {{ entity.numeroCarpeta|default('-') }} 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Tipo de contrataci&oacute;n</label>
+                <div class="detalle_show">       
+                    {{ entity.tipoContratacion|default('-') }}   
+                </div>
+            </div>
+        </div>                
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Proveedor</label>
+                <div class="detalle_show">    
+                    {{ entity.proveedor.cuitAndRazonSocial }} 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Tipo de pago</label>
+                <div class="detalle_show">       
+                    {{ entity.tipoPago|default('-') }}   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Condici&oacute;n de pago</label>
+                <div class="detalle_show">       
+                    {{ entity.condicionPago|default('-') }}   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Fecha de entrega</label>
+                <div class="detalle_show">       
+                    {{ entity.fechaEntrega|date('d/m/Y') }}   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Calle</label>
+                <div class="detalle_show">{{ entity.domicilioEntrega is not null ? entity.domicilioEntrega.calle|default('-') : '-' }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">N&ordm;</label>
+                <div class="detalle_show">{{ entity.domicilioEntrega is not null ? entity.domicilioEntrega.numero|default('-') : '-' }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Piso</label>
+                <div class="detalle_show">{{ entity.domicilioEntrega is not null ? entity.domicilioEntrega.piso|default('-') : '-' }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Dto.</label>
+                <div class="detalle_show">{{ entity.domicilioEntrega is not null ? entity.domicilioEntrega.depto|default('-') : '-' }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Localidad</label>
+                <div class="detalle_show">{{ entity.domicilioEntrega is not null ? entity.domicilioEntrega.localidad|default('-') : '-' }}</div>
+            </div>                
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Observaci&oacute;n</label><br/>
+                <textarea class="detalle_show_textarea" readonly> 
+                    {{ entity.observacion|default('-') }}  
+                </textarea><br/>
+				<button class="btn green" id="edit_obs_OC"><i class="fa fa-pencil"></i> Editar</button>
+				<button class="btn blue" id="save_obs_OC" type="button">Guardar</button>
+				<button class="btn red" id="cancel_obs_OC" type="button">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="div_ctn_seccion">
+    <div class="btn btn-info btn-sm label_seccion">Renglones</div>  
+
+    {% for renglon in entity.renglones %}
+		
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					<label class="control-label">Bien econ&oacute;mico</label>
+					<div class="detalle_show"> 
+						{{  renglon.descripcionBien|default('-') }}  
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<div class="form-group">
+					<label class="control-label">Cantidad</label>
+					<div class="detalle_show"> 
+						{{  renglon.cantidad }}  
+					</div>
+				</div>
+			</div>
+            <div class="col-md-2">
+				<div class="form-group">
+					<label class="control-label">Precio unitario</label>
+					<div class="detalle_show"> 
+						{{  renglon.precioUnitario|money_format(entity.simboloTipoMoneda, 1, 2) }}  
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label class="control-label">Importe neto</label>
+					<div class="detalle_show"> 
+						{{  renglon.getMontoNeto(false)|money_format(entity.simboloTipoMoneda, 1, 2) }}  
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label class="control-label">Importe total IVA</label>
+					<div class="detalle_show"> 
+						{{  renglon.getMontoTotalIva(false)|money_format(entity.simboloTipoMoneda, 1, 2) }}  
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label class="control-label">Importe total</label>
+					<div class="detalle_show"> 
+						{{  renglon.getMontoNetoMasIva(false)|money_format(entity.simboloTipoMoneda, 1, 2) }}  
+					</div>
+				</div>
+			</div>
+		</div>
+	
+    {% endfor %}
+</div>
+
+<div class="div_ctn_seccion" style="min-height: 45px;">
+    <div class="btn btn-info btn-sm label_seccion">Adicionales</div> 
+
+    {% for adicional in entity.adicionalesElegidos %}
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Tipo adicional</label>
+                    <div class="detalle_show"> 
+                        {{  adicional.tipoAdicional|default('-') }}  
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Valor</label>
+                    <div class="detalle_show"> 
+                        {{ adicional.signo == '+' ? '' : '-'}}
+                        {{ adicional.tipoValor == '$' ? '$ ' ~ adicional.valor : '(' ~ adicional.valor ~ ' %) '}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Alicuota IVA</label>
+                    <div class="detalle_show"> 
+                        {{ adicional.porcentajeIva|default('0') ~ ' %' }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Observaci&oacute;n</label>
+                    <div class="detalle_show"> 
+                        {{ adicional.observacion|default('-') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+<div class="div_ctn_seccion">
+    <div class="btn btn-info btn-sm label_seccion">TOTAL</div>
+
+    <div class="row">    
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Total</label>
+                <div class="detalle_show">{{ entity.getMonto(true)|money_format(entity.simboloTipoMoneda, 1, 2) }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-actions">
+    <button type="button" class="btn default button-back" 
+            back-url="{{ path('ordenescompra') }}">
+        <i class="m-icon-swapleft"></i> Volver
+    </button>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+		/** Lógica de edición de observaciones **/
+		var valor;
+		$("#edit_obs_OC").click(function(){
+			$(this).css({'display': 'none'});
+			$("#save_obs_OC").css({'display': 'inline'});
+			$("#cancel_obs_OC").css({'display': 'inline'});
+			$(".detalle_show_textarea").removeAttr('readonly').css({'background-color': 'white'});
+			valor = $(".detalle_show_textarea").val();
+		});
+		$("#cancel_obs_OC").click(function(){
+			$(this).css({'display': 'none'});
+			$("#save_obs_OC").css({'display': 'none'});
+			$("#edit_obs_OC").css({'display': 'inline'});
+			$(".detalle_show_textarea").val(valor).attr('readonly', 'readonly').css({'background-color': '#F9F9F9'});
+		});
+		$("#save_obs_OC").click(function(){
+            var newValor = $(".detalle_show_textarea").val();
+			$.ajax({
+                url : '{{ path("edit_observaciones_ordenescompra") }}',
+                type: 'POST',
+                data : 'id={{ entity.id }}&observaciones=' + newValor,
+                success: function(html) {
+					show_alert({"title":"Aviso","msg":"Se modificaron las observaciones correctamente."});
+					$("#edit_obs_OC").css({'display': 'inline'});
+					$("#save_obs_OC").css({'display': 'none'});
+					$("#cancel_obs_OC").css({'display': 'none'});
+					$(".detalle_show_textarea").attr('readonly', 'readonly').css({'background-color': '#F9F9F9'});
+				}
+            });
+		});
+		/** Fin Lógica de edición de observaciones **/
+    </script>
+{% endblock %} 

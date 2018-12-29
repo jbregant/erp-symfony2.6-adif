@@ -1,0 +1,18 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}", 
+    "{{ entity.linea.denominacion|default('-') }}",
+    "{{ entity.operador.denominacion|default('-') }}",
+    "{{ entity.ramal.denominacionCorta|default('-') }}",
+{
+"show" : " {{ path( "divisiones_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "divisiones_edit", { "id": entity.id }) }}",
+"delete" : " {{ path( "divisiones_delete", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

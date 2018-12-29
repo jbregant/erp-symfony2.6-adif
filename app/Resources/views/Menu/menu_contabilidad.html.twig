@@ -1,0 +1,138 @@
+
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Contabilidad <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu">
+
+        {# CONFIGURACION CONTABLE #}
+        {% if is_granted("ROLE_MENU_CONTABILIDAD_CONFIGURACION") %}
+            {% include ':Menu:menu_configuracion_contable.html.twig' %}
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CONTABILIDAD_PLAN_CUENTAS") %}
+            <li>
+                <a href="{{ path('cuentacontable') }}">
+                    Plan de cuentas
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CONTABILIDAD_ASIENTO_MANUAL") %}
+            <li>
+                <a href="{{ path('asientocontable') }}">
+                    Asientos
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CONTABILIDAD_AUTORIZACION_CONTABLE") %}
+            <li>
+                <a href="{{ path('autorizacioncontable') }}">
+                    Autorizaciones contables
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CONTABILIDAD_REPORTES") %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Reportes
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('asientocontable_librodiario') }}">
+                            Libro diario
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('asientocontable_resumen_librodiario') }}">
+                            Libro diario resumido
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('asientocontable_librosubdiario') }}">
+                            Libro subdiario 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('asientocontable_libromayor') }}">
+                            Libro mayor
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('asientocontable_balancesumassaldos') }}">
+                            Balance de sumas y saldos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('asientocontable_reporte_provision_obra_acumulado') }}">
+                            Control de provisi&oacute;n de obra
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CONTABILIDAD_IMPUESTOS") %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Impuestos
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-submenu">
+                        <a href="javascript:;">
+                            DDJJ Impuestos
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ path('declaracionesjuradasivacontribuyente') }}">
+                                    DDJJ IVA
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    DDJJ IIBB
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ path('declaracion_jurada') }}">
+                            DDJJ Retenciones
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('declaracion_jurada_historico') }}">
+                            Hist&oacute;rico DDJJ Retenciones
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('padrones') }}">
+                            Padrones
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+		{% if is_granted("ROLE_AJUSTE_CONTABLE") %}
+			<li class="dropdown-submenu">
+                <a href="javascript:;">
+					Ajustes
+                </a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="{{ path('new_ajuste_cliente') }}">
+							Cuenta corriente de clientes
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('new_ajuste_proveedor') }}">
+							Cuenta corriente de proveedores
+						</a>
+					</li>
+				</ul>
+			</li>
+		{% endif %}
+    </ul>
+</li>

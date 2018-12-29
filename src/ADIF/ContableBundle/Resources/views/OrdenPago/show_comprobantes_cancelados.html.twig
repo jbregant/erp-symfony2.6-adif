@@ -1,0 +1,33 @@
+<div class="row cleardiv">      
+	<div class="col-md-12">
+		<fieldset>
+			<legend>Comprobantes cancelados</legend>
+			<ul class="form-group item-comprobante">
+				{% for comprobante in entity.comprobantes %}                                    
+					<li class="col-md-12 block-comprobante">
+						<input class="hidden" name="ids[]" value="{{ comprobante.id }}" />
+						<span class="comprobante-fecha">
+							{% if comprobante.fechaComprobante %}
+								{{ comprobante.fechaComprobante|date('d/m/Y') }}
+							{% endif %}
+						</span>
+						<span class="comprobante-tipo-comprobante">
+							{{ comprobante.tipoComprobante ~ ' (' ~ comprobante.letraComprobante ~ ')' }}
+						</span>
+						<span class="comprobante-numero">
+							{{ comprobante.puntoVenta ~ '-' ~ comprobante.numero }}
+						</span>
+						<span class="text-right bold">
+							{{ comprobante.total|money_format }}
+						</span>
+						<span class="span-link-comprobante">
+							<a href="{{ path( comprobante.path ~ '_show', { 'id': comprobante.id, "popup": true }) }}" class="show_comprobante_link btn btn-xs btn-circle blue pull-right tooltips" data-original-title="Ver detalle">
+								<i class="link-comprobante fa fa-search"></i>
+							</a>
+						</span>
+					</li>
+				{% endfor %}
+			</ul>
+		</fieldset>
+	</div>                   
+</div>

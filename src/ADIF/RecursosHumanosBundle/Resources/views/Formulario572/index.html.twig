@@ -1,0 +1,97 @@
+{% extends '::base_reducido.html.twig' %}    
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet" type="text/css" />
+{% endblock%}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Formularios 572</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label required left" for="formulario572_anio">Año</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" id="formulario572_anio" value="{{ "now"|date("Y") }}" name="formulario572[anio]" required="required" class=" form-control nomask novalidate" style="height: auto;">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="btn-group pull-right" id="importar_f572">
+                            <a class="btn btn-sm blue tooltips" data-placement="right" data-original-title="Importar Formulario 572 web" href="">
+                                <i class="fa fa-upload"></i>
+                                Importar
+                            </a>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content 
+                        dt-multiselect export-excel" 
+                        id="table-formulario572" dataexport-title="formulario572">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Legajo</th>
+                                <th>Empleado</th>
+                                <th data-type="date">&Uacute;ltima Presentaci&oacute;n</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-formulario572 .checkboxes" />
+                                </th>
+                                <th numeric class="nowrap" export-format="number">Legajo</th>
+                                <th>Empleado</th>
+                                <th date export-format="date" class="nowrap">&Uacute;ltima presentaci&oacute;n</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>             
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/custom/rrhh/formulario572/index.js') }}" ></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript"></script>        
+
+{% endblock%}

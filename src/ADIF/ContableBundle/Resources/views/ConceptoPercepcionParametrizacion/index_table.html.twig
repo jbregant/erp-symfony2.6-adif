@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.conceptoPercepcion }}",
+    "{{ entity.jurisdiccion|default('-') }}",
+    "{{ entity.cuentaContableCredito }}",
+    "{{ entity.cuentaContableDebito }}",
+    {
+    "show" : " {{ path( "concepto_percepcion_parametrizacion_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "concepto_percepcion_parametrizacion_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

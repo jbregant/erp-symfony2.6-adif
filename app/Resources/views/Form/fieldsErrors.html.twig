@@ -1,0 +1,19 @@
+{% if not form.vars.valid %}
+    <div class='alert alert-block alert-danger fade in'>
+        <button class="close" data-close="alert"></button>
+    {{ form_errors(form) }}
+    {% for field in form if (field.vars.name != '_token' and field.vars.name != 'submit') %}
+        {{ _self.recursiveErrors(field) }}
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% macro recursiveErrors(field) %}
+    {% if field.children|length %}
+        {% for field in field.children %}
+            {{ _self.recursiveErrors(field) }}
+        {% endfor %}
+    {% else %}
+        {{ form_errors(field) }}
+    {% endif %}
+{% endmacro %}

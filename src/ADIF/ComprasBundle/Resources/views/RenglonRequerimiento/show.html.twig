@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la RenglonRequerimiento: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cantidad</label>
+                        <div class="detalle_show">                                
+                            {{ entity.cantidad }}                        
+                        </div>
+                    </div>
+                </div>                   
+            </div>
+                <button type="button" class="btn default button-back" back-url="{{ path('renglonrequerimiento') }}"><i class="m-icon-swapleft"></i>Volver</button>
+        </div>
+    </div>
+{% endblock %}

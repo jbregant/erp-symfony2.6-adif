@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha|date('d/m/Y') }}",
+    "{{ entity.referencia }}",
+    "{{ (entity.esIngreso ? entity.conceptoTransaccionMinisterial : entity.cuentaBancariaADIF)|default("-") }}", 
+    "{{ (entity.esIngreso ? entity.cuentaBancariaADIF : entity.conceptoTransaccionMinisterial)|default("-") }}",
+    "{{ entity.monto|money_format }}",
+    "{{ entity.detalle|escape_json|default('-') }}",
+    "{{ entity.fechaAnulacion ? entity.fechaAnulacion|date('d/m/Y') : "-" }}",    
+    {
+    "show" : " {{ path( "movimientoministerial_show", { "id": entity.id }) }}"
+    {% if entity.fechaAnulacion is null and entity.esIngreso %}
+    ,"anular" : " {{ path( "movimientoministerial_anular", { "id": entity.id }) }}"
+    {% endif %}    
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

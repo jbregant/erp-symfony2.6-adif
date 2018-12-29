@@ -1,0 +1,19 @@
+
+input[readonly] {
+    background-color: #F9F9F9!important;
+}
+
+.tipo-moneda {
+    font-size: 9px;
+    margin-left: 2px;
+}
+
+#table_cupones, #table_cuotas_cancelables {
+    background-color: #FFF;
+}
+
+.table tbody tr.selected td, 
+.table tbody tr.selected th {
+    background-color: #e0ffd7;
+    font-weight: bold
+}

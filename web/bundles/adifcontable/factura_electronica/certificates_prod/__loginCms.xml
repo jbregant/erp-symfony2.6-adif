@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1">
+    <header>
+        <source>CN=wsaa, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</source>
+        <destination>C=ar, O=adifse, SERIALNUMBER=CUIT 30710695993, CN=adif</destination>
+        <uniqueId>1641697698</uniqueId>
+        <generationTime>2016-05-03T15:29:58:00</generationTime>
+        <expirationTime>2016-05-04T03:29:58:00</expirationTime>
+    </header>
+    <credentials>
+        <token>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8c3NvIHZlcnNpb249IjIuMCI+CiAgICA8aWQgdW5pcXVlX2lkPSIxMzMyMzE2MTkwIiBzcmM9IkNOPXdzYWEsIE89QUZJUCwgQz1BUiwgU0VSSUFMTlVNQkVSPUNVSVQgMzM2OTM0NTAyMzkiIGdlbl90aW1lPSIxNDYyMzAwMTM4IiBleHBfdGltZT0iMTQ2MjM0MzM5OCIgZHN0PSJDTj13c2ZlLCBPPUFGSVAsIEM9QVIiLz4KICAgIDxvcGVyYXRpb24gdmFsdWU9ImdyYW50ZWQiIHR5cGU9ImxvZ2luIj4KICAgICAgICA8bG9naW4gdWlkPSJDPWFyLCBPPWFkaWZzZSwgU0VSSUFMTlVNQkVSPUNVSVQgMzA3MTA2OTU5OTMsIENOPWFkaWYiIHNlcnZpY2U9IndzZmUiIHJlZ21ldGhvZD0iMjIiIGVudGl0eT0iMzM2OTM0NTAyMzkiIGF1dGhtZXRob2Q9ImNtcyI+CiAgICAgICAgICAgIDxyZWxhdGlvbnM+CiAgICAgICAgICAgICAgICA8cmVsYXRpb24gcmVsdHlwZT0iNCIga2V5PSIzMDcxMDY5NTk5MyIvPgogICAgICAgICAgICA8L3JlbGF0aW9ucz4KICAgICAgICA8L2xvZ2luPgogICAgPC9vcGVyYXRpb24+Cjwvc3NvPgoK</token>
+        <sign>riA6psldmazEkW1jwwqFriJwk3p5BMPlC51x6pXhLQb1qDIk3Fo9RLZtuIYAJPzXKtnajtvYMxb7/e/YEq3FU67fZMYIChmzjlRKOuuKeA4z1sZ5DEMk9HnaDLfuX44t4KWFazNB3j82nZgLT0u4LbwBpu/Ls1p6nIhyJxXcbdk=</sign>
+    </credentials>
+</loginTicketResponse>
+

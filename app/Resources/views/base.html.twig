@@ -1,0 +1,244 @@
+{% set empresaActual = multiempresa_service.empresaActual %}
+{% set datosEmpresa = multiempresa_service.datosTodasEmpresas %}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    <head>
+        <meta charset="utf-8"/>
+        <title>
+            {% block title %}
+                {% if page_title is defined %}
+                    {{ page_title ~ ' | '}}
+                {% endif %}
+                {% if application_name is defined %}
+                    {{ application_name ~ ' | '}}
+                {% endif %}
+                {{ multiempresa_service.organizationName }}
+            {% endblock %}
+        </title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <meta content="" name="description"/>
+        <meta content="" name="author"/>
+        <!-- No cache -->
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+
+        {% set theme_path   = 'theme/' %}
+        {% set js_path      = 'js/' %}
+        {% set css_path     = 'css/' %}
+        {% set image_path   = 'images/' %}
+
+        {% block stylesheets %}
+            <!-- BEGIN GLOBAL MANDATORY STYLES -->
+            {# <link href="{{ asset(theme_path ~ 'plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"/> #}
+            <link href="{{ asset(css_path ~ 'lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'plugins/uniform/css/uniform.default.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+            <!-- END GLOBAL MANDATORY STYLES -->
+            <!-- BEGIN PAGE LEVEL STYLES -->
+            <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset(theme_path ~ 'plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet" type="text/css" />
+            {# <link href="{{ asset(theme_path ~ 'plugins/pace/themes/pace-theme-barber-shop.css') }}" rel="stylesheet" type="text/css" /> #}
+            <!-- END PAGE LEVEL STYLES -->
+            <!-- BEGIN THEME STYLES -->
+            <link href="{{ asset(css_path ~ 'fonts.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(css_path ~ 'animate.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'css/style-metronic.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'css/style.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'css/style-responsive.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+            <link href="{{ asset(theme_path ~ 'css/themes/blue.css') }}" rel="stylesheet" type="text/css" id="style_color"/>
+            <!-- END THEME STYLES -->
+
+            <!-- FONT SIZER STYLES -->
+            <link href="{{ asset(theme_path ~ 'plugins/jquery-fontsize/css/base.css') }}" rel="stylesheet" type="text/css"/>
+            <!-- END FONT SIZER STYLES -->
+
+            {% include 'empresa_custom_css.html.twig' %}
+
+        {% endblock %}
+        <link rel="shortcut icon" href="{{ asset(image_path ~ 'adifse.png') }}" type="image/x-icon" />
+    </head>
+    <!-- END HEAD -->
+    <!-- BEGIN BODY -->
+    <body class="page-full-width page-header-fixed">
+
+        <!-- BEGIN HEADER -->
+        <div class="header navbar navbar-fixed-top mega-menu">
+            <!-- BEGIN TOP NAVIGATION BAR -->
+            <div class="header-inner ">
+                <!-- BEGIN LOGO -->
+                <a class="navbar-brand" href="{{ path('adif_homepage') }}">
+					
+					{% include 'empresa_custom_logo.html.twig' %}
+					
+                </a>
+                <!-- END LOGO -->
+
+                <!-- BEGIN MENU -->
+                <div id="main_menu" class="hor-menu hidden-sm hidden-xs">
+                    <ul class="nav navbar-nav">                        
+                        {% include ':Menu:menu.html.twig' %}
+                    </ul>            
+                </div>
+                <!-- END MENU -->   
+
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <button  href="javascript:;" class="navbar-toggle" 
+                         data-toggle="collapse" data-target=".navbar-collapse">
+                    <img src="{{ asset(theme_path ~ 'img/menu-toggler.png') }}" alt="">
+                </button >
+                <!-- END RESPONSIVE MENU TOGGLER -->
+
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <ul class="nav navbar-nav pull-right">
+                    {% include 'user.html.twig' %}
+                </ul>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END TOP NAVIGATION BAR -->
+        </div>
+        <!-- END HEADER -->
+
+        <div class="clearfix">
+        </div>
+
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+
+            <!-- BEGIN EMPTY PAGE SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <div class="page-sidebar navbar-collapse collapse">
+                    <ul class="page-sidebar-menu" data-slide-speed="200" data-auto-scroll="false">
+                        {% include ':Menu:menu.html.twig' %}
+                    </ul>
+                </div>
+            </div>
+            <!-- END SIDEBAR -->
+
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                    <!-- BEGIN PAGE HEADER-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN BREADCRUMB-->
+                            {% if breadcrumbs is defined %}
+                                {% include 'breadcrumbs.html.twig' %}
+                            {% endif %}
+                            <!-- END BREADCRUMB-->
+
+                            {% include 'flash.messages.html.twig' %}
+                        </div>
+                    </div>
+                    <!-- END PAGE HEADER-->
+                    <!-- BEGIN PAGE CONTENT-->
+                    <div class="row margin-bottom-20 body-container">
+                        <div class="col-md-12">
+                        {% block body %}{% endblock %}
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT-->
+            </div>
+        </div>
+        <!-- END CONTENT -->
+    </div>
+    <!-- END CONTAINER -->
+    
+	{% include 'footer.html.twig' %}
+	{% include 'cambiar_empresa.html.twig' %}
+	
+    {% block javascripts %}
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <!-- BEGIN CORE PLUGINS -->
+        <!--[if lt IE 9]>
+          <script src="{{ asset(theme_path ~ 'plugins/excanvas.min.js') }}"></script>
+          <script src="{{ asset(theme_path ~ 'plugins/respond.min.js') }}"></script>  
+        <![endif]-->
+
+        <!-- BEGIN SPINNER SCRIPTS -->
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery.blockUI.js') }}" type="text/javascript"></script>
+
+        <script>
+            var __LOADING_IMG_PATH__ = "{{ asset(theme_path ~ 'img/loading-spinner-grey.gif') }}";
+        </script>
+
+        <script src="{{ asset(js_path ~ 'config/spinner.js') }}"></script>
+        <!-- END SPINNER SCRIPTS -->
+
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-migrate-1.2.1.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery.cokie.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/uniform/jquery.uniform.min.js') }}" type="text/javascript"></script>        
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+        <!-- END CORE PLUGINS -->
+
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>                
+        <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/jquery.price_format.1.7.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/moment.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/moment_time.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+        <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" ></script>
+
+        <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/underscore-min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootbox/bootbox.min.js') }}" type="text/javascript"></script>        
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery.pulsate.min.js') }}" type="text/javascript"></script> 
+
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-fontsize/js/jquery.jfontsize-1.0.js') }}" type="text/javascript"></script> 
+        <script src="{{ asset(js_path ~ 'config/font-resizer.js') }}"></script>
+        {#        <script src="{{ asset(js_path ~ 'lib/jquery-watch.min.js') }}"></script>#}
+                
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-doublescroll/jquery.doubleScroll.js') }}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+
+        <script src="{{ asset(js_path ~ 'lib/metronic_customization/app.js') }}"></script>
+
+        <script>
+            var __AJAX_PATH__ = '{{ path('adif_homepage') }}';
+
+            $(document).ready(function () {
+                App.init();
+            });
+
+        </script>
+
+        <script src="{{ asset(js_path ~ 'config/config.js') }}"></script>
+        <script src="{{ asset(js_path ~ 'config/form.js') }}"></script> 
+        <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+        <script src="{{ asset(js_path ~ 'functions.js') }}"></script>
+        <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"></script>
+        <script src="{{ asset(js_path ~ 'config/menu.js') }}"></script>
+        <!-- END JAVASCRIPTS -->
+    {% endblock %}
+</body>
+<!-- END BODY -->
+</html>

@@ -1,0 +1,216 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% set ConstanteEstadoSolicitud = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoSolicitud' %}
+
+{% set puede_administrar_solicitudes = puede_enviar_solicitudes or es_entidad_autorizante or puede_visar %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+
+            {% include '@ADIFCompras/PanelControl/portlet.panel_control.html.twig'  %}
+
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption caption-solicitud">Solicitudes de compra</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            {% if puede_administrar_pedidos %}
+                                <li>
+                                    <a href="#tab_1" data-toggle="tab" class="pedidos">Pedidos</a>
+                                </li> 
+                            {% endif %}  
+                            <li {% if not puede_administrar_solicitudes %}class="active"{% endif %}>
+                                <a href="#tab_2" data-toggle="tab" class="solicitudes-enviadas">&Aacute;rea</a>
+                            </li>
+                            {% if puede_administrar_solicitudes %}
+                                <li class="active">
+                                    <a href="#tab_3" data-toggle="tab" class="solicitudes-pendientes">Pendientes de autorizaci&oacute;n</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_4" data-toggle="tab" class="solicitudes-todas">Todas</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+
+                        <div class="tab-content">
+
+                            {# TAB 1 - Pedidos #}
+                            {% if puede_administrar_pedidos %}
+                                <div id="tab_1" class="tab-pane">
+
+                                    <div class="table-toolbar">
+                                        <div class="btn-group pull-left">
+                                            <div class="btn-group" id="btn-crear-solicitud">
+                                                <button class="btn btn-sm green tooltips" type="button" data-placement="top" 
+                                                        data-original-title="Crear solicitud a partir de lo seleccionado">
+                                                    Crear solicitud
+                                                </button>
+                                                <button data-toggle="dropdown" type="button"
+                                                        class="btn btn-sm green dropdown-toggle">
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+
+                                                <ul role="menu" class="dropdown-menu">
+                                                    <li>
+                                                        <a href="" pedidos-table="table-renglonespedidointerno" 
+                                                           data-crear-solicitud="todos">Todos</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="" pedidos-table="table-renglonespedidointerno" 
+                                                           data-crear-solicitud="filtrados" >Filtrados</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="" pedidos-table="table-renglonespedidointerno" 
+                                                           data-crear-solicitud="mostrados" >Esta p&aacute;gina</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="" pedidos-table="table-renglonespedidointerno" 
+                                                           data-crear-solicitud="seleccionados" >Seleccionados</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% include '@ADIFCompras/SolicitudCompra/new.renglones_pedidos.html.twig'  %}
+                                </div>
+                            {% endif %}
+
+                            {# TAB 2 - Enviadas #}
+                            <div id="tab_2" class="tab-pane {% if not puede_administrar_solicitudes %}active{% endif %}">
+                                <div class="table-toolbar">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm green tooltips" data-placement="right" 
+                                           data-original-title="Crear solicitud" href=" {{ path( 'solicitudcompra_new') }} ">
+                                            Crear solicitud <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {% include '@ADIFCompras/SolicitudCompra/new.solicitudes.html.twig' with {'tipo': 'enviadas'}  %}
+                            </div>
+
+                            {% if puede_administrar_solicitudes %}
+                                {# TAB 3 - Pendientes de Autorizacion #}
+                                <div id="tab_3" class="tab-pane active">
+
+                                    {% if puede_visar %}
+                                        <div class="table-toolbar">
+                                            <div class="btn-group pull-right">
+                                                <div class="btn-group" id="btn-visar-solicitudes">
+                                                    <button class="btn btn-sm yellow tooltips" type="button" data-placement="top" 
+                                                            data-original-title="Visar solicitudes">
+                                                        <i class="fa fa-check"></i> Visar
+                                                    </button>
+                                                    <button data-toggle="dropdown" type="button"
+                                                            class="btn btn-sm yellow dropdown-toggle">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </button>
+
+                                                    <ul role="menu" class="dropdown-menu">
+                                                        <li>
+                                                            <a href="" solicitud-table="table-solicitudcompra" 
+                                                               data-visar-solicitud="todos">Todas</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="" solicitud-table="table-solicitudcompra" 
+                                                               data-visar-solicitud="seleccionados">Seleccionadas</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% include '@ADIFCompras/SolicitudCompra/new.solicitudes.html.twig' with {'tipo': 'pendientes'} %}
+                                </div>
+
+                                {# TAB 4 - Todas #}
+                                <div id="tab_4" class="tab-pane">
+                                    {% include '@ADIFCompras/SolicitudCompra/new.solicitudes.html.twig' with { 'tipo': 'todas'}  %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# FORM para indicar la disponibilidad de stock sobre un pedido #}
+    <div class="stock_pedido_form_content hidden">
+        <form name="adif_comprasbundle_pedido" 
+              method="post" action="" class="horizontal-form" novalidate="novalidate">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label" 
+                               for="adif_comprasbundle_pedido_stock">Stock disponible</label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input id="adif_comprasbundle_pedido_stock" 
+                                   name="adif_comprasbundle_pedido[stock]" 
+                                   class=" form-control " />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>     
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# DatePicker #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
+    {# Validator #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+    {# Config #}
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+
+    <script type="text/javascript">
+        var __estadoSolicitudAprobada = "{{ constant(ConstanteEstadoSolicitud ~ '::ESTADO_SOLICITUD_APROBADA') }}";
+    </script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/solicitudcompra/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

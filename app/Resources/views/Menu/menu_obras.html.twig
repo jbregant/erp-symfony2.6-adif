@@ -1,0 +1,53 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Obras
+    </a>
+    <ul class="dropdown-menu">
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_OBRAS_LICITACION') %}
+            <li>
+                <a href="{{ path('licitacion_obra') }}">
+                    Licitaciones
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_OBRAS_DOCUMENTO_FINANCIERO') %}
+            <li>
+                <a href="{{ path('documento_financiero') }}">
+                    Documentos financieros
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_OBRAS_REPORTES') %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Reportes
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('polizadocumentofinanciero') }}">
+                            P&oacute;lizas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('obras_tramos_reporte_general') }}">
+                            Reporte general de renglones de licitaci&oacute;n
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('documento_financiero_reporte_general') }}">
+                            Reporte documentos financieros
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('documento_financiero_reporte_seguimiento_certificados') }}">
+                            Reporte seguimiento certificados
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>

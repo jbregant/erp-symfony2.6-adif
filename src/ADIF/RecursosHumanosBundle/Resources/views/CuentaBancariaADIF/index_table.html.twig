@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.idBanco|default("-") }}", 
+    "{{ entity.idTipoCuenta|default("-") }}",
+    "{{ entity.cuentaContable|default("-") }}",
+    "{{ entity.numeroSucursalYCuenta|default("-") }}",
+    "{{ entity.cbu|default('-') }}",
+    "{{ entity.estaActiva ? 'Si' : 'No' }}",
+    {
+    "show" : " {{ path( "cuentas_adif_show", { "id": entity.id }) }}",
+    "edit" : " {{ path( "cuentas_adif_edit", { "id": entity.id }) }}"
+    {% if is_granted('ROLE_TESORERIA_ELIMINACION') %}
+        ,"delete" : " {{ path( "cuentas_adif_delete", { "id": entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

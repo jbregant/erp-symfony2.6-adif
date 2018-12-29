@@ -1,0 +1,13 @@
+{
+"data": [
+{% for cupon in cupones %}
+    [
+    "{{ cupon.id }}",
+    "{{ cupon.contrato }}",
+    "{{ cupon.fechaComprobante|date('d/m/Y') }}",
+    "{{ cupon.numeroCupon }}",    
+    "{{ cupon.total|money_format }}",
+    "{{ cupon.saldoCuponGarantia|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

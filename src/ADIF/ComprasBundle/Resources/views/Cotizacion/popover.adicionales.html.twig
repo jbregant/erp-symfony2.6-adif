@@ -1,0 +1,17 @@
+
+<a tabindex="0" type="button" class="btn btn-xs btn-circle yellow-casablanca pull-right btn-group-popover btn-popover-adicionales" 
+   data-toggle="popover" data-title="Adicionales" data-placement="right"
+   data-content="
+   {% for adicional in adicionales %}
+       <div>
+       <span class='bold'>
+       {{ adicional.tipoAdicional ~ ': '}}
+       </span>
+       {{ '$ ' ~ adicional.signo ~ adicional.valor|number_format(2,',','.') }}
+       </div>
+   {% else %}
+       Sin adicionales
+   {% endfor%}
+   " >
+    <i class="fa fa-letter">A</i>
+</a>

@@ -1,0 +1,27 @@
+{% set ConstanteEstadoComprobanteAnulado = constant('ADIF\\ContableBundle\\Entity\\EstadoComprobante::__ESTADO_ANULADO') %}
+
+{
+"data": [
+{% for comprobanteCompra in entities %}
+    [
+    "{{ comprobanteCompra.id }}",
+    "{{ comprobanteCompra.id }}",
+    "{{ comprobanteCompra.fechaComprobante ? comprobanteCompra.fechaComprobante|date('d/m/Y') : '' }}",
+    "{{ comprobanteCompra.tipoComprobante ~ ' (' ~ comprobanteCompra.letraComprobante ~ ')' }}",
+    "{{ comprobanteCompra.puntoVenta ~ '-' ~ comprobanteCompra.numero }}",
+    "{{ comprobanteCompra.cuit ~ ' - ' ~ comprobanteCompra.razonSocial }}",
+    "{{ comprobanteCompra.numeroOrdenCompra|default('-') }}",
+    "{{ comprobanteCompra.idProveedor }}",
+    "{{ comprobanteCompra.total|money_format('$', 1, 2) }}",
+    "{{ comprobanteCompra.importePendientePago|money_format }}",
+    "{{ comprobanteCompra.idEstadoComprobante == ConstanteEstadoComprobanteAnulado ? '1' : '0' }}",
+    {
+    "show" : "{{ path( 'comprobantes_compra_show', { 'id': comprobanteCompra.id }) }}"    
+    {% if comprobanteCompra.idEstadoComprobante != ConstanteEstadoComprobanteAnulado %}
+        ,"anular" : "{{ path("comprobantecompra_anular", { 'id': comprobanteCompra.id }) }}",
+        "print_devengado" : "{{ path( 'presupuesto_print_devengado_compra', { 'idComprobanteCompra': comprobanteCompra.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

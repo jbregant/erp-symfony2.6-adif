@@ -1,0 +1,166 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/persona/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Persona
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+        
+        {% include ':Form:fieldsErrors.html.twig' %}
+            
+         
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+        
+            
+            <div class="form-body">
+                <div class="row">                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.apellido, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.apellido) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.nombre, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.nombre) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.sexo, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.sexo) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.nroDocumento, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.nroDocumento) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.cuil, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.cuil) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.fechaNacimiento, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.fechaNacimiento) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.nacionalidad, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.nacionalidad) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.telefono, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.telefono) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.celular, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.celular) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.email, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.email) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.idDomicilio, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.idDomicilio) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.idEstadoCivil, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.idEstadoCivil) }}
+                                    </div>
+                            </div>
+                        </div>
+                                            </div><div class="row">
+                                                            <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.idTipoDocumento, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.idTipoDocumento) }}
+                                    </div>
+                            </div>
+                        </div>
+                                                    </div>
+            </div>
+            <div class="form-actions right">
+                <button type="button" class="btn default button-back" back-url="{{ path('personas') }}">Cancelar</button>
+                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+            </div>
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

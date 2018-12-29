@@ -1,0 +1,77 @@
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.fechaPedido) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.fechaPedido) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.descripcion) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.descripcion) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">            
+            {{ form_label(form.justificacion.archivo) }}
+            {% if edit and form.vars.value.justificacion is not null and form.vars.value.justificacion is not null %} 
+                <a  class="download-link" target="_blank"
+                    href="{{ asset('uploads/justificacion_solicitud_compra/' ~ form.vars.value.justificacion.nombreArchivoClear) }}">
+                    (Descargar)
+                </a>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.justificacion.archivo, {'attr' : { 'data-file' : form.vars.value.justificacion.nombre} }) }}
+                </div>
+            {% else %} 
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.justificacion.archivo) }}
+                </div>
+            {% endif %} 
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.numeroReferencia) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.numeroReferencia) }}
+            </div>
+        </div>
+    </div>    
+    {% if app.user.isGranted('ROLE_COMPRAS_ADMINISTRA_PEDIDO_INTERNO') %}
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.centroCosto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.centroCosto) }}
+                </div>
+            </div>
+        </div>   
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            {{ form_label(form.observacion) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.observacion) }}
+            </div>
+        </div>
+    </div>
+</div>

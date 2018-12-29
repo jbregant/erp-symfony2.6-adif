@@ -1,0 +1,180 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css" href="">
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Comprobantes de venta</div>
+                </div>
+                <div class="portlet-body">
+
+                    <div class="table-toolbar" style="margin-top: 3em">
+
+                        <div class="btn-group pull-left" style="margin-top: -3em">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaInicio" 
+                                               class="control-label">Fecha inicio</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                                   name="adif_contablebundle_filtro[fechaInicio]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha fin</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>
+
+                        {% if not is_granted("ROLE_SOLO_LECTURA") %}
+                            <div class="btn-group pull-right margin-right-10">
+                                <div class="btn-group" id="btn-imprimir-comprobantes">
+                                    <button class="btn btn-sm dark tooltips" type="button" data-placement="top" 
+                                            data-original-title="Imprimir comprobantes">
+                                        <i class="fa fa-print"></i> Imprimir
+                                    </button>
+                                    <button data-toggle="dropdown" type="button"
+                                            class="btn btn-sm dark dropdown-toggle">
+                                        <i class="fa fa-angle-down"></i>
+                                    </button>
+
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li>
+                                            <a href="" comprobante-table="table-facturacion_comprobanteventa" 
+                                               data-imprimir-comprobante="todos">Todas</a>
+                                        </li>
+                                        <li>
+                                            <a href="" comprobante-table="table-facturacion_comprobanteventa" 
+                                               data-imprimir-comprobante="seleccionados">Seleccionadas</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-facturacion_comprobanteventa"
+                        dataexport-title="comprobanteventa" data-toggler="1">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha</th>
+                                <th>Tipo</th>
+                                <th>Letra</th>
+                                <th>Punto de venta</th>
+                                <th>N&ordm; comprobante</th>
+                                <th>N&ordm; contrato</th>
+                                <th>N&ordm; licitaci&oacute;n</th>
+                                <th>Cliente</th>
+                                <th>Detalle</th>
+                                <th>Monto neto</th>
+                                <th>IVA</th>
+                                <th>Perc. IIBB</th>
+                                <th>Perc. IVA</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-facturacion\comprobanteventa .checkboxes" />
+                                </th>
+                                <th date export-format="date" class="text-center">Fecha</th>
+                                <th class="nowrap text-center">Tipo</th>
+                                <th class="nowrap text-center">Letra</th>
+                                <th class="nowrap text-center">Punto de venta</th>
+                                <th class="nowrap text-center">N&ordm; comprobante</th>
+                                <th class="nowrap text-center">N&ordm; contrato</th>
+                                <th class="nowrap text-center">N&ordm; licitaci&oacute;n</th>
+                                <th class="text-center">Cliente</th>
+                                <th class="text-center">Detalle</th>
+                                <th class="nowrap text-center" currency>Monto neto</th>
+                                <th currency class="nowrap text-center">IVA</th>
+                                <th currency class="nowrap text-center">Perc. IIBB</th>
+                                <th currency class="nowrap text-center">Perc. IVA</th>
+                                <th currency class="nowrap text-center">Total</th>
+                                <th class="nowrap text-center">Estado</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form name="adif_contablebundle_imprimir_comprobante" 
+          method="post" action="{{path('comprobanteventa_imprimir-comprobantes')}}" 
+          enctype="multipart/form-data" novalidate="novalidate" target="_blank"
+          id="imprimir_comprobante_form" class="hidden">
+
+    </form>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">var id_anulado ={{ id_anulado }} ;</script>    
+
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/facturacion/comprobanteventa/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+{% endblock %}

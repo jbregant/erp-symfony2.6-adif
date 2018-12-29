@@ -1,0 +1,49 @@
+<fieldset class="form-section-fieldset">
+
+  <legend class="form-section-legend">Ubicaci&oacute;n</legend>
+
+  <div class="row">
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.latitud) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.latitud) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-group">
+        {{ form_label(form.longitud) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.longitud) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="form-group">
+        {{ form_label(form.ubicacion) }}
+        <div class="input-icon right">
+          <i class="fa"></i>
+          {{ form_widget(form.ubicacion) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            {{ form_label(form.provincia) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.provincia) }}
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+</fieldset>

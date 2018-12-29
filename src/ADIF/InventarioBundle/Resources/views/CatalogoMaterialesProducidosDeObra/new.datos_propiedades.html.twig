@@ -1,0 +1,26 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Propiedades</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-valor-propiedad-materialproducido"
+                 data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:CatalogoMaterialesProducidosDeObra:prototype.propiedad_material_producido.html.twig' with {'valorPropiedad': form.valoresPropiedad.vars.prototype} %}{% endfilter %}">
+                {% for valorPropiedad in form.valoresPropiedad %}
+                    {% include 'ADIFInventarioBundle:CatalogoMaterialesProducidosDeObra:prototype.propiedad_material_producido.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green prototype-link-add-propiedad-materialproducido tooltips"
+                       data-placement="right" data-original-title="Agregar">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</fieldset>

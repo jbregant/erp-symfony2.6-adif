@@ -1,0 +1,36 @@
+<div class="row tipoContratoRow">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    {{ form_label(puntoVentaClaseContrato.claseContrato) }}
+                    <div class="right">
+                        {{ form_widget(puntoVentaClaseContrato.claseContrato) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(puntoVentaClaseContrato.montoMinimo) }}
+                    <div class="right">
+                        {{ form_widget(puntoVentaClaseContrato.montoMinimo) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(puntoVentaClaseContrato.montoMaximo) }}
+                    <div class="right">
+                        {{ form_widget(puntoVentaClaseContrato.montoMaximo) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 row-boton-eliminar">
+                <a href="#" class="btn btn-sm red delete-link-inline accion-borrar
+                   prototype-link-remove-punto-venta-clase-contrato" data-original-title="Eliminar tipo contrato">
+                    <i class="fa fa-times-circle"></i>
+                </a>                    
+            </div>
+        </div>
+    </div>
+</div>

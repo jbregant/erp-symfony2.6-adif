@@ -1,0 +1,123 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Material Rodante</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %}
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+            <div class="form-body">
+                <div class="tabbable-custom nav-justified">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab">General </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_2" data-toggle="tab">Compras </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_3" data-toggle="tab">Ubicaci&oacute;n </a>
+                        </li>
+                        <li class="">
+                          <a href="#tab_4" data-toggle="tab">Inspecciones T&eacute;cnicas </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_5" data-toggle="tab">Propiedades </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_6" data-toggle="tab">Activo Fijo </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_7" data-toggle="tab">Im&aacute;genes </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- Datos Generales -->
+                        {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_cabecera.html.twig') %}
+
+                        {# TAB 1 - General #}
+                        <div id="tab_1" class="tab-pane active">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_generales.html.twig') %}
+                        </div>
+
+                        {# TAB 2 - Compras #}
+                        <div id="tab_2" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_compras.html.twig') %}
+                        </div>
+
+                        {# TAB 3 - Ubicacion #}
+                        <div id="tab_3" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_ubicacion.html.twig') %}
+                        </div>
+
+                        {# TAB 4 - Inspeciones Tecnicas #}
+                        <div id="tab_4" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_inspeccion.html.twig') %}
+                        </div>
+
+                        {# TAB 5 - Propiedades #}
+                        <div id="tab_5" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_propiedades.html.twig') %}
+                        </div>
+
+                        {# TAB 6 - Activo Fijo #}
+                        <div id="tab_6" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_activo_fijo.html.twig') %}
+                        </div>
+
+                        {# TAB 7 - Fotos #}
+                        <div id="tab_7" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesRodantes/new.datos_fotos.html.twig') %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('catalogomaterialesrodantes') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/inventario/catalogomaterialesrodantes/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

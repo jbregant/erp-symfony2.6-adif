@@ -1,0 +1,651 @@
+/**
+* Customizaciones para Consorcio Vossloh
+*/
+
+.header.navbar .navbar-brand {
+    display: inline-block;
+    margin-right: 0;
+    margin-top: -34px;
+    padding-left: 7px;
+    padding-right: 0;
+    width: 225px;
+}
+
+.header{
+	background-color: #9CD085 !important;
+    color: #FFF;
+}
+
+.portlet-title {
+    background-color: #9CD085 !important;
+}
+
+.header .btn-navbar {
+  background-color: #9CD085 !important;
+}
+.header .hor-menu .dropdown-menu {  
+    background: #33AE33 !important;
+}
+
+.header .hor-menu .dropdown-menu li:hover > a,
+.header .hor-menu ul.nav li.active > a,
+.header .hor-menu ul.nav li.active > a:hover {
+  color: #fff;
+  background: #1D943B !important; 
+}
+
+.header .hor-menu ul.nav li.current > a,
+.header .hor-menu ul.nav li.current > a:hover {
+  color: #fff;
+  background: #1D943B !important; 
+}
+
+.header .hor-menu ul.nav li.open > a,
+.header .hor-menu ul.nav li > a:hover,
+.header .hor-menu ul.nav li > a:focus {
+  color: #fff;
+  background: #1D943B !important; 
+}
+
+.footer {
+	background-color: #9CD085 !important;
+}
+
+.footer .footer-tools .go-top {
+    background-color: #1D943B !important; 
+}
+
+.footer .footer-tools .go-top i {
+    color: #FFFFFF !important; 
+}
+
+/**
+* Fin customizaciones para Consorcio Vossloh
+*/
+
+
+.navbar-brand {
+    padding: 4px 0 0;
+}
+
+.navbar-brand img {
+    /*height: 100%;*/
+}
+
+.page-content .page-breadcrumb.breadcrumb{
+    margin-top: -7px;
+    margin-bottom: 25px;
+}
+
+.header.navbar .hor-menu ul.nav li > a, .footer-inner{
+    color: #FFF !important;
+}
+
+.page-content .page-breadcrumb.breadcrumb > li > a, .page-content .page-breadcrumb.breadcrumb > li > i, .page-content .page-breadcrumb.breadcrumb > li > span{
+    font-size: 13px;
+}
+
+.cleardiv {
+    margin-top: 2em;
+}
+
+#img-logo{
+    margin: auto;
+    width: 95%;
+    /* height: 38px; */
+}
+
+#menu-toggle{
+    width: 18px;
+    height: 13px;
+}
+
+#user-avatar{
+    width: 29px;
+    height: 29px;
+}
+
+.header.navbar .navbar-nav > li.dropdown.user {
+    margin-top: .4em;
+}
+
+.ctn-columns-2{
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}
+
+.ctn-columns-3{
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+}
+
+.ctn-columns-5{
+    -webkit-column-count: 5; /* Chrome, Safari, Opera */
+    -moz-column-count: 5; /* Firefox */
+    column-count: 5;
+}
+
+.ctn-columns-7{
+    -webkit-column-count: 7; /* Chrome, Safari, Opera */
+    -moz-column-count: 7; /* Firefox */
+    column-count: 7;
+}
+
+/* TABLE ---------------------- */
+.table-scrollable > .table > thead > tr > th, 
+.table-scrollable > .table > tbody > tr > th, 
+.table-scrollable > .table > tfoot > tr > th, 
+.table-scrollable > .table > thead > tr > td, 
+.table-scrollable > .table > tbody > tr > td,
+.table-scrollable > .table > tfoot > tr > td{
+    white-space: normal;
+}
+
+table div.checker{
+    margin-right: 1px;
+}
+
+table > thead > tr > th.text-center,
+table > thead > tr > th.text-left,
+table > thead > tr > th.text-right{
+    text-align: center;
+}
+
+table > thead > tr > th.text-center.table-checkbox{
+    text-align:center;
+}
+
+table.table-condensed tbody td{
+    padding: .2em .7em;
+    vertical-align: middle;
+}
+
+table th.table-checkbox{
+    width: 25px;
+}
+
+.dataTables_wrapper .pagination{
+    margin: 0;
+}
+
+.dataTable > thead > tr.headers > th{
+    vertical-align: middle;
+}
+
+.dataTable > thead > tr.filter > th{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.dataTable > thead > tr.filter > th.hlt{
+    background-color: #fff2a8;
+}
+
+.dataTables_info{
+    /* top: 15px; */
+    vertical-align: sub;
+    height: 30px;
+}
+
+.dataTables_select-all{
+    display: none;
+}
+
+.table-toolbar{
+    margin-bottom: 0px;
+}
+
+.table-vertical {
+    width: auto !important;
+    border: 1px solid #ddd;
+    display: inline-flex;
+    text-align: center;    
+    vertical-align: central;
+    margin: 2em 0 !important;
+}
+
+.table-vertical tr {
+    float: left; 
+}
+
+.table-vertical th {
+    border-right: 1px solid #ddd !important;
+}
+
+.table-vertical th:not(:first-child) {
+    border-top: 1px solid #ddd !important; 
+}
+
+.table-vertical td:first-child {
+    border: none !important;
+}
+
+.table-vertical th, .table-vertical td {
+    display: block;
+    height: 50px;
+    padding: 1em 2em !important
+}
+
+.nowrap {
+    white-space : nowrap !important;
+    // padding : .3em !important;
+    width : 1px !important;
+}
+
+.dataTable .badge {
+    font-size: 12px !important
+}
+
+table td.ctn_acciones a {
+    margin: 0 2px;
+}
+
+table th.ctn_acciones {
+    width: 1em
+}
+
+table.dataTable > thead > tr.filter > th[data-type=select] > .form-control .select2-choice{
+    height: 28px;
+    padding: 0 0 0 8px;
+}
+
+table.dataTable > thead > tr.filter > th[data-type=select] > .form-control .select2-choice .select2-arrow b{
+    background-position-y: 0px;
+}
+
+table.dataTable > thead > tr.filter > th > .btn-clear-filters{
+    width: 100%;
+}
+
+td {
+    vertical-align: middle !important
+}
+
+td.state {
+    font-weight: 700;
+}
+
+td.state-danger {
+    color: #ed4e2a !important;
+}
+
+td.state-default  {
+    color: #999 !important;
+}
+
+td.state-info {
+    color: #57b5e3 !important;
+}
+
+td.state-primary {
+    color: #428bca !important;
+}
+
+td.state-success {
+    color: #3cc051 !important;
+}
+
+td.state-warning {
+    color: #fcb322 !important;
+}
+
+table.dt-multiselect tbody tr{
+    cursor: pointer;
+}
+
+.text-middle {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+.no-border-left {
+    border-left: 0 !important
+}
+
+.no-border-right {
+    border-right: 0 !important
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.doubleScroll-scroll-wrapper {
+    margin-top: 1em;
+}
+
+/* END TABLE ---------------------- */
+
+
+/* FORM --------------------------- */
+.has-success .help-block {
+    display: none;
+}
+
+.form-control[readonly]{
+    // background-color: inherit !important;
+    background-color: #F9F9F9!important;
+    cursor: inherit !important;
+}
+
+.detalle_show{
+    background-color: #F9F9F9;
+    color: #555;
+    font-size: 13px;
+    padding: 7.7px;
+    border-top: 1px solid #ccc;
+}
+
+.detalle_show_textarea{
+    background-color: #F9F9F9;
+    color: #555;
+    font-size: 13px;
+    border-top: 1px solid #ccc;
+	width: 100%;
+	border-left: medium none;
+    padding: 7.7px;
+	resize: none;
+}
+
+#edit_obs_OC{
+	float: right;
+	margin: 5px;
+} 
+
+#save_obs_OC{
+	float: right;
+	display: none;
+	margin: 5px;
+} 
+
+#cancel_obs_OC{
+	float: left;
+	display: none;
+	margin: 5px;
+}
+
+form span.alert-error{
+    cursor: pointer;
+}
+
+label.required:after{
+    content: " *";
+    color: red;
+}
+
+form .form-group i.fa-check,form .form-group i.fa-warning{
+    display: none;
+}
+
+form .form-group.has-success i.fa-check,
+form .form-group.has-error i.fa-warning{
+    display: block;
+}
+
+form .form-group .help-block{
+    display: none;
+}
+
+form .form-group.has-error .help-block{
+    display: block;
+}
+
+.form-group.green .detalle_show{
+    background-color: #35AA47;
+}
+
+.form .fileinput{
+    width: 100%;
+}
+
+.form .fileinput > .input-group.input-large{
+    width: 100% !important;
+}
+
+.form .has-switch label, .has-switch span {
+    height: 32px;
+    line-height: 25px;
+}
+
+.form .has-switch{
+    min-width: 100%;
+}
+
+.form-body-conceptos{
+    padding: 0;
+}
+
+form .form-section-fieldset .btn-history{
+    /* position: absolute; */
+    margin-top: -60px;
+    /* margin-left: 126px; */
+}
+
+.form-wizard .nav-pills li a:hover{
+    background-color: #fff2a8;
+}
+/* END FORM ---------------------- */
+
+/* ICON -------------------------- */
+.fa-bool.fa-times {
+    color: #e32636;
+    font-size: 1.2em
+}
+
+.fa-bool.fa-check {
+    color: #2bd41b;
+    font-size: 1.2em
+}
+
+.btn-sm > i.fa-letter, .btn-xs > i.fa-letter{
+    font-family: 'Open Sans',​sans-serif;
+    font-size: 12px;
+}
+/* END ICON ---------------------- */
+
+/* DIALOG ------------------------ */
+.modal-dialog .modal-header{
+    background-color: #4b8df8;
+    color: white;
+}
+/* END DIALOG -------------------- */
+
+/* TAB ------------------------ */
+.tab-pane {
+    margin-top: 1.5em
+}
+
+.form-section-fieldset {
+    border: 1px solid #CCC;
+    padding: 2em;
+    margin: 0 0 2em;
+    /* -webkit-border-radius: 5px; */
+    -moz-border-radius: 5px;
+    -border-radius: 5px;
+    -khtml-border-radius: 5px;
+}
+
+.form-section-legend {
+    border: 1px solid #ccc;
+    background: #f2f2f2;
+    font-size: 14px;
+    line-height: 26px;
+    padding: .2em 10px;
+    margin-bottom: 0;
+    width: auto;
+    color: #555;
+    /* -webkit-border-radius: 5px; */
+    -moz-border-radius: 5px;
+    -border-radius: 5px;
+    -khtml-border-radius: 5px;
+}
+
+.form-section-legend label {
+    margin: 0
+}
+
+.tabbable-custom .nav-tabs > li.has-error a {
+    color: #d12610 !important;
+}
+/* END TAB -------------------- */
+
+/* PROTOTYPE -------------------- */
+
+.delete-link-inline {
+    margin-top: 2.4em;
+}
+
+.delete-link-xs {
+    margin-left: 1em
+}
+/* END PROTOTYPE -------------------- */
+
+
+/** FILESTYLE  -------------------- */
+.bootstrap-filestyle .glyphicon {
+    margin: 0 .4em !important;
+}
+/* END FILESTYLE -------------------- */
+
+/** PORTLETS -------------------------*/
+.portlet-body {
+    min-height: 48px;
+    overflow-x: hidden !important;
+}
+/* END PORTLETS ----------------------*/
+
+/** BOTONES --------------------------*/
+.btn.m-left{
+    margin-left: 5px;
+}
+
+.btn.m-right{
+    margin-right: 5px;
+}
+
+.btn-circle {
+    border-radius: 25px !important;
+}
+
+.table-toolbar > .btn, 
+.table-toolbar > a, 
+.table-toolbar > .btn-group{
+    margin-right: 5px;
+}
+
+.table-toolbar > .btn.pull-right:first-child, 
+.table-toolbar > a.pull-right:first-child, 
+.table-toolbar > .btn-group.pull-right:first-child{
+    margin-right: 0px;
+}
+
+
+/* END BOTONES -----------------------*/
+
+/* POPUP */
+.modal-open .datepicker {
+    z-index: 10049 !important;
+}
+
+/* POPUP */
+.datepicker-dropdown, .modal-open .datepicker-dropdown {
+    z-index: 10051 !important;
+}
+
+body.page-popup .page-content{
+    overflow: hidden;
+}
+/* END POPUP */
+
+/* POPOVER */
+.popover {
+    max-width: none;
+}
+/* END POPOVER */
+
+.export-tools div, .export-epe-custom div {
+    margin-left: 2px;
+}
+
+.note-danger {
+    background-color: #f9f0f0;
+    border-color: #dca7b0;
+    color: #a94442;
+}
+
+
+/** GALERIA IMAGENES */
+.imagenes-container {
+    clear: both;
+    background-color: #f9f9f9;
+    border: 1px solid #CCC;
+    text-align: center;
+}
+
+.imagenes-container a:hover{
+    text-decoration: none;
+}
+
+.imagenes-container img {
+    margin: 3px;
+    border: 1px solid #CCC;
+    width: auto;
+    height: 75px;
+}
+
+.imagenes-container img:hover {
+    border-color: #080808;
+}
+
+.img-box {
+    display: inline-block;
+}
+/** FIN GALERIA IMAGENES */
+
+.tabbable-custom .nav-tabs > li.active > a {
+    border-top: medium none #d4d4d4 !important;
+}
+
+.header.navbar .hor-menu ul.nav li > a {
+    font-size: 13px;
+}
+
+
+/** COLORES ------------- */
+.color-white {
+    color: #FFF !important
+}
+
+.color-red {
+    color: red !important
+}
+
+.color-green{
+    color: green !important
+}
+
+.margin-0 {
+    margin: 0 !important;
+}
+
+a.link-imprimir-op {
+    color: #3c763d;
+}
+
+input.currency_real {
+    text-align: right;
+}
+
+.anulado td, .utilizada td {
+    color: rgb(126,126,126)
+}
+
+.truncate {
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}

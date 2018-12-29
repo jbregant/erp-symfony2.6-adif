@@ -1,0 +1,45 @@
+<thead>
+    <tr class="replace-inputs filter">
+        <th></th>
+        <th class="not-in-filter"></th>
+        <th>Impuesto</th>
+        <th>R&eacute;gimen</th>            
+        <th>Beneficiario</th>
+        <th data-type="date">Fecha OP</th>
+        <th>N&deg; OP</th>
+        <th>Importe retenido</th>
+        <th class="not-in-filter"></th>
+    </tr>
+    <tr class="headers">
+        <th class="no-order entity_id"></th>
+        <th class="text-center table-checkbox no-order">
+            <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-retenciones-{{ impuesto }} .checkboxes" />
+        </th>
+        <th>Impuesto</th>
+        <th>R&eacute;gimen</th>
+        <th>Beneficiario</th>
+        <th date export-format="date" class="nowrap">Fecha OP</th>
+        <th>N&deg; OP</th>
+        <th currency >Importe retenido</th>
+        <th class="text-center no-order ctn_acciones">Acciones</th>
+    </tr>
+</thead>
+<tbody>
+    {% if renglonesDeclaracionJurada is defined %}
+        {% for renglonDeclaracionJurada in renglonesDeclaracionJurada %}
+            <tr>
+                <td> {{ renglonDeclaracionJurada.id }} </td>
+                <td class="text-center">
+                    <input type="checkbox" class="checkboxes" value="" />
+                </td>
+                <td class="nowrap">{{ renglonDeclaracionJurada.tipoImpuesto }}</td>
+                <td class="nowrap">{{ renglonDeclaracionJurada.regimen }}</td>
+                <td>{{ renglonDeclaracionJurada.nombreBeneficiario }}</td>
+                <td class="nowrap">{{ renglonDeclaracionJurada.ordenPago is not null ? renglonDeclaracionJurada.ordenPago.fechaContable|date('d/m/Y') : '' }}</td>
+                <td class="nowrap">{{ renglonDeclaracionJurada.ordenPago is not null ? renglonDeclaracionJurada.ordenPago.numeroOrdenPago : '' }}</td>
+                <td class="nowrap">{{ renglonDeclaracionJurada.monto|money_format }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</tbody>

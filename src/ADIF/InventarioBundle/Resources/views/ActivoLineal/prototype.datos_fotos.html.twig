@@ -1,0 +1,40 @@
+<div class="col-md-4 imagenes">
+    <div class="col-md-12 form_field">
+        <div class="form-group">
+            {{ form_label(adjunto.foto) }}
+            {% if edit and adjunto.vars.value is not null and adjunto.vars.value.foto is not null %}
+                <a  class="download-link" target="_blank"
+                    href="{{ asset('uploads/inventario/' ~ adjunto.vars.value.nombreArchivoClear) }}">
+                    (Descargar)
+                </a>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(adjunto.foto, {'attr' : { 'data-file' : adjunto.vars.value.nombreFoto} }) }}
+                </div>
+                <div class="col-lg-8 imgHolder">
+                    <img src="{{ asset('uploads/inventario/' ~ adjunto.vars.value.nombreArchivoClear) }}" alt="" class="imgPreview p-10">
+                    <div class="col-lg-12 label label-primary text-center">
+                        {{ adjunto.vars.value.fechaCreacion| date("m/d/Y") }}
+                    </div>
+                </div>
+            {% else %}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(adjunto.foto) }}
+                </div>
+                <div class="col-lg-8 imgHolder">
+                    <img src="" alt="" class="imgPreview p-10">
+                    <div class="col-lg-12 label label-primary text-center"></div>
+                </div>
+            {% endif %}
+
+            <div class="col-md-1">
+                <a href="#" class="btn btn-sm red delete-link-inline
+                   prototype-link-remove-foto accion-borrar"
+                   data-placement="top" data-original-title="Eliminar archivo">
+                    <i class="fa fa-times-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

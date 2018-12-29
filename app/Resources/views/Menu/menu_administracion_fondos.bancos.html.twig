@@ -1,0 +1,30 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Bancos
+    </a>    
+    <ul class="dropdown-menu">
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_BANCOS_CUENTA_BANCARIA') %}
+            <li>
+                <a href="{{ path('cuentas_adif') }}">
+                    Administraci&oacute;n de cuentas bancarias
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_BANCOS_CHEQUERA') %}
+            <li>
+                <a href="{{ path('chequera') }}">
+                    Administraci&oacute;n de chequeras
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_BANCOS_CONCILIACION') %}
+            <li> 
+                <a href="{{ path('conciliacion') }}">
+                    Conciliaciones bancarias
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>

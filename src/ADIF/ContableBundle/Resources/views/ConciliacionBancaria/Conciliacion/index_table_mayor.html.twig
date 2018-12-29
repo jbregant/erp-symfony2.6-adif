@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaParaMayor|date('d/m/Y') }}",
+    "{{ entity.concepto|escape_json|default('-') }}",
+    "{{ entity.referencia|escape_json|default('-') }}",
+    "{{ entity.codigoConcepto|escape_json|default('-') }}",
+    "{{ (entity.montoMovimiento(cuentaBancaria) < 0 ? entity.montoMovimiento(cuentaBancaria) * (-1) : 0)|money_format }}",
+    "{{ (entity.montoMovimiento(cuentaBancaria) > 0 ? entity.montoMovimiento(cuentaBancaria) : 0)|money_format }}",
+    "{{ 0 }}",
+    "{{ entity.montoMovimiento(cuentaBancaria) }}",
+    "{{ entity.id }}",
+    "{{ entity.esContabilizable ? 1 : 0 }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

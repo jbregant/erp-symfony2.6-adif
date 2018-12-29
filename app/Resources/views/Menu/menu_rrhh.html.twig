@@ -1,0 +1,30 @@
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Recursos humanos <i class="fa fa-angle-down"></i>
+    </a>    
+    <ul class="dropdown-menu">
+
+        {% if is_granted("ROLE_MENU_RRHH_GESTION") %}
+            {% include ':Menu:menu_rrhh.gestion_rrhh.html.twig' %}
+        {% endif %}  
+
+        {% if is_granted("ROLE_MENU_RRHH_LIQUIDACION") %}
+            {% include ':Menu:menu_rrhh.liquidacion.html.twig' %}
+        {% endif %}  
+
+        {% if is_granted("ROLE_MENU_RRHH_REPORTES") %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Reportes
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('consultor_resumen_cuenta_corriente') }}">
+                            Resumen cuenta corriente consultores
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>

@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="form-group col-md-3">
+        <label class="control-label">Entidad Bancaria</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoBancario.entidadBancaria }}</div>
+    </div>
+    <div class="form-group col-md-3">
+        <label class="control-label">Sucursal</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoBancario.sucursalBancaria }}</div>
+    </div>
+    <div class="form-group col-md-3">
+        <label class="control-label">Nro Sucursal</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoBancario.numeroSucursal }}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-3">
+        <label class="control-label">CBU</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoBancario.cbu }}</div>
+    </div>
+    <div class="form-group col-md-3">
+        <label class="control-label">N&uacute;mero de Cuenta</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoBancario.numeroCuenta }}</div>
+    </div>
+</div>                                        
+<div class="row">
+    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_documentacion.html.twig' with {'idDocumentacion':'14'} %}
+
+    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_observacion_evaluacion.html.twig' with {'idTipoObservacion':'10'} %}
+</div>

@@ -1,0 +1,20 @@
+<div class="row detalle-fuente-financiamiento">
+    <div class="col-md-12">
+
+        <div class="form-group prototype-fuente-financiamiento" 
+             data-prototype="{% filter escape %}{% include 'ADIFContableBundle:Obras/Tramo:prototype.fuente_financiamiento.html.twig' with {'fuenteFinanciamiento': form.fuentesFinanciamiento.vars.prototype} %}{% endfilter %}">
+            {% for fuenteFinanciamiento in form.fuentesFinanciamiento%}
+                {% include 'ADIFContableBundle:Obras/Tramo:prototype.fuente_financiamiento.html.twig' %}
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#" class="btn btn-sm green-haze
+                   prototype-link-add-fuente-financiamiento tooltips">
+                    Agregar fuente de financiamiento <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

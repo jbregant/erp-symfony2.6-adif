@@ -1,0 +1,134 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/subcategoria/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Subcategor&iacute;a
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body">
+                <div class="row">                        
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.nombre, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.nombre) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.montoBasico, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.montoBasico) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.idCategoria, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.idCategoria) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.categoriaRecibo, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.categoriaRecibo) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.esCategoria02, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.esCategoria02) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.esTiempoCompleto, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.esTiempoCompleto) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Campos Sirhu -->
+                <div class="clearfix">
+                    <fieldset class="form-section-fieldset">
+                        <legend class="form-section-legend">Sirhu</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.sirhuGrado, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.sirhuGrado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.sirhuEscalafon, null, {'label_attr': {'class': 'control-label'}})  }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.sirhuEscalafon) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                
+               
+            </div>
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" back-url="{{ path('subcategorias') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

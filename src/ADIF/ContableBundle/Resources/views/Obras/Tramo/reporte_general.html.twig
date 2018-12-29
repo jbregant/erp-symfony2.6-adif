@@ -1,0 +1,107 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte general de renglones de licitaci&oacute;n</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar" style="margin-top: 3em">
+
+                        <div class="btn-group pull-left" style="margin-top: -3em">
+
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha fin</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" style="margin-top: -.2em">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-reporte_general_tramo" dataexport-title="reporte_general_tramo">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Tipo contrataci&oacute;n</th>
+                                <th>N&deg; licitaci&oacute;n</th>
+                                <th>A&ntilde;o</th>
+                                <th>Rengl&oacute;n</th>
+                                <th>Empresa</th>
+                                <th>Total contrato</th>
+                                <th>Pct. certificado</th>
+                                <th>Saldo tramo</th>
+                                <th>Saldo financiero</th>
+                                <th>Monto activado</th>
+                                <th>Cuenta contable</th>
+                                <th>Estado</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-reporte_general_tramo .checkboxes" />
+                                </th>
+                                <th>Tipo contrataci&oacute;n</th>
+                                <th>N&deg; licitaci&oacute;n</th>
+                                <th>A&ntilde;o</th>
+                                <th>Rengl&oacute;n</th>
+                                <th>Empresa</th>
+                                <th currency>Total contrato</th>
+                                <th>Pct. certificado</th>
+                                <th currency>Saldo tramo</th>
+                                <th currency>Saldo financiero</th>
+                                <th currency>Monto activado</th>
+                                <th>Cuenta contable</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/obras/tramo/reporte_general.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

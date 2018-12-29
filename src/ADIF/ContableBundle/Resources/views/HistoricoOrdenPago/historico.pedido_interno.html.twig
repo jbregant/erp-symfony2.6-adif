@@ -1,0 +1,35 @@
+<li class="timeline-blue">
+    <div class="timeline-time">
+        <span class="time">Pedido interno</span>
+        <span class="date">
+            {{ pedidoInterno.fechaPedido|date('d/m/y') }}
+        </span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    Pedido interno de {{ pedidoInterno.usuario }}
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  pedidoInterno.estadoPedidoInterno ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( 'pedidointerno_show', { 'id': pedidoInterno.id }) }}" target="_blank">Ver detalle</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-12">
+                    <span class="bold">Descripci&oacute;n: </span>{{ pedidoInterno.descripcion|default('-') }}
+                </p>
+                <p class="col-md-12"> 
+                    <span class="bold">Observaci&oacute;n: </span>{{ pedidoInterno.observacion|default('-') }}
+                </p>
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

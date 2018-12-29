@@ -1,0 +1,231 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% if ( idEmpresa != null ) and ( idEmpresa ) == 2 %}
+                    {% include('PDF/logo.datos.fase.html.twig') %}
+                {% else %}
+                    {% include('PDF/logo.datos.adif.html.twig') %}
+                {% endif %}
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">Orden de compra N&ordm;</div>
+                    <div class="w-100 f-12 t-center">{{ oc.numeroOrdenCompra }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ oc.fechaOrdenCompra|date('d/m/Y') }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+<table class="w-100" border="1" style="padding: 0px;">
+    <tbody>
+        <tr>
+            <td class="t-left w-100">
+                <table class="w-100" border="0" >
+                    <tbody>
+                        <tr>
+                            <td align="left" class="f-12 w-33" style="border-right-width: 0px;">{{ usuarioCreacion|default('') }}</td>
+                            <td align="center" class="f-12 w-33" style="border-right-width: 0px;">{{ leyenda }}</td>
+                            <td class="f-12" width="33%">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% block content %}
+    <table class="w-100" border="1">
+        <tr>
+            <td class="w-50" style="vertical-align: top;">
+                <table class="w-100 t-left" border="1" style="line-height: 70%;">
+                    <tbody>
+                        <tr class="borderless">
+                            <td class="borderless f-12 w-20">Proveedor:</td>
+                            <td class="borderless f-12 bold  w-80">{{ oc.proveedor.clienteProveedor.razonSocial }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">CUIT:</td>
+                            <td class="borderless f-12 bold">{{ oc.proveedor.clienteProveedor.cuit  }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Cond. IVA:</td>
+                            <td class="borderless f-12 bold">{{ oc.proveedor.clienteProveedor.condicionIva }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Domicilio:</td>
+                            <td class="borderless f-12 bold">{{ oc.proveedor.clienteProveedor.domicilioComercial }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Localidad:</td>
+                            <td class="borderless f-12 bold">{{ oc.proveedor.clienteProveedor.domicilioComercial.localidad }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="w-50">
+                <table class="w-100" border="1" style="line-height: 70%;">
+                    <tbody>
+                        <tr class="borderless">
+                            <td class="borderless f-12 w-30">Contrataci&oacute;n N&ordm;:</td>
+                            <td class="borderless f-12 bold w-70">{{ oc.cotizacion.numero|default('-') }}</td></tr>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Modo contrataci&oacute;n:</td>
+                            <td class="borderless f-12 bold">{{ oc.tipoContratacion.denominacionTipoContratacion|default('-') }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Tipo pago:</td>
+                            <td class="borderless f-12 bold">{{ oc.tipoPago|default('-') }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Cond. pago:</td>
+                            <td class="borderless f-12 bold">{{ oc.condicionPago|default('-') }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Fecha entrega:</td>
+                            <td class="borderless f-12 bold">{{ oc.fechaEntrega|date('d/m/Y') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table class="w-100 m-top" border="1" >
+        <thead>
+            <tr>
+                <th class="f-10 t-left hlt" colspan="5">Detalle</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th class="f-10 w-25">Bien econ&oacute;mico</th>
+                <th class="f-10 w-25">Descripci&oacute;n</th>
+                <th class="f-10 w-15">Cant.</th>
+                <th class="f-10 w-15">Precio unitario</th>
+                <th class="f-10 w-20">Total</th>
+            </tr>
+        </thead>
+
+        {% set total_neto_renglones = oc.getTotalNeto(false) %}
+        {% set total_neto_adicionales = oc.getTotalAdicionalesElegidos(false) %}
+        {% set total_iva = oc.getTotalIva(false) %}
+		{% set totalOC = oc.totalOriginal() %}
+
+        <tbody>
+            {% for renglon in oc.renglones %}
+                {% if renglon.esAmpliacion == false %}
+    				<tr>
+    					<td class="f-10">{{ renglon.descripcionBien }}</td>
+    					<td class="f-10">{{ renglon.descripcionSolicitud }}</td>
+    					<td class="f-10 t-center">{{ renglon.cantidad }}</td>
+    					<td class="f-10 t-right">{{ renglon.getPrecioUnitario(false)|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+    					<td class="f-10 t-right hlt">{{ (renglon.cantidad * renglon.getPrecioUnitario(false))|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+    				</tr>
+                    {% if loop.index % 20 == 0 %}
+                            </tbody>
+                        </table>
+                        <pagebreak>
+                        <table class="w-100 m-top" border="1" >
+                            <thead>
+                                <tr>
+                                    <th class="f-10 t-left hlt" colspan="5">Detalle</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th class="f-10 w-25">Bien econ&oacute;mico</th>
+                                    <th class="f-10 w-25">Descripci&oacute;n</th>
+                                    <th class="f-10 w-15">Cant.</th>
+                                    <th class="f-10 w-15">Precio unitario</th>
+                                    <th class="f-10 w-20">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            <tr class="h-30"><td class="b-bottom-none" colspan="5"></td></tr>
+            <tr class="h-30"><td class="b-top-none b-bottom-none" colspan="5"></td></tr>
+            <tr class="h-30"><td class="b-top-none f-12 bold" colspan="5">Ampliaciones</td></tr>
+
+            {% for renglon in oc.renglones if renglon.esAmpliacion %}
+                <tr>
+                    <td class="f-10">{{ renglon.descripcionBien }}</td>
+                    <td class="f-10">{{ renglon.descripcionSolicitud }}</td>
+                    <td class="f-10 t-center">{{ renglon.cantidad }}</td>
+                    <td class="f-10 t-right">{{ renglon.getPrecioUnitario(false)|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+                    <td class="f-10 t-right hlt">{{ (renglon.cantidad * renglon.getPrecioUnitario(false))|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4" class="f-10 t-right">TOTAL NETO RENGLONES</td>
+                <td class="f-10 t-right hlt">{{ total_neto_renglones|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+            </tr>
+        </tbody>
+
+        <tfoot class="t-right">
+            <tr class="h-5"><td class="b-bottom-none" colspan="5"></td></tr>
+            <tr class="h-5"><td class="b-top-none" colspan="5"></td></tr>
+
+            {# Adicionales #}
+            {% for adicional in oc.adicionalesElegidos %}
+                <tr>
+                    <td class="f-10" >ADICIONAL</td>
+                    <td class="hlt f-10">{{ adicional.tipoAdicional }}</td>
+                    <td class="hlt f-10">
+                        {{ adicional.signo == '+' ? '' : '-'}}
+                        {{ adicional.tipoValor == '$' ? '' : '(' ~ adicional.valor ~ '%) '}}
+                        {{ (adicional.getValor(false) * (adicional.tipoValor == '$' ? 1 : oc.getTotalNeto(false) / 100 ))|money_format(oc.simboloTipoMoneda, 1, 2) }}
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td class="f-10" colspan="4">TOTAL ADICIONALES</td>
+                <td class="f-10 hlt">{{ total_neto_adicionales|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+            </tr>
+
+            {# Subtotal bonificado #}
+            <tr>
+                <td class="f-10" colspan="4">SUBTOTAL</td>
+                <td class="f-10 hlt">{{ (total_neto_renglones + total_neto_adicionales)|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+            </tr>
+
+            {# Total IVA #}
+            <tr>
+                <td class="f-10" colspan="4">IVA</td>
+                <td class="hlt f-10">{{ total_iva|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+            </tr>
+
+            {# Total #}
+            <tr>
+                <td class="f-10 hlt" colspan="4">TOTAL</td>
+                <td class="f-10 hlt2">{{ (total_neto_renglones + total_neto_adicionales + total_iva)|money_format(oc.simboloTipoMoneda, 1, 2) }}</td>
+            </tr>
+            <tr>
+                <td class="f-10 hlt" colspan="4">SON {{ oc.DenomincacionTipoMoneda|upper }}</td>
+                <td class="f-10 hlt2">{{ (total_neto_renglones + total_neto_adicionales + total_iva)|number_format(2,'.','')|a_letras|capitalize }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="w-100 m-top b-top f-10">
+        <b style="margin-bottom: 2px;">Domicilio de entrega</b><br />
+        {{ oc.domicilioEntrega is not null ? oc.domicilioEntrega : '' }}
+    </div>
+
+    <div class="w-100 m-top b-top f-10">
+        <b style="margin-bottom: 2px;">N&uacute;mero de carpeta </b><br />
+        {{ oc.numeroCarpeta|default('-') }}
+    </div>
+
+    <div class="w-100 m-top b-top f-10">
+        <b style="margin-bottom: 2px;">Observaci&oacute;n</b><br />
+        {{ oc.observacion }}
+    </div>
+
+{% endblock %}

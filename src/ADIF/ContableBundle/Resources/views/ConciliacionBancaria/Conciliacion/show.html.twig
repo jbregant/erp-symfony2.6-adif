@@ -1,0 +1,52 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+
+    {{ parent() }}   
+
+    <link href="{{ asset(css_path ~ 'custom/contable/conciliacionbancaria/conciliacion/edit.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+      
+
+{% endblock%}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Conciliaci&oacute;n entre el {{ conciliacion.fechaInicio|date('d/m/Y') }} y el {{ conciliacion.fechaFin|date('d/m/Y') }} de la {{ conciliacion.cuenta.idTipoCuenta|lower }} del banco {{ conciliacion.cuenta.idBanco }} con CBU {{ conciliacion.cuenta.cbu }}</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            <br/>
+            <div class="form-body">                
+                                         
+                <div class="row">                    
+                    <div class="col-md-12" id="div-previsualizacion-conciliacion">
+                        {% include('@ADIFContable/ConciliacionBancaria/Conciliacion/previsualizacion_cerrada.html.twig') %}
+                    </div>
+                </div>                              
+                                                    
+                         
+                                    
+
+                <div class="form-actions">
+                    <div class="pull-left">
+                        <button type="button" class="btn default button-back" 
+                                back-url="{{ path('conciliacion') }}">Volver</button>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn button-back red" 
+                                back-url="{{ path( 'conciliacion_PDF', { 'id': conciliacion.id }) }}">Exportar a PDF</button>
+                    </div>                    
+                </div>                 
+
+            </div>
+        </div>
+    {% endblock %}

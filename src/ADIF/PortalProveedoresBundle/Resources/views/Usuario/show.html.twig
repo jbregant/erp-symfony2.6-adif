@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la usuario: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Username</label>
+                        <div class="detalle_show">                                {{ entity.username }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Usernamecanonical</label>
+                        <div class="detalle_show">                                {{ entity.usernameCanonical }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <div class="detalle_show">                                {{ entity.email }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Emailcanonical</label>
+                        <div class="detalle_show">                                {{ entity.emailCanonical }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Enabled</label>
+                        <div class="detalle_show">                                {{ entity.enabled }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Salt</label>
+                        <div class="detalle_show">                                {{ entity.salt }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Password</label>
+                        <div class="detalle_show">                                {{ entity.password }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Lastlogin</label>
+                        <div class="detalle_show">                                {{ entity.lastLogin|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Confirmationtoken</label>
+                        <div class="detalle_show">                                {{ entity.confirmationToken }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Passwordrequestedat</label>
+                        <div class="detalle_show">                                {{ entity.passwordRequestedAt|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Roles</label>
+                        <div class="detalle_show">                                {{ entity.roles }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechaalta</label>
+                        <div class="detalle_show">                                {{ entity.fechaAlta|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechamodificacion</label>
+                        <div class="detalle_show">                                {{ entity.fechaModificacion|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Idusuarioultimamodificacion</label>
+                        <div class="detalle_show">                                {{ entity.idUsuarioUltimaModificacion }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Idusuariocreacion</label>
+                        <div class="detalle_show">                                {{ entity.idUsuarioCreacion }}                        </div>
+                    </div>
+                </div>
+                                        </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('portal_usuarios') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

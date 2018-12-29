@@ -1,0 +1,104 @@
+ {% extends '::base.html.twig' %}  
+
+
+ 
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Tiempos de Respuesta</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar" style="margin-top: 3em"> 
+                    <div class="btn-group pull-left col-md-6" style="margin-top: -2.5em">
+                        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+                        {% include ':Form:fieldsErrors.html.twig' %}
+
+                        <div class="form-body">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {{ form_label(form.fechaDesde) }}
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            {{ form_widget(form.fechaDesde) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {{ form_label(form.fechaHasta) }}
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            {{ form_widget(form.fechaHasta) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        {% if form.fAcciones is defined %} {{ form_label(form.fAcciones) }} {% endif %}
+                                        <br>
+                                        {% if form.fAcciones is defined %} {{ form_widget(form.fAcciones, {'attr': {'class': 'form-control'}}) }} {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <br>
+                                        {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{ form_widget(form._token) }}
+
+                            {{ form_end(form, {"render_rest": false}) }}
+                        </div>                   
+                    </div>
+                </div>
+
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                    id="table-tiemporespuesta"
+                    dataexport-title="tiemporespuesta">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                                                        <th>Fecha</th>
+                                                        <th>Accion</th>
+                                                        <th>Tiempo Mínimo</th>
+                                                        <th>Tiempo Promedio</th>
+                                                        <th>Tiempo Máximo</th>
+                                                        <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-tiemporespuesta .checkboxes" />
+                            </th>
+                                                        <th>Fecha</th>
+                                                        <th>Accion</th>
+                                                        <th>Tiempo Mínimo</th>
+                                                        <th>Tiempo Promedio</th>
+                                                        <th>Tiempo Máximo</th>
+                                                        <th class="text-center no-order ctn_acciones"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/portalproveedores/tiemporespuesta/index.js') }}" ></script>
+{% endblock %}

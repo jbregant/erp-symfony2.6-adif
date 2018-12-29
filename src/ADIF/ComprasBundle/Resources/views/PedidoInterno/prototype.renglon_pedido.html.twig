@@ -1,0 +1,83 @@
+
+
+<fieldset class="form-section-fieldset renglon-pedido-content">
+
+    <legend class="form-section-legend">
+        <span>
+            Rengl&oacute;n
+        </span>
+        <span class="delete-link-xs">
+            <a href="#" 
+               class="badge badge-danger prototype-link-remove-renglon-pedido accion-borrar tooltips" 
+               data-placement="right" data-original-title="Eliminar rengl&oacute;n">X</a>
+        </span>
+    </legend>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(renglon.rubro) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(renglon.rubro) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(renglon.bienEconomico) }}
+                {% if is_granted('ROLE_COMPRAS_CREACION_BIEN_ECONOMICO') %}
+                    <a href="{{ path('bieneconomico_new', {"popup": true }) }}" 
+                       class="pull-right label label-sm label-info tooltips agregar_bien_economico"
+                       data-original-title="Agregar nuevo bien econ&oacute;mico">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                {% endif %}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(renglon.bienEconomico) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(renglon.cantidadSolicitada) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(renglon.cantidadSolicitada) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(renglon.unidadMedida) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(renglon.unidadMedida) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group">
+                {{ form_label(renglon.descripcion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(renglon.descripcion) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(renglon.prioridad) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(renglon.prioridad) }}
+                </div>
+            </div>
+        </div> 
+    </div>
+
+</fieldset>

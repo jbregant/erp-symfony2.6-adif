@@ -1,0 +1,94 @@
+ {% extends '::base.html.twig' %}  
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset('js/custom/rrhh/liquidacion/index.js') }}" ></script>
+{% endblock%}
+
+
+ {% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Liquidaciones</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                    id="table-liquidacion"
+                    dataexport-title="liquidacion">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                            <th></th>
+                            <th></th>
+                            <th data-type="date"></th>
+                            <th></th>
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-liquidacion .checkboxes" />
+                            </th>
+                            <th>Tipo</th>
+                            <th numeric >N&uacute;mero</th>
+                            <th date >Fecha de cierre de novedades</th>
+                            <th numeric >Empleados</th>
+                            <th>Observaci&oacute;n</th>
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in entities %}
+                        <tr>
+                            <td>{{ entity.id }}</td>
+                            <td class="text-center">
+                                <input type="checkbox" class="checkboxes" value="" />
+                            </td>
+                            <td class="text-center">{{ entity.tipoLiquidacion }}</td>
+                            <td class="text-center">{{ entity.numero }}</td>
+                            <td class="text-center">{{ entity.fechaCierreNovedades|date('d/m/Y') }}</td>
+                            <td class="text-center">{{ entity.liquidacionEmpleados|length }}</td>
+                            <td>{{ entity.observacion }}</td>
+                            <td class="ctn_acciones text-center nowrap">
+                                {% if (is_granted('ROLE_IMPRIMIR_RECIBOS_SUELDOS')) %}
+                                    <a tabindex="0" class="btn btn-xs btn-primary btn-group-popover" data-toggle="popover">&nbsp;<i class="fa fa-bolt"></i> Opciones&nbsp;
+                                    </a>
+                                    <span class="ctn_opciones_hidden" style="display: none;">
+                                        <a href=" {{ path( 'liquidaciones_show', { 'id': entity.id }) }} " class="btn btn-xs blue tooltips" data-original-title="Ver detalle"><i class="fa fa-search"></i></a>
+    {#                                    <a href=" {{ path( 'liquidaciones_crear_asiento', { 'id': entity.id }) }} " class="btn btn-xs blue tooltips" data-original-title="Generar asiento"><i class="fa fa-dollar"></i></a>#}
+                                        {% if is_granted("ROLE_RRHH_VISTA_CONTRIBUCIONES") %}
+                                        <a href=" {{ path( 'liquidaciones_show_contribuciones', { 'id': entity.id }) }} " class="btn btn-xs green tooltips" data-original-title="Ver contribuciones"><i class="fa fa-letter">Contribuciones</i></a>
+                                        {% endif %}
+                                        {% if (is_granted("ROLE_RRHH_EXPORTAR_F931") and entity.tipoLiquidacion.id == tipo_habitual) %}
+                                        <a href=" {{ path( 'liquidaciones_exportar_931', { 'id': entity.id }) }} " class="btn btn-xs yellow tooltips" data-original-title="Exportar formulario 931"><i class="fa fa-letter">F931</i></a>
+                                        <a href=" {{ path( 'liquidaciones_exportar_retenciones', { 'id': entity.id }) }} " class="btn btn-xs purple tooltips" data-original-title="Retenciones">Retenciones</a>
+                                        {% endif %}
+                                        {% if is_granted("ROLE_RRHH_EXPORTAR_NETCASH") %}
+                                        <a href=" {{ path( 'liquidaciones_exportar_netcash', { 'id': entity.id }) }} " class="btn btn-xs red tooltips form_netcash" data-original-title="Exportar Netcash"><i class="fa fa-dollar"></i> Netcash</a>
+                                        <a href=" {{ path( 'liquidaciones_exportar_sirhu', { 'id': entity.id }) }} " class="btn btn-xs blue tooltips" data-original-title="Exportar Sirhu">Sirhu</a>
+                                        {% endif %}
+                                        {% if is_granted("ROLE_RRHH_ALTA_LIQUIDACIONES") %}
+                                        <a href=" {{ path( 'liquidaciones_librosueldos_imprimir', { 'idLiquidacion': entity.id }) }} " class="btn btn-xs grey-mint tooltips btn_libro_sueldos" data-original-title="Generar libro sueldos"><i class="fa fa-book"></i> Libro sueldos</a>
+                                        {% endif %}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

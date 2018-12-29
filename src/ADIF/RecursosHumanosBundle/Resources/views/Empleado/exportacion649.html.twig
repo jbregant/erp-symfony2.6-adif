@@ -1,0 +1,525 @@
+<div class="page-custom">
+    <div class="container">
+        {#        <hr style="border-top: dashed 1px;" />
+                <div class="seccion">Datos del Beneficiario</div>
+                <hr style="border-top: dashed 1px;" />
+        #}
+        <table class="w-100" style="width:100%">
+            <tbody>                
+                <tr>
+                    <td rowspan="6" style="width:20%"><img style="margin-left: 50px;" src="{{ app.request.getSchemeAndHttpHost() ~ '/images/AFIP.png' }}" width="100px;"/></td>                    
+                    <td colspan="3" style="border-top: 1px dashed; border-right: none; border-bottom: 1px dashed; text-align: center;">Datos del beneficiario</td>
+                </tr>
+                <tr>                    
+                    <td colspan="3" style="border: none; line-height: 0.1 em;">&nbsp;</td>
+                </tr>
+                <tr>                    
+                    <td style="width:35%">Cuil: <span class="bold" >{{ empleado.persona.cuil }}</span></td>
+                    <td style="width:35%" colspan="2">Cuit: <span class="bold" >{{ empleado.persona.cuil }}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Beneficiario: <span class="bold" >{{ empleado }}</span></td>
+                </tr>
+                <tr>
+                    <td>Domicilio: <span class="bold" >{{ empleado.persona.idDomicilio.calle }}</span></td> 
+                    <td colspan="2">N&ordm;: {{empleado.persona.idDomicilio.numero ~ ' Piso: ' ~ (empleado.persona.idDomicilio.piso ? empleado.persona.idDomicilio.piso : '-') ~ ' Dpto: ' ~ (empleado.persona.idDomicilio.depto ? empleado.persona.idDomicilio.depto : '-') }}</span></td> 
+                </tr>
+                <tr>
+                    <td>Localidad: <span class="bold" >{{ empleado.persona.idDomicilio.localidad.nombre }}</span></td>
+                    <td>Provincia: <span class="bold" >{{ empleado.persona.idDomicilio.localidad.provincia }}</span></td>
+                    <td style="width:10%">C.P.: <span class="bold" >{{ empleado.persona.idDomicilio.codPostal ? empleado.persona.idDomicilio.codPostal : '-' }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr style="border-top: dashed 1px;" />
+        <div class="seccion">Datos agente retenci&oacute;n</div>
+        <hr style="border-top: dashed 1px;" />
+
+        <table class="w-100" style="width:100%">
+            <tbody>
+                <tr>
+                    <td style="width:50%" >Raz&oacute;n Social: <span class="bold" >{{ adif.nombre }}</span></td>
+                    <td style="width:50%" >Cuit: <span class="bold" >{{ adif.cuil }}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" >Dependencia: <span class="bold" >{{ adif.direccion }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr style="border-top: dashed 1px;" />
+        <div class="seccion">Liquidaci&oacute;n {{ motivo }} Comprendida entre el {{ fechaInicio }} y el {{ fechaFin }}</div>
+        <hr style="border-top: dashed 1px;" />
+
+        <table class="w-100" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Rubro</th>
+                    <th>Inciso</th>
+                    <th>Determinaci&oacute;n de la ganancia neta y liquidaci&oacute;n del impuesto</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--Rubro 1-->
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td>Importe bruto de las ganancias</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>a</td>
+                    <td>Liquidadas por la entidad que act&uacute;a como agente de retenci&oacute;n</td>
+                    <td class="monto">{{ (conceptosLiquidacion.netoAcumulado - conceptosLiquidacion.otro_empleador_649)|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>b</td>
+                    <td>Liquidadas por otras persona o entidades</td>
+                    <td class="monto">{{ (formulario572.otro_empleador + conceptosLiquidacion.otro_empleador_649)|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="total">Totales del Rubro 1</td>
+                    <td class="monto total">{{ conceptosF649.rubro1|money_format }}</td>
+                </tr>
+                <!--Rubro 2-->
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td>Deducciones y Degravaciones</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>a</td>
+                    <td>Aportes Jubilatorios</td>
+                    <td class="monto">{{ (conceptosLiquidacion.jubilacion + conceptosLiquidacion.ley19032)|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>b</td>
+                    <td>Aportes para obras sociales y cuotas m&eacute;dico asistenciales</td>
+                    <td class="monto">{{ (formulario572.obra_social + conceptosLiquidacion.obra_social + formulario572.medica_asistencial)|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>c</td>
+                    <td>Primas de seguro para el caso de muerte</td>
+                    <td class="monto">{{ formulario572.primas|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>d</td>
+                    <td>Gastos de sepelio</td>
+                    <td class="monto">{{ formulario572.sepelio|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>e</td>
+                    <td>Otras deducciones</td>
+                    <td class="monto">{% set otras_deducciones = formulario572.retiro + formulario572.domestico + formulario572.jubilatorios + formulario572.hipotecarios + formulario572.asistencia_sanitaria_medica_paramedica %}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Seguros de retiro</td>
+                    <td class="monto">{{ formulario572.retiro|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Servicio dom&eacute;stico</td>
+                    <td class="monto">{{ formulario572.domestico|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Aportes jubilatorios</td>
+                    <td class="monto">{{ formulario572.jubilatorios|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Honorarios de servicios de asistencia sanitaria, m&eacute;dica y param&eacute;dica</td>
+                    <td class="monto">{{ formulario572.asistencia_sanitaria_medica_paramedica|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Intereses de cr&eacute;ditos hipotecarios</td>
+                    <td class="monto">{{ formulario572.hipotecarios|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Cuota sindical</td>
+                    <td class="monto">{{ (conceptosLiquidacion.cuota_sindical + conceptosLiquidacion.apdfa_cuota_sindical + conceptosLiquidacion.apoc_cuota_sindical)|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Total otras deducciones</td>
+                    <td class="monto">{{ conceptosF649.otras_deducciones|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="total">Totales del Rubro 2</td>
+                    <td class="monto total">{{ conceptosF649.rubro2|money_format }}</td>
+                </tr>
+                <!--Rubro 3-->
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td class="total">Resultado Neto</td>
+                    <td class="monto total">{{ conceptosF649.rubro3|money_format }}</td>
+                </tr>
+                <!--Rubro 4-->
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                    <td class="total">Donaciones</td>
+                    <td class="monto total">{{ conceptosF649.rubro4|money_format }}</td>
+                </tr>
+                <!--Rubro 5-->
+                <tr>
+                    <td>5</td>
+                    <td></td>
+                    <td class="total">Diferencia</td>
+                    <td class="monto total">{{ conceptosF649.rubro5|money_format }}</td>
+                </tr>
+                <!--Rubro 6-->
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                    <td>Deducci&oacute;n Especial, Ganancias no Imponibles y Cargas de Familia</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>a</td>
+                    <td>Deducci&oacute;n especial</td>
+                    <td class="monto">{{ deduccionesObligatorias.deduccion_especial|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>b</td>
+                    <td>Ganancia no imponible</td>
+                    <td class="monto">{{ deduccionesObligatorias.minimo_no_imponible|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>c</td>
+                    <td>Cargas de familia (6)</td>
+                    <td class="monto"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;C&oacute;nyuge</td>
+                    <td class="monto">{{ formulario572.conyuge|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Hijos</td>
+                    <td class="monto">{{ formulario572.hijos|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;Otras cargas</td>
+                    <td class="monto">{{ formulario572.otras_cargas|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="total">Totales del Rubro 6</td>
+                    <td class="monto total">{{ conceptosF649.rubro6|money_format }}</td>
+                </tr>
+                <!--Rubro 7-->
+                <tr>
+                    <td>7</td>
+                    <td></td>
+                    <td class="total">Ganancias Netas sujetas a impuesto {{ sac2 != 0 ? ' *' : '' }}</td>
+                    <td class="monto total">{{ conceptosF649.rubro7|money_format }}</td>
+                </tr>
+                <!--Rubro 8-->
+                <tr>
+                    <td>8</td>
+                    <td></td>
+                    <td class="total">Total del Impuesto Determinado</td>
+                    <td class="monto total">{{ conceptosF649.rubro8|money_format }}</td>
+                </tr>
+				<!--Rubro 9-->
+                <tr>
+                    <td>9</td>
+                    <td></td>
+                    <td>Montos computables</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>a</td>
+                    <td>Retenciones efectuadas en el per&iacute;odo fiscal que se liquida</td>
+                    <td class="monto">{{ conceptosLiquidacion.retenidoAnual|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>b</td>
+                    <td>Reg&iacute;menes de promoci&oacute;n (rebaja de impuesto, diferimiento u otros)</td>
+                    <td class="monto">{{ conceptosLiquidacion.promocion|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>c</td>
+                    <td>Reg&iacute;menes de percepci&oacute;n</td>
+                    <td class="monto">{{ formulario572.percepciones|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="total">Totales del Rubro 9</td>
+                    <td class="monto total">{{ conceptosF649.rubro9|money_format }}</td>
+                </tr>
+                <!--Rubro 10-->
+                <tr>
+                    <td>10</td>
+                    <td></td>
+                    <td>Saldo del impuesto</td>
+                    <td></td>
+                </tr>
+                {% if (conceptosF649.rubro8 > conceptosF649.rubro9) %}
+                    {% set rubro10DGI = conceptosF649.rubro8 - conceptosF649.rubro9 %}
+                    {% set rubro10Ben = 0 %}
+                {% else %}
+                    {% set rubro10DGI = 0 %}
+                    {% set rubro10Ben = conceptosF649.rubro9 - conceptosF649.rubro8 %} 
+                {% endif %}                               
+                <tr>
+                    <td></td>
+                    <td>a</td>
+                    <td class="total">A favor D.G.I</td>
+                    <td class="monto total">{{ rubro10DGI|money_format }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>b</td>
+                    <td class="total">A favor beneficiario</td>
+                    <td class="monto total">{{ rubro10Ben|money_format }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container">  
+    <table class="w-100" style="width:100%">
+        <thead>
+            <tr>
+                <th style="width:65px">Rubro</th>
+                <th style="width:61px">Inciso</th>
+                <th colspan="3" >Determinaci&oacute;n complementaria</th>
+                <th style="width:123px">Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Rubro 11-->
+            <tr>
+                <td>11</td>
+                <td></td>
+                <td colspan="3" >Cuotas m&eacute;dico asistenciales</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="seccion" colspan="2">Detalle</td>
+                <td class="seccion" style="width:115px">CUIT</td>
+                <td></td>
+            </tr>
+            {% for concepto in formulario572Detalle.medica_asistencial.conceptos %}
+                <tr>
+                    <td></td>
+                    <td>{{ 'abcdefghijklmnopqrstuvwxyz'|slice(loop.index-1, 1) }}</td>
+                    <td colspan="2">{{ concepto.detalle|default('-') }}</td>
+                    <td class="seccion" >{{ concepto.cuit|default('-') }}</td>
+                    <td class="monto">{{ concepto.monto|money_format }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="total" colspan="3" >Totales del Rubro 11</td>
+                <td class="monto total">{{ formulario572Detalle.medica_asistencial.total|money_format }}</td>
+            </tr>
+            <!--Rubro 12-->
+            <tr>
+                <td>12</td>
+                <td></td>
+                <td colspan="3" >Primas de seguro para el caso de muerte</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="seccion" colspan="2">Detalle</td>
+                <td class="seccion" style="width:61px">CUIT</td>
+                <td></td>
+            </tr>            
+            {% for concepto in formulario572Detalle.primas.conceptos %}
+                <tr>
+                    <td></td>
+                    <td>{{ 'abcdefghijklmnopqrstuvwxyz'|slice(loop.index-1, 1) }}</td>
+                    <td colspan="2">{{ concepto.detalle|default('-') }}</td>
+                    <td class="seccion" >{{ concepto.cuit|default('-') }}</td>
+                    <td class="monto">{{ concepto.monto|money_format }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="total" colspan="3" >Totales del Rubro 12</td>
+                <td class="monto total">{{ formulario572Detalle.primas.total|money_format }}</td>
+            </tr>
+            <!--Rubro 13-->
+            <tr>
+                <td>13</td>
+                <td></td>
+                <td colspan="3" >Gastos de sepelio</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="seccion" colspan="2">Detalle</td>
+                <td class="seccion" style="width:61px">CUIT</td>
+                <td></td>
+            </tr>
+            {% for concepto in formulario572Detalle.sepelio.conceptos %}
+                <tr>
+                    <td></td>
+                    <td>{{ 'abcdefghijklmnopqrstuvwxyz'|slice(loop.index-1, 1) }}</td>
+                    <td colspan="2">{{ concepto.detalle|default('-') }}</td>
+                    <td class="seccion" >{{ concepto.cuit|default('-') }}</td>
+                    <td class="monto">{{ concepto.monto|money_format }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="total" colspan="3" >Totales del Rubro 13</td>
+                <td class="monto total">{{ formulario572Detalle.sepelio.total|money_format }}</td>
+            </tr>
+            <!--Rubro 14-->
+            <tr>
+                <td>14</td>
+                <td></td>
+                <td colspan="3" >Donaciones</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="seccion" colspan="2">Detalle</td>
+                <td class="seccion" style="width:61px">CUIT</td>
+                <td></td>
+            </tr>
+            {% for concepto in formulario572Detalle.donaciones.conceptos %}
+                <tr>
+                    <td></td>
+                    <td>{{ 'abcdefghijklmnopqrstuvwxyz'|slice(loop.index-1, 1) }}</td>
+                    <td colspan="2">{{ concepto.detalle|default('-') }}</td>
+                    <td class="seccion" >{{ concepto.cuit|default('-') }}</td>
+                    <td class="monto">{{ concepto.monto|money_format }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="total" colspan="3" >Totales del Rubro 14</td>
+                <td class="monto total">{{ formulario572Detalle.donaciones.total|money_format }}</td>
+            </tr>
+            <!--Rubro 15-->
+            <tr>
+                <td>15</td>
+                <td></td>
+                <td colspan="3" >Otras deducciones</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="seccion" colspan="2">Detalle</td>
+                <td class="seccion" style="width:61px">CUIT</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="total" colspan="3" >Totales del Rubro 15</td>
+                <td class="monto total">{{ 0|money_format }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <hr style="border-top: dashed 1px;" />
+    <table class="w-100" style="width:100%">
+        <tbody>
+            <tr>
+                <td rowspan="2" style="width:75%; padding:5px"><div>El que suscribe, Don Marcelo M&aacute;ximo Carro en su car&aacute;cter de Gerente de Recursos Humanos y Relaciones Laborales de la Entidad que act&uacute;a como agente de retenci&oacute;n declara bajo juramento que para el c&aacute;lculo de las retenciones relativas al per&iacute;odo fiscal {{fechaFin|slice(6,4)}} han sido consideradas las normas legales, reglamentarias y complementarias en vigencia.</div></td>
+                <td style="padding:5px" ><div>Lugar y fecha: CABA, {{ "now"|date("d.m.Y") }}</div></td>
+            </tr>
+            <tr>
+                <!-- <td style="padding:5px" >Firma: <img src="{{ app.request.getSchemeAndHttpHost() ~ '/images/firma_sergio_sm.png' }}"/></td> -->
+				<!-- <td style="padding:5px" >Firma: <img src="{{ app.request.getSchemeAndHttpHost() ~ '/images/firma_autunno.png' }}"/></td>-->
+				<td style="padding:5px" >Firma: <img src="{{ app.request.getSchemeAndHttpHost() ~ '/images/firma_carro.png' }}"/></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr style="border-top: dashed 1px;" />
+    <table class="w-100" style="width:100%">
+        <tbody>
+            <tr>
+                <td style="width:75%; padding:5px"><div>A los efectos de cumplimentar lo dispuesto por el art&iacute;culo 6 de la Resoluci&oacute;n General Nro 1261/02 el d&iacute;a {{ "now"|date("d") }} del mes de {{ "now"|localizeddate('full','none',app.request.locale,null,'MMMM')|upper }} de {{ "now"|date("Y") }} reintegrar&eacute; al agente de retenci&oacute;n el original y una copia (3) debidamente suscriptas.</div></td>
+                <td style="padding:5px" ><div>Firma:</div></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr style="border-top: dashed 1px;" />
+    <table class="w-100" style="width:100%">
+        <tbody>
+            <tr>
+                <td rowspan="2" style="width:75%; padding:5px"><div>Afirmo que los datos consignados en este formulario con correctos y completos no omitiendo ni falseando situaci&oacute;n alguna que deba contener siendo fiel expresi&oacute;n de la verdad.</div></td>
+                <td style="padding:5px" ><div>Lugar y fecha:</div></td>
+            </tr>
+            <tr>
+                <td style="padding:5px" ><div>Firma:</div></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr style="border-top: dashed 1px;" />
+    <div>Aclaraciones:</div>
+    <ul>
+        {% if anio >= 2016 %}
+            <!-- <li><div>Rango remuneraci&oacute;n: {{ empleado.rangoRemuneracion }}</div></li> -->
+        {% else %}
+            <li><div>Rango remuneraci&oacute;n: {{ rangoHistorico2015 }}</div></li>
+        {% endif %}
+		{% if conceptosLiquidacion.esBeneficiarioDecretoSAC2016 %}
+			<li><div>SAC segundo semestre {{ conceptosLiquidacion.montoSACDiciemnbre2016|money_format }}</div></li>
+		{% endif %}
+        <li><div>Los montos mostrados en la tabla Determinaci&oacute;n complementaria son los declarados en el Formulario 572</div></li>
+    </ul>
+    {% if (sac2 != 0) %}
+        <hr style="border-top: dashed 1px;" />
+        <div> * En dicho monto se encuentra descontada la remuneraci&oacute;n alcanzada por el beneficio del decreto 2354/14 = {{ sac2|money_format }}</div>
+        <hr style="border-top: dashed 1px;" />
+    {% endif %}
+</div>
+

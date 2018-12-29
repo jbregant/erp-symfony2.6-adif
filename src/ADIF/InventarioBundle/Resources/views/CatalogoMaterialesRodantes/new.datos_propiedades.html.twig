@@ -1,0 +1,25 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Propiedades</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-valor-propiedad-material-rodante"
+                 data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:CatalogoMaterialesRodantes:prototype.propiedad_material_rodante.html.twig' with {'valorPropiedad': form.valoresPropiedad.vars.prototype} %}{% endfilter %}">
+                {% for valorPropiedad in form.valoresPropiedad %}
+                    {% include 'ADIFInventarioBundle:CatalogoMaterialesRodantes:prototype.propiedad_material_rodante.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green prototype-link-add-valor-propiedad-material-rodante tooltips" data-placement="right" data-original-title="Agregar Propiedad">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</fieldset>

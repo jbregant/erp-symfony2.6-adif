@@ -1,0 +1,117 @@
+<div class="portlet-body form" id="detalle_credito_fiscal">
+    <div class="form-body">
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    {{ form_label(form.montoTotalFacturado) }}
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.montoTotalFacturado) }}
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="row espacio">            
+            <div class="form-group">                            
+                <div class="col-md-8">
+                {{ form_label(form.montoGravadoFacturado) }}
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.montoGravadoFacturado) }}
+                    </div>                                
+                </div>
+            </div>           
+        </div>
+        <div class="row espacio">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label subtotal">Coeficiente de prorrateo</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <input type="text" id="coeficiente_prorrateo" class="form-control text-right" disabled="disabled" />
+                    </div>
+                </div>                        
+            </div>
+        </div>
+        <div class="row espacio">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    {{ form_label(form.montoIva105)  }}
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.montoIva105) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                {{ form_label(form.montoIva21)  }}
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.montoIva21) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                {{ form_label(form.montoIva27)  }}
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.montoIva27) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label subtotal">Total IVA</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <input type="text" id="total_iva" class="form-control currency" disabled="disabled" />
+                    </div>
+                </div>                        
+            </div>
+        </div>
+        <div class="row espacio">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">IVA CF Computable</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <input type="text" id="iva_cf_computable" class="form-control currency" disabled="disabled" />
+                    </div>
+                </div>                        
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">                            
+                <div class="col-md-8">
+                    <label class="control-label">IVA CF No Computable</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <input type="text" id="iva_cf_no_computable" class="form-control currency" disabled="disabled" />
+                    </div>
+                </div>                        
+            </div>
+        </div>
+    </div>
+</div>

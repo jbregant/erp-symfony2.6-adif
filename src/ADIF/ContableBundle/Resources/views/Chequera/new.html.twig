@@ -1,0 +1,145 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            border: 1px solid #999999;
+            border-top: none;
+            background-color: white; 
+        }
+        .ui-menu-item.ui-state-focus{
+            background: #eee;
+        }
+        .ui-menu .ui-menu-item, .ui-menu-item .ui-state-focus {
+            margin: 5px;
+        }
+        /* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+        * html .ui-autocomplete {
+            height: 200px;
+        }
+    </style>
+{% endblock%}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Chequera</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body">
+
+                <div class="row">                                 
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.cuenta) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.cuenta) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.responsable) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.responsable) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.numeroSerie) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.numeroSerie) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.numeroInicial) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.numeroInicial) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.numeroFinal) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.numeroFinal) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.tipoChequera) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.tipoChequera) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('chequera') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}" ></script> 
+
+    <script src="{{ asset(js_path ~ 'custom/contable/chequera/new.js') }}" ></script> 
+
+{% endblock %}

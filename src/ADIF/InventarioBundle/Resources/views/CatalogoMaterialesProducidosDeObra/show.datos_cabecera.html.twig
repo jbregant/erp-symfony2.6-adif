@@ -1,0 +1,84 @@
+<br>
+<div class="portlet box blue">
+  <div class="portlet-title">
+    <div class="caption"  style="font-size: 18px !important;">Datos Generales </div>
+
+    <div class="tools">
+      <a href="javascript:;" class="collapse"></a>
+    </div>
+  </div>
+
+  <div class="portlet-body form">
+    <div class="row" style="margin-left: 0px; margin-right: 0px; margin-top:12px;">
+      <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label"> Número Interno </label>
+            <div class="detalle_show"> {{ entity.numeroInterno|default('-') }} </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label"> NUM </label>
+            <div class="detalle_show"> {{ entity.num|default('-') }} </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Grupo de Material</label>
+            <div class="detalle_show"> {{ entity.grupoMaterial|default('-') }} </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" style="margin-left: 0px; margin-right: 0px;">
+      <div class="col-md-5">
+        <div class="form-group">
+            <label class="control-label">Descripción</label>
+            <div class="detalle_show"> {{ entity.denominacion|default('-') }} </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="form-group">
+            <label class="control-label">Descripción para otros lenguajes </label>
+            <div class="detalle_show"> {{ entity.denominacionOtroLenguaje|default('-') }} </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" style="margin-left: 0px; margin-right: 0px; margin-bottom: 12px;">
+      <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Código de Barras </label>
+            <div class="detalle_show"> {{ entity.codigoBarra|default('-') }} </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label"> ¿Es Item de Inventario? </label>
+            <div class="detalle_show"> {{ entity.participaInventario?'Si':'No' }} </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label"> ¿Es Item de Ventas?</label>
+            <div class="detalle_show"> {{ entity.participaVenta|default('-') }} </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label"> Estado</label>
+            <div class="detalle_show"> {{ entity.estadoInventario|default('-') }} </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

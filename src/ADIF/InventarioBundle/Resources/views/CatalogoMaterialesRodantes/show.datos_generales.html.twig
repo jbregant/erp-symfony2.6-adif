@@ -1,0 +1,87 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">General</legend>
+
+    <div class="row">
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Marca</label>
+              <div class="detalle_show">{{ entity.idMarca|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Modelo</label>
+              <div class="detalle_show">{{ entity.idModelo|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Operador</label>
+              <div class="detalle_show">{{ entity.idOperador|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Linea</label>
+              <div class="detalle_show">{{ entity.idLinea|default('-') }}</div>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Estaci&oacute;n</label>
+              <div class="detalle_show">{{ entity.idEstacion|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Estado de Conservaci&oacute;n</label>
+              <div class="detalle_show">{{ entity.idEstadoConservacion|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Servicio</label>
+              <div class="detalle_show">{{ entity.idEstadoServicio|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Tipo de Env&iacute;o</label>
+              <div class="detalle_show">{{ entity.idTipoEnvio|default('-') }}</div>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">C&oacute;digo de Tr&aacute;fico</label>
+              <div class="detalle_show">{{ entity.idCodigoTrafico|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-9">
+          <div class="form-group">
+              <label class="control-label">Observaciones</label>
+              <div class="detalle_show">{{ entity.observacion|default('-') }}</div>
+          </div>
+      </div>
+
+    </div>
+
+</fieldset>

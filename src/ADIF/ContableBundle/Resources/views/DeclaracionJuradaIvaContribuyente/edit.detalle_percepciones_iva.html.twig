@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green-seagreen">
+            <div class="portlet-title">
+                <div class="caption">
+                    Percepciones IVA
+                </div>
+                <div class="tools">
+                    <a class="collapse" href="javascript:;"></a>
+                </div>
+            </div>
+            <div class="portlet-body">                
+                <table class="table table-bordered table-striped table-condensed 
+                       flip-content dt-multiselect table-percepciones-iva" 
+                       id="table-percepciones-iva">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                            <th>CUIT</th>
+                            <th>Raz&oacute;n social</th>
+                            <th>Comprobante</th>
+                            <th>Importe percepci&oacute;n</th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-percepciones-iva .checkboxes" />
+                            </th>
+                            <th>CUIT</th>
+                            <th>Raz&oacute;n social</th>
+                            <th>Comprobante</th>
+                            <th>Importe percepci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        {% for percepcion in percepciones %}
+                            <tr>
+                                <td> {{ percepcion.id }} </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="checkboxes" value="" />
+                                </td>
+                                <td class="nowrap">{{ percepcion.CUIT }}</td>
+                                <td class="nowrap">{{ percepcion.razon_social }}</td>
+                                <td class="nowrap">{{ percepcion.comprobante }}</td>
+                                <td class="nowrap">{{ percepcion.importe }}</td>
+                            </tr>
+                        {% endfor %}                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

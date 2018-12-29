@@ -1,0 +1,44 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block body -%}
+
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del rubro: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Denominaci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.denominacionRubro }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Descripci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.descripcionRubro|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">&Aacute;rea responsable</label>
+                        <div class="detalle_show">{{ entity.area|default('-') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('rubro') }}"><i class="m-icon-swapleft">
+                    </i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

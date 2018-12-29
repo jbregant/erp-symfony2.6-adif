@@ -1,0 +1,194 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+
+        #cant_seleccionados {
+            font-weight: bold;
+        }
+
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock%}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <form name="form_generar_autorizacion_contable" 
+                  id="form_generar_autorizacion_contable" method="post" 
+                  action="{{ path( 'autorizacioncontableobra_new') }}">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">Comprobantes de obra</div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <div class="btn-group pull-left">
+                                        <a class="btn btn-sm green tooltips" data-placement="right" 
+                                           data-original-title="Crear comprobante de obra" 
+                                           href=" {{ path( 'comprobanteobra_new') }} ">
+                                            Crear comprobante de obra <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+{#                                    <div class="btn-group pull-left">
+                                        <a class="btn btn-sm grey-cascade tooltips" data-placement="right" 
+                                           data-original-title="Cargar nota de cr&eacute;dito" 
+                                           href=" {{ path( 'notascredito_obras_new') }} ">
+                                            Cargar nota de cr&eacute;dito <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div> #}
+                                    <button class="btn btn-sm grey comprobantes_seleccionados pull-left" type="button" data-placement="right" disabled>
+                                        <span id="cant_seleccionados">0</span> comprobante<span class="plural">s</span> seleccionado<span class="plural">s</span>
+                                    </button>
+
+                                    {% if is_granted("ROLE_CONTABLE_CREACION_AUTORIZACION_CONTABLE") %}
+                                        <div class="btn-group pull-right hidden" id="generar_autorizacion_contable">
+                                            <a class="btn btn-sm purple tooltips" data-placement="top" 
+                                               data-original-title="Generar autorizaci&oacute;n contable" href="">
+                                                <i class="fa fa-check"></i>
+                                                Generar autorizaci&oacute;n contable
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <table 
+                                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                                    id="table-comprobanteobra"
+                                    data-toggler="1"
+                                    dataexport-title="comprobanteobra">
+                                    <thead>
+                                        <tr class="replace-inputs filter">
+                                            <th></th>
+                                            <th class="not-in-filter"></th>
+                                            <th data-type="date" >Fecha</th>
+                                            <th>Comprobante</th>
+                                            <th>N&uacute;mero</th>
+                                            <th>Proveedor</th>
+                                            <th>Rengl&oacute;n de licitaci&oacute;n</th>
+                                            <th class="hidden not-in-filter">Tramo</th>
+                                            <th>Documento financiero</th>
+                                            <th>Corresponde pago</th>
+                                            <th>Total</th>
+                                            <th>Pendiente</th>
+                                            <th class="hidden not-in-filter">Anulado</th>  
+                                            <th class="not-in-filter"></th>
+                                        </tr>
+                                        <tr class="headers">
+                                            <th class="no-order entity_id"></th>
+                                            <th class="text-center table-checkbox no-order">
+                                                <input type="checkbox" class="not-checkbox-transform group-checkable" data-set="#table-comprobanteobra .checkboxes" />
+                                            </th>
+                                            <th date export-format="date" class="nowrap">Fecha</th>
+                                            <th class="nowrap">Comprobante</th>
+                                            <th class="nowrap">N&uacute;mero</th>
+                                            <th class="nowrap">Proveedor</th>
+                                            <th>Rengl&oacute;n de licitaci&oacute;n</th>
+                                            <th class="hidden">Tramo</th>
+                                            <th class="nowrap">Documento financiero</th>
+                                            <th class="nowrap">Corresponde pago</th>
+                                            <th currency class="nowrap">Total</th>
+                                            <th currency class="nowrap">Pendiente</th>
+                                            <th class="hidden nowrap">Anulado</th>
+                                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue-chambray">
+                            <div class="portlet-title">
+                                <div class="caption">Comprobantes de cr&eacute;dito</div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-toolbar">
+                                    <button class="btn btn-sm grey comprobantes_seleccionados pull-left" type="button" data-placement="right" disabled>
+                                        <span id="cant_comprobante_credito_seleccionados">0</span> comprobante<span class="plural_comprobante_credito">s</span> de cr&eacute;dito seleccionado<span class="plural_anticipo">s</span>
+                                    </button>
+                                </div>
+                                <table 
+                                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                                    id="table-comprobante-credito" dataexport-title="comprobante_credito">
+                                    <thead>
+                                        <tr class="replace-inputs filter">
+                                            <th></th>
+                                            <th class="not-in-filter"></th>
+                                            <th data-type="date" >Fecha</th>
+                                            <th>Tipo</th>
+                                            <th class="hidden not-in-filter">ID Tipo</th>
+                                            <th>Proveedor</th>
+                                            <th class="filter-renglon-licitacion">Rengl&oacute;n de licitaci&oacute;n</th>
+                                            <th class="hidden not-in-filter">ID Rengl&oacute;n de licitaci&oacute;n</th>
+                                            <th>Corresponde pago</th>
+                                            <th>Total</th>
+                                            <th class="hidden not-in-filter"></th>
+                                            <th class="not-in-filter"></th>
+                                        </tr>
+                                        <tr class="headers">
+                                            <th class="no-order entity_id"></th>
+                                            <th class="text-center table-checkbox no-order">
+                                                <input type="checkbox" class="not-checkbox-transform group-checkable" data-set="#table-comprobante-credito .checkboxes" />
+                                            </th>
+                                            <th date class="nowrap">Fecha</th>
+                                            <th class="nowrap">Tipo</th>
+                                            <th class="hidden">ID Tipo</th>
+                                            <th class="nowrap">Proveedor</th>
+                                            <th>Rengl&oacute;n de licitaci&oacute;n</th>
+                                            <th class="hidden">ID Rengl&oacute;n de licitaci&oacute;n</th>
+                                            <th class="nowrap">Corresponde pago</th>
+                                            <th currency class="nowrap">Total</th>
+                                            <th class="hidden"></th>
+                                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>                
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/pago/funciones.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/comprobante/obra/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock%}

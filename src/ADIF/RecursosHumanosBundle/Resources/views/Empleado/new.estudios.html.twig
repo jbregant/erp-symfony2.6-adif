@@ -1,0 +1,129 @@
+<div style="display:none" id="estudios_datos">
+    {% for estudio in empleado.estudios %}
+        <input name="adif_recursoshumanosbundle_empleado_estudio[{{ loop.index }}][id]" type="hidden" value="{{ estudio.id }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_estudio[{{ loop.index }}][establecimiento]" type="hidden" value="{{ estudio.establecimiento }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_estudio[{{ loop.index }}][fecha_desde]" type="hidden" value="{{ estudio.fechaDesde|date('d/m/Y') }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_estudio[{{ loop.index }}][fecha_hasta]" type="hidden" value="{{ estudio.fechaHasta|date('d/m/Y') }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_estudio[{{ loop.index }}][id_nivel_estudio]" type="hidden" value="{{ estudio.idNivelEstudio.id }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_estudio[{{ loop.index }}][id_titulo_universitario]" type="hidden" value="{{ estudio.titulo.id }}"/>
+    {% endfor %}
+</div>
+
+<div class="row" id="row_estudios">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="estudio_establecimiento" class="control-label">Establecimiento</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class=" form-control " maxlength="255" required="required" id="estudio_establecimiento" name="estudio_establecimiento">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="estudio_titulo" class="control-label">T&iacute;tulo</label>
+            <a id="titulo_agregar" 
+               href="{{ path('titulos_universitarios_new', {"popup": true }) }}" 
+               class="pull-right label label-sm label-info tooltips" data-original-title="Agregar nuevo t&iacute;tulo"><i class="fa fa-plus"></i></a>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="choice form-control" required="required" id="estudio_titulo" name="estudio_titulo"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="estudio_nivel" class="control-label">Nivel</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="choice form-control" required="required" id="estudio_nivel" name="estudio_nivel"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="estudio_fecha_inicio" class="control-label">Fecha de inicio</label>
+            <div class="input-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class=" form-control  datepicker " required="required" id="estudio_fecha_inicio" name="estudio_fecha_inicio">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="estudio_fecha_fin" class="control-label">Fecha de finalizaci&oacute;n</label>
+            <div class="input-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class=" form-control  datepicker " required="required" id="estudio_fecha_fin" name="estudio_fecha_fin">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="width-100">&nbsp;</label>
+            <button class="btn green width-100" id="estudio_agregar">
+                <i class="fa fa-plus"></i>
+                Agregar
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-book"></i>Estudios actuales
+                </div>
+                <div class="tools">
+                    <a class="collapse" href="javascript:;"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover  table-striped " id="estudio_estudios_table">
+                        <thead>
+                            <tr>
+                                <th>Establecimiento</th>
+                                <th>T&iacute;tulo</th>
+                                <th>Nivel</th>
+                                <th>Fecha de inicio</th>
+                                <th>Fecha de finalizaci&oacute;n</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for estudio in empleado.estudios %}
+                            <tr tr_index="{{ loop.index }}">
+                                <td>{{ estudio.establecimiento }}</td>
+                                <td>{{ estudio.titulo.nombre }}</td>
+                                <td>{{ estudio.idNivelEstudio }}</td>
+                                <td>{{ estudio.fechaDesde is not null ? estudio.fechaDesde|date('d/m/Y') : '--'  }}</td>
+                                <td>{{ estudio.fechaHasta is not null ? estudio.fechaHasta|date('d/m/Y') : '--'  }}</td>
+                                <td>
+                                    <a class="btn default btn-xs red estudio_borrar" href="#">
+                                        <i class="fa fa-trash-o"></i> Borrar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

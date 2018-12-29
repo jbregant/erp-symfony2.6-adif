@@ -1,0 +1,62 @@
+<table id="tabla-previsualizacion-conciliacion" class="table table-bordered table-striped table-condensed flip-content">
+    <tbody>
+        <tr>
+            <td width="75%" class="item-conciliacion-negrita">SALDO DEL EXTRACTO BANCARIO AL {{ conciliacion.fechaExtracto|date('d/m/Y') }}</td>
+            <td width="25%" class="text-right bold">{{ conciliacion.saldoExtractoEnPesos|default('0')|money_format }}</td>
+        </tr>
+       
+        <tr>
+            <td class="item-conciliacion-negrita">PARTIDAS CONCILIATORIAS QUE RESTAN AL SALDO BANCARIO</td>            
+            <td class="text-right bold">{{ totalPartidasRestan|money_format }}</td>                     
+        </tr>
+       
+        {% for renglon in renglonesExtractoRestan %}   
+        <tr>            
+            <td class="item-conciliacion">{{ renglon.fechaMovimientoBancario|date('d/m/Y') }} &nbsp;—&nbsp; {{ renglon.descripcion }}</td>          
+            <td class="text-right ">{{ renglon.monto|abs|money_format }}</td>            
+        </tr>
+        {% endfor %}        
+        
+        {% for renglon in renglonesMayorRestan %}             
+        <tr>
+            <td class="item-conciliacion">{{ renglon.fecha|date('d/m/Y') }} &nbsp;—&nbsp; {{ renglon.concepto }}</td>          
+            <td class="text-right ">{{ renglon.montoMovimiento(cuentaBancaria)|abs|money_format }}</td>         
+        </tr>   
+        {% endfor %}             
+
+        <tr>
+            <td class="item-conciliacion-negrita">PARTIDAS CONCILIATORIAS QUE SUMAN AL SALDO BANCARIO</td>            
+            <td class="text-right bold">{{ totalPartidasSuman|money_format }}</td>         
+        </tr>
+        
+        {% for renglon in renglonesMayorSuman %}  
+        <tr>
+            <td class="item-conciliacion">{{ renglon.fecha|date('d/m/Y') }} &nbsp;—&nbsp; {{ renglon.concepto }}</td>          
+            <td class="text-right ">{{ renglon.montoMovimiento(cuentaBancaria)|abs|money_format }}</td>         
+        </tr>   
+        {% endfor %}          
+        
+        {% for renglon in renglonesExtractoSuman %} 
+        <tr>            
+            <td class="item-conciliacion">{{ renglon.fechaMovimientoBancario|date('d/m/Y') }} &nbsp;—&nbsp; {{ renglon.descripcion }}</td>          
+            <td class="text-right ">{{ renglon.monto|abs|money_format }}</td>            
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <td class="item-conciliacion-negrita">SALDO CONTABLE DEL BANCO AL {{ conciliacion.fechaFin|date('d/m/Y') }}</td> 
+            {%  set saldoContable = conciliacion.saldoExtractoEnPesos + totalPartidasSuman - totalPartidasRestan %}
+            <td class="text-right bold">{{ saldoContable|money_format }}</td>         
+        </tr>  
+
+        <tr>
+            <td class="item-conciliacion-negrita">SALDO CONTABLE SEGUN EL MAYOR AL {{ conciliacion.fechaFin|date('d/m/Y') }}</td>            
+            <td class="text-right bold">{{ conciliacion.saldoMayor|money_format }}</td>         
+        </tr>     
+ 
+        <tr>
+            <td class="item-conciliacion-negrita">DIFERENCIA DE CONCILIACION</td>            
+            <td class="text-right bold">{{ (saldoContable - conciliacion.saldoMayor)|money_format }}</td>         
+        </tr>          
+    </tbody>    
+</table>

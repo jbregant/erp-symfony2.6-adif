@@ -1,0 +1,66 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la devoluci&oacute;n de dinero
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Fecha ingreso ADIF</label>
+                        <div class="detalle_show">{{ entity.fechaIngresoADIF|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&uacute;mero de referencia otros sistemas</label>
+                        <div class="detalle_show">{{ entity.numeroReferencia|default('-') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">    
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha</label>
+                        <div class="detalle_show">    
+                            {{ entity.fechaCreacion|date('d/m/Y') }}                
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Devoluci&oacute;n de dinero</label>
+                        <div class="detalle_show">    
+                            {{ entity.montoDevolucion }}                 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta bancaria</label>
+                        <div class="detalle_show">          
+                            {{ entity.cuenta }}        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

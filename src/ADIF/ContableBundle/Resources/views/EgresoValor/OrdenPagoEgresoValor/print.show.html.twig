@@ -1,0 +1,67 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% if ( idEmpresa != null ) and ( idEmpresa ) == 2 %}
+                    {% include('PDF/logo.datos.fase.html.twig') %}
+                {% else %}
+                    {% include('PDF/logo.datos.adif.html.twig') %}
+                {% endif %}
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">Orden de pago N&ordm;</div>
+                    <div class="w-100 f-12 t-center">{{ op.numeroOrdenPago }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ op.fechaOrdenPago|date('d/m/Y') }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}
+
+    {% include('@ADIFContable/EgresoValor/OrdenPagoEgresoValor/print.show_datos_beneficiario.html.twig') %} 
+
+    {% include('@ADIFContable/OrdenPago/print.show_comprobantes_cancelados.html.twig') %}    
+
+    {% include('@ADIFContable/OrdenPago/print.show_totales.html.twig') %}    
+
+    <br>
+
+    {% include('@ADIFContable/OrdenPago/print.show_detalle_pago.html.twig') %}    
+
+    <br>
+
+    <table class="w-100 m-top" border="0" >
+        <tr>
+            <td class="w-50" style="vertical-align: top;">
+            </td>
+            <td class="w-50">
+                <table class="w-100" border="0">
+                    <tbody>
+                        <tr>
+                            <td>   
+                                <div>
+                                    <td class="f-12 t-center w-50">
+                                        <hr>Recib&iacute; conforme</td>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    {% include('@ADIFContable/OrdenPago/print.show_checkbox.html.twig') %}    
+
+    <br>    
+
+    {% include('@ADIFContable/OrdenPago/print.show_datos_autorizacion_contable.html.twig') %}  
+
+{% endblock %}

@@ -1,0 +1,71 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Configuraci&oacute;n
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <a href="{{ path('areas') }}">
+                &Aacute;reas
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('categorias') }}">
+                Categor&iacute;as
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('convenios') }}">
+                Convenios
+            </a>
+        </li>
+		{# {% if is_granted('ROLE_MENU_RRHH_CONFIGURACION_GANANCIAS') %} #}
+			{% include ':Menu:menu_rrhh.configuracion_ganancia.html.twig' %}
+		{# {% endif %} #}
+		
+        <li>
+            <a href="{{ path('gerencias') }}">
+                Gerencias
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('nacionalidades') }}">
+                Nacionalidades
+            </a>
+        </li>
+		<li>
+            <a href="{{ path('empleados_nivel_organizacional') }}">
+                Nivel organizacional
+            </a>
+        </li>
+		<li>
+            <a href="{{ path('obra_social') }}">
+                Obras sociales
+            </a>
+        </li>
+		<li>
+            <a href="{{ path('puesto') }}">
+                Puestos
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('sectores') }}">
+                Sectores
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('subcategorias') }}">
+                Subcategor&iacute;as
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('subgerencias') }}">
+                Subgerencias
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('titulos_universitarios') }}">
+                T&iacute;tulos universitarios
+            </a>
+        </li>
+    </ul>
+</li>

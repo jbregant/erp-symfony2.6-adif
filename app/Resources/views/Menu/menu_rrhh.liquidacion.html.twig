@@ -1,0 +1,17 @@
+<li class="dropdown-submenu">
+
+    <a href="">
+        Liquidaci&oacute;n
+    </a>    
+    <ul class="dropdown-menu">
+        
+        {% if is_granted("ROLE_MENU_RRHH_REMUNERACIONES") %}
+            {% include ':Menu:menu_rrhh.liquidacion.remuneraciones.html.twig' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_RRHH_ADMINISTRACION_CONSULTORES') %}
+            {% include ':Menu:menu_rrhh.liquidacion.locacion_servicios.html.twig' %}
+        {% endif %}
+    </ul>
+
+</li>

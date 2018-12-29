@@ -1,0 +1,40 @@
+<div class="table-toolbar">
+    <div class="btn-group pull-right">
+        {%  if  estadoEvaluacion != 1 %}
+            <button  type="button"  class="btn btn-sm green tooltips" disabled> <i class="fa fa-floppy-o"></i>Aprobar</button>
+        {% else %}
+
+            <input type="submit"
+                id="adif_portalProveedoresBundle_proveedorEvaluacion_aprobar"
+                name="adif_portalProveedoresBundle_proveedorEvaluacion[aprobar]"
+                class="btn btn-sm green tooltips"
+                data-original-title=""
+                title=""
+                value="Aprobar">
+
+        {% endif %}
+    </div>
+
+    {% if not datosUsuario.proveedor %}
+        <div class="btn-group pull-right">
+            {%  if  (estadoEvaluacion == 2  or  estadoEvaluacion == 3) %}
+                <button  type="button"  class="btn btn-sm red tooltips" disabled> <i class="fa fa-times"></i>Rechazar</button>
+            {% else %}
+                <div class="btn-group pull-right" id="btn_rechazar_gerencia">
+                    <a class="btn btn-sm red tooltips" data-original-title="Rechazar" href="">
+                        <i class="fa fa-times"></i>
+                        Rechazar
+                    </a>
+                </div>
+
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="btn-group pull-right">
+        {%  if  estadoEvaluacion != 1 %}
+            <button  type="button"  class="btn btn-sm dark tooltips" disabled>Enviar datos en Observación</button>
+        {% else %}
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-sm dark tooltips'}}) }}
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,41 @@
+{{ form_start(form, {'attr': {'id' : 'form_reponer' ,'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+    <div class="row">
+        <div class="col-md-12" style="font-size: 14px;">
+            <span>Monto a reponer: &nbsp;</span>
+            <span class="bold">{{ montoAReponer|money_format }}</span>
+        </div>        
+    </div>
+
+    <div class="row cleardiv">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.nombre) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.nombre) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form.tipoDocumento) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoDocumento) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{ form_label(form.nroDocumento) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.nroDocumento) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,89 @@
+
+{% if app.user.isGranted('ROLE_COMPRAS_PANEL_CONTROL')%}
+    <div class="portlet box green-seagreen">
+        <div class="portlet-title">
+            <div class="caption">
+                Actividad reciente
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="expand">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body" style="display: none;">
+            <ul class="feeds">
+                <li>
+                    <div class="col1">
+                        <div class="cont">
+                            <div class="cont-col1">
+                                <div class="label label-sm label-success">
+                                    <i class="fa fa-letter" style="font-family: inherit;">S</i>
+                                </div>
+                            </div>
+                            <div class="cont-col2">
+                                <div class="desc">
+                                    <a href="{{ path('requerimiento') }}#tab_0"
+                                       onclick='$(".tab-solicitudes-pendientes").click();'> 
+                                        {% if cantidad_solicitudes_pendientes is defined and cantidad_solicitudes_pendientes > 0 %}
+                                            Hay {{ cantidad_solicitudes_pendientes }} renglones de solicitud pendientes.
+                                        {% else %}
+                                            No hay renglones de solicitud pendientes.
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="col1">
+                        <div class="cont">
+                            <div class="cont-col1">
+                                <div class="label label-sm label-info">
+                                    <i class="fa fa-letter" style="font-family: inherit;">R</i>
+                                </div>
+                            </div>
+                            <div class="cont-col2">
+                                <div class="desc">
+                                    <a href="{{ path('requerimiento') }}#tab_1" 
+                                       onclick='$(".tab-requerimientos-enviados").click();'> 
+                                        {% if cantidad_requerimientos_pendientes is defined and cantidad_requerimientos_pendientes > 0 %}
+                                            Hay {{ cantidad_requerimientos_pendientes }} requerimientos pendientes de cotizaci&oacute;n.
+                                        {% else %}
+                                            No hay requerimientos pendientes de cotizaci&oacute;n.
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>    
+
+                <li>
+                    <div class="col1">
+                        <div class="cont">
+                            <div class="cont-col1">
+                                <div class="label label-sm label-danger">
+                                    <i class="fa fa-letter" style="font-family: inherit;">O</i>
+                                </div>
+                            </div>
+                            <div class="cont-col2">
+                                <div class="desc">
+                                    <a href="{{ path('ordenescompra') }}#tab_1"
+                                       onclick='$(".tab-ordencompra-pendientes-generacion").click();'>
+                                        {% if cantidad_oc_pendientes is defined and cantidad_oc_pendientes > 0 %}
+                                            Hay {{ cantidad_oc_pendientes }} &oacute;rdenes de compra pendientes.
+                                        {% else %}
+                                            No hay &oacute;rdenes de compra pendientes.
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>             
+            </ul> 
+        </div>  
+    </div>  
+{% endif %}

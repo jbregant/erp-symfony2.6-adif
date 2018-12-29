@@ -1,0 +1,55 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Compras
+    </a>
+    <ul class="dropdown-menu">
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_BIEN_ECONOMICO') %}
+            <li>
+                <a href="{{ path('bieneconomico') }}">
+                    Bienes econ&oacute;micos
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PEDIDO_INTERNO') %}
+            <li>
+                <a href="{{ path('pedidointerno') }}">
+                    Pedidos internos
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_SOLICITUD_COMPRA') %}
+            <li>
+                <a href="{{ path('solicitudcompra') }}">
+                    Solicitudes de compra
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_REQUERIMIENTO') %}
+            <li>
+                <a href="{{ path('requerimiento') }}">
+                    Requerimientos
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_LICITACION') %}
+            <li>
+                <a href="{{ path('licitacion_compra') }}">
+                    Licitaciones
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_ORDEN_COMPRA') %}
+            <li>
+                <a href="{{ path('ordenescompra') }}">
+                    &Oacute;rdenes de compra
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>

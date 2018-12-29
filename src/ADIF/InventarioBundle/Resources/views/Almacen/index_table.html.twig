@@ -1,0 +1,23 @@
+{
+"data": [
+    {% for entity in entities %}
+        [
+            "{{ entity.id }}",
+            "{{ entity.id }}",
+            "{{ entity.denominacion|default('-')|escape }}",
+            "{{ entity.tipo == 'A'?'Almacén':'Obrador'|default('-') }}",
+            "{{ entity.numeroDeposito|default('-') }}",
+            "{{ entity.provincia|default('-')|escape }}",
+            "{{ entity.latitud|default('-') }}",
+            "{{ entity.longitud|default('-') }}",
+            "{{ entity.linea|default('-')|escape }}",
+            "{{ entity.estacion|default('-')|escape }}",
+            "{{ entity.zonaVia|default('-') }}",
+        {
+            "show" : " {{ path( "almacen_show", { "id": entity.id }) }}",
+            "edit" : " {{ path( "almacen_edit", { "id": entity.id }) }}",
+            "delete" : " {{ path( "almacen_delete", { "id": entity.id }) }}"
+        }
+        ]{{ (loop.last ? '' : ',') }}
+    {% endfor %}
+]}

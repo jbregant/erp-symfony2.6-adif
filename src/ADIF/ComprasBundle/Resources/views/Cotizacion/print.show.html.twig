@@ -1,0 +1,113 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% if ( idEmpresa != null ) and ( idEmpresa ) == 2 %}
+                    {% include('PDF/logo.datos.fase.html.twig') %}
+                {% else %}
+                    {% include('PDF/logo.datos.adif.html.twig') %}
+                {% endif %}
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">Pedido de cotizaci&oacute;n N&ordm;</div>
+                    <div class="w-100 f-12 t-center">{{ entity.numero }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ entity.fechaRequerimiento|date('d/m/Y') }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}
+
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td class="w-100" style="vertical-align: top;">
+                <table class="w-100 t-left" border="0" style="line-height: 80%;">
+                    <tbody>
+                        <tr>
+                            <td class="f-12" colspan="1">Proveedor:</td>
+                            <td colspan="3" class="f-12 bold">{{ proveedor.clienteProveedor.razonSocial  }}</td></tr>
+                        <tr>
+                            <td class="f-12">CUIT:</td>
+                            <td class="f-12 bold">{{ proveedor.clienteProveedor.cuit  }}</td>
+                            <td class="f-12">Cond. IVA:</td>
+                            <td class="f-12 bold">{{ proveedor.clienteProveedor.condicionIva  }}</td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">Domicilio:</td>
+                            <td class="f-12 bold">{{ proveedor.clienteProveedor.domicilioComercial  }}</td>
+                            <td class="f-12">Localidad:</td>
+                            <td class="f-12 bold">{{ proveedor.clienteProveedor.domicilioComercial.localidad }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    {% if renglones is not empty %}
+        <table class="w-100 m-top" border="1" >
+            <thead>
+                <tr>
+                    <th class="f-10 t-left hlt" colspan="4">Detalle</th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th class="f-10 nowrap">Rubro</th>
+                    <th class="f-10 nowrap">Bien econ&oacute;mico</th>
+                    <th class="f-10">Descripci&oacute;n</th>
+                    <th class="f-10 nowrap">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for renglon in renglones %}
+                    <tr>    
+                        <td class="f-10 nowrap">{{ renglon.renglonSolicitudCompra.rubro }}</td>
+                        <td class="f-10 nowrap">{{ renglon.renglonSolicitudCompra.bienEconomico }}</td>
+                        <td class="f-10">{{ renglon.renglonSolicitudCompra.descripcion|default('-') }}</td>                           
+                        <td class="f-10 nowrap">{{ renglon.cantidad ~ ' (' ~ renglon.renglonSolicitudCompra.unidadMedida ~ ')' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <span class="f-12">La solicitud de cotizaci&oacute;n no contiene &iacute;tems.</span>
+    {% endif %}
+
+
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td class="w-50" style="vertical-align: top;">
+                <table class="w-100 t-left" border="1" style="line-height: 70%;">
+                    <tbody>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Tipo de pago:</td>
+                            <td class="borderless f-12 bold">{{ proveedor.tipoPago|default('-') }}</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12">Moneda:</td>
+                            <td class="borderless f-12 bold">{{ proveedor.tipoMoneda|default('-') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="w-50" style="vertical-align: top;">
+                <table class="w-100 t-left" border="1" style="line-height: 70%;">
+                    <tbody>
+                        <tr class="borderless">
+                            <td class="borderless f-12" colspan="2">Firma autorizada:</td>
+                        </tr>
+                        <tr class="borderless">
+                            <td class="borderless f-12" colspan="2">Nombre y cargo:</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.denominacion|escape_json }}",
+    "{{ entity.descripcion|escape_json }}",
+    {
+    "show" : "{{ path( 'tipoactividad_show', { 'id': entity.id }) }}",
+    "edit" : "{{ path( 'tipoactividad_edit', { 'id': entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

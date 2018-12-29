@@ -1,0 +1,265 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var hojaRuta = '{{ idHojaRuta|default('') }}';
+        var indiceTipo = '{{ indice | default('1') }}'; // 1 corresponde a Material Producido de Obra
+        var errores = '{% if not form.vars.valid %} 1 {%else%} 0 {%endif%}';
+        var id_prefix = 'adif_inventariobundle_hojaruta_materialproducidodeobra_';
+        var campos = [ 'provincia', 'linea', 'almacen', 'tipoMaterial', 'grupoMaterial', 'estadoConservacion'];
+	var campoDatoMaestro = 'inventario';
+        var camposObligatorios = ['provincia', 'linea', 'almacen'];
+	var tipoItems = 'itemsHojaRutaNuevoProducido_';
+    </script>
+    <script src="{{ asset('js/custom/inventario/hojaruta/MaterialProducidoDeObra/new.js') }}" ></script>
+    <script src="{{ asset('js/custom/inventario/hojaruta/hojaRuta_fn.js')}}"></script>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Hoja de Ruta</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+
+            {% if edit %}
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+
+            <fieldset class="form-section-fieldset">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.denominacion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.denominacion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.usuarioAsignado) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.usuarioAsignado) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaVencimiento) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaVencimiento) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Estado</label>
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ entity.estadoHojaRuta }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {#{{ form_label(form.fechaAlta) }}#}
+                            <label class="control-label">Fecha de Alta</label>
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ entity.fechaAlta| default("now"|date('d/m/Y')) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.tipoRelevamiento) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.tipoRelevamiento) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.levantamiento) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.levantamiento) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+             <!-- Start -->
+            <div class="portlet box blue" style="margin-top:20px;">
+                <div class="portlet-title">
+                    <div class="caption">Items Material Producido de Obra </div>
+
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <fieldset class="form-section-fieldset form-item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.provincia) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.provincia) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.linea) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.linea) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.almacen) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.almacen) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.tipoMaterial) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.tipoMaterial) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.grupoMaterial) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.grupoMaterial) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.estadoConservacion) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.estadoConservacion) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="btn btn-sm green prototype-link-add-item tooltips"
+                                   data-placement="right" data-original-title="Agregar" style="margin-top: 32px;">
+                                    <i class="fa fa-plus">Agregar</i>
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section-fieldset">
+                        <!-- <div
+                            data-prototype="{#{% filter escape %}{% include 'ADIFInventarioBundle:HojaRuta:MaterialProducidoDeObra/prototype.item.html.twig' with {'item': form.itemsHojaRutaMaterialProducidoDeObra.vars.prototype} %}{% endfilter %}"
+                            class="prototype-item" style="display:none;">
+                            {% for item in form.itemsHojaRutaMaterialProducidoDeObra %}
+                                {% include 'ADIFInventarioBundle:HojaRuta:MaterialProducidoDeObra/prototype.item.html.twig' %}
+                            {% endfor %} #}
+                        </div> -->
+			<div
+                            data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:HojaRuta:MaterialProducidoDeObra/prototype.item.html.twig' with {'item': form.itemsHojaRutaNuevoProducido.vars.prototype} %}{% endfilter %}"
+                            class="prototype-item" style="display:none;">
+                            {% for item in form.itemsHojaRutaNuevoProducido %}
+                                {% include 'ADIFInventarioBundle:HojaRuta:MaterialProducidoDeObra/prototype.item.html.twig' %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- <table
+                            class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel prototype-item"
+                            id="table-item"
+                            dataexport-title="hojaruta-item-materialproducidodeobra">
+                            <thead> -->
+			    <table
+                            class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel prototype-item"
+                            id="table-item"
+                            dataexport-title="hojaruta-item-nuevoproducido">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th></th>
+                                    <th class="not-in-filter"></th>
+                                    <th>Provincia</th>
+                                    <th>L&iacute;nea</th>
+                                    <th>Almac&eacute;n/Obrador</th>
+                                    <th>Tipo de Material</th>
+                                    <th>Grupo de Material</th>
+                                    <th>Estado de Conservaci&oacute;n</th>
+                                    <th class="not-in-filter"></th>
+                                </tr>
+                                <tr class="headers">
+                                    <th class="no-order entity_id"></th>
+                                    <th class="text-center table-checkbox no-order">
+                                        <input type="checkbox" id="table-checkbox" class="group-checkable" data-set="#table-item .checkboxes" />
+                                    </th>
+                                    <th>Provincia</th>
+                                    <th>L&iacute;nea</th>
+                                    <th>Almac&eacute;n/Obrador</th>
+                                    <th>Tipo de Material</th>
+                                    <th>Grupo de Material</th>
+                                    <th>Estado de Conservaci&oacute;n</th>
+                                    <th class="text-center no-order ctn_acciones">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+            <!-- End -->
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('hojaruta', { "indice": indice }) }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+
+{% if edit and domicilio.localidad.vars.data is not null %}
+    <div id="beneficiarioliquidacion_domicilio">
+        <input type="hidden" value="{{ domicilio.localidad.vars.data.provincia.id }}" name="beneficiarioliquidacion_provincia"/>
+        <input type="hidden" value="{{ domicilio.localidad.vars.data.id }}" name="beneficiarioliquidacion_localidad"/>
+    </div>
+{% endif %}
+
+<fieldset class="form-section-fieldset">
+    <legend class="form-section-legend">{{ form_label(domicilio) }}</legend>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(domicilio.calle)  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(domicilio.calle) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(domicilio.numero)  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(domicilio.numero) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            {{ form_label(domicilio.piso)  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(domicilio.piso) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            {{ form_label(domicilio.depto)  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(domicilio.depto) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            {{ form_label(domicilio.idProvincia)  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(domicilio.idProvincia) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            {{ form_label(domicilio.localidad)  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(domicilio.localidad) }}
+            </div>
+        </div>                
+    </div>
+</fieldset>

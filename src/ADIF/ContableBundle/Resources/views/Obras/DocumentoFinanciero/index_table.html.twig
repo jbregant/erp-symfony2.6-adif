@@ -1,0 +1,41 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaCreacion is not null ? entity.fechaCreacion|date('d/m/Y') : '-' }}",
+    "{{ entity.tipoContratacion|default('-') }}",
+    "{{ entity.numeroLicitacion|default('-') }}",
+    "{{ entity.anio|default('-') }}",
+    "{{ entity.descripcion|escape_json|default('-') }}",
+    "{{ entity.proveedor|default('-') }}",
+    "{{ entity.tipoDocumentoFinanciero }}",
+    "{{ entity.fechaDocumentoFinancieroInicio|date('d/m/Y') }}",
+    "{{ entity.fechaDocumentoFinancieroFin|date('d/m/Y') }}",
+    "{{ entity.fechaIngresoADIF|date('d/m/Y') }}",
+    "{{ entity.montoSinIVA|money_format }}",
+    "{{ entity.montoIVA|money_format }}",
+    "{{ entity.montoFondoReparo|money_format }}",
+    "{{ entity.montoTotalDocumentoFinanciero|money_format }}",
+    "{{ entity.fechaAnulacion is not null ? entity.fechaAnulacion|date('d/m/Y') : '-' }}",
+    {
+    "show" : " {{ path( "documento_financiero_show", { "id": entity.id }) }}"
+    {% if not entity.correspondePago %}
+        ,"correspondePago" : " {{ path( "documento_financiero_corresponde_pago", { "id": entity.id }) }}"
+    {% else %}
+        ,"noCorrespondePago" : " {{ path( "documento_financiero_corresponde_pago", { "id": entity.id }) }}"
+    {% endif %}
+    {% if entity.esEditable %}
+        ,"edit" : " {{ path( "documento_financiero_edit", { "id": entity.id }) }}"
+    {% endif %}
+    {% if is_granted('ROLE_DOCUMENTO_FINANCIERO_EDITAR_FECHA_APROBACION_TECNICA') %}
+        ,"edit_fecha_aprobacion_tecnica" : "{{ path( "documento_financiero_edit_fecha_aprobacion_tecnica_modal", { "id": entity.id }) }}"
+    {% endif %}
+    {% if entity.esAnulable %}
+        ,"anular" : "{{ path("documento_financiero_anular", { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

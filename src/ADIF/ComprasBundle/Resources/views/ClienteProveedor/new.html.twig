@@ -1,0 +1,114 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% set queryParams = app.request.query.all %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />     
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">{{body_page_title}}</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.esExtranjero) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.esExtranjero) }}
+                            </div>
+                        </div>
+                    </div>
+                    {%if queryParams.tipo_cliente_proveedor == "tipo_cliente"%}
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                {{ form_label(form.tipoDocumento) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.tipoDocumento) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                {{ form_label(form.DNI) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.DNI) }}
+                                </div>
+                            </div>
+                        </div>
+                    {%endif%}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form_label(form.CUIT) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.CUIT) }}
+                            </div>
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form_label(form.codigoIdentificacion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.codigoIdentificacion) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path(back_path) }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/custom/compras/clienteproveedor/new.js') }}" ></script>
+{% endblock %} 

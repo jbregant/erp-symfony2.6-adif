@@ -1,0 +1,24 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.codigo|default('-') }}",
+    "{{ entity.denominacion|default('-')|decode }}",
+    "{{ entity.cuentaContable|default('-') }}",
+    {% if entity.cuentaIngreso.id > 0 %}
+        "{{ entity.cuentaIngreso|default('-') }}",
+    {% else %}
+        "clase sin cunenta ingreso configurada",
+    {% endif %}
+    "{{ entity.descripcion|default('-') }}",
+    {
+    "show" : " {{ path( "clasecontrato_show", { "id": entity.id }) }}"
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_CONFIGURACION_CLASE_CONTRATO') %}
+    ,"edit" : " {{ path( "clasecontrato_edit", { "id": entity.id }) }}"
+        {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,106 @@
+{% extends '::base.html.twig' %}
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Evaluación</div>
+                </div>
+                <div class="portlet-body">
+                    <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a id="inscripcionesPestaña" href="#tab_1" data-toggle="tab" class="inscripciones">Inscripciones</a>
+                                </li> 
+                            <li>
+                                <a id="proveedoresPestaña" href="#tab_2" data-toggle="tab" class="proveedores">Proveedores</a>
+                            </li>
+                    </ul>
+                    {% if is_granted("ROLE_BOTON_ASOCIAR_CONTACTO_PREINSCRIPCION") %}
+                        <div>
+                            <div class="btn-group pull-right" id="btn_asociar_contacto">
+                                <a class="btn btn-sm blue tooltips" data-original-title="Asociar Contacto" href="" style="margin-left: 5px;">
+                                    <i class="fa fa-floppy-o"></i>
+                                    Asociar Contacto
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {%  if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GALO") %}
+                        <div class="table-toolbar">
+                            <div class="btn-group pull-right" id="btn_rechazar_interesado">
+                                <a class="btn btn-sm red tooltips" data-original-title="Rechazar Interesado" href="">
+                                    <i class="fa fa-times"></i>
+                                    Rechazar
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right" id="btn_aprobar_interesado">
+                                <a class="btn btn-sm green tooltips" data-original-title="Aprobar Interesado" href="">
+                                    <i class="fa fa-floppy-o"></i>
+                                    Enviar alta proveedor
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right" id="btn_aprobar_modificacion">
+                                <a class="btn btn-sm green tooltips" data-original-title="Aprobar Modificacion" href="">
+                                    <i class="fa fa-floppy-o"></i>
+                                    Aprobar modificaciones
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <table
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel"
+                        id="table-proveedor-evaluacion"
+                        dataexport-title="proveedor-evaluacion">
+                        <thead>
+                            <tr class="replace-inputs filter" >
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Razon social</th>
+                                <th class="hidden">Proveedor</th>
+                                <th>CUIT</th>
+                                <th>Rubro</th>
+                                <th>Proveedor Nacional</th>
+                                <th>Estado</th>
+                                <th>GALO</th>
+                                <th>GAF Finanzas</th>
+                                <th>GAF Impuestos</th>
+                                <th>GCSHM</th>
+                                <th>Fecha de Ingreso <br> de solicitud</th>
+                                <th>Fecha de Último <br> Cambio de Estado</th>
+                                <th>Errores</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-proveedor-evaluacion .checkboxes" />
+                                </th>
+                                <th class="text-center">Razon social</th>
+                                <th class="hidden">Proveedor</th>
+                                <th class="text-center">CUIT</th>
+                                <th class="text-center">Rubro</th>
+                                <th class="text-center">Proveedor Nacional</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">GALO</th>
+                                <th class="text-center">GAF Finanzas</th>
+                                <th class="text-center">GAF Impuestos</th>
+                                <th class="text-center">GCSHM</th>
+                                <th class="text-center">Fecha de Ingreso de solicitud</th>
+                                <th class="text-center">Fecha de Último Cambio de Estado</th>
+                                <th class="text-center">Errores</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/portalproveedores/index.js') }}" ></script>
+{% endblock %}

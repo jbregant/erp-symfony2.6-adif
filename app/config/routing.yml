@@ -1,0 +1,79 @@
+adif_warehouse:
+    resource: "@ADIFWarehouseBundle/Resources/config/routing.yml"
+    prefix:   /
+
+error_403:
+    pattern: /error/403
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'TwigBundle:Exception:error_403.html.twig'
+
+error_404:
+    pattern: /error/404
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'TwigBundle:Exception:error_404.html.twig'
+
+error_500:
+    pattern: /error/500
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'TwigBundle:Exception:error_500.html.twig'
+
+adif_base:
+    resource: "@ADIFBaseBundle/Controller"
+    prefix:   /
+    type:     annotation
+
+adif_compras:
+    resource: "@ADIFComprasBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+adif_autenticacion:
+    resource: "@ADIFAutenticacionBundle/Controller"
+    prefix:   /
+    type:     annotation
+
+adif_contable:
+    resource: "@ADIFContableBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+adif_recursos_humanos:
+    resource: "@ADIFRecursosHumanosBundle/Controller"
+    prefix:   /
+    type:     annotation
+
+adif_inventario:
+    resource: "@ADIFInventarioBundle/Controller"
+    prefix:   /
+    type:     annotation
+
+adif_homepage:
+    pattern:  /
+    defaults: { _controller: FOSUserBundle:Security:login }
+
+fos_user:
+    resource: "@ADIFAutenticacionBundle/Resources/config/routing/fos_user.yml"
+    prefix:  /
+
+export_excel:
+    pattern: /export_excel
+    defaults:  { _controller: ADIFBaseBundle:Exporter:export }
+
+export_pdf:
+    pattern: /export_pdf
+    defaults:  { _controller: ADIFBaseBundle:Exporter:exportPDF }
+
+login:
+    pattern: /login
+
+adif_api:
+    resource: "@ADIFApiBundle/Controller"
+    prefix:   /
+
+adif_portal_proveedores:
+   resource: "@ADIFPortalProveedoresBundle/Controller/"
+   type:     annotation
+   prefix:   /

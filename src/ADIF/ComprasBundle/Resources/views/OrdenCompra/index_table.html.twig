@@ -1,0 +1,66 @@
+
+{% set ConstanteEstadoOrdenCompra = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoOrdenCompra' %}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.numeroOrdenCompra|default('-') }}",
+    "{{ entity.numeroCalipso|default('-') }}",
+	"{{ entity.idRequerimiento|default('-') }}",
+    "{% if entity.fechaOrdenCompra %}{{ entity.fechaOrdenCompra|date('d/m/Y') }}{% else %} - {% endif %}",
+    "{{ entity.proveedor }}",
+    {
+    "cotizacion": "{{ entity.cotizacion|default('-') }}",
+    "showPath":  "{{ entity.cotizacion is not null ? path('cotizacion_show_invitaciones', { 'idRequerimiento': entity.idRequerimiento }) : '#' }}"
+    },   
+    "{{ entity.cotizacion is not null ? entity.descripcionRequerimiento|default('-')|escape_json : '-' }}",
+    "{{ entity.simboloTipoMoneda }}",
+    "{{ entity.monto|money_format(entity.simboloTipoMoneda, 1, 2) }}",
+    "{{ entity.rubros }}",
+    "{{ entity.bienes }}",
+    {% if muestraSaldo %}
+        {
+        "saldo": "{{ entity.saldo|money_format(entity.simboloTipoMoneda, 1, 2) }}",
+        "muestraDetalleSaldo": "{{ (is_granted('ROLE_COMPRAS_EDITAR_ORDEN_COMPRA') and (not (entity.esServicio)) and (entity.saldo > 0 )) ? 1 : 0 }}"
+        },
+        "{{ entity.nombreUsuario|default('-') }}",
+    {% endif %}
+    {
+    "estadoOrdenCompra" : "{{ entity.estadoOrdenCompra }}",
+    "estadoClass" : "{{'state state-' ~ entity.aliasTipoImportancia }}"   
+    },
+    {
+    "show" : "{{ path( 'ordenescompra_show', { 'id': entity.id }) }}"
+
+    {% if entity.estadoOrdenCompra == constant(ConstanteEstadoOrdenCompra ~ '::ESTADO_OC_BORRADOR') %}
+        ,"edit" : "{{ path( 'ordenescompra_edit', { 'id': entity.id }) }}"
+    {% endif %}
+
+    ,"print" : "{{ path( 'ordenescompra_print', { 'id': entity.id }) }}"
+
+    {% if entity.idordenCompraOriginal is not null %}
+        ,"print_original" : "{{ path( 'ordenescompra_print', { 'id': entity.idordenCompraOriginal }) }}"
+    {% endif %}
+
+    {% if entity.estadoOrdenCompra != constant(ConstanteEstadoOrdenCompra ~ '::ESTADO_OC_BORRADOR') %}
+        ,"print_definitivo_compra" : "{{ path( 'presupuesto_print_definitivo_compra', { 'idOrdenCompra': entity.id }) }}"
+    {% endif %}
+
+    {% if entity.muestraReporteDesvio %}
+        ,"reporte_desvio" : "{{ path( 'ordenescompra_reporte_desvio', { 'id': entity.id }) }}"
+    {% endif %}
+
+    {% if is_granted('ROLE_COMPRAS_ANULAR_ORDEN_COMPRA') and entity.estadoOrdenCompra != constant(ConstanteEstadoOrdenCompra ~ '::ESTADO_OC_ANULADA') %}
+        ,"anular" : "{{ path( 'ordenescompra_anular', { 'id': entity.id }) }}"
+    {% endif %}
+	{% if is_granted('ROLE_COMPRAS_ORDEN_COMPRA_ABIERTA') %} 
+		,"oc_abierta": "{{ path( 'oc_abierta', { 'id': entity.id }) }}"
+	{% endif %}
+	
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

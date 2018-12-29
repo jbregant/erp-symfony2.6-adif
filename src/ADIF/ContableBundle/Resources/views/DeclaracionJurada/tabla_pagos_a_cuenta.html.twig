@@ -1,0 +1,29 @@
+<div class="portlet box blue-madison">
+    <div class="portlet-title">
+        <div class="caption">
+            Pagos a cuenta {{ impuesto|replace({'-': " "})|upper }}
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">    
+        <table class="table table-bordered table-striped table-condensed 
+               flip-content dt-multiselect table-pagos-a-cuenta" 
+               id="table-pagos-a-cuenta-{{ impuesto }}">
+            {% include('@ADIFContable/DeclaracionJurada/cuerpo_tabla_pagos_a_cuenta.html.twig') %}
+        </table>
+
+        {% if readonly is defined and not readonly %}
+            <div class="form-actions" style="margin-top: 0px;">
+                <div class="pull-right">
+                    <a id="button-ddjj-{{ impuesto }}" class="btn btn-sm green-jungle tooltips button-ddjj"
+                       data-placement="left" data-original-title="Crear declaraci&oacute;n jurada" 
+                       href="#">
+                        Generar declaraci&oacute;n jurada <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

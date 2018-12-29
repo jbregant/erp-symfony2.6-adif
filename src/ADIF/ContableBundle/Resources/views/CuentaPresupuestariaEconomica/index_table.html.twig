@@ -1,0 +1,26 @@
+{
+"data": [
+{% for cuentaPresupuestariaEconomica in cuentasPresupuestariasEconomicas %}
+    [
+    "{{ cuentaPresupuestariaEconomica.id }}",
+    "{{ cuentaPresupuestariaEconomica.id }}",
+    {
+    "codigo" : "{{ cuentaPresupuestariaEconomica.codigo }}",
+    "nivel" : "{{ cuentaPresupuestariaEconomica.nivel }}"   
+    },
+    {
+    "denominacion" : "{{ cuentaPresupuestariaEconomica.denominacion|decode }}",
+    "nivel" : "{{ cuentaPresupuestariaEconomica.nivel }}",
+    "esImputable" : {{ cuentaPresupuestariaEconomica.esImputable ? 1 : 0 }}
+    },
+    "{{ cuentaPresupuestariaEconomica.esImputable ? 'Sí' : 'No' }}",
+    {
+    "show" : "{{ path( 'cuentapresupuestariaeconomica_show', { 'id': cuentaPresupuestariaEconomica.id }) }}",
+    "edit" : "{{ path( 'cuentapresupuestariaeconomica_edit', { 'id': cuentaPresupuestariaEconomica.id }) }}"
+    {% if is_granted('ROLE_CONTABLE_ELIMINACION') %}
+        ,"delete" : "{{ path( 'cuentapresupuestariaeconomica_delete', { 'id': cuentaPresupuestariaEconomica.id }) }}"  
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

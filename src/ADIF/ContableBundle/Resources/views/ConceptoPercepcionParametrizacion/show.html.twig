@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la parametrizaci&oacute;n del concepto de percepci&oacute;n
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Concepto de percepci&oacute;n</label>
+                        <div class="detalle_show">  
+                            {{ entity.conceptoPercepcion }} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Jurisdicci&oacute;n</label>
+                        <div class="detalle_show">  
+                            {{ entity.jurisdiccion|default('-') }} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta contable cr&eacute;dito</label>
+                        <div class="detalle_show">  
+                            {{ entity.cuentaContableCredito }} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta contable d&eacute;bito</label>
+                        <div class="detalle_show">  
+                            {{ entity.cuentaContableDebito }} 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('concepto_percepcion_parametrizacion') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

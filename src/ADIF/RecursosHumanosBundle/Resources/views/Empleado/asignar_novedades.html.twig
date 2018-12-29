@@ -1,0 +1,176 @@
+{% extends '::base_reducido.html.twig' %}    
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">{{ page_title }}: <b>{{ empleado }}</b> - Convenio: <b>{{ empleado.getConvenio }}</b></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a id="agregar_novedad" class="btn btn-sm green tooltips" data-placement="right" data-original-title="Agregar novedad" href="#">
+                                Agregar novedad <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                        id="table-novedades"
+                        dataexport-title="Novedades-empleado">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="entity_id hidden"></th>
+                                <th class="not-in-filter"></th>
+                                <th>Novedad</th>
+                                <th data-type="date">Fecha</th>
+                                <th>Valor</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id hidden"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-novedades .checkboxes" />
+                                </th>
+                                <th>Novedad</th>
+                                <th export-format="date">Fecha</th>
+                                <th numeric>Valor</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for novedad in empleado.novedades if novedad.fechaBaja is null %}
+                                <tr>
+                                    <td class="hidden"><input type="hidden" value=" {{ novedad.id }} "/></td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>                            
+                                    <td class="novedad">{{ novedad.idConcepto.codigo ~ " - " ~ novedad.idConcepto }}</td>
+                                    <td class="fechaAlta">{{ novedad.fechaAlta|date('d/m/Y') }}</td>
+                                    <td class="valor text-right">{{ (novedad.idConcepto.esPorcentaje ? '(%) ' : '') ~ novedad.valor|replace({'.':','}) ~ (novedad.idConcepto.esPorcentaje ? ' %' : '') }}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href="{{ path('empleados_asignar_novedades_editar', { 'idEmpleado': empleado.id, 'idNovedad': novedad.id }) }}" class="edit btn btn-xs green tooltips" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{ path('empleados_asignar_novedades_borrar', { 'idEmpleado': empleado.id, 'idNovedad': novedad.id }) }}" class="delete btn btn-xs red tooltips" data-original-title="Borrar"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn default button-back" >
+                            <i class="m-icon-swapleft"></i> Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="cuerpo-novedades">
+        <form id="form_novedades" method="post" name="form_novedades">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_label(form.idConcepto, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <span id="select-novedades">
+                                <select class="form-control choice select2" required="required" name="adif_recursoshumanosbundle_empleado_novedades[idConcepto]" id="adif_recursoshumanosbundle_empleado_novedades_idConcepto" tabindex="-1">
+                                    <option value="" selected>-- Elija una novedad --</option>
+                                {% for choice_concepto in form.idConcepto.vars.choices %}
+                                    <option es-ajuste="{{choice_concepto.data.esAjuste ? 1 : 0}}" value="{{choice_concepto.data.id}}">{{choice_concepto.data.descripcion}} - C&oacute;digo: {{choice_concepto.data.codigo}}</option>
+                                {% endfor %}
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">   
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.fechaAlta, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.fechaAlta) }}
+                        </div>
+                    </div>
+                </div>    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.valor, null, {'label_attr': {'class': 'control-label', 'id': 'label_valor'}})  }}
+                        <div class="input right">
+                            {{ form_widget(form.valor) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="row_ajuste" style="display: none;">   
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.liquidacionAjuste, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.liquidacionAjuste) }}
+                        </div>
+                    </div>
+                </div>    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.dias, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input right">
+                            {{ form_widget(form.dias) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+    </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        var pathNovedades = "{{ path('empleados_asignar_novedades_update', { 'idEmpleado': empleado.id }) }}";
+
+        var empleado = "{{ empleado }}";
+
+        var novedades ={{ novedades|json_encode|raw }} ;</script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>             
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/custom/rrhh/empleado/asignar_novedades.js') }}" ></script>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+<link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}

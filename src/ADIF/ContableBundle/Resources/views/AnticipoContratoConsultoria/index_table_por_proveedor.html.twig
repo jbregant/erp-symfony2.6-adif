@@ -1,0 +1,12 @@
+{
+"data": [
+{% for orden_compra_tramo in ordenes_compra_tramos %}
+    [
+    "{{ orden_compra_tramo.id }}",
+    "{{ orden_compra_tramo.tipo }}",
+    "{{ orden_compra_tramo.descripcion }}",
+    "{{ orden_compra_tramo.monto|money_format }}",
+    "{{ orden_compra_tramo.tipo_anticipo }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

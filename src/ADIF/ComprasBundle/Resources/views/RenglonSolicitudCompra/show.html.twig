@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la RenglonSolicitudCompra: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Descripcion</label>
+                        <div class="detalle_show">                                {{ entity.descripcion }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Justipreciounitario</label>
+                        <div class="detalle_show">                                {{ entity.justiprecioUnitario }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cantidadpendiente</label>
+                        <div class="detalle_show">                                {{ entity.cantidadPendiente }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cantidadsolicitada</label>
+                        <div class="detalle_show">                                {{ entity.cantidadSolicitada }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechacreacion</label>
+                        <div class="detalle_show">                                {{ entity.fechaCreacion|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechaultimaactualizacion</label>
+                        <div class="detalle_show">                                {{ entity.fechaUltimaActualizacion|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechabaja</label>
+                        <div class="detalle_show">                                {{ entity.fechaBaja|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>            </div>
+                <button type="button" class="btn default button-back" back-url="{{ path('renglonsolicitudcompra') }}"><i class="m-icon-swapleft"></i>Volver</button>
+        </div>
+    </div>
+{% endblock %}

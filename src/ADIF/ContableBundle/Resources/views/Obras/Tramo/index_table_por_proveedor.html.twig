@@ -1,0 +1,15 @@
+{
+"data": [
+{% for tramo in tramos %}
+    [
+    "{{ tramo.id }}",
+    "{{ tramo.licitacion.aliasCompleto }}",
+    "{{ tramo.descripcion|escape_json }}",
+    "{{ tramo.saldoFinanciero }}",
+    "{{ tramo.saldoFondoReparo }}",
+    "{{ tramo.licitacion.fechaApertura|date('d/m/Y') }}",
+    "{{ tramo.porcentajeFondoReparo|default(0) }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+
+]}

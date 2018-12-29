@@ -1,0 +1,635 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <style type="text/css">
+        #col-ctn-foto-personal{
+            text-align: center;
+        }
+
+        #col-ctn-foto-personal > a.thumbnail{
+            width: 154px;
+            height: 146px;
+            margin-bottom: 0px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #col-ctn-foto-personal > a.thumbnail > img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+    <div class="pull-left" style="margin-bottom: 7px;margin-top: -30px;">
+        <h3> {{ entity.nroLegajo }} - {{ entity.persona.apellido }}, {{ entity.persona.nombre }} </h3>
+    </div>
+    <div class="pull-right" style="margin-bottom: 12px;margin-top: -13px;">
+        <a class="btn dark m-right" data-original-title="Exportar a PDF" href=" {{ path( 'empleados_show_pdf', { 'id': entity.id }) }} ">
+            <i class="fa fa-file-pdf-o"></i> Exportar a PDF
+        </a>
+        <button type="button" class="btn green button-back" back-url="{{ path( 'empleados_edit', { 'id': entity.id }) }}" >
+            <i class="fa fa-edit"></i> Editar</button>
+    </div>
+
+    <!-- </div> -->
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Alta temprana</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row" >
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ entity.condicion }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Tipo de contrataci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.tipoContratacionActual.tipoContrato }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Obra social</label>
+                        <div class="detalle_show">{{ entity.obraSocialActual.obraSocial }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Datos personales</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row" >
+                <div class="col-md-3" id="col-ctn-foto-personal">
+                    <a class="thumbnail">
+                        {% if entity.foto %}
+                            <img src="{{ asset("uploads/empleados/fotos/" ~ entity.foto) }}" alt="Foto empleado"/>
+                        {% else %}
+                            <img src="http://www.placehold.it/144x137/EFEFEF/AAAAAA&amp;text=Sin+imagen" alt=""/>
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">  
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Legajo</label>
+                                <div class="detalle_show">{{ entity.nroLegajo }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Apellido</label>
+                                <div class="detalle_show">{{ entity.persona.apellido }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Nombre</label>
+                                <div class="detalle_show">{{ entity.persona.nombre }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Documento</label>
+                                <div class="detalle_show">{{ entity.persona.idTipoDocumento ~ ' N&ordm; ' ~ entity.persona.nroDocumento }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Sexo</label>
+                                <div class="detalle_show">{{ entity.persona.sexo == 'M' ? 'Masculino' : 'Femenino' }}</div>
+                            </div>
+                        </div>                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Fecha de nacimiento</label>
+                                <div class="detalle_show">{{ entity.persona.fechaNacimiento|date('d/m/Y') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">CUIL</label>
+                                <div class="detalle_show">{{ entity.persona.cuil }}</div>
+                            </div>
+                        </div>                
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Estado civil</label>
+                                <div class="detalle_show">{{ entity.persona.idEstadoCivil }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Nacionalidad</label>
+                        <div class="detalle_show">{{ entity.persona.idNacionalidad }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tel&eacute;fono</label>
+                        <div class="detalle_show">{{ entity.persona.telefono ? entity.persona.telefono : '&nbsp;' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Celular</label>
+                        <div class="detalle_show">{{ entity.persona.celular ? entity.persona.celular : '&nbsp;' }}</div>
+                    </div>
+                </div>                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <div class="detalle_show">{{ entity.persona.email ? entity.persona.email : '&nbsp;' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Domicilio</label>
+                        <div class="detalle_show">{{ entity.persona.idDomicilio.calle ~ ' ' ~ entity.persona.idDomicilio.numero ~ (entity.persona.idDomicilio.piso ? ' ' ~ entity.persona.idDomicilio.piso : '&nbsp;') ~ (entity.persona.idDomicilio.depto ? ' ' ~ entity.persona.idDomicilio.depto : '&nbsp;') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Localidad</label>
+                        {% if entity.persona.idDomicilio != null and entity.persona.idDomicilio.localidad != null %}
+                            <div class="detalle_show">{{ entity.persona.idDomicilio.localidad.nombre ~ ' (' ~ entity.persona.idDomicilio.localidad.provincia ~ ')' ~ (entity.persona.idDomicilio.codPostal ? ' - CP: ' ~ entity.persona.idDomicilio.codPostal : '&nbsp;') }}</div>
+                        {% else %}
+                            <div class="detalle_show">-</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Estudios</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if entity.estudios.isEmpty %}
+                        El empleado no tiene estudios cargados
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Establecimiento</th>
+                                        <th>T&iacute;tulo</th>
+                                        <th>Nivel</th>
+                                        <th>Fecha de inicio</th>
+                                        <th>Fecha de finalizaci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for estudio in entity.estudios %}
+                                        <tr tr_index="{{ loop.index }}">
+                                            <td>{{ estudio.establecimiento }}</td>
+                                            <td>{{ estudio.titulo }}</td>
+                                            <td>{{ estudio.idNivelEstudio }}</td>
+                                            <td>{{ estudio.fechaDesde ? estudio.fechaDesde|date("d/m/Y") : "--" }}</td>
+                                            <td>{{ estudio.fechaHasta ? estudio.fechaHasta|date("d/m/Y") : "--" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Puesto</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha de ingreso</label>
+                        <div class="detalle_show">{{ entity.fechaIngreso|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha de inicio de antig&uuml;edad</label>
+                        <div class="detalle_show">{{ entity.fechaInicioAntiguedad|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Convenio</label>
+                        <div class="detalle_show">{{ entity.idSubcategoria.idCategoria.idConvenio }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Categor&iacute;a</label>
+                        <div class="detalle_show">{{ entity.idSubcategoria.idCategoria }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Subcategor&iacute;a</label>
+                        <div class="detalle_show">{{ entity.idSubcategoria }} {% if(entity.idSubcategoria.idCategoria.idConvenio.id == 3) %}(${{ entity.idSubcategoria.montoBasico|number_format(2, ',', '.') }}){% endif %}</div>
+                    </div>
+                </div>
+            </div>
+			
+            <div class="row">                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Gerencia</label>
+                        <div class="detalle_show">{{ entity.idGerencia ? entity.idGerencia : '&nbsp;' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Subgerencia</label>
+                        <div class="detalle_show">{{ entity.idSubgerencia ? entity.idSubgerencia : '&nbsp;' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Area</label>
+                        <div class="detalle_show">{{ entity.idArea ? entity.idArea.nombre : '&nbsp;' }}</div>
+                    </div>
+                </div>                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Nivel organizacional</label>
+                        <div class="detalle_show">{{ entity.nivelOrganizacional ? entity.nivelOrganizacional : '&nbsp;' }}</div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">
+				<div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Sector</label>
+                        <div class="detalle_show">{{ entity.idSector ? entity.idSector : '&nbsp;' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Puesto</label>
+                        <div class="detalle_show">{{ entity.puesto|default('-')}}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Superior</label>
+                        <div class="detalle_show">{{ entity.superior|default('-')}}</div>
+                    </div>
+                </div>
+            </div>
+			
+            <div class="row">                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">A.C.D.T</label>
+                        <div class="detalle_show">{{ entity.acdt ? entity.acdt|number_format(2, ',', '.') : '&nbsp;' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Rango de remuneraci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.rangoRemuneracion ? entity.rangoRemuneracion : '&nbsp;' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha de egreso</label>
+                        <div class="detalle_show">{{ entity.fechaEgreso ? entity.fechaEgreso|date('d/m/Y') : '&nbsp;' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Motivo del egreso</label>
+                        <div class="detalle_show">{{ entity.motivoEgreso ? entity.motivoEgreso : '&nbsp;' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Datos bancarios</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                {% if (entity.idCuenta) %}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Banco</label>
+                            <div class="detalle_show">{{ entity.idCuenta.idBanco }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Tipo de cuenta</label>
+                            <div class="detalle_show">{{ entity.idCuenta.idTipoCuenta }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">CBU</label>
+                            <div class="detalle_show">{{ entity.idCuenta.cbu }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-12">
+                        El empleado no tiene datos bancarios cargados
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Familiares</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if entity.familiares.isEmpty %}
+                        El empleado no tiene familiares cargados
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover table-striped  table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Apellido y nombre</th>
+                                        <th>Documento</th>
+                                        <th>Sexo</th>
+                                        <th>Fecha de nacimiento</th>
+                                        <th>Tipo de relaci&oacute;n</th>
+                                        <th>Escolaridad</th>
+                                        <th>A&ntilde;o que cursa</th>
+                                        <th>En guarder&iacute;a</th>
+                                        <th>A cargo OS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for familiar in entity.familiares %}
+                                        <tr tr_index="{{ loop.index }}">
+                                            <td>{{ familiar.persona.apellido ~ ', ' ~ familiar.persona.nombre }}</td>
+                                            <td>{{ familiar.persona.nroDocumento }}</td>
+                                            <td>{{ familiar.persona.sexo == 'M' ? 'Masculino' : 'Femenino' }}</td>
+                                            <td>{{ familiar.persona.fechaNacimiento|date('d/m/Y') }}</td>
+                                            <td>{{ familiar.idTipoRelacion }}</td>
+                                            <td>{{ familiar.escolaridad }}</td>
+                                            <td>{{ familiar.anioCursa }}</td>
+                                            <td>{{ familiar.enGuarderia ? 'SI' : 'NO' }}</td>
+                                            <td>{{ familiar.aCargoOS ? 'SI' : 'NO' }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Contactos ante emergencia</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if entity.contactosEmergencia.isEmpty %}
+                        El empleado no tiene contactos cargados
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover table-striped  table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Apellido</th>
+                                        <th>Nombre</th>
+                                        <th>Domicilio</th>
+                                        <th>Tel&eacute;fono</th>
+                                        <th>Parentesco</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for contacto in entity.contactosEmergencia %}
+                                        <tr tr_index="{{ loop.index }}">
+                                            <td>{{ contacto.apellido }}</td>
+                                            <td>{{ contacto.nombre }}</td>
+                                            <td>{{ contacto.domicilio }}</td>
+                                            <td>{{ contacto.telefono  }}</td>
+                                            <td>{{ contacto.idTipoRelacion }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Historial de puestos</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Sector</th>
+                                    <th>&Aacute;rea</th>
+                                    <th>Gerencia</th>
+                                    <th>Subgerencia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for puesto in entity.puestosHistoricos %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td class="text-center">{{ puesto.fechaDesde|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ puesto.fechaHasta|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ puesto.sector ? puesto.sector : '--' }}</td>
+                                        <td class="text-center">{{ puesto.area ? puesto.area : '--' }}</td>
+                                        <td class="text-center">{{ puesto.gerencia ? puesto.gerencia : '--' }}</td>
+                                        <td class="text-center">{{ puesto.subgerencia ? puesto.subgerencia : '--' }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr class="success">
+                                    <td width="150px" class="text-center">{{ entity.puestosHistoricos|length() > 0 ? entity.puestosHistoricos.last.fechaHasta|date('d/m/Y') : entity.fechaIngreso|date('d/m/Y') }}</td>
+                                    <td width="150px" class="text-center"><span class="label label-sm label-success">Actual</span></td>
+                                    <td class="text-center">{{ entity.sector ? entity.sector : '--'}}</td>
+                                    <td class="text-center">{{ entity.area  ? entity.area : '--'}}</td>
+                                    <td class="text-center">{{ entity.gerencia  ? entity.gerencia : '--'}}</td>
+                                    <td class="text-center">{{ entity.subgerencia  ? entity.subgerencia : '--'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Historial de recategorizaci&oacute;n</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Convenio</th>
+                                    <th>Categor&iacute;a</th>
+                                    <th>Subcategor&iacute;a</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subHist in entity.subcategoriasHistoricas %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td class="text-center">{{ subHist.fechaDesde|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ subHist.fechaHasta|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ subHist.subcategoria.categoria.convenio }}</td>
+                                        <td class="text-center">{{ subHist.subcategoria.categoria }}</td>
+                                        <td class="text-center">{{ subHist.subcategoria }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr class="success">
+                                    <td width="150px" class="text-center">{{ entity.subcategoriasHistoricas|length() > 0 ? entity.subcategoriasHistoricas.last.fechaHasta|date('d/m/Y') : entity.fechaIngreso|date('d/m/Y') }}</td>
+                                    <td width="150px" class="text-center"><span class="label label-sm label-success">Actual</span></td>
+                                    <td class="text-center">{{ entity.subcategoria.categoria.convenio }}</td>
+                                    <td class="text-center">{{ entity.subcategoria.categoria }}</td>
+                                    <td class="text-center">{{ entity.subcategoria }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Historial de contrataciones</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped  table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Tipo de contrataci&oacute;n</th>
+                                    <th>Descripci&oacute;n</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tipoContrato in entity.tiposContrato %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td width="150px" class="text-center">{{ tipoContrato.fechaDesde|date('d/m/Y') }}</td>
+                                        <td width="150px" class="text-center">{{ tipoContrato.fechaHasta ? tipoContrato.fechaHasta|date('d/m/Y') : '<span class="label label-sm label-success">Actual</span>' }}</td>
+                                        <td class="">{{ tipoContrato.tipoContrato ? tipoContrato.tipoContrato : '--' }}</td>
+                                        <td class="">{{ tipoContrato.descripcion ? tipoContrato.descripcion : '--' }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="form-actions">
+        <div class="pull-left">
+            <button type="button" class="btn default button-back" 
+                    back-url="{{ path('empleados') }}">
+                <i class="m-icon-swapleft"></i> Volver
+            </button>
+        </div> 
+        <div class="pull-right">
+            <a class="btn dark m-right" data-original-title="Exportar a PDF" href=" {{ path( 'empleados_show_pdf', { 'id': entity.id }) }} ">
+                <i class="fa fa-file-pdf-o"></i> Exportar a PDF
+            </a>
+            <button type="button" class="btn green button-back" back-url="{{ path( 'empleados_edit', { 'id': entity.id }) }}" >
+                <i class="fa fa-edit"></i> Editar</button>
+        </div>
+    </div> 
+{% endblock %}

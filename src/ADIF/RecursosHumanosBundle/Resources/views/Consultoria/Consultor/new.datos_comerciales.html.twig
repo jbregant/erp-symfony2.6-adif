@@ -1,0 +1,79 @@
+
+<fieldset class="form-section-fieldset">
+    <legend class="form-section-legend">Datos comerciales</legend>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.tipoPago) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoPago) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.tipoMoneda) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoMoneda) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-datos-bancarios">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.cuenta.idBanco)  }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.cuenta.idBanco) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.cuenta.idTipoCuenta)  }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.cuenta.idTipoCuenta) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.cuenta.cbu)  }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.cuenta.cbu) }}
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <div class="row">
+        <div class="col-md-11">
+            <div class="form-group">
+                {{ form_label(form.cuentaContable) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.cuentaContable) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-offset-1">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="group-icon">
+                    <i class="fa"></i>
+                    <button class="btn btn-sm green btn-search-cuenta-contable" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

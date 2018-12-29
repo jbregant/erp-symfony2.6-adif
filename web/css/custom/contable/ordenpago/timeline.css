@@ -1,0 +1,29 @@
+
+@media (min-width: 767px) {  
+
+    .timeline > li .timeline-icon, 
+    .timeline:before {
+        left: 30% !important;
+    }
+
+    .timeline > li .timeline-time {
+        width: 26.5% !important;
+    }
+
+    .timeline > li .timeline-body {
+        margin: 0 0 15px 33% !important;
+    }
+}
+
+li [class^="fa-"], li [class*=" fa-"] {
+    width: auto;
+}
+
+.timeline > li .timeline-time span.time{
+    font-size: 23px;
+}
+
+.link-detalle {
+    font-size: 11px;
+    margin-left: .5em
+}

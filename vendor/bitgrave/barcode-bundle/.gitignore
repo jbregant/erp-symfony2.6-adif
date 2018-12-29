@@ -1,0 +1,5 @@
+# Bootstrap
+app/bootstrap*
+
+# IDE config/para directories
+.idea

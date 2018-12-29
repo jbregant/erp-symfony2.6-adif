@@ -1,0 +1,95 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/additional-methods.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset('js/custom/contable/obras/documentofinanciero/reporte_seguimiento_certificados.js') }}" ></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock%}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Reporte seguimiento certificados
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form no-block', 'novalidate': 'novalidate'} }) }}
+            
+            {% include ':Form:fieldsErrors.html.twig' %}
+            
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                           {{ form_label(form.tiposDocumento, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.tiposDocumento) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                           {{ form_label(form.fechaAnulacion, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaAnulacion) }}
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-md-2">
+                        <div class="form-group">
+                           {{ form_label(form.correspondePago, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.correspondePago) }}
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-md-2">
+                        <div class="form-group">
+                           {{ form_label(form.poseeCheque, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.poseeCheque) }}
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="input-icon right">
+                                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form, {"render_rest": true}) }}
+                </div>
+            </div>        
+        </div>
+    </div>
+{% endblock %}

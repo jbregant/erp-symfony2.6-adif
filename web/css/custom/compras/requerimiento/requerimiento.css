@@ -1,0 +1,76 @@
+
+tr.disabled td,
+tr.disabled th { 
+    opacity: 0.4;
+    cursor: not-allowed
+}
+
+tr.disabled.active td,  
+tr.disabled.active th {  
+    background-color: #FFF !important
+}
+
+tr.disabled a { 
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/** Estilos para el titulo de la tabla de RengonesRequerimiento */
+.requerimiento-title {
+    padding: 1px 0 4px 10px !important;
+}
+
+.requerimiento-title .caption {
+    margin: 2px 0 0 !important
+}
+
+.requerimiento-title .col-md {
+    padding: 0 10px 5px 0 !important;
+}
+
+.requerimiento-title .form-group {
+    margin-bottom: 5px !important;
+}
+
+.requerimiento-title .input-group .btn {
+    font-size: 12px;
+    font-weight: 700;
+    height: auto;
+    padding: 3px 10px;
+    border-radius: 5px 0 0 5px !important;
+}
+
+.requerimiento-title select {
+    font-size: 12px;
+    padding: 2px .5em;
+    border: 0;
+    // -webkit-appearance: none;
+    // -moz-appearance: none;
+    // text-indent: 1px;
+    // text-overflow: '';
+}
+
+.requerimiento-title input,
+.requerimiento-title select {
+    border-radius: 0 5px 5px 0 !important;
+    height: auto;
+}
+
+.requerimiento-title .justiprecio-total {
+    width: 15em;
+}
+
+.requerimiento-title .tipo-contratacion {
+    width: 38em;
+}
+
+.requerimiento-title select.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.requerimiento-title .form-control[readonly] {
+    background-color: #FFF !important;
+    font-size: 12px;
+}
+/** FIN */

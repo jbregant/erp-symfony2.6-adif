@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}",
+    "{{ entity.habilitadoMaterialNuevo ? 'Si':'No'|default('-') }}",
+    "{{ entity.habilitadoMaterialProducido ? 'Si':'No'|default('-') }}",
+    "{{ entity.habilitadoMaterialRodante ? 'Si':'No'|default('-') }}",
+    "{{ entity.habilitadoActivoLineal ? 'Si':'No'|default('-') }}",
+{
+"show" : " {{ path( "propiedades_show", { "id": entity.id }) }}",
+"edit" : " {{ path( "propiedades_edit", { "id": entity.id }) }}",
+"delete" : " {{ path( "propiedades_delete", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

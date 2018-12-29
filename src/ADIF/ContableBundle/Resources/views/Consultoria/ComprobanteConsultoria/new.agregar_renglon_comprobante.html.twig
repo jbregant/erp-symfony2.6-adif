@@ -1,0 +1,63 @@
+{#
+<div class="row">
+    <div class="col-md-6">
+        <a id="agregar_renglon_comprobante" class="btn btn-sm green-jungle tooltips" 
+           data-placement="right" data-original-title="Agregar rengl&oacute;n">
+            Agregar rengl&oacute;n <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+#}
+
+<div class="row row_headers_renglon_comprobante" style="display:{{ entity.renglonesComprobante|length ? 'block' : 'none' }}; margin-top: 5px;">
+    <div class="col-md-7">
+        <label class="control-label">Descripci&oacute;n</label>
+    </div>
+    <div class="col-md-2">
+        <label class="control-label">Neto</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">% IVA</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">IVA</label>
+    </div>
+</div>
+
+{% include('@ADIFContable/Consultoria/ComprobanteConsultoria/new.form_renglon_comprobante.html.twig') %}
+
+<div class="ctn_rows_renglon_comprobante">    
+</div>
+
+<div class="row row_footer row_footer_renglon_comprobante row_subtotal" style="display:none;" >
+
+    <div class="col-md-8">
+        <input class="form-control subtotal_input" type="text" 
+               readonly="readonly" value="SUBTOTAL" style="text-align: right;">
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteobra_renglonesComprobante_subtotal_neto" 
+                       readonly="readonly" class="form-control currency" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>&nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteobra_renglonesComprobante_subtotal_iva" 
+                       readonly="readonly" class="form-control currency" value="0">
+            </div>
+        </div>
+    </div>
+</div>

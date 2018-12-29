@@ -1,0 +1,66 @@
+<div class="row concepto572row" es-borrable='{{esBorrable ? 1 : 0}}' es-editable-monto='{{esEditableSoloMonto ? 1 : 0}}' es-editable='{{esEditable ? 1 : 0}}'>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="conceptoGanancia col-md-3">
+                <div class="form-group">
+                    {{ form_label(concepto.conceptoGanancia) }}
+                    <div class="right">
+                        {{ form_widget(concepto.conceptoGanancia) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    {{ form_label(concepto.mesDesde) }}
+                    <div class="right">
+                        {{ form_widget(concepto.mesDesde, {'value' : periodo}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    {{ form_label(concepto.mesHasta) }}
+                    <div class="right">
+                        {{ form_widget(concepto.mesHasta) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="montof572">
+                    <div class="form-group">
+                        {{ form_label(concepto.monto) }}
+                        <div class="right">
+                            {{ form_widget(concepto.monto) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="detallef572">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form_label(concepto.detalleConceptoFormulario572.cuit) }}
+                            <div class="left">
+                                {{ form_widget(concepto.detalleConceptoFormulario572.cuit) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ form_label(concepto.detalleConceptoFormulario572.detalle) }}
+                            <div class="left">
+                                {{ form_widget(concepto.detalleConceptoFormulario572.detalle) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 row-boton-eliminar">
+                <a href="#" class="btn btn-sm red delete-link-inline accion-borrar
+                   prototype-link-remove-concepto-formulario572" data-original-title="Eliminar Concepto">
+                    <i class="fa fa-times-circle"></i>
+                </a>                    
+            </div>
+        </div>
+    </div>
+</div>

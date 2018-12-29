@@ -1,0 +1,23 @@
+{
+"data": [
+{% for entity in entities %}
+    {% set comprobante = entity.tipoComprobante ~ (entity.letraComprobante ? ' (' ~ entity.letraComprobante ~ ') ': ' ') %}
+    {% set numero = (entity.puntoVentaComprobante ? entity.puntoVentaComprobante|slice(2, 2) ~ '-' : '') ~ entity.numeroComprobante %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaRecibo|date('d/m/Y') }}", 
+    "{{ entity.numeroRecibo|default('-') }}", 
+    "{{ entity.tipo|default('-') }}", 
+    "{{ entity.referencia|default('-') }}", 
+    "{{ entity.fechaCobranza|date('d/m/Y') }}", 
+    {% if entity.fechaComprobante %}"{{ comprobante ~ numero ~ ' - Fecha ' ~ entity.fechaComprobante|date('d/m/Y')  }}",{% else %}"{{ "-" }}",{% endif %}     
+    "{{ entity.contrato|default('-')}}",
+    "{{ entity.cliente|default('-')}}",     
+    "{{ entity.concepto|default('-') }}", 
+    "{{ entity.cuentaContable|default('-') }}", 
+    "{{ entity.importe|money_format }}",  
+    "{{ entity.observaciones|default('-') }}"            
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,204 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/compras/clienteproveedor/clienteproveedor.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/compras/cotizacion/show.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Requerimiento {{ requerimiento.numero }}
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+
+        <div class="portlet-body form">
+
+            <div class="form-body">
+                <fieldset class="form-section-fieldset">
+
+                    <legend class="form-section-legend">Datos del requerimiento</legend>
+
+                    <div class="row">                
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Fecha requerimiento</label>
+                                <div class="detalle_show">{{ requerimiento.fechaRequerimiento|date('d/m/Y') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Tipo de contrataci&oacute;n</label>
+                                <div class="detalle_show">{{ requerimiento.tipoContratacion }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Estado</label>
+                                <div class="detalle_show">{{ requerimiento.estadoRequerimiento }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Justiprecio total</label>
+                                <div class="detalle_show">{{ requerimiento.justiprecioTotal|money_format('$', 1, 4) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">   
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Descripci&oacute;n</label>
+                                <div class="detalle_show">                                
+                                    {{ requerimiento.descripcion|default('-') }}                        
+                                </div>
+                            </div>
+                        </div>                   
+                    </div> 
+                </fieldset>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title requerimiento-title">
+
+                                <div class="caption">
+                                    Cotizadores solicitados
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="portlet-body">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm blue-chambray tooltips btn-cotizacion" data-placement="right" 
+                                       data-original-title="Administrar cotizadores" 
+                                       href=" {{ path( 'cotizacion_invitar', { 'idRequerimiento': requerimiento.id }) }} ">Administrar cotizadores
+                                    </a>
+                                </div>
+
+                                {% if requerimiento.cotizaciones is not empty %}
+                                    <div class="pull-right">
+                                        <a class="btn btn-sm red-sunglo tooltips btn-cotizacion" data-placement="left" 
+                                           data-original-title="Comparar cotizaciones" 
+                                           href=" {{ path( 'cotizacion_show_comparacion', { 'idRequerimiento': requerimiento.id }) }} ">Comparar cotizaciones
+                                        </a>
+                                    </div>
+
+                                    <table 
+                                        class="table table-bordered table-striped table-condensed 
+                                        flip-content datatable dt-multiselect" 
+                                        id="table-invitaciones" >
+                                        <thead>
+                                            <tr class="replace-inputs filter">
+                                                <th class="entity_id"></th>
+                                                <th class="not-in-filter"></th>  
+                                                <th>Raz&oacute;n social</th> 
+                                                <th>CUIT</th>   
+                                                <th>Evaluaci&oacute;n</th> 
+                                                <th data-type="date">Fecha invitaci&oacute;n</th> 
+                                                <th data-type="date">Fecha cotizaci&oacute;n</th>                           
+                                                <th class="not-in-filter"></th>
+                                            </tr>
+                                            <tr class="headers">
+                                                <th class="no-order entity_id hidden"></th>
+                                                <th class="text-center table-checkbox no-order">
+                                                    <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                                                           data-set="#table-invitaciones .checkboxes" />
+                                                </th> 
+                                                <th>Raz&oacute;n social</th> 
+                                                <th>CUIT</th> 
+                                                <th numeric >Evaluaci&oacute;n</th> 
+                                                <th date >Fecha invitaci&oacute;n</th> 
+                                                <th date>Fecha cotizaci&oacute;n</th>                            
+                                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for invitado in requerimiento.cotizaciones %}
+                                                <tr>
+                                                    <td class="hidden"><input type="hidden" value=" {{ invitado.id }} "/></td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" class="checkboxes not-checkbox-transform" value="" />
+                                                    </td>
+                                                    <td class="popover-proveedor">
+                                                        {{ invitado.proveedor.clienteProveedor.razonSocial }}
+                                                        {% include 'ADIFComprasBundle:Proveedor:popover.datos_contacto.html.twig' with {'datosContacto': invitado.proveedor.clienteProveedor.datosContacto} %}
+                                                    </td>
+                                                    <td>{{ invitado.proveedor.clienteProveedor.CUIT|default('-') }}</td>
+                                                    <td class="text-center nowrap {{ invitado.proveedor.evaluacionProveedor.claseCalificacionFinal }}">
+                                                        {{ invitado.proveedor.evaluacionProveedor.calificacionFinal }}
+                                                    </td>
+                                                    <td>{{ invitado.fechaInvitacion|date('d/m/Y') }}</td>
+                                                    <td>
+                                                        {% if invitado.fechaCotizacion is not null %}
+                                                            {{ invitado.fechaCotizacion|date('d/m/Y') }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td class="ctn_acciones text-center nowrap">
+                                                        {% if invitado.fechaCotizacion is not null %}
+                                                            <a href=" {{ path( 'cotizacion_show_cotizacion', { 'id': invitado.id }) }} " 
+                                                               class="btn btn-xs blue tooltips" data-original-title="Ver cotizaci&oacute;n">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        {% else %}
+                                                            <a href=" {{ path( 'cotizacion_show_cotizacion', { 'id': invitado.id }) }} " 
+                                                               class="btn btn-xs blue tooltips" data-original-title="Agregar cotizaci&oacute;n">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                        <a href="{{ path( 'cotizacion_print', { 'idRequerimiento' : requerimiento.id, 'idProveedor': invitado.proveedor.id }) }} " 
+                                                           class="btn btn-xs dark tooltips" data-original-title="Imprimir pedido de cotización">
+                                                            <i class="fa fa-print"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <div class="clearfix"></div>
+                                    <div class="cleardiv">A&uacute;n no se han cargado cotizadores.</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="form-actions">
+                    <div class="pull-left">
+                        <button type="button" class="btn default button-back">
+                            <i class="m-icon-swapleft"></i> Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }} 
+
+    <script src="{{ asset(js_path ~ 'custom/compras/proveedor/popover.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

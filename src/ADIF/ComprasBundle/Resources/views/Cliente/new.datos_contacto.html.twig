@@ -1,0 +1,35 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Informaci&oacute;n</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-dato-contacto-cliente" 
+                 data-prototype="{% filter escape %}{% include 'ADIFComprasBundle:ClienteProveedor:prototype.dato_contacto_clienteproveedor.html.twig' with {'datoContacto': form.clienteProveedor.datosContacto.vars.prototype} %}{% endfilter %}">
+                {% for datoContacto in form.clienteProveedor.datosContacto %}
+                    {% include 'ADIFComprasBundle:ClienteProveedor:prototype.dato_contacto_clienteproveedor.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green prototype-link-add-dato-contacto-clienteproveedor tooltips" 
+                       data-placement="right" data-original-title="Agregar informaci&oacute;n">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<div class="row">                        
+    <div class="col-md-6">
+        {% include '@ADIFCompras/ClienteProveedor/new.domicilio.html.twig' with {'domicilio': form.clienteProveedor.domicilioComercial, 'tipo_domicilio': 'comercial'}  %}
+    </div>
+    <div class="col-md-6">
+        {% include '@ADIFCompras/ClienteProveedor/new.domicilio.html.twig' with {'domicilio': form.clienteProveedor.domicilioLegal, 'tipo_domicilio': 'legal'}  %}
+    </div>
+</div>

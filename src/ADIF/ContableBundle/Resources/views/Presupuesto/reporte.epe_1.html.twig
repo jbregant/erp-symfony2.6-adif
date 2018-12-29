@@ -1,0 +1,466 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/presupuesto/epe.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% set ConstanteTipoAsientoPresupuestario = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoAsientoPresupuestario' %}
+
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">EPE 1 - Cuenta ahorro inversi&oacute;n financiamiento</div>
+                </div>
+
+                <div class="portlet-body">        
+
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_ejercicio" 
+                                           class="control-label">Ejercicio</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_ejercicio" 
+                                               name="adif_contablebundle_filtro[ejercicio]" 
+                                               class="form-control nomask novalidate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaInicio" 
+                                           class="control-label">Mes inicio</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                               data-mes=""
+                                               name="adif_contablebundle_filtro[fechaInicio]" 
+                                               class="form-control nomask novalidate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaFin" 
+                                           class="control-label">Mes fin</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaFin"
+                                               data-mes=""
+                                               name="adif_contablebundle_filtro[fechaFin]" 
+                                               class="form-control nomask novalidate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button  id="filtrar_epe" class="btn btn-small blue-hoki form-control">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box reporte-portlet">
+                                <div class="portlet-title">
+
+                                    <div class="caption reporte_title" style="display:none">
+
+                                        <span class="bold">
+                                            EPE 1                                              
+                                        </span>
+
+                                        — Ejercicio <span class="caption-ejercicio bold"></span>
+
+                                        desde <span class="caption-fecha-desde bold"></span>
+
+                                        hasta <span class="caption-fecha-hasta bold"></span>
+                                    </div>
+
+                                    <div class="export-epe-custom export-epe-1">
+                                    </div>
+                                </div>
+
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="tabbable-custom nav-justified">
+                                                <ul class="nav nav-tabs nav-justified">
+                                                    <li class="active">
+                                                        <a href="#tab_1" data-toggle="tab">Corriente</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#tab_2" data-toggle="tab">Capital</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#tab_3" data-toggle="tab">Financiamiento</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    {# TAB 1 - Corriente #}
+                                                    <div id="tab_1" class="tab-pane active">
+                                                        <div class="portlet box purple-plum">
+                                                            <div class="portlet-title">
+                                                                <div class="caption">
+                                                                    <span class="bold">Cuentas corrientes</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <h4>Ingresos corrientes</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-cuentas-corrientes" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center" width="12%">C&oacute;digo</th>
+                                                                                <th class="text-center" width="40%">Cuenta corriente</th>
+                                                                                <th class="text-center" width="12%">Sector p&uacute;blico</th>
+                                                                                <th class="text-center" width="12%">Sector privado</th>
+                                                                                <th class="text-center" width="12%">Ejecuci&oacute;n mes</th>
+                                                                                <th class="text-center" width="12%">Total acumulado</th>  
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td class="text-left">A</td>
+                                                                                <td class="text-right bold">TOTAL INGRESOS CORRIENTES</td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-corrientes-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-corrientes-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-corrientes-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-corrientes-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <h4>Gastos corrientes</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-gastos-corrientes" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center" width="12%">C&oacute;digo</th>
+                                                                                <th class="text-center" width="40%">Cuenta corriente</th>
+                                                                                <th class="text-center" width="12%">Sector p&uacute;blico</th>
+                                                                                <th class="text-center" width="12%">Sector privado</th>
+                                                                                <th class="text-center" width="12%">Ejecuci&oacute;n mes</th>
+                                                                                <th class="text-center" width="12%">Total acumulado</th>  
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td class="text-left">B</td>
+                                                                                <td class="text-right bold">TOTAL GASTOS CORRIENTES</td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-corrientes-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-corrientes-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-corrientes-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-corrientes-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                                           id="tabla-resultado-economico" >
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td width="12%">C = A - B</td>
+                                                                                <td class="text-right bold" width="40%">RESULTADO ECON&Oacute;MICO: AHORRO/(DESAHORRO)</td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-economico-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-economico-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-economico-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-economico-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {# TAB 2 - Capital #}
+                                                    <div id="tab_2" class="tab-pane">
+                                                        <div class="portlet box purple-plum">
+                                                            <div class="portlet-title">
+                                                                <div class="caption">
+                                                                    <span class="bold">Cuentas de capital</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <h4>Recursos de capital</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-cuentas-capital" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center" width="12%">C&oacute;digo</th>
+                                                                                <th class="text-center" width="40%">Cuenta capital</th>
+                                                                                <th class="text-center" width="12%">Sector p&uacute;blico</th>
+                                                                                <th class="text-center" width="12%">Sector privado</th>
+                                                                                <th class="text-center" width="12%">Ejecuci&oacute;n mes</th>
+                                                                                <th class="text-center" width="12%">Total acumulado</th>  
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td class="text-left">D</td>
+                                                                                <td class="text-right bold">TOTAL RECURSOS DE CAPITAL</td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-capital-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-capital-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-capital-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-capital-total-acumulado" class="money-format td-total"></span>
+                                                                                    </tdid
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <h4>Gastos de capital</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-gastos-capital" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center" width="12%">C&oacute;digo</th>
+                                                                                <th class="text-center" width="40%">Cuenta capital</th>
+                                                                                <th class="text-center" width="12%">Sector p&uacute;blico</th>
+                                                                                <th class="text-center" width="12%">Sector privado</th>
+                                                                                <th class="text-center" width="12%">Ejecuci&oacute;n mes</th>
+                                                                                <th class="text-center" width="12%">Total acumulado</th>                                          
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td class="text-left">E</td>
+                                                                                <td class="text-right bold">TOTAL GASTOS DE CAPITAL</td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-capital-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-capital-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-capital-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="gastos-capital-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-resultado-financiero" >
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td width="12%">F = C + D - E</td>
+                                                                                <td class="text-right bold" width="40%">RESULTADO FINANCIERO: SUPER&Aacute;VIT/(D&Eacute;FICIT)</td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-financiero-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-financiero-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-financiero-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="resultado-financiero-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {# TAB 3 - Financiammiento #}
+                                                    <div id="tab_3" class="tab-pane">
+                                                        <div class="portlet box purple-plum">
+                                                            <div class="portlet-title">
+                                                                <div class="caption">
+                                                                    <span class="bold">Cuentas de financiamiento</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <h4>Fuentes financieras</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-cuentas-financiamiento" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center" width="12%">C&oacute;digo</th>
+                                                                                <th class="text-center" width="40%">Cuenta de financiamiento</th>
+                                                                                <th class="text-center" width="12%">Sector p&uacute;blico</th>
+                                                                                <th class="text-center" width="12%">Sector privado</th>
+                                                                                <th class="text-center" width="12%">Ejecuci&oacute;n mes</th>
+                                                                                <th class="text-center" width="12%">Total acumulado</th>                                          
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td class="text-right bold">TOTAL FUENTES FINANCIERAS</td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-financiamiento-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-financiamiento-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-financiamiento-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="cuentas-financiamiento-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <h4>Aplicaciones financieras</h4>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-aplicaciones-financieras" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="text-center" width="12%">C&oacute;digo</th>
+                                                                                <th class="text-center" width="40%">Cuenta de financiamiento</th>
+                                                                                <th class="text-center" width="12%">Sector p&uacute;blico</th>
+                                                                                <th class="text-center" width="12%">Sector privado</th>
+                                                                                <th class="text-center" width="12%">Ejecuci&oacute;n mes</th>
+                                                                                <th class="text-center" width="12%">Total acumulado</th>                                          
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td class="text-right bold">TOTAL APLICACIONES FINANCIERAS</td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="aplicaciones-financieras-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="aplicaciones-financieras-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="aplicaciones-financieras-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold">
+                                                                                    <span id="aplicaciones-financieras-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <hr>
+{#                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped table-hover table-bordered table-condensed epe_table" 
+                                                                           id="tabla-diferencia" >
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td width="12%"></td>
+                                                                                <td class="text-right bold" width="40%">DIFERENCIA</td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="diferencia-total-sector-publico" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="diferencia-total-sector-privado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="diferencia-total-ejecucion-mes" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                <td class="text-right bold" width="12%">
+                                                                                    <span id="diferencia-total-acumulado" class="money-format td-total"></span>
+                                                                                </td>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>#}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/presupuesto/reporte_epe.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/presupuesto/reporte_epe_1.js') }}" ></script>
+
+{% endblock %}

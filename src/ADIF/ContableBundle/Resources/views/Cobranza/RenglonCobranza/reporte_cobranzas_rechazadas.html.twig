@@ -1,0 +1,106 @@
+{#<div class="export-epe-custom export-rechazados">
+</div>#}
+
+{% if error %}
+    
+<div id="div_error_formato">
+    Se produjo un error en la carga del archivo por no tener el formato esperado
+</div>   
+    
+{% else %}
+      
+<div id="div_renglones_rechazados" datafile-name="{{ file_name }}" detalle-fecha="{{ ' (impreso el ' ~ "now"|date("d/m/Y") ~ ' a las ' ~ "now"|date("H:i:s") ~ ' hs.)' }}">
+    <div class="form-body">
+        <div class="portlet-body">
+            <div class="tabbable-custom nav-justified"  id="tab_cobranza">
+                <ul class="nav nav-tabs nav-justified">                
+                    <li class="active">
+                        <a href="#archivo_tab_1" data-toggle="tab">Mov. rechazados</a>
+                    </li>
+                    <li class="">
+                        <a href="#archivo_tab_2" data-toggle="tab">Valores a depositar</a>
+                    </li>
+                </ul>
+                <div class="tab-content">    
+                    <div id="archivo_tab_1" class="tab-pane active">
+                        <div class="row">     
+                            <div class="col-md-12">
+                                <div class="export-tools">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-scrollable">
+                                    <table id="tabla_tab1" 
+                                           class="table table-bordered table-striped table-condensed table-hover export-custom"
+                                           dataexport-title="Mov. rechazados">
+                                        <thead>
+                                            <tr class="headers">
+                                                <th  date export-format="date" class="nowrap text-center">Fecha</th>                                      
+                                                <th class="text-center">Cod. de barras</th>
+                                                <th class="text-center" export-format="currency" >Importe</th>                                                                         
+                                                <th class="text-center">Referencia</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for renglon_banco in renglones_banco %}
+                                                <tr>
+                                                    <td>{{ renglon_banco['fecha']|date('d/m/Y') }}</td>
+                                                    <td>{{ renglon_banco['codigo'] }}</td>
+                                                    <td class="money-format nowrap">{{ renglon_banco['importe']|money_format }}</td>
+                                                    <td>{{ renglon_banco['referencia'] }}</td>
+                                                </tr>
+                                            {% endfor %}                                                
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="archivo_tab_2" class="tab-pane">
+
+                        <div class="row">     
+                            <div class="col-md-12">
+                                <div class="export-tools">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-scrollable">
+                                    <table id="tabla_tab2" 
+                                           class="table table-bordered table-striped table-condensed table-hover export-custom"
+                                           dataexport-title="Valores a depositar">
+                                        <thead>
+                                            <tr class="headers">
+                                                <th  date export-format="date" class="nowrap text-center">Fecha</th>                                 
+                                                <th class="text-center">Cod. de barras</th>
+                                                <th class="text-center" export-format="currency" >Importe</th>                                                                         
+                                                <th class="text-center">Recibo</th>
+                                                <th class="text-center">Cheque</th>
+                                                <th class="text-center">Estado</th>                                                    
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for renglon_cheque in renglones_cheque %}
+                                                <tr>
+                                                    <td>{{ renglon_cheque['fecha']|date('d/m/Y') }}</td>
+                                                    <td>{{ renglon_cheque['codigo'] }}</td>
+                                                    <td class="money-format nowrap">{{ renglon_cheque['importe']|money_format }}</td>
+                                                    <td>{{ renglon_cheque['recibo'] }}</td>
+                                                    <td>{{ renglon_cheque['cheque'] }}</td>
+                                                    <td>{{ renglon_cheque['estado'] }}</td>
+                                                </tr>
+                                            {% endfor %}                                                   
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>            
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>
+                                        
+{% endif %}

@@ -1,0 +1,130 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock%}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte general de documentos financieros</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar"></div>
+                    <table 
+                        class="table table-bordered table-responsive table-striped 
+                        table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-reporte_general_documento_financiero" 
+                        dataexport-title="reporte_documento_financiero"
+                        data-toggler="1">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha creaci&oacute;n</th>
+                                <th>Tipo</th>
+                                <th>N&deg; licitaci&oacute;n</th>
+                                <th>A&ntilde;o</th>
+                                <th>Rengl&oacute;n nro.</th>
+                                <th>Rengl&oacute;n desc.</th>
+                                <th>CUIT</th>
+                                <th>Empresa</th>
+                                <th>Documento financiero</th>
+                                <th>N&uacute;mero</th>
+                                <th data-type="date">Fecha anulaci&oacute;n</th>
+                                <th>Monto neto de IVA</th>
+                                <th>Corresponde pago</th>
+                                <th>Comprobante</th>
+                                <th>Monto total comprobante</th>
+                                <th data-type="date">Fecha de ingreso ADIF</th>
+                                <th data-type="date">Fecha de vencimiento</th>
+                                <th data-type="date">Fecha de ingreso Gerencia Admin.</th>
+                                <th>N&uacute;mero referencia</th>
+                                <th>Observaciones</th>
+                                <th>Fecha aprobaci&oacute;n t&eacute;cnica</th>
+                                <th>Orden pago</th>
+                                <th>Cheque / Transferencia</th>
+                                <th data-type="date">Fecha cheque / transferencia</th>
+                                <th>Estado cheque / transferencia</th>
+                                <th>Importe cheque / transferencia</th>
+								<th>% de certificaci&oacute;n</th>
+								<th>Fecha de inicio</th>
+								<th>Fecha de fin</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-reporte_general_documento_financiero .checkboxes" />
+                                </th>
+                                <th date export-format="date" class="text-center">Fecha creaci&oacute;n</th>
+                                <th class="text-center">Tipo</th>
+                                <th class="text-center">N&deg; licitaci&oacute;n</th>
+                                <th class="text-center">A&ntilde;o</th>
+                                <th class="text-center">Rengl&oacute;n nro.</th>
+                                <th class="text-center">Rengl&oacute;n desc.</th>
+                                <th class="text-center">CUIT</th>
+                                <th class="text-center">Empresa</th>
+                                <th class="text-center">Documento financiero</th>
+                                <th class="text-center">N&uacute;mero</th>
+                                <th date export-format="date" class="text-center">Fecha anulaci&oacute;n</th>
+                                <th currency export-format="currency" class="text-center">Monto neto de IVA</th>
+                                <th class="text-center">Corresponde pago</th>
+                                <th class="text-center">Comprobante</th>
+                                <th currency export-format="currency" class="text-center">Monto total comprobante</th>
+                                <th date export-format="date" class="text-center">Fecha de ingreso ADIF</th>
+                                <th date export-format="date" class="text-center">Fecha de vencimiento</th>
+                                <th date export-format="date" class="text-center">Fecha de ingreso Gerencia Admin.</th>
+                                <th class="text-center">N&uacute;mero referencia</th>
+                                <th class="text-center">Observaciones</th>
+                                <th class="text-center">Fecha aprobaci&oacute;n t&eacute;cnica</th>
+                                <th class="text-center">Orden pago</th>
+                                <th class="text-center">Cheque / Transferencia</th>
+                                <th date export-format="date" class="text-center">Fecha cheque / transferencia</th>
+                                <th class="text-center">Estado cheque / transferencia</th>
+                                <th currency export-format="currency" class="text-center">Importe cheque / transferencia</th>
+								<th class="text-center">% de certificaci&oacute;n</th>
+								<th date export-format="date" class="text-center">Fecha de inicio</th>
+								<th date export-format="date" class="text-center">Fecha de fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/jquery.sticky.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/obras/documentofinanciero/reporte_general.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

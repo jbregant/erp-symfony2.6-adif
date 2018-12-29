@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Configuracion Cuenta Contable Sueldos</div>
+                </div>
+                <div class="portlet-body">
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-configuracioncuentacontablesueldos"
+                        dataexport-title="configuracioncuentacontablesueldos">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>                                
+                                <th>Descripci&oacute;n</th>
+                                <th>Cuenta contable</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-configuracioncuentacontablesueldos .checkboxes" />
+                                </th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Cuenta contable</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/configuracioncuentacontablesueldos/index.js') }}" ></script>
+{% endblock %}

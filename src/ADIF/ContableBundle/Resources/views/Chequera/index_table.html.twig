@@ -1,0 +1,23 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.cuenta is not null ? entity.cuenta.idBanco : '-' }}", 
+    "{{ entity.cuenta is not null ? entity.cuenta.cbu : '-' }}",
+    "{{ entity.responsable|default('-') }}",
+    "{{ entity.numeroSerie }}",
+    "{{ entity.numeroInicial }}",
+    "{{ entity.numeroFinal }}",
+    "{{ entity.numeroSiguiente }}",
+    "{{ entity.estadoChequera|default('-') }}",
+    {
+    "show" : " {{ path( "chequera_show", { "id": entity.id }) }}"
+    {% if entity.cheques|length == 0 %}
+        ,"delete" : " {{ path( "chequera_delete", { "id": entity.id }) }}" 
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

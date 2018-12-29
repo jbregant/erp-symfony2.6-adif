@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la Persona: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Nombre de usuario</label>
+                        <div class="detalle_show">{{ entity.username}}</div>
+                    </div>
+                </div>                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <div class="detalle_show">{{ entity.email}}</div>
+                    </div>
+                </div>                    
+            </div>
+			
+            <div class="row">                
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Grupos ADIF</label>
+                        <div class="detalle_show">
+                            {% set grupos = multiempresa_service.gruposPorEmpresaYUsuario(1, idUsuario) %}
+                            {% if grupos|length > 0 %}
+                                {{ grupos|join(' | ') }}
+                            {% else %}
+                                <span>No tiene grupos seleccionados.</span>
+                            {% endif %}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">                
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Grupos FASE</label>
+                        <div class="detalle_show">
+                            {% set grupos = multiempresa_service.gruposPorEmpresaYUsuario(2, idUsuario) %}
+                            {% if grupos|length > 0 %}
+                                {{ grupos|join(' | ') }}
+                            {% else %}
+                                <span>No tiene grupos seleccionados.</span>
+                            {% endif %}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row">                
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Grupos Consorcio ADIF-VOSSLOH</label>
+                        <div class="detalle_show">
+                           {% set grupos = multiempresa_service.gruposPorEmpresaYUsuario(3, idUsuario) %}
+                            {% if grupos|length > 0 %}
+                                {{ grupos|join(' | ') }}
+                            {% else %}
+                                <span>No tiene grupos seleccionados.</span>
+                            {% endif %}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			
+			
+            <button type="button" class="btn default button-back" back-url="{{ path('usuarios_index') }}"><i class="m-icon-swapleft"></i> Volver</button>
+        </div>
+    </div>
+{% endblock %}

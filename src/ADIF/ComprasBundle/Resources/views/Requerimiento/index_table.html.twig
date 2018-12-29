@@ -1,0 +1,45 @@
+
+{% set ConstanteEstadoRequerimiento = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoRequerimiento' %}
+
+{
+"data": [
+{% for entity in requerimientos %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.numero }}",
+	"{{ entity.numerosSolicitudesCompra|default('-') }}",
+    "{{ entity.fechaRequerimiento|date('d/m/Y') }}",
+    "{{ entity.descripcion|default('-')|escape_json }}",
+    "{{ entity.justiprecioTotal|money_format('$', 1, 4) }}",
+    "{{ entity.tipoContratacion|default('-') }}",
+    "{{ entity.usuario.nombreCompleto|default('-') }}",
+    {
+    "estadoRequerimiento" : "{{ entity.estadoRequerimiento }}",
+    "estadoClass" : "{{'state state-' ~ entity.estadoRequerimiento.tipoImportancia.aliasTipoImportancia }}"   
+    },
+    {
+    "show" : "{{ path( 'requerimiento_show', { 'id': entity.id }) }}",
+    "checkShow": "{{ puede_aprobar_requerimientos_contablemente and entity.estadoRequerimiento == constant(ConstanteEstadoRequerimiento ~ '::ESTADO_REQUERIMIENTO_PENDIENTE_APROBACION_CONTABLE') ? 1 : 0 }}"
+
+    {% if entity.esEditable %}
+        ,"edit" : "{{ path( 'requerimiento_edit', { 'id': entity.id }) }}"
+    {% endif %}
+
+    {% if entity.estadoRequerimiento == constant(ConstanteEstadoRequerimiento ~ '::ESTADO_REQUERIMIENTO_PENDIENTE_COTIZACION') or entity.estadoRequerimiento == constant(ConstanteEstadoRequerimiento ~ '::ESTADO_REQUERIMIENTO_COTIZADO') %}
+        ,"show_invitaciones" : "{{ path( 'cotizacion_show_invitaciones', { 'idRequerimiento': entity.id }) }}"
+        ,"print" : "{{ path( 'requerimiento_print', { 'id': entity.id }) }}"
+        ,"print_provisorio_compra" : "{{ path( 'presupuesto_print_provisorio_compra', { 'idRequerimiento': entity.id }) }}"
+    {% endif %}
+
+    {% if entity.estadoRequerimiento != constant(ConstanteEstadoRequerimiento ~ '::ESTADO_REQUERIMIENTO_ANULADO')  %}
+        ,"anular" : "{{ path( 'requerimiento_anular', { 'id': entity.id }) }}"
+    {% endif %}
+
+    {% if entity.esArchivable %}
+        ,"archivar" : "{{ path( 'requerimiento_archivar', { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

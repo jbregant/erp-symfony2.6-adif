@@ -1,0 +1,32 @@
+{%  for tipoImpuesto in ['SUSS','IIBB','Ganancias','IVA'] %}
+	{% for retencion in entity.retencionesPorTipoImpuesto(tipoImpuesto) %}
+		{% set es_ute = '' %}
+		{% if (tipoImpuesto == 'SUSS' or tipoImpuesto == 'Ganancias') %}
+			{% if (retencion.ordenPago.beneficiario.esUTE is defined and retencion.ordenPago.beneficiario.esUTE and retencion.proveedor is not null) %}
+				{% set es_ute = retencion.proveedor %}
+			{% endif %}
+		{% endif %}
+		<tr regimen="{{ tipoImpuesto|lower }}" {{(es_ute != '')? 'class="divide_ute"' : '' }}>
+			{% if tipoImpuesto == 'IIBB' and retencion.regimenRetencion.codigo == 'IIBB_CABA' %}
+				<td>{{ retencion.regimenRetencion.denominacion }}</td>
+				<td>{{ entity.beneficiario.iibbCaba.alicuota }} %</td>
+			{% else %}
+				<td>{{ retencion.regimenRetencion.denominacion }} - {{ retencion.regimenRetencion.descripcion }}</td>
+				<td>{{ retencion.regimenRetencion.alicuota }} %</td>
+			{% endif %}
+			
+			<td class="text-right bold">{{ retencion.monto|money_format }}</td>
+			
+			{% if (es_ute != '') %}
+				<td>{{ retencion.proveedor }}</td>
+			{% endif %}
+			<td class="text-center ctn_acciones">
+				<a 
+					href="{{ path( retencion.path ~ '_pdf', { 'id': retencion.id }) }}"
+					class="btn btn-xs dark tooltips" data-original-title="Imprimir">
+					<i class="fa fa-print"></i>
+				</a>
+			</td>
+		</tr>
+	{% endfor %}
+{% endfor %}

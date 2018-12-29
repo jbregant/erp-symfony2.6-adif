@@ -1,0 +1,26 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Adjuntos</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-archivos" 
+                 data-prototype="{% filter escape %}{% include 'ADIFRecursosHumanosBundle:Consultoria/Consultor:prototype.archivos_consultor.html.twig' with {'adjunto': form.archivos.vars.prototype} %}{% endfilter %}">
+                {% for adjunto in form.archivos %}
+                    {% include 'ADIFRecursosHumanosBundle:Consultoria/Consultor:prototype.archivos_consultor.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green-jungle 
+                       prototype-link-add-archivo tooltips">
+                        Agregar archivo <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

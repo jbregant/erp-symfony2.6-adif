@@ -1,0 +1,46 @@
+<form class="horizontal-form" novalidate="novalidate" id="form_pagar" method="post" name="form_pagar">
+
+    <div class="row">
+        {% if cantidadAutorizacionesContables > 0 %}
+            <div class="col-md-12">
+                <div class="alert alert-block alert-warning fade in">
+                    <p>
+                        <i class="fa-lg fa fa-warning "></i> 
+                        El beneficiario tiene {{ cantidadAutorizacionesContables }} autorizaciones contables pendientes de pago.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% include('@ADIFContable/OrdenPago/form_renglon_pago.html.twig') %}
+
+    <div class="ctn_rows_renglon_pago"></div>
+
+    <br>
+    
+    <div class="row row_agregar_pago">
+        <div class="col-md-12">
+            <a id="agregar_renglon_pago" class="btn btn-sm green-jungle tooltips" 
+               data-placement="right" data-original-title="Agregar pago">
+                Agregar pago <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
+</form>
+
+<div class="col-md-12 row row_restante">
+    <div class="bold pull-right">
+        RESTANTE : <span class="restante_pago money-format"></span>
+    </div>
+</div>
+
+<br>
+
+
+<script type="text/javascript">
+
+    chequeras = {{ chequeras|json_encode|raw }};
+            chequeraCuenta = {{ chequeraCuenta|json_encode|raw }};
+
+</script>

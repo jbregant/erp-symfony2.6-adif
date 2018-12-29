@@ -1,0 +1,66 @@
+<div class="row row_poliza margin-top-20">
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.fechaInicio) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.fechaInicio) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.fechaVencimiento) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.fechaVencimiento) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.numeroPoliza) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.numeroPoliza) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.aseguradora) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.aseguradora) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.riesgoCubierto) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.riesgoCubierto) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.importe) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.importe) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 form_field">
+        <div class="form-group">
+            {{ form_label(polizaSeguro.numeroTramiteEnvio) }}
+            <div class="form_field">
+                {{ form_widget(polizaSeguro.numeroTramiteEnvio) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-poliza accion-borrar" 
+           data-placement="top" data-original-title="Eliminar p&oacute;liza">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

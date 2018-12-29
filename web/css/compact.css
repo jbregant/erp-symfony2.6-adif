@@ -1,0 +1,186 @@
+.compact fieldset.form-section-fieldset{
+    padding-bottom: 0.5em;
+    padding-top: 0.2em;
+}
+
+.compact legend {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.compact legend.form-section-legend {
+    padding: 0px 10px;
+    line-height: inherit;
+    margin-bottom: 1em;
+    font-size: 13px;
+    /*margin-bottom: -20px;*/
+}
+.compact fieldset div.row:first-child {
+    /*margin-top: -10px;*/
+}
+.compact form label {
+    margin-bottom: 0;
+    font-size: 12px !important;
+}
+.compact form input.form-control {
+    padding: 2px;
+    height: auto;
+}
+.compact form .form-group {
+    margin-bottom: 5px;
+}
+.compact table>thead>tr.headers>th:not(.table-checkbox) {
+    font-size: 13px !important;
+    padding: 2px 1.3em 2px .5em !important;
+}
+.compact table>thead>tr.filter>th {
+    padding: 2px !important;
+}
+.compact table>thead>tr.filter>th>input, .compact table>thead>tr.filter>th>select {
+    height: 20px !important;
+}
+
+.compact .input-filter {
+    font-size: 11px;
+    padding-left: .5em !important; 
+}
+
+.compact .dataTables_wrapper select {
+}
+
+.compact .select2-container a.select2-choice{
+
+}
+
+.compact .select2-container a.select2-choice{
+    height: 27px;
+    line-height: 20px;
+}
+
+.compact .select2-container .select2-choice .select2-arrow b{
+    background-position-y: -1px;
+}
+
+.compact .select2-search input{
+    padding: 4px 8px !important;
+    line-height: 20px !important;
+    height: 22px !important;
+}
+
+.compact .input-group .input-group-addon{
+    padding: 2px;
+}
+
+.compact .row_headers_renglon_comprobante{
+    margin-bottom: 0px;
+    clear: both;
+}
+
+.compact .has-switch label, .compact .has-switch span {
+    height: auto !important;
+    line-height: normal !important;
+    padding-bottom: 3px !important;
+    padding-top: 2px !important;
+}
+
+.compact .btn-sm {
+    font-size: 11px !important;
+    padding: 6px 10px 5px 10px;
+}
+
+.compact .btn-xs,
+.compact .btn-clear-filters {
+    font-size: 11px !important;
+    padding: 3px 5px 2px 5px;
+}
+
+.compact .dataTables_info,
+.compact .dataTables_length label,
+.compact .dataTables_empty {
+    font-size: 11px !important;
+}
+
+.compact .pagination>li>a {
+    padding: 4px 12px;
+}
+
+.compact .dataTables_wrapper .table-scrollable{
+    margin-top: 1px !important;
+}
+
+.compact .delete-link-inline {
+    margin-top: 1.67em;
+}
+
+.compact .tabbable-custom .nav-tabs > li > a {
+    font-size: 12px !important;
+}
+
+.compact .tabbable-custom > .tab-content{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.compact .detalle_show {
+    padding: .3em 7.7px !important;
+}
+
+.compact .portlet.box > .portlet-title {
+    padding: 6px 10px 0 10px !important;
+}
+
+.compact .caption {
+    font-size: 16px !important;
+}
+
+.compact .popover,
+.compact .popover-title {
+    font-size: 12px !important;
+}
+
+.compact .cleardiv {
+    margin-top: 1em;
+}
+
+.compact .delete-link-xs .badge {
+    font-size: 9px !important;
+    height: auto;
+    margin-bottom: .2em;
+    padding: .5em .7em;
+}
+
+.compact .input-group-btn label {
+    padding: 3.5px 13px
+}
+
+.compact table.dataTable > thead > tr.filter > th[data-type=select] > .form-control .select2-choice {
+    height: 20px !important
+}
+
+.compact table.dataTable > thead > tr.filter > th[data-type=select] > .form-control .select2-choice .select2-arrow b {
+    margin-top: -4px;
+}
+
+.compact .table-toolbar {
+    padding-bottom: 2.5em;
+}
+
+.compact .input-icon i {
+    margin-top: 7px !important
+}
+
+/*
+        .compact .dataTables_wrapper .pagination .prev a,
+        .compact .dataTables_wrapper .pagination .next a,
+        .compact .dataTables_wrapper .pagination .active a
+        {
+            padding: 0px 8px;
+        }
+
+        .compact .dataTables_wrapper .table-scrollable{
+            margin-bottom: 5px !important;
+        }
+
+        .compact .form-control .select2-choice{
+
+        }*/

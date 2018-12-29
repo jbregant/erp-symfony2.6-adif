@@ -1,0 +1,57 @@
+{% set ConstanteEstadoEgresoValor = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoEgresoValor' %}
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.tipoEgresoValor }}",
+    "{{ entity.carpeta|default('-') }}",
+    "{{ entity.responsableEgresoValor|decode }}",
+    "{{ entity.fechaCreacion|date('d/m/Y') }}",
+    "{{ entity.gerencia }}",
+    "{{ entity.saldo|money_format }}",
+    "{{ entity.permiteReposicion ? (entity.porcentajeRendido > 100 ? 100 : entity.porcentajeRendido) ~ ' %' : '-' }}",
+    {
+    "estado" : "{{ entity.estadoEgresoValor }}",
+    "estadoClass" : "{{'state state-' ~ entity.aliasTipoImportancia }}"   
+    },
+    {
+    "show" : "{{ path( 'egresovalor_show', { 'id': entity.id }) }}"
+    {% if entity.codigoEstadoEgresoValor == constant(ConstanteEstadoEgresoValor ~ '::ESTADO_INGRESADO') %}
+        ,"edit" : "{{ path( 'egresovalor_edit', { 'id': entity.id }) }}"
+    {% endif %}
+    {% if ((entity.codigoEstadoEgresoValor == constant(ConstanteEstadoEgresoValor ~ '::ESTADO_ACTIVO')) and (entity.saldo == 0) )%}
+        ,"cerrar" : "{{ path( 'egresovalor_cierre', { 'id': entity.id }) }}"
+    {% endif %}
+    {% if entity.saldo >= 0 %}
+        {% if entity.codigoEstadoEgresoValor == constant(ConstanteEstadoEgresoValor ~ '::ESTADO_ACTIVO')%}
+            {% if (entity.permiteReposicion) %}            
+                {% if (entity.saldo > 0) %}            
+                    {% if entity.tieneRendicionEgresoValor %}
+                        ,"rendirContinuar" : "{{ path( 'comprobanteegresovalor_new', { 'id': entity.id }) }}"
+                    {% else %}
+                        ,"rendirAgregar" : "{{ path( 'comprobanteegresovalor_new', { 'id': entity.id }) }}"
+                    {% endif %}
+                {% endif %}
+                {% if ( entity.porcentajeRendido >= entity.minimoRendicion ) %}
+                    ,"reponer" : "{{ path( 'egresovalor_reponer', { 'id': entity.id }) }}"
+                {% endif %}
+            {% else %}
+                {% if entity.tieneRendicionEgresoValor %}
+                    ,"rendirContinuar" : "{{ path( 'comprobanteegresovalor_new', { 'id': entity.id }) }}"
+                {% else %}
+                    ,"rendirAgregar" : "{{ path( 'comprobanteegresovalor_new', { 'id': entity.id }) }}"
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+    {% elseif entity.codigoEstadoEgresoValor == constant(ConstanteEstadoEgresoValor ~ '::ESTADO_ACTIVO') %}
+        ,"reconocimiento" : "{{ path( 'egresovalor_reconocimientogasto', { 'id': entity.id }) }}"
+        ,"ganancia" : "{{ path( 'egresovalor_cierregasto', { 'id': entity.id }) }}"
+    {% endif %}
+    ,"historico" : "{{ path( 'egresovalor_historico', { 'id': entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

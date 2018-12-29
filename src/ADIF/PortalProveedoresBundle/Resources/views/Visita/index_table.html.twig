@@ -1,0 +1,18 @@
+
+{
+    "data": [
+    {% for key, entity in entities %}
+        [
+        "{{ key }}",
+        "{{ key }}",
+        {% if entity.gFecha is defined %}"{{ entity.gFecha|date('d/m/Y') }}",{% endif %}
+        {% if entity.cantidad is defined %}"{{ entity.cantidad }}",{% endif %}
+        {% if entity.gHora is defined %}"{{ entity.gHora }}",{% endif %}
+        {
+            "show" : "#{# {{ path( "visitas_show", { "id": key }) }} #}" 
+            {# "edit" : " {{ path( "visitas_edit", { "id": key }) }}"  #}
+        }
+        ]{{ (loop.last ? '' : ',') }}
+    {% endfor %}
+    ]
+}

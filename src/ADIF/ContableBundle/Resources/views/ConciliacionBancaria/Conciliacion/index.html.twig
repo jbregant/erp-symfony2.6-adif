@@ -1,0 +1,126 @@
+{% extends '::base.html.twig' %}   
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Conciliaciones bancarias</div>
+                </div>
+                <div class="portlet-body">
+
+                    <div class="table-toolbar" style="margin-top: 2.5em">
+
+                        <div class="btn-group pull-left margin-right-10">
+                            <a class="btn btn-sm green tooltips" data-placement="right" 
+                               data-original-title="Crear conciliaci&oacute;n" 
+                               href=" {{ path( 'conciliacion_new') }} ">
+                                Crear conciliaci&oacute;n <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+
+                        <div class="btn-group pull-left" style="margin-top: -2.2em; margin-bottom: -1em">
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaInicio" 
+                                               class="control-label">Fecha inicio</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                                   name="adif_contablebundle_filtro[fechaInicio]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha fin</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+
+                    <table 
+                        class="table table-bordered table-striped table-condensed 
+                        flip-content dt-multiselect export-excel" 
+                        id="table-conciliacion" data-toggler="1"
+                        dataexport-title="conciliacion">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date" >Fecha de inicio</th>
+                                <th data-type="date" >Fecha de fin</th>
+                                <th data-type="date" >Fecha de cierre</th>
+                                <th>Cuenta bancaria</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-conciliacion .checkboxes" />
+                                </th>
+                                <th date export-format="date" >Fecha de inicio</th>
+                                <th date export-format="date" >Fecha de fin</th>
+                                <th date export-format="date" >Fecha de cierre</th>
+                                <th>Cuenta bancaria</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+    
+    {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_BANCOS_CONCILIACION_ABRIR") %}
+        <script src="{{ asset('js/custom/contable/conciliacionbancaria/conciliacion/index_abrir_conciliacion.js') }}" ></script>
+    {% else %}
+        <script src="{{ asset('js/custom/contable/conciliacionbancaria/conciliacion/index.js') }}" ></script>
+    {% endif %}    
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-group">
+            {{ form_label(form.proveedor) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.proveedor) }}
+                {{ form_widget(form.idProveedor) }}
+            </div>
+        </div>
+    </div>                     
+    <div class="col-md-5">
+        <div class="form-group">
+            {{ form_label(form.proveedor_razonSocial) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.proveedor_razonSocial) }}
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.proveedor_cuit) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.proveedor_cuit) }}
+            </div>
+        </div>
+    </div>
+</div>

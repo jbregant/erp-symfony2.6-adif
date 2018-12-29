@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}", 
+    "{{ entity.nombreCompleto|default('-') }}",
+{
+"show" : " {{ path( "operador_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "operador_edit", { "id": entity.id }) }}" ,
+"delete" : " {{ path( "operador_delete", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,19 @@
+{
+    "data": [
+        {% for entity in entities %}
+            [
+                "{{ entity.id }}",
+                "{{ entity.id }}",
+                "{{ entity.denominacion|default('-')|escape }}",
+                "{{ entity.numero|default('-') }}",
+                "{{ entity.linea|default('-')|escape }}",
+                "{{ entity.ramal|default('-')|escape }}",
+                {
+                    "show" : " {{ path( "estacion_show", { "id": entity.id }) }}",
+                    "edit" : " {{ path( "estacion_edit", { "id": entity.id }) }}",
+                    "delete" : " {{ path( "estacion_delete", { "id": entity.id }) }}"
+                }
+            ]{{ (loop.last ? '' : ',') }}
+        {% endfor %}
+    ]
+}

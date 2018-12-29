@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la Persona: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Apellido</label>
+                        <div class="detalle_show">                                {{ entity.apellido }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <div class="detalle_show">                                {{ entity.nombre }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Sexo</label>
+                        <div class="detalle_show">                                {{ entity.sexo }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Nrodocumento</label>
+                        <div class="detalle_show">                                {{ entity.nroDocumento }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cuil</label>
+                        <div class="detalle_show">                                {{ entity.cuil }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechanacimiento</label>
+                        <div class="detalle_show">                                {{ entity.fechaNacimiento|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Nacionalidad</label>
+                        <div class="detalle_show">                                {{ entity.nacionalidad }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Telefono</label>
+                        <div class="detalle_show">                                {{ entity.telefono }}                        </div>
+                    </div>
+                </div>                    </div><div class="row">                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Celular</label>
+                        <div class="detalle_show">                                {{ entity.celular }}                        </div>
+                    </div>
+                </div>                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <div class="detalle_show">                                {{ entity.email }}                        </div>
+                    </div>
+                </div>            </div>
+                <button type="button" class="btn default button-back" back-url="{{ path('personas') }}">Volver</button>
+        </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Cuenta bancaria</legend>
+
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-{{ tiene_tipo_cambio ? 4 : 6 }}">
+            <div class="form-group">
+                {{ form_label(form.fechaExtracto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fechaExtracto) }}
+                </div>
+            </div>
+        </div>        
+        <div class="col-md-{{ tiene_tipo_cambio ? 4 : 6 }}">
+             <div class="form-group">
+                 {{ form_label(form.saldoExtracto) }}
+                 <div class="right">
+                     {{ form_widget(form.saldoExtracto) }}                    
+                 </div>
+             </div>             
+        </div>
+        {% if tiene_tipo_cambio %}         
+        <div class="col-md-4">
+             <div class="form-group">
+                 {{ form_label(form.tipoCambio) }}
+                 <div class="right">
+                     {{ form_widget(form.tipoCambio) }}                    
+                 </div>
+             </div>             
+        </div> 
+        {% endif %}         
+    </div>            
+    <div class="row">            
+        <div class="col-md-{{ tiene_tipo_cambio ? 6 : 10 }}">
+            <div class="form-group">
+                {{ form_label(form.file, null, {'label_attr': {'class': 'control-label'}})  }} <a href="{{ app.request.basePath ~ '/files/conciliacion/formato_extracto_bancario.xls' }}" title="Formato de ejemplo de extracto bancario" target="_tab">
+                    <i class="fa fa-file-excel-o"></i>
+                </a>
+                <div class="right">
+                    <div class="fileinput fileinput-new" data-provides="fileinput">                               
+                        {{ form_widget(form.file) }}                            
+                        <a href="#" class="boton-remover input-group-addon btn red-sunglo default fileinput-exists" 
+                           data-dismiss="fileinput">
+                            Remover
+                        </a>
+                    </div>
+                </div>
+            </div>            
+
+        </div>
+        {% if tiene_tipo_cambio %}         
+        <div class="col-md-4">
+             <div class="form-group">
+                 {{ form_label(form.tipoCambioImportacion) }}
+                 <div class="right">
+                     {{ form_widget(form.tipoCambioImportacion) }}                    
+                 </div>
+             </div>             
+        </div> 
+        {% endif %}                         
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="input-icon right">
+                    {{ form_widget(form.cargar) }}
+                </div>
+            </div>
+        </div>                                         
+    </div>
+                
+</fieldset>

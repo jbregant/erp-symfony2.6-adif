@@ -1,0 +1,50 @@
+
+.calificacion-mala {
+    font-weight: 700;
+    color: #ed1730;
+    font-size: 14px
+}
+
+.calificacion-regular {
+    font-weight: 700;
+    color: #f2de08;
+    font-size: 14px
+}
+
+.calificacion-buena {
+    font-weight: 700;
+    color: #14cf24;
+    font-size: 14px
+}
+
+.btn-popover-proveedor {
+    margin: .1em 1em 0 0;
+}
+
+.popover-proveedor {
+    line-height: 2em !important
+}
+
+.popover-proveedor:hover .btn-popover-proveedor {
+    display: inline-block;
+}
+
+.certificado-exencion-content {
+    margin: 1em 0;
+}
+
+.certificado-exencion-content legend { 
+    margin-left: -.5em;
+    font-size: 19px;
+}
+
+.compact .prototype-link-add-proveedor-ute,
+.compact .prototype-link-add-dato-contacto-clienteproveedor, 
+.compact .prototype-link-add-dato-contacto,
+.compact .prototype-link-add-cai-proveedor {
+    margin-top: 1em
+}
+
+.proveedor-importacion a {
+    text-align: left !important    
+}

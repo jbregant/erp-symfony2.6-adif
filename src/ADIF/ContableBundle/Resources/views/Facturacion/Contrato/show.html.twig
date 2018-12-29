@@ -1,0 +1,280 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del contrato: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Tipo</label>
+                        <div class="detalle_show">{{ entity.claseContrato }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Cliente</label>
+                        <div class="detalle_show">{{ entity.cliente }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Estado</label>
+                        <div class="detalle_show">{{ entity.estadoContrato }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Nro carpeta</label>
+                        <div class="detalle_show">{{ entity.numeroCarpeta|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha inicio</label>
+                        <div class="detalle_show">{{ entity.fechaInicio|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha fin</label>
+                        <div class="detalle_show">{{ entity.fechaFin|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Calcula IVA</label>
+                        <div class="detalle_show">{{ entity.calculaIVA ? 'S&iacute;' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Importe original</label>
+                        <div class="detalle_show">{{ entity.importeTotal|money_format(entity.simboloTipoMoneda) }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Saldo pendiente fact.</label>
+                        <div class="detalle_show">{{ entity.saldoPendienteFacturacion|money_format(entity.simboloTipoMoneda) }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">D&iacute;a de vencimiento</label>
+                        <div class="detalle_show">{{ entity.diaVencimiento|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tasa inter&eacute;s mensual</label>
+                        <div class="detalle_show">{{ entity.porcentajeTasaInteresMensual ~ ' %'}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% if entity.indicaNumeroInmueble %}
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Nro inmueble</label>
+                            <div class="detalle_show">{{ entity.numeroInmueble|default('-') }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Fecha de desocupaci&oacute;n</label>
+                            <div class="detalle_show">{{ entity.fechaDesocupacion ? entity.fechaDesocupacion|date('d/m/Y') : '-' }}</div>                            
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Observaci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.observacion|default('-') }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="cleardiv">
+                <legend>Cupones de garant&iacute;a</legend>
+
+                {% if entity.cuponesGarantia is not empty %}
+                    <table class="table datatable table-bordered table-striped" 
+                           id="table-ciclo-facturacion">
+                        <thead>
+                            <tr class="headers">
+                                <th date class="nowrap text-center">Fecha</th>
+                                <th class="nowrap text-center">N&ordm; cup&oacute;n</th>
+                                <th currency class="nowrap text-center">Monto neto</th>
+                                <th currency class="nowrap text-center">IVA</th>
+                                <th currency class="nowrap text-center">Perc. IIBB</th>
+                                <th currency class="nowrap text-center">Perc. IVA</th>
+                                <th currency>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cuponGarantia in entity.cuponesGarantia %}
+                                <tr>
+                                    <td class="nowrap">{{ cuponGarantia.fechaComprobante|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ cuponGarantia.numeroCupon }}</td>
+                                    <td class="nowrap">{{ cuponGarantia.importeTotalNeto|money_format }}</td>
+                                    <td class="nowrap">{{ cuponGarantia.importeTotalIVA|money_format }}</td>
+                                    <td class="nowrap">{{ cuponGarantia.importeTotalPercepcionByConcepto(conceptoPercepcionIIBB)|money_format }}</td>
+                                    <td class="nowrap">{{ cuponGarantia.importeTotalPercepcionByConcepto(conceptoPercepcionIVA)|money_format }}</td>
+                                    <td>{{ cuponGarantia.total|money_format }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span>El contrato no contiene cupones de garant&iacute;a.</span>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="cleardiv margin-top-20">
+                <legend>Ciclos de facturaci&oacute;n</legend>
+
+                {% if entity.ciclosFacturacion is not empty %}
+                    <table class="table datatable table-bordered table-striped" 
+                           id="table-ciclo-facturacion">
+                        <thead>
+                            <tr class="headers">
+                                <th date class="nowrap">Fecha inicio</th>
+                                <th date class="nowrap">Fecha fin</th>
+                                <th class="nowrap">Cantidad</th>
+                                <th numeric class="nowrap">Cantidad de facturas pendientes</th>                    
+                                <th currency >Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cicloFacturacion in entity.ciclosFacturacion %}
+                                <tr>
+                                    <td class="nowrap">{{ cicloFacturacion.fechaInicio|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ cicloFacturacion.fechaFin|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ cicloFacturacion.cantidadUnidadTiempo ~ ' ' ~ cicloFacturacion.unidadTiempo }}</td>
+                                    <td class="nowrap">{{ cicloFacturacion.cantidadFacturasPendientes }}</td>
+                                    <td>{{ cicloFacturacion.importe|money_format(entity.simboloTipoMoneda) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span>El contrato no contiene ciclos de facturaci&oacute;n.</span>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="cleardiv margin-top-20">
+                <legend>P&oacute;lizas de seguro</legend>
+
+                {% if form is defined %}
+                    {% set edit = form.vars.value.id != null %}
+                    {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+                    {% include ':Form:fieldsErrors.html.twig' %}
+
+                    {% if edit %} 
+                        <input type="hidden" name="_method" value="PUT" />
+                    {% endif %}
+
+                    {% include('@ADIFContable/Facturacion/Contrato/new.datos_poliza.html.twig') %}
+
+                    <div class="hidden">
+                        {% include('@ADIFContable/Facturacion/Contrato/new.datos_contrato.html.twig') %}
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="pull-left">
+                            <button type="button" class="btn default button-back" 
+                                    back-url="{{ path('contrato') }}">Cancelar</button>
+                        </div>
+                        <div class="pull-right">
+                            {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                        </div>
+                    </div>
+
+                    {{ form_widget(form._token) }}
+
+                    {{ form_end(form, {"render_rest": false}) }}
+                {% elseif  entity.polizasSeguro is not empty %}
+                    <table class="table table-bordered table-striped" 
+                           id="table-poliza">
+                        <thead>
+                            <tr class="headers">
+                                <th date class="nowrap">Fecha inicio</th>
+                                <th date class="nowrap">Fecha vencimiento</th>
+                                <th class="nowrap">N&uacute;mero</th>
+                                <th class="nowrap">Aseguradora</th>
+                                <th class="nowrap">Riesgo cubierto</th>
+                                <th class="nowrap">Importe</th>
+                                <th>N&deg; tr&aacute;mite env&iacute;o</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for polizaSeguro in entity.polizasSeguro %}
+                                <tr>
+                                    <td class="nowrap">{{ polizaSeguro.fechaInicio|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.fechaVencimiento|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.numeroPoliza}}</td>
+                                    <td class="nowrap">{{ polizaSeguro.aseguradora }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.riesgoCubierto }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.importe|money_format }}</td>
+                                    <td>{{ polizaSeguro.numeroTramiteEnvio|default('-') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span>El contrato no contiene p&oacute;lizas.</span>
+                {% endif %}
+            </fieldset> 
+
+            {% if form is not defined %}
+                <div class="form-actions">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('contrato') }}">
+                        <i class="m-icon-swapleft"></i> Volver
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {% if form is defined %}
+        <script src="{{ asset('js/custom/contable/facturacion/contrato/newPoliza.js') }}" ></script>
+    {% endif %}
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+
+{% endblock %}

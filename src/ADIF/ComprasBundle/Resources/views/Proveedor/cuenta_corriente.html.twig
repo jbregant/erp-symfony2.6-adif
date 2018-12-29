@@ -1,0 +1,105 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #table-cuenta-corriente tbody tr.tr-grouped td {
+            padding: 0.5em 0.7em;
+            background-color: #fff2a8;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# Datepicker #}
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# PriceFormat #}
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+
+{% endblock%}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Cuenta corriente <b>{{ proveedor.clienteProveedor.razonSocial ~  ' - ' ~ proveedor.clienteProveedor.cuit }}</b></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+
+                    </div>
+
+                    <table 
+                        class="table datatable table-bordered table-striped flip-content table-condensed export-excel" 
+                        id="table-cuenta-corriente-oc" 
+                        dataexport-title="proveedor-cuenta-corriente">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="entity_id"></th>
+                                <th>N&ordm; de OC</th>
+                                <th>Monto</th>
+                                <th>Saldo</th>
+                                <th>Acciones</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th>N&ordm; de OC</th>
+                                <th currency>Monto</th>
+                                <th currency>Saldo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for oc in ocs %}
+                                <tr>
+                                    <td>{{ oc.id }}</td>
+                                    <td>{{ oc.numero|default('-') }}</td>
+                                    <td class="text-right">{{ oc.monto|money_format }}</td>
+                                    <td class="text-right">{{ oc.saldo|money_format }}</td>
+                                    <td class="text-center" width="10%">
+                                        <a  class="btn btn-xs blue tooltips" 
+                                            data-placement="left" 
+                                            data-original-title="Ver comprobantes"
+                                            href="{{  
+                                            path('proveedor_cta_cte_detalle', { 
+                                                'idProveedor': proveedor.id, 
+                                                'idOrdenCompra': oc.id 
+                                            }) }}"><i class="fa fa-letter">Detalle</i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn default button-back" 
+                                back-url="{{ path('proveedor') }}">
+                            <i class="m-icon-swapleft"></i> Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

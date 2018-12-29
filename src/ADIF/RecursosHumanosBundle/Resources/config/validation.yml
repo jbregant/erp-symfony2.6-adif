@@ -1,0 +1,56 @@
+## YAML Template.
+ADIF\RecursosHumanosBundle\Entity\Concepto:
+    properties:
+        codigo:
+            - NotBlank: ~
+        descripcion:
+            - NotBlank: ~
+        formula:
+            - NotBlank: ~
+
+ADIF\RecursosHumanosBundle\Entity\Empleado:
+    properties:
+        foto:
+            - Image: ~
+        tiposContrato:
+            - Count:
+                min: 1
+                minMessage: Debe ingresar al menos un tipo de contrataci&oacute;n
+        obrasSociales:
+            - Count:
+                min: 1
+                minMessage: Debe ingresar al menos una obra social
+
+ADIF\RecursosHumanosBundle\Entity\EmpleadoArchivo:
+    properties:
+        nombre:
+            - NotBlank: ~
+        file:
+            - File: ~
+
+ADIF\RecursosHumanosBundle\Entity\Persona:
+    properties:
+        nombre:
+            - NotBlank: ~
+        apellido:
+            - NotBlank: ~
+        idTipoDocumento:
+            - NotBlank: ~
+        nroDocumento:
+            - NotBlank: ~
+        sexo:
+            - NotBlank: ~
+        fechaNacimiento:
+            - NotBlank: ~
+
+ADIF\RecursosHumanosBundle\Entity\Subcategoria:
+    properties:
+        nombre:
+            - NotBlank: ~
+        montoBasico:
+            - NotBlank: ~
+
+ADIF\RecursosHumanosBundle\Entity\Subgerencia:
+    properties:
+        nombre:
+            - NotBlank: ~

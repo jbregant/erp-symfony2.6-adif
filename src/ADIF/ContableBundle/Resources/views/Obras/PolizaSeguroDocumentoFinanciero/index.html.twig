@@ -1,0 +1,96 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />s
+
+{% endblock%}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">P&oacute;lizas</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+					<p>(*) DF: Documento financiero</p>
+					</div>
+                    <table
+                        class="table table-bordered table-striped table-condensed
+                        flip-content dt-multiselect export-pdf export-excel"
+                        id="table-polizaseguro" dataexport-title="poliza">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Tipo</th>
+                                <th>N&uacute;mero</th>
+                                <th>A&ntilde;o</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Proveedor</th>
+                                <th>Tipo DF</th>
+                                <th>F. inicio DF</th>
+                                <th>F. fin DF</th>
+                                <th>N&deg; p&oacute;liza</th>
+                                <th>Aseguradora</th>
+                                <th>Aseguradora (normalizada)</th>
+                                <th>N&deg; de tr&aacute;mite original</th>
+                                <th>N&deg; de tr&aacute;mite P&oacute;liza en gt&iacute;a.</th>
+                                <th>Tipo de cobertura</th>
+                                <th>Monto asegurado</th>
+                                <th>Estado p&oacute;liza</th>
+                                <th>Estado revisi&oacute;n p&oacute;liza</th>
+                                <th data-type="date">F. inicio</th>
+                                <th data-type="date">F. vencimiento</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-polizaseguro .checkboxes" />
+                                </th>
+                                <th class="nowrap text-center">Tipoo</th>
+                                <th class="nowrap text-center">N&uacute;mero</th>
+                                <th class="nowrap text-center">A&ntilde;o</th>
+                                <th class="nowrap text-center">Descripci&oacute;n</th>
+                                <th class="nowrap text-center">Proveedor</th>
+                                <th class="nowrap text-center">Tipo DF</th>
+                                <th class="nowrap text-center">F. inicio DF</th>
+                                <th class="nowrap text-center">F. fin DF</th>
+                                <th class="nowrap text-center">N&deg; p&oacute;liza</th>
+                                <th class="nowrap text-center">Aseguradora<br /><sup>(este campo se eliminara)</sup></th>
+                                <th class="nowrap text-center">Aseguradora<br /><sup>(actualizada)</sup></th>
+                                <th class="nowrap text-center">N&deg; de tr&aacute;mite original</th>
+                                <th class="nowrap text-center">N&deg; de tr&aacute;mite P&oacute;liza en gt&iacute;a.</th>
+                                <th class="nowrap text-center">Tipo de cobertura</th>
+                                <th class="nowrap text-center">Monto asegurado</th>
+                                <th class="nowrap text-center">Estado p&oacute;liza</th>
+                                <th class="nowrap text-center">Estado revisi&oacute;n p&oacute;liza</th>
+                                <th date export-format="date" class="nowrap text-center">F. inicio</th>
+                                <th date export-format="date" class="nowrap text-center">F. vencimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/obras/polizasegurodocumentofinanciero/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

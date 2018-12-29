@@ -1,0 +1,41 @@
+<div id="div_cambiar_empresa" class="hidden">
+    <form name="form_cambiar_empresa" 
+          method="post" action="" class="horizontal-form" novalidate="novalidate">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label required">Cambiar empresa</label>
+                    <div class="input-icon left">
+                        <i class="fa"></i>                
+                        <select name="cambiar_empresa" id="select_cambiar_empresa" required style="width: 50%;">
+							{% for item in datosEmpresa %}
+								<option value="{{ item.id }}">{{ item.denominacion }}</option>
+							{% endfor %}
+						</select>
+					</div>
+                </div>
+            </div> 
+        </div>
+		<div class="row">
+			{% for item in datosEmpresa %}
+				{% if item.id != 1 %}
+					{% set hidden = ' hidden ' %}
+				{% else %}
+					{% set hidden = '' %}
+				{% endif %}
+				<div class="col-md-6 denominacion_empresa {{ hidden }}" id="denominacion_empresa_{{ item.id }}">
+					<div class="form-group">
+						<label class="control-label">Nombre de empresa</label>
+						<div class="detalle_show">{{ item.denominacionLarga }}</div>
+					</div>
+				</div>                 
+				<div class="col-md-6 cuit_empresa {{ hidden }}" id="cuit_empresa_{{ item.id }}">
+					<div class="form-group">
+						<label class="control-label">CUIT</label>
+						<div class="detalle_show">{{ item.cuit|default('-') }}</div>
+					</div>
+				</div>                
+			{% endfor %}
+		</div>
+    </form>           
+</div>

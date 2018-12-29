@@ -1,0 +1,65 @@
+ {% extends '::base.html.twig' %}  
+
+
+ 
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Escala Impuesto</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear escalaimpuesto" href=" {{ path( 'escala_impuesto_mes_new') }} ">
+                            Crear escala impuesto <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                    id="table-escalaimpuesto"
+                    dataexport-title="Escala Impuesto">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                                                        <th>Mes</th>
+                                                        <th>Monto desde</th>
+                                                        <th>Monto hasta</th>
+                                                        <th>Monto fijo</th>
+                                                        <th>Porcentaje a sumar</th>
+                                                        <th>Vigencia desde</th>
+                                                        <th>Vigencia hasta</th>
+                                                        <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-escalaimpuesto .checkboxes" />
+                            </th>
+                                                        <th>Mes</th>
+                                                        <th>Monto desde</th>
+                                                        <th>Monto hasta</th>
+                                                        <th>Monto fijo</th>
+                                                        <th>Porcentaje a sumar</th>
+                                                        <th>Vigencia desde</th>
+                                                        <th>Vigencia hasta</th>
+                                                        <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/escala_impuesto/index.js') }}" ></script>
+{% endblock %}

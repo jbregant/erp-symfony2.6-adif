@@ -1,0 +1,198 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% set ConstanteLetraComprobante = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteLetraComprobante' %}
+{% set ConstanteTipoResponsable = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoResponsable' %}
+{% set ConstanteConceptoPercepcion = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteConceptoPercepcion' %}
+
+{% block stylesheets %}
+
+    <link href="{{ asset(js_path ~ 'lib/colorbox-master/colorbox.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/consultoria/new.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+
+    <div class="row row_subtotal navbar-fixed-bottom">
+        <div class="col-md-3 "></div>
+        <div class="col-md-4 ">
+            <label class="control-label">TOTAL COMPROBANTE</label>
+        </div>
+        <div class="col-md-2">
+            <div>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante_subtotal_fixed" readonly="readonly" class="form-control text-right" value="0">
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div>
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+        {% if edit %} 
+            <input type="hidden" name="_method" value="PUT" />
+        {% endif %} 
+
+        {{ form_widget(form.idContrato) }}
+
+        <div class="form-body form-comprobante">
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Consultor</div>
+
+                {% include('@ADIFContable/Consultoria/ComprobanteConsultoria/new.datos_consultor.html.twig') %}
+
+                <div class="row ciclo_facturacion_consultor-data" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Ciclos del consultor</label>
+                            <table id="table_ciclo_facturacion_consultor" 
+                                   class="table table-bordered table-striped 
+                                   table-condensed table-hover dt-multiselect" >
+                                <thead>
+                                    <tr class="headers">
+                                        <th class="text-center hidden" width="5%">N&ordm;</th>
+                                        <th class="text-center" width="10%">N&ordm; contrato</th>
+                                        <th class="text-center" width="25%">Gerencia - &Aacute;rea</th>
+                                        <th class="text-center" width="15%">Mes</th>
+                                        <th class="text-center" width="15%">A&ntilde;o</th>
+                                        <th>Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% include('@ADIFContable/Comprobante/new.header.html.twig') %}
+
+            <div class="div_ctn_seccion" style="min-height: 45px">
+                <div class="btn btn-info btn-sm label_seccion">Detalle</div>
+                {% include('@ADIFContable/Consultoria/ComprobanteConsultoria/new.agregar_renglon_comprobante.html.twig') %}
+            </div>
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Percepciones e impuestos</div>
+                <div class="row">
+                    {% include('@ADIFContable/Consultoria/ComprobanteConsultoria/new.agregar_impuesto.html.twig') %}
+
+                    {% include('@ADIFContable/Consultoria/ComprobanteConsultoria/new.agregar_percepcion.html.twig') %}
+                </div>
+            </div>
+
+            {% include('@ADIFContable/Comprobante/new.footer.html.twig') %}
+        </div> 
+
+        <div class="form-actions">
+            <div class="pull-left">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('comprobante_consultoria') }}">Cancelar</button>
+            </div>
+            <div class="pull-right">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {"render_rest": false}) }}
+
+    </div> 
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {#validacion form#}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script>
+        var prefijo = 'consultoria';
+        
+        var nuevoCicloFacturacion = $('.row_renglon_comprobante_nuevo').detach();
+        
+        var __letraComprobanteA = "{{ constant(ConstanteLetraComprobante ~ '::A') }}";
+        var __letraComprobanteALeyenda = "{{ constant(ConstanteLetraComprobante ~ '::A_CON_LEYENDA') }}";
+        var __letraComprobanteC = "{{ constant(ConstanteLetraComprobante ~ '::C') }}";
+        var __letraComprobanteY = "{{ constant(ConstanteLetraComprobante ~ '::Y') }}";
+        var __letraComprobanteM = "{{ constant(ConstanteLetraComprobante ~ '::M') }}";
+        
+        var __responsableMonotributo = "{{ constant(ConstanteTipoResponsable ~ '::RESPONSABLE_MONOTRIBUTO') }}";    
+        
+        var __percepcionIIBB = "{{ constant(ConstanteConceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IIBB') }}";
+    </script>
+
+    <script src="{{ asset('js/custom/contable/comprobante/new.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/comprobante/consultoria/new.js') }}" ></script>
+
+    <script>
+        {% if(entity.contrato) %}
+            selectConsultor('autocompleteselect', {
+                item:{
+                id:{{ entity.consultor.id }},
+                        CUIT:"{{ entity.consultor.CUIT }}",
+                        razonSocial:"{{ entity.consultor.razonSocial }}"
+                }
+            });        
+        {% endif %}
+
+        {% for renglon in entity.renglonesComprobante %}
+                crearRenglonComprobanteConsultoria('{{ renglon.descripcion }}', {{ renglon.cantidad }}, {{ renglon.precioUnitario }}, {{ renglon.montoNeto }}, {{ renglon.alicuotaIva.id }}, {{ renglon.montoIva }});
+                restringir_iva();
+                recalcular_netos();        
+        {% endfor %}
+    </script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

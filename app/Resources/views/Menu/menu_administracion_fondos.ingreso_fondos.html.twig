@@ -1,0 +1,37 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Ingreso de fondos
+    </a>    
+    <ul class="dropdown-menu">
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_COBRANZA') %}
+            <li> 
+                <a href="{{ path('rengloncobranza') }}">
+                    Cobranzas de clientes
+                </a>
+            </li>    
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_DESIMPUTACIONES') %}
+            <li> 
+                <a href="{{ path('rengloncobranza_desimputar') }}">
+                    Desimputaciones
+                </a>
+            </li>    
+        {% endif %}
+
+        {# TRANSACCIONES BANCARIAS #}
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_TRANSACCIONES_BANCARIAS') %}
+            {% include ':Menu:menu_administracion_fondos.ingreso_fondos.menu_transacciones_bancarias.html.twig' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_DEPOSITO_CHEQUES') %}
+            <li> 
+                <a href="{{ path('cheques_para_depositar') }}">
+                    Dep&oacute;sito de cheques en cartera
+                </a>
+            </li> 
+        {% endif %}
+          
+    </ul>
+</li>

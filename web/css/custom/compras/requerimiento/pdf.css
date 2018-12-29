@@ -1,0 +1,87 @@
+
+.bold {
+    font-weight: bold !important
+}
+
+.nowrap {
+    white-space: nowrap !important;
+    width: 1%;
+    word-wrap: break-word
+}
+
+.table thead tr th {
+    font-size: 11px;
+    font-weight: bold;    
+    padding: .7em 1em !important;
+    border-bottom: 1px solid #000
+}
+
+.table tbody tr td {
+    font-size: 10px;
+    padding: .5em
+}
+
+.pdf-content {
+    border: 1px solid #000;
+    height: 100%;
+    padding: 0;
+    font-size: 12px
+}
+
+.pdf-encabezado {
+    padding: 0
+}
+
+.pdf-encabezado-izquierdo {
+    border-right: 1px solid #CCC;
+    width: 64%;
+}
+
+.pdf-encabezado-derecho {
+    padding: .5em 1em 0;
+    width: 32%;
+}
+
+.pdf-encabezado {
+    border-bottom: 2px solid #000
+}
+
+.pdf-encabezado-logo,
+.pdf-encabezado-solicitante,
+.pdf-encabezado-detalle, 
+.pdf-encabezado-fecha {
+    padding: 1em;
+}
+
+.pdf-encabezado-fecha {
+    text-align: center
+}
+
+.pdf-encabezado-logo,
+.pdf-encabezado-solicitante {
+    border-bottom: 1px solid #CCC    
+}
+
+.pdf-encabezado-logo{
+    display: inline
+}
+
+.pdf-encabezado-imagen {
+    width: 50px;
+}
+
+.pdf-encabezado-titulo {
+    text-align: center;    
+    font-weight: bold;
+    vertical-align: top;
+    margin-top: .7em;
+    font-size: 14px
+}
+
+.pdf-encabezado-nro {
+    background-color: #f3f3f3;
+    padding: 1.5em .5em;
+    margin-bottom: 2.2em;
+    min-height: 80px;
+    font-size: 12px
+}

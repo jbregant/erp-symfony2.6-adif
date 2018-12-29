@@ -1,0 +1,62 @@
+
+tr.selected {
+    background-color: #ede9ff
+}
+
+tr.selected .ctn_acciones {
+    background-color: #FFF
+}
+
+.btn-popover-adicionales i {
+    padding: 0 .2em;
+}
+
+.btn-popover-proveedor {
+    margin-top: .4em !important
+}
+
+.column-title-soft {
+    background-color: #f2f2f2
+}
+
+.column-title-strong {
+    background-color: #e2e2e2
+}
+
+.accion_cotizador {
+    margin-left: 10px;
+    padding: 1px 4px !important;
+}
+
+.accion_cotizador i {
+    font-size: 11px !important
+}
+
+.datos-cotizacion.selected {
+    background-color: #e0ffd7
+}
+
+.tr-adicional:not(:last-child) {
+    border-bottom: 1px dashed #e1e1e1;
+}
+
+.adicional-iva {
+    font-size: 10px
+}
+
+tfoot {
+    border-top: 2px solid #a6a6a6;
+}
+
+.thin {
+    min-height: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+
+.table tbody tr td.ganador .print-check:after {
+    content: "✓";
+    margin-right: 1em;
+    margin-left: .5em;
+}

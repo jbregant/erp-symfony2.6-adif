@@ -1,0 +1,118 @@
+<br>
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">General</legend>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idMarca) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idMarca) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idModelo) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idModelo) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idOperador) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idOperador) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idLinea) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idLinea) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idEstacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idEstacion) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idEstadoConservacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idEstadoConservacion) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idEstadoServicio) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idEstadoServicio) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idTipoEnvio) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idTipoEnvio) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.idCodigoTrafico) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.idCodigoTrafico, { 'id': 'cod_trafico' }) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="form-group">
+                {{ form_label(form.observacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.observacion) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</fieldset>

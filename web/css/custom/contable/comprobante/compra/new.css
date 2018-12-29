@@ -1,0 +1,118 @@
+
+.ctn_rows_renglon_comprobante .input-icon.right input,        
+.ctn_rows_renglon_percepcion .input-icon.right input,        
+.ctn_rows_renglon_impuesto .input-icon.right input,
+.ctn_rows_renglon_adicional .input-icon.right input,
+.row_footer .input-icon.right input {
+    padding-right: 5px !important; 
+}
+
+.row_footer .form-group {
+    margin-bottom: 0;
+}
+
+.form-control[readonly] {
+    background-color: #EEE !important;
+}
+
+.subtotal_input{
+    background-color: #e5e5e5;
+}
+
+.row_subtotal label{
+    text-align: right;
+    width: 100%;
+    margin: 1px 0px 0;
+    vertical-align: bottom;
+    padding-top: 4px;
+    /*height: 25px;*/
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding-right: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+.row_subtotal input[readonly] {
+    background-color:rgba(54, 161, 255, 0.64) !important;
+    color: #FFF;
+}
+
+.row_subtotal.navbar-fixed-bottom{
+    padding: 5px;
+    background-color: #555; 
+}
+
+.row_subtotal.navbar-fixed-bottom label{    
+    font-size: 18px;
+    padding-top: 4px;
+    height: 33px;
+}
+
+.row_subtotal.navbar-fixed-bottom input{   
+    height: auto;
+    font-size: 22px;
+    padding: 0 4px;
+}
+
+.form-comprobante {
+    padding: 10px 20px
+}
+
+body{
+    padding-bottom: 70px !important;
+}
+
+#table_ordenes_compra_proveedor,
+#table_documento_financiero_proveedor {
+    background-color: #FFF;
+}
+
+.div_ctn_seccion{
+    padding: 10px;
+    background-color: #EDF4F9;
+    border: 1px solid #ccc;
+    margin-top: 12px;
+}
+
+.div_ctn_seccion:first-child{
+    margin-top: 0px;
+}
+
+.div_ctn_seccion > .label_seccion{
+    position: absolute;
+    right: 15px;
+    margin-top: -11px;
+    text-transform: uppercase;
+}
+
+.div_ctn_seccion .renglon_impuesto_borrar, 
+.div_ctn_seccion .renglon_percepcion_borrar, 
+.div_ctn_seccion .renglon_adicional_borrar{
+    margin-left: -13px !important;
+    // height: 33px !important;
+    // padding-top: 5px !important;
+    // padding-left: 12px;
+    // padding-right: 12px;
+}
+
+#adif_contablebundle_comprobantecompra_total, 
+#adif_contablebundle_comprobanteobra_total, 
+#adif_contablebundle_comprobantecompra_adicionales_1_montoIva{
+    background-color: #FFF !important;
+}
+
+.form-body.form-comprobante{
+    padding: 0;
+}
+
+.input-icon.right input {
+    padding-left: 0 !important;
+    padding-right: 33px !important;
+}
+
+.table tbody tr.active td, 
+.table tbody tr.active th {
+    background-color: #e0ffd7;
+    font-weight: bold
+}

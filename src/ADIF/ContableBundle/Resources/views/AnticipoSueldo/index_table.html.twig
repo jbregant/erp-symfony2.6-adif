@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha|date('d/m/Y') }}",
+    "{{ entity.empleado }}", 
+    "{{ entity.monto|money_format }}", 
+    {
+    "show" : " {{ path( "anticipossueldo_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "anticipossueldo_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

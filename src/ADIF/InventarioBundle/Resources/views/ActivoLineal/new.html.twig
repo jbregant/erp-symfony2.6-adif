@@ -1,0 +1,245 @@
+{% extends '::base.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var esTramoIntermedio = {{ esTramoIntermedio|default('false') }};
+    </script>
+    <script src="{{ asset('js/custom/inventario/activolineal/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Activo Lineal</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+
+            {% if edit %}
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+
+            <div class="form-body">
+                <div class="tabbable-custom nav-justified">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab">General </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_2" data-toggle="tab">Atributos </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_3" data-toggle="tab">Propiedades </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_4" data-toggle="tab">Relevamiento </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_5" data-toggle="tab">Activo Fijo </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_6" data-toggle="tab">Im&aacute;genes </a>
+                        </li>
+                    </ul>
+
+                    <div class="portlet box blue" style="margin-top:20px;">
+                        <div class="portlet-title">
+                            <div class="caption">Datos Generales</div>
+
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="form-body">
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            {{ form_label(form.numeroInterno) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.numeroInterno) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.operador) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.operador) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.linea) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.linea) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.estadoConservacion) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.estadoConservacion) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.ramal) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.ramal) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.division) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.division) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.corredor) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.corredor) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.estadoInventario) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ entity.estadoInventario }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.tipoVia) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.tipoVia) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.progresivaInicioTramo) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.progresivaInicioTramo) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.progresivaFinalTramo) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.progresivaFinalTramo) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            {{ form_label(form.kilometraje) }}
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                {{ form_widget(form.kilometraje) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" style="border: transparent; padding: 0;">
+
+                        {# TAB 1 - General #}
+                        <div id="tab_1" class="tab-pane active">
+                            {% include('@ADIFInventario/ActivoLineal/new.datos_generales.html.twig') %}
+                        </div>
+
+                        {# TAB 2 - Atributos #}
+                        <div id="tab_2" class="tab-pane">
+                            {% include('@ADIFInventario/ActivoLineal/new.atributos.html.twig') %}
+                        </div>
+
+                        {# TAB 3 - Propiedades #}
+                        <div id="tab_3" class="tab-pane">
+                            {% include('@ADIFInventario/ActivoLineal/new.propiedades.html.twig') %}
+                        </div>
+
+                        {# TAB 4 - Relevamiento #}
+                        <div id="tab_4" class="tab-pane">
+                            <!-- include('@ADIFInventario/ActivoLineal/new.relevamiento.html.twig') %}-->
+                        </div>
+
+                        {# TAB 5 - Activo Fijo #}
+                        <div id="tab_5" class="tab-pane">
+                            {% include('@ADIFInventario/ActivoLineal/new.activo_fijo.html.twig') %}
+                        </div>
+
+                        {# TAB 6 - Fotos #}
+                        <div id="tab_6" class="tab-pane">
+                            {% include('@ADIFInventario/ActivoLineal/new.datos_fotos.html.twig') %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('activolineal') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'} }) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

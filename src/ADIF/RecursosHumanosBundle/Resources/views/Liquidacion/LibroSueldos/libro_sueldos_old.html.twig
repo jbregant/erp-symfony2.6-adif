@@ -1,0 +1,133 @@
+{% set periodo_liquidacion = le.liquidacion.fechaCierreNovedades|localizeddate('full','none',app.request.locale,null,'MMMM y')|upper %}
+<table class="w-100 datos_basicos" border="1">
+    <tbody>
+        <tr>
+            <td class="header bold ">Legajo</td>
+            <td class="hlt ">{{ empleado.nroLegajo }}</td>
+            <td class="header bold ">Apellido y nombre</td>
+            <td class="hlt " colspan="3">{{ empleado.persona }}</td>
+        </tr>
+        <tr>
+            <td class="header bold ">Per&iacute;odo abonado</td>
+            <td class="hlt ">{{ le.liquidacion.fechaCierreNovedades|date('m/y') }}</td>
+            <td class="header ">Fecha de pago</td>
+            <td class="hlt">{{ le.liquidacion.fechaPago|date('d/m/y')  }}</td>
+            <td class="header ">Jerarqu&iacute;a</td>
+            <td class="hlt">Administraci&oacute;n</td>
+        </tr>
+        <tr>
+            <td class="header ">C.U.I.L.</td>
+            <td class="hlt">{{ empleado.persona.cuil }}</td>
+            <td class="header ">Estado civil</td>
+            <td class="hlt">{{ empleado.persona.estadoCivil }}</td>
+            <td class="header ">Categor&iacute;a</td>
+            <td class="hlt">{{ empleado.subcategoria.categoria }}</td>
+        </tr>
+        <tr>
+            <td class="header">Fecha de ingreso</td>
+            <td class="hlt">{{ empleado.fechaIngreso|date('d/m/y') }}</td>
+            <td class="header ">Tarea</td>
+            <td class="hlt">Administrativa</td>
+            <td class="header ">Obra social</td>
+            <td class="hlt">{{ empleado.obraSocialFecha(le.liquidacion.fechaCierreNovedades) ? empleado.obraSocialFecha(le.liquidacion.fechaCierreNovedades).obraSocial : 'SIN OS' }}</td>
+        </tr>
+        <tr>
+            <td class="header">Fecha de egreso</td>
+            <td class="hlt">{{ empleado.fechaEgreso ? empleado.fechaEgreso|date('d/m/y') : ''}}</td>
+            <td class="header ">Sueldo / Jornal</td>
+            <td class="hlt">{{ le.basico|number_format(2, ',', '.')}}</td>
+            <td class="header ">Contrataci&oacute;n</td>
+            <td class="hlt">{{ empleado.tipoContratacionActual.tipoContrato.nombre }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="w-100 m-top datos_familiares" border="1">
+    <tbody>
+        <thead>
+            <tr>
+                <th colspan="5" class="t-left hlt">Familiares</th>
+            </tr>
+            <tr>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Parentesco</th>
+                <th>Nacimiento</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for familiar in empleado.familiares %}
+                <tr>
+                    <td>{{ familiar.persona.apellido }}</td>
+                    <td>{{ familiar.persona.nombre }}</td>
+                    <td>{{ familiar.persona.nroDocumento }}</td>
+                    <td>{{ familiar.tipoRelacion }}</td>
+                    <td>{{ familiar.persona.fechaNacimiento|date('d/m/y') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </tbody>
+</table>
+
+<table class="w-100 m-top datos_conceptos" border="1">
+    <thead>
+        <tr>
+            <th colspan="6" class="t-left hlt">Liquidaci&oacute;n: {{ periodo_liquidacion }}</th>
+        </tr>
+        <tr>
+            <td class="w-40 t-center header" style="font-size:6pt;" colspan="2">CONCEPTO</td>
+            <td class="w-12 t-center header" style="font-size:6pt;">UNIDADES</td>
+            <td class="w-12 t-center header" style="font-size:6pt;padding:0px;">HABERES REMUNERATIVOS</td>
+            <td class="w-12 t-center header" style="font-size:6pt;padding:0px;">HABERES NO REMUNERATIVOS</td>
+            <td class="w-12 t-center header" style="font-size:6pt;padding:0px;">RETENCIONES Y DESCUENTOS</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="concepto">
+            <td class="w-5" style="border-right: 0;">0001</td>
+            <td class="w-35" style="border-left: 0;">Salario b&aacute;sico</td>
+            <td></td>
+            <td class=" t-right">{{ le.basico|number_format(2, ',', '.') }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        {% for concepto in le.liquidacionEmpleadoConceptos if concepto.conceptoVersion.imprimeRecibo %}
+            {% set c_version = concepto.conceptoVersion %}
+            {% if ((c_version.esNovedad and concepto.empleadoNovedad and concepto.empleadoNovedad.valor != 0) or (concepto.monto != 0)) %}
+            <tr class="concepto">
+                <td class="w-5" style="border-right: 0;">{{ c_version.codigo|str_pad(4,'0',0) }}</td>
+                <td class="w-35" style="border-left: 0;">{{ c_version.leyenda }}</td>
+                <td class=" t-right">{{ (c_version.esNovedad ? ( c_version.formula|trim() == '#valor#' ? '' : (concepto.empleadoNovedad ? concepto.empleadoNovedad.valor|number_format(2, ',', '.') : '')) : '' ) }}</td>
+                <td class=" t-right">{{ c_version.idtipoConcepto == tc_remunerativo ? concepto.monto|number_format(2, ',', '.') : ''}}</td>
+                <td class=" t-right">{{ c_version.idtipoConcepto == tc_no_remunerativo ? concepto.monto|number_format(2, ',', '.') : ''}}</td>
+                <td class=" t-right">{{ 
+                        ((c_version.idtipoConcepto == tc_aporte or
+                        c_version.idtipoConcepto == tc_cuota_sindical_aportes or
+                        c_version.idtipoConcepto == tc_descuento or 
+                        c_version.idtipoConcepto == tc_ganancias )
+                        ? concepto.monto|number_format(2, ',', '.') : '')}}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        <tr class="concepto">
+            <td class="w-5" style="border-right: 0;">0997</td>
+            <td class="w-35" style="border-left: 0;">REDONDEO</td>
+            <td class=" t-right"></td>
+            <td class=" t-right"></td>
+            <td class=" t-right">{{ le.redondeo|number_format(2, ',', '.') }}</td>
+            <td class=" t-right"></td>
+        </tr>
+        <tr>
+            <td class="t-right header" colspan="3" style="border-bottom: none;">SUBTOTALES</td>
+            <td class="t-right header monospc hlt">{{ (le.bruto1+le.bruto2)|number_format(2, ',', '.') }}</td>
+            <td class="t-right header monospc hlt">{{ (le.noRemunerativo+le.redondeo)|number_format(2, ',', '.') }}</td>
+            <td class="t-right header monospc hlt">{{ (le.descuentos+(le.gananciaEmpleado ? le.gananciaEmpleado.saldoImpuestoMes : 0))|number_format(2, ',', '.') }}</td>
+        </tr>
+        <tr class="" style="border-bottom: none;">
+            <td class="t-right header" colspan="5"  style="border-bottom: none;border-top: none;">TOTAL NETO</td>
+            <td class="t-right header monospc hlt">{{ le.neto|number_format(2, ',', '.') }}</td>
+        </tr>
+    </tbody>
+</table>

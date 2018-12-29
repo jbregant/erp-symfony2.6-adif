@@ -1,0 +1,19 @@
+
+{% if cantidad_polizas_vencidas > 0 %}
+    <div class="row">
+        <div class="col-md-12 clear">
+            <div class="alert alert-block alert-warning fade in">
+                <p>
+                    <span class="margin-right-10">
+                        <i class="fa-lg fa fa-warning "></i> 
+                        El presente contrato posee <span class="bold">{{ cantidad_polizas_vencidas }}</span> p&oacute;lizas vencidas.
+                    </span>
+                    {% if contrato is defined %}
+                        Para acceder al detalle del contrato haga click 
+                        <a href="{{ path( 'contrato_agregar_poliza', { 'id': contrato.id }) }}" target="_blank">aqu&iacute;.</a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}

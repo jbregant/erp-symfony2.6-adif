@@ -1,0 +1,75 @@
+ {% extends '::base.html.twig' %}
+
+
+
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Usuario</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                        {# <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear usuario" href=" {{ path( 'portal_usuarios_new') }} ">
+                            Crear usuario <i class="fa fa-plus"></i>
+                        </a> #}
+                    </div>
+                </div>
+                <button id="chartButton" class="chart-button pull-right"><i class="fa fa-line-chart"></i> Generar Gráfico</button>
+                <table
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel"
+                    id="table-portal-usuario"
+                    dataexport-title="usuario">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                                                        <th>Email</th>
+                                                        <th>Cuit</th>
+                                                        <th>Fecha Invitación</th>
+                                                        <th>Último Ingreso</th>
+                                                        <th>Estado</th>
+                                                        <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-portal-usuario .checkboxes" />
+                            </th>
+                                                        <th>Email</th>
+                                                        <th>Cuit</th>
+                                                        <th date>Fecha Invitación</th>
+                                                        <th date>Último Ingreso</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <br>
+
+        <div id="grafic-container" class="hidden"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+
+    <script src="{{ asset('js/config/chart.js') }}" ></script>
+    <script src="{{ asset('js/custom/portalproveedores/usuario/index.js') }}" ></script>
+{% endblock %}

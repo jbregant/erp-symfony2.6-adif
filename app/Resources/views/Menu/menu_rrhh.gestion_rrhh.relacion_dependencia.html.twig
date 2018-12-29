@@ -1,0 +1,32 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Relaci&oacute;n de dependencia
+    </a>    
+    <ul class="dropdown-menu">
+
+        {% if is_granted("ROLE_MENU_RRHH_CONFIGURACION_RELACION_DEPENDENCIA") %}
+            {% include ':Menu:menu_rrhh.configuracion_rrhh_relacion_dependencia.html.twig' %}
+        {% endif %}  
+
+        {% if is_granted("ROLE_MENU_RRHH_VISTA_EMPLEADOS") %}
+            <li class="classic-menu-dropdown">        
+                <a href="{{ path('empleados') }}">
+                    Empleados
+                </a>
+            </li>
+            <li class="classic-menu-dropdown">        
+                <a href="{{ path('empleados_historico') }}">
+                    Empleados hist&oacute;rico
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_RRHH_ALTA_F572") %}
+            <li class="classic-menu-dropdown">        
+                <a href="{{ path('formulario572') }}">
+                    Formularios 572
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>

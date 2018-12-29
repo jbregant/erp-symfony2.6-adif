@@ -1,0 +1,76 @@
+
+{% if domicilio.localidad.vars.data is not null %}
+    <div id="cliente_proveedor_datos_domicilio">
+        <input type="hidden" data-tipo-domicilio="{{ tipo_domicilio }}" value="{{ domicilio.localidad.vars.data.provincia.id }}" name="cliente_proveedor_provincia"/>
+        <input type="hidden" data-tipo-domicilio="{{ tipo_domicilio }}" value="{{ domicilio.localidad.vars.data.id }}" name="cliente_proveedor_localidad"/>
+    </div>
+{% endif %}
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">{{ form_label(domicilio) }}</legend>
+
+    <div class="row">   
+
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(domicilio.calle)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.calle) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(domicilio.numero)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.numero) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(domicilio.piso)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.piso) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(domicilio.depto)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.depto) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(domicilio.codPostal)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.codPostal) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(domicilio.idProvincia)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.idProvincia) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(domicilio.localidad)  }}
+                <div class=" right">
+                    {{ form_widget(domicilio.localidad) }}
+                </div>
+            </div>                
+        </div>
+    </div>
+
+</fieldset>

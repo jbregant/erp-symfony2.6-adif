@@ -1,0 +1,79 @@
+ {% extends '::base.html.twig' %}  
+
+ 
+
+ {% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Rengl&oacute;n Solicitud de Compra</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear renglonsolicitudcompra" href=" {{ path( 'renglonsolicitudcompra_new') }} ">
+                            Crear rengl&oacute;n <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                    id="table-renglonsolicitudcompra"
+                    dataexport-title="renglones solicitud de compra">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th class="entity_id"></th>
+                            <th class="not-in-filter"></th>
+                            <th>Prioridad</th>
+                            <th>Bien econ&oacute;mico</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Cant. solicitada</th>
+                            <th>Cant. pendiente</th>
+                            <th>Unidad</th>
+                            <th>Justiprecio unitario</th>                 
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-renglonsolicitudcompra .checkboxes" />
+                            </th>
+                            <th>Prioridad</th>
+                            <th>Bien econ&oacute;mico</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Cant. solicitada</th>
+                            <th>Cant. pendiente</th>
+                            <th>Unidad</th>
+                            <th currency>Justiprecio unitario</th>
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in entities %}
+                        <tr>
+                            <td>{{ entity.id }}</td>
+                            <td class="text-center">
+                                <input type="checkbox" class="checkboxes" value="" />
+                            </td>                            
+                            <td>{{ entity.prioridad }}</td>                            
+                            <td>{{ entity.bienEconomico }}</td>
+                            <td>{{ entity.descripcion }}</td>
+                            <td>{{ entity.cantidadSolicitada }}</td>
+                            <td>{{ entity.cantidadPendiente }}</td>
+                            <td>{{ entity.unidadMedida }}</td>
+                            <td>{{ entity.justiprecioUnitario }}</td>
+                            <td class="ctn_acciones text-center nowrap">
+                                <a href=" {{ path( 'renglonsolicitudcompra_show', { 'id': entity.id }) }} " class="btn btn-xs blue tooltips" data-original-title="Ver detalle"><i class="fa fa-search"></i></a>
+                                <a href=" {{ path( 'renglonsolicitudcompra_edit', { 'id': entity.id }) }} " class="btn btn-xs green tooltips" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

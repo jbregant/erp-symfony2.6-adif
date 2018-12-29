@@ -1,0 +1,63 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos principales</legend>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Legajo</label>
+                <div class="detalle_show">{{ consultor.legajo|default('-') }}</div>
+            </div>
+        </div>     
+        <div class="col-md-9">
+            <div class="form-group">
+                <label class="control-label">Raz&oacute;n social</label>
+                <div class="detalle_show">{{ consultor.razonSocial|default('-') }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Observaci&oacute;n</label>
+                <div class="detalle_show">{{ consultor.observacion|default('-') }}</div>
+            </div>
+        </div>            
+    </div>
+</fieldset> 
+
+{% if consultor.archivos is not empty %}
+    <fieldset class="form-section-fieldset">
+
+        <legend class="form-section-legend">Adjuntos</legend>
+
+        <div class="imagenes-container">
+            {% for archivo in consultor.archivos %}
+
+                {% set extension = archivo.nombreArchivo|split('.')|last %}
+
+                {% if extension is not null and extension == 'pdf' %}
+                    <a href="{{ app.request.basePath ~ '/uploads/adjunto_consultor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                        <img src="{{ app.request.basePath ~ '/images/PDF.jpg' }}" alt="{{ archivo.nombre }}"/>
+                    </a>
+                {% elseif extension is not null and (extension == 'doc' or extension == 'docx') %}
+                    <a href="{{ app.request.basePath ~ '/uploads/adjunto_consultor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                        <img src="{{ app.request.basePath ~ '/images/Word.png' }}" alt="{{ archivo.nombre }}"/>
+                    </a>
+                {% elseif extension is not null and (extension == 'xls' or extension == 'xlsx') %}
+                    <a href="{{ app.request.basePath ~ '/uploads/adjunto_consultor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                        <img src="{{ app.request.basePath ~ '/images/Excel.png' }}" alt="{{ archivo.nombre }}"/>
+                    </a>
+                {% else %}
+                    <span class="link-adjunto">
+                        <a href="{{ app.request.basePath ~ '/uploads/adjunto_consultor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" >
+                            <img src="{{ app.request.basePath }}{{ vich_uploader_asset(archivo, 'archivo') }}" alt="{{ archivo.nombre }}"/>
+                        </a>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </fieldset>
+{% endif %}

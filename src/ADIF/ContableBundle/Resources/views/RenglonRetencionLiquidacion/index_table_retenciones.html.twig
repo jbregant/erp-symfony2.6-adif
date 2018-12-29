@@ -1,0 +1,18 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "Liquidaci&oacute;n {{ entity.liquidacion }}",
+    "{{ entity.beneficiarioLiquidacion.razonSocial }}",
+    "{{ entity.conceptoVersion }}",
+    "{{ entity.monto|money_format }}",
+    {
+        "id" : "{{ entity.id }}",
+        "show" : "#"        
+    },
+    "{{ entity.beneficiarioLiquidacion.id }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

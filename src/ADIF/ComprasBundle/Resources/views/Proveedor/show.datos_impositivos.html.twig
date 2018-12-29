@@ -1,0 +1,227 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos impositivos</legend>
+
+    <div class="row">    
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">CUIT</label>
+                <div class="detalle_show">{{ proveedor.clienteProveedor.CUIT|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">N&ordm; ingresos brutos</label>
+                <div class="detalle_show">{{ proveedor.clienteProveedor.numeroIngresosBrutos|default('-') }}</div>
+            </div>
+        </div>         
+    </div>
+
+    {% for cai in proveedor.cais %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">N&ordm; CAI</label>
+                    <div class="detalle_show">{{ cai.numero }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Punto de venta</label>
+                    <div class="detalle_show">{{ cai.puntoVenta }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Fecha de vencimiento</label>
+                    <div class="detalle_show">{{ cai.fechaVencimiento|date('d/m/Y') }}</div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</fieldset>
+
+<div class="row">    
+
+    <div class="col-md-6">
+
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">IVA</legend>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.condicionIVA|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.exentoIVA ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.pasibleRetencionIVA ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% include '@ADIFCompras/Proveedor/show.certificado_exencion.html.twig' with {'certificadoExencion': proveedor.certificadoExencionIVA}  %}
+
+        </fieldset>
+    </div>
+
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">SUSS</legend>
+            <div class="row">   
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.condicionSUSS|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.exentoSUSS ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.pasibleRetencionSUSS ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% include '@ADIFCompras/Proveedor/show.certificado_exencion.html.twig' with {'certificadoExencion': proveedor.certificadoExencionSUSS}  %}
+
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">     
+
+    <div class="col-md-6">
+
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Ganancias</legend>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.condicionGanancias|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.exentoGanancias ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.pasibleRetencionGanancias ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% include '@ADIFCompras/Proveedor/show.certificado_exencion.html.twig' with {'certificadoExencion': proveedor.certificadoExencionGanancias}  %}
+
+        </fieldset>
+    </div>
+
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Ingresos brutos</legend>
+
+            <div class="row">   
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.condicionIngresosBrutos|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.exentoIngresosBrutos ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ proveedor.pasibleRetencionIngresosBrutos ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Convenio multilateral</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.convenioMultilateralIngresosBrutos is not null ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                {% if proveedor.clienteProveedor.convenioMultilateralIngresosBrutos is not null %}   
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Porcentaje aplicaci&oacute;n CABA</label>
+                            <div class="detalle_show">
+                                {{ proveedor.clienteProveedor.convenioMultilateralIngresosBrutos is not null 
+                                                        ? (proveedor.clienteProveedor.convenioMultilateralIngresosBrutos.porcentajeAplicacionCABA is not null 
+                                                            ? proveedor.clienteProveedor.convenioMultilateralIngresosBrutos.porcentajeAplicacionCABA ~ '%'
+                                                            : '-' )
+                                                        : '-' }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if proveedor.clienteProveedor.convenioMultilateralIngresosBrutos is not null %}   
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Jurisdicci&oacute;n</label>
+                            <div class="detalle_show">
+                                {{ proveedor.clienteProveedor.convenioMultilateralIngresosBrutos is not null 
+                                                        ? proveedor.clienteProveedor.convenioMultilateralIngresosBrutos.jurisdiccion|default('-')
+                                                        : '-' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+			<!-- SECCION IIBB CABA -->
+				<div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">R&eacute;gimen de retenci&oacute;n 421/16 - IIBB CABA</label>
+                            <div class="detalle_show">
+                                {{ proveedor.iibbCaba|default('-') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			<!-- FIN SECCION IIBB CABA -->
+			
+
+            {% include '@ADIFCompras/Proveedor/show.certificado_exencion.html.twig' with {'certificadoExencion': proveedor.certificadoExencionIngresosBrutos}  %}
+
+        </fieldset>
+    </div>
+</div>
+
+{% include '@ADIFCompras/ClienteProveedor/show.calificacion_fiscal.html.twig' with {'clienteProveedor': proveedor.clienteProveedor}  %}

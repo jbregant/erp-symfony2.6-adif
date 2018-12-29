@@ -1,0 +1,144 @@
+{% for tipoRecibo in ['recibo','comprobante'] %}
+    {% if tipoRecibo == 'recibo' %}
+        <div class="page">    
+        {% endif %}
+        <div style="height:5mm; border: none;">&nbsp;</div>
+        <table cellpadding="0" cellspacing="0">
+            <tbody>
+
+                {% if tipoRecibo == 'recibo' %}
+                    <tr>
+                        <td style="padding-left: 105mm; padding-top: 2mm; font-size: 16px; font-weight: bold;">{{ 'RECIBO N° ' ~ numero_recibo }}</td>
+                        <td style="padding-left: 25mm; padding-top: 2mm; vertical-align: bottom; font-size: 12px; font-weight: bold;">{{ 'ORIGINAL' }}</td>
+                    </tr>    
+                {% else %}
+                    <tr>    
+                        <td style="padding-left: 105mm; padding-top: 2mm; font-size: 16px; font-weight: bold;">{{ 'COMP. PARA DEPOSITO N° ' ~ numero_recibo }}</td>
+                    </tr>                       
+                {% endif %}    
+
+                <tr>
+                    <td style="padding-left: 140mm; padding-top: 14mm; font-size: 12px; vertical-align: top;" colspan="2">{{ fecha|date('d/m/Y') }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="height:1mm; border: none;">&nbsp;</div>
+        <div style="height:31mm; border: none;">        
+        <table>
+            <tbody>
+                <tr>
+                    <td class="datos_cliente" style="width:95mm;">{{ cliente.clienteProveedor.razonSocial|default('-') }}</td>
+                </tr>
+                <tr>
+                    <td class="datos_cliente" style="width:95mm;">{{ cliente.clienteProveedor.domicilioLegal|default('-') }}</td>
+                </tr>
+                <tr>
+                    <td class="datos_cliente" style="width:95mm; height:8mm;">{{ cliente.clienteProveedor.domicilioLegal.codPostal|default('-') }} - {{ entity.cliente.clienteProveedor.domicilioLegal.localidad|default('-') }} - {{ entity.cliente.clienteProveedor.domicilioLegal.localidad.provincia|default('-') }}</td>
+                </tr>
+                <tr>
+                    <td class="datos_cliente">{{ cliente.clienteProveedor.condicionIVA.denominacionTipoResponsable|default('-') }}</td>
+                </tr>  
+                <tr>
+                    <td class="datos_cliente">{{ cliente ? (cliente.cuit ? cliente.cuit|default('-') : cliente.dni|default('-')) : '-' }}</td>
+                </tr>        
+            </tbody>
+        </table>
+        </div>  
+        <div style="height:26mm; border: none;">                   
+        <table>
+            <tbody>
+                <tr>
+                    <td class="valor_recibido_en_letras">Recibimos la suma de: Pesos {{ importe_cobranzas|number_format(2,'.','')|a_letras|capitalize }}</td>
+
+                </tr>
+                <tr>
+
+                    <td class="detalle">{{ detalle }}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>        
+        <div style="height:8mm;"></div>
+        <div style="height:33mm;">
+            <table>
+                <tbody>
+                    {% for comprobante in comprobantes %}
+                        <tr>
+                            <td class="comprobante_descripcion">{{ comprobante.textoParaAsiento ~ ' - ' ~ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                            <td class="comprobante_moneda">{{ 'Pesos' }}</td>                     
+                            <td class="comprobante_importe">{{ comprobante.total|money_format }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="height:6mm;">                
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="total_comprobantes">{{ importe_comprobantes|money_format }}</td>
+                    </tr>
+                </tbody>
+            </table>  
+        </div>
+        <div style="height:16mm;"></div>         
+        <div style="height:65mm;">
+            <table>
+                <tbody>
+                    {% for renglon in renglones_banco %}
+                        <tr>
+                            <td class="renglon_tipo">{{ (renglon.esManual ? 'Efectivo ' : 'Banco ') ~ ' Ref. ' ~ renglon.referencia }}</td> 
+                            <td class="renglon_banco">{{ renglon.cuentaBancaria.idBanco ~ ' Cbu ' ~ renglon.cuentaBancaria.cbu }}</td>  
+                            <td class="renglon_vencimiento"></td>                      
+                            <td class="renglon_importe">{{ renglon.monto|money_format }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% for renglon in renglones_cheque %}
+                        <tr>
+                            <td class="renglon_tipo">{{ 'Cheque n° ' ~ renglon.numero }}</td> 
+                            <td class="renglon_banco">{{ renglon.idBanco }}</td>  
+                            <td class="renglon_vencimiento">{{ renglon.fecha|date_modify("+30 days")|date("d/m/Y") }}</td>                      
+                            <td class="renglon_importe">{{ renglon.monto|money_format }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% for renglon in renglones_retencion %}
+                        <tr>
+                            <td class="renglon_tipo">{{ 'Retención Ref. ' ~ renglon.numero }}</td> 
+                            <td class="renglon_banco"></td>  
+                            <td class="renglon_vencimiento"></td>                      
+                            <td class="renglon_importe">{{ renglon.monto|money_format }}</td>
+                        </tr>
+                    {% endfor %}            
+                </tbody>
+            </table>
+        </div>
+        <div style="height:10mm;">                
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="total_cobranzas">{{ importe_cobranzas|money_format }}</td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>            
+        <div style="height:16mm;">
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width: 69mm;">&nbsp;</td>
+                    <td>
+                        <img src="{{ barCode }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 69mm;">&nbsp;</td>
+                    <td style="letter-spacing: 3px;">{{ barCodeNumber }}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>        
+        {% if tipoRecibo == 'recibo' %}
+        </div>
+    {% endif %}        
+{% endfor %}        
+

@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="row_poliza">
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.fechaInicio) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.fechaInicio) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.fechaVencimiento) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.fechaVencimiento) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.numeroTramiteEnvio) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.numeroTramiteEnvio) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.numeroTramitePolizaGarantia) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.numeroTramitePolizaGarantia) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.EstadoRevisionPoliza) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.EstadoRevisionPoliza) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both;">&nbsp;</div>
+    <div class="row_poliza">
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.numeroPoliza) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.numeroPoliza) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.aseguradora2) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.aseguradora2) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.tipoCobertura) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.tipoCobertura) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.montoAsegurado) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.montoAsegurado) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 form_field">
+            <div class="form-group">
+                {{ form_label(polizaSeguro.EstadoPoliza) }}
+                <div class="form_field">
+                    {{ form_widget(polizaSeguro.EstadoPoliza) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <a href="#" class="btn btn-sm red delete-link-inline
+               prototype-link-remove-poliza accion-borrar"
+               data-placement="top" data-original-title="Eliminar p&oacute;liza">
+                <i class="fa fa-times-circle"></i>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+        "{{ entity.id }}",
+        "{{ entity.id }}",
+{#        {%  set primer_renglon = entity.cobroRenglonCobranza.renglonesCobranza|first %}
+        "{{ primer_renglon.cuentaBancaria }}",#}
+        "{{ entity.fecha|date('d/m/Y') }}",
+        "{{ entity.referencias }}",
+        "{{ entity.cliente.clienteProveedor.razonSocial ~ ' ' ~ entity.cliente.clienteProveedor.cuit }}",
+        "{{ entity.saldo|money_format }}",  
+        "{{ entity.cliente.id }}",  
+        "{{ entity.id }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

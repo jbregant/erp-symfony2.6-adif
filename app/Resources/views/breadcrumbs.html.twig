@@ -1,0 +1,28 @@
+<ul class="page-breadcrumb breadcrumb">
+    {% for br_label, br_url in breadcrumbs %}
+        <li>
+            {% if br_url != "" %}
+                <a href="{{ br_url|e }}">
+                {% endif %}
+                {% if br_label == 'Inicio' %}
+                    <i class="fa fa-home"></i> 
+                {% endif %}
+                {{ br_label }}
+                {% if br_url != "" %}
+                </a>
+            {% endif %}
+            {% if loop.index < breadcrumbs|length %}
+                <i class="fa fa-angle-right"></i>
+            {% endif %}
+        </li>
+    {% endfor %}
+
+    {#{% include 'font.sizer.html.twig' %}#}
+
+    {% include '::ejercicio.html.twig' %}
+</ul>
+<div style="display: block; padding-left: 42%" class="alert alert-danger display-hide">
+	<span>
+		<strong>Ambiente de pruebas de usuario</strong><br>
+	</span>
+</div>

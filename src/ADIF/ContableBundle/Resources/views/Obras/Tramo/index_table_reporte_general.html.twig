@@ -1,0 +1,24 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.licitacion.tipoContratacion.alias|default('-') }}",
+    "{{ entity.licitacion.numero|default('-') }}",
+    "{{ entity.licitacion.anio|default('-') }}",
+    "{{ entity.descripcion|decode }}",
+    "{{ entity.proveedor.cuitAndRazonSocial  }}",
+    "{{ entity.totalContrato|money_format }}",
+    "{{ entity.porcentajeTotalCertificado ~ ' %' }}",
+    "{{ entity.saldo|money_format }}",
+    "{{ entity.saldoFinanciero(fechaFin)|money_format }}",
+    "{{ entity.montoActivado|money_format }}",
+    "{{ entity.cuentaContable is not null ? entity.cuentaContable : cuentaContableObrasEjecucion }}",
+    {
+    "aliasTipoImportancia" : "{{ entity.estadoTramo.tipoImportancia is not null ? entity.estadoTramo.tipoImportancia.aliasTipoImportancia : 'default' }}",
+    "estadoTramo" : "{{ entity.estadoTramo is not null ? entity.estadoTramo.denominacionEstado : '-'  }}"   
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

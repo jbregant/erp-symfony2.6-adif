@@ -1,0 +1,125 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/additional-methods.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset('js/custom/contable/asientocontable/importar.js') }}" ></script>
+
+    <script type="text/javascript">
+
+        var fechaMesCerradoSuperior = "{{ fechaMesCerradoSuperior }}";
+ 
+    </script>
+    
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>    
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+{% endblock%}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Importar asiento contable
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form', 'novalidate': 'novalidate'} }) }}
+            
+            {% include ':Form:fieldsErrors.html.twig' %}
+            
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                           {{ form_label(form.fechaContable, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaContable) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                           {{ form_label(form.denominacionAsientoContable, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.denominacionAsientoContable) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                           {{ form_label(form.conceptoAsientoContable, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.conceptoAsientoContable) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                           {{ form_label(form.file, null, {'label_attr': {'class': 'control-label'}})  }}
+                            <div class="right">
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="input-group input-large">
+                                        <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                            <span class="fileinput-filename">
+                                            </span>
+                                        </div>
+                                        <span class="input-group-addon btn default btn-file">
+                                            <span class="fileinput-new">
+                                                Seleccionar archivo
+                                            </span>
+                                            <span class="fileinput-exists">
+                                                Cambiar
+                                            </span>
+                                            {{ form_widget(form.file) }}
+                                        </span>
+                                        <a href="#" class="input-group-addon btn default fileinput-exists" data-dismiss="fileinput">
+                                            Remover
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="input-icon right">
+                                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form, {"render_rest": true}) }}
+                </div>
+            </div>        
+        </div>
+    </div>
+{% endblock %}   

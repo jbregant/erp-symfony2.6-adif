@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    {% if entity.fecha %}"{{ entity.fecha|date('d/m/Y') }}",{% endif %} 
+    "{{ entity.banco }}",    
+    "{{ entity.numero|default('-') }}",
+    "{{ entity.observacion|nl2br|escape_json|default('-') }}",    
+    "{{ entity.monto|money_format }}",
+    "{{ entity.id }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

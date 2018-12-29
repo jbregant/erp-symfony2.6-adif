@@ -1,0 +1,64 @@
+<div class="portlet box green-seagreen">
+    <div class="portlet-title">
+        <div class="caption">
+            Movimientos registrados en el banco
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-toolbar clear">             
+            <div class="btn-group pull-left" id="actualizar-c">
+                <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Actualizar listado" href="">
+                    <i class="fa fa-refresh"></i>
+                    Actualizar listado
+                </a>
+            </div>
+            <div class="btn-group pull-right" id="eliminar-movimiento" style="display:none">
+                <a class="btn btn-sm red accion-borrar tooltips" data-original-title="Eliminar movimientos seleccionados" href="">
+                    <i class="fa fa-times"></i>
+                    Eliminar movimiento
+                </a>
+            </div>
+            <div class="btn-group pull-right" id="cobranzas_a_imputar" style="display:none">
+                <a class="btn btn-sm purple accion-borrar tooltips" data-original-title="Enviarlo cobranzas a imputar" href="">
+                    <i class="fa fa-list-alt"></i>
+                    Enviar cobranzas a imputar
+                </a>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect" id="table-banco">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th></th>
+                    <th class="not-in-filter"></th>
+                    <th>Fecha</th>                    
+                    <th>Referencia</th>                    
+                    <th>C&oacute;digo/Observaci&oacute;n</th>
+                    <th>Monto</th>
+                    <th class="not-in-filter hidden "></th>
+                    <th class="not-in-filter hidden "></th>
+                    <th class="not-in-filter hidden "></th>
+                    <th class="not-in-filter hidden "></th>                 
+                </tr>
+                <tr class="headers">
+                    <th class="no-order entity_id"></th>
+                    <th class="text-center table-checkbox no-order">
+                        <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-banco .checkboxes" />
+                    </th>
+                    <th date export-format="date" class="nowrap">Fecha</th>
+                    <th>Referencia</th>                    
+                    <th>C&oacute;digo/Observaci&oacute;n</th>
+                    <th currency >Monto</th>
+                    <th class="hidden"></th>                                                      
+                    <th class="hidden"></th>                                                      
+                    <th class="hidden"></th>                                                      
+                    <th class="hidden"></th>                      
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

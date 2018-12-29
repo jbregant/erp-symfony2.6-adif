@@ -1,0 +1,69 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Evaluaci&oacute;n</legend>
+
+    <div class="row">   
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Fecha evaluaci&oacute;n</label>
+                <div class="detalle_show">
+                    {{ proveedor.evaluacionProveedor is not null ? proveedor.evaluacionProveedor.fechaEvaluacion|date('d/m/Y') : '-' }}
+                </div>
+            </div>
+        </div>         
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Calificaci&oacute;n final</label>
+                <div class="detalle_show">
+                    {{ proveedor.evaluacionProveedor is not null ? proveedor.evaluacionProveedor.calificacionFinal : '-' }}
+                </div>
+            </div>
+        </div>            
+    </div>
+</fieldset>
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Aspectos</legend>
+
+    {% if proveedor.evaluacionProveedor is not null %}
+
+        {% for evaluacionAspecto in proveedor.evaluacionProveedor.evaluacionesAspectos %}
+            <div class="row">   
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Aspecto</label>
+                        <div class="detalle_show">
+                            {{ evaluacionAspecto.aspectoEvaluacion|default('-') }}
+                        </div>
+                    </div>
+                </div>         
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Valor alcanzado</label>
+                        <div class="detalle_show">
+                            {{ evaluacionAspecto.valorAlcanzado|default('-') }}
+                        </div>
+                    </div>
+                </div>            
+            </div>                                            
+        {% else %}
+            -
+        {% endfor %}
+
+    {% else %}
+        -
+    {% endif %}
+</fieldset>
+
+<div class="row">     
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label">Observaciones</label>
+            <div class="detalle_show">
+                {{ proveedor.observacionCalificacion|default('-') }}
+            </div>
+        </div>
+    </div>
+</div>

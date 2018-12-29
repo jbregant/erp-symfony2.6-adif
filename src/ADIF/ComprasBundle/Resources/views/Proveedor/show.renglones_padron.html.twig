@@ -1,0 +1,192 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(theme_path ~ 'plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/compras/clienteproveedor/clienteproveedor.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #button_vista_extendida{ margin-top: -4px; }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+		<div class="col-md-12">
+			<div class="portlet-body">
+				<div class="table-toolbar"></div>
+				<form id="form_guardar_padron" method="post" name="form_guardar_padron" action="{{ path('guardar_borrador_padron', { 'id': padron.id }) }}">
+					
+						<table dataexport-title="Padrones" class="table table-bordered table-striped table-condensed table-hover dt-multiselect export-excel" id="tabla_renglones">
+							<thead>
+								<tr>
+									<th colspan="4">&nbsp;</th>
+									<th colspan="4">&nbsp;Certificado actual</th>
+									<th colspan="4">&nbsp;Certificado nuevo</th>
+								</tr>
+								<tr class="replace-inputs filter">
+									<th></th>
+									<th class="not-in-filter"></th>
+									<th>CUIT</th>
+									<th>Razon social</th>
+									<th>Nro. Certificado</th>
+									<th>Porcentaje</th>
+									<th>F. desde</th>
+									<th>F. hasta</th>
+									<th>Nro. Certificado</th>
+									<th>Porcentaje</th>
+									<th>F. desde</th>
+									<th>F. hasta</th>
+								</tr>
+								<tr class="headers">
+									<th class="no-order entity_id"></th>
+									<th class="text-center table-checkbox no-order">
+										<input type="checkbox" class="group-checkable" />
+									</th> 
+									<th>CUIT</th>
+									<th>Razon social</th>
+									<th>Nro. Certificado</th>
+									<th>Porcentaje</th>
+									<th>F. desde</th>
+									<th>F. hasta</th>
+									<th>Nro. Certificado</th>
+									<th>Porcentaje</th>
+									<th>F. desde</th>
+									<th>F. hasta</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for renglon in entities %}
+									<tr>
+										<td>&nbsp;{#{ renglon.id }#} </td>
+										<td class="text-center">
+											<input type="checkbox" class="checkboxes" id="form_guardar_padron_checkbox" name="form_guardar_padron_checkbox[]" value="{{ renglon.id }}" {% if renglon.actualiza %} checked {% endif %} {% if padron.estadoPadron.denominacion == 'Cerrado' %} disabled {% endif %}/>
+										</td>
+										<td class="nowrap">&nbsp;{{ renglon.cuit }}</td>
+										<td>&nbsp;{{ renglon.razonSocial }}</td>
+										<!-- certificados viejos -->
+										{% if renglon.certificadoExencion is not null and renglon.certificadoExencion.numeroCertificado is not null %}
+											{% if renglon.certificadoExencion.numeroCertificado != renglon.numeroCertificado %}
+												<td style="color: red;">{{ renglon.certificadoExencion.numeroCertificado }}</td>
+											{% else %}
+												<td style="color: #aaa;">{{ renglon.certificadoExencion.numeroCertificado }}</td>
+											{% endif %}
+										{% else %}
+											<td style="color: #aaa;">&nbsp;n/d</td>
+										{% endif %}
+										{% if renglon.certificadoExencion is not null and  renglon.certificadoExencion.porcentajeExencion is not null %}
+											{% if renglon.certificadoExencion.porcentajeExencion != renglon.porcentajeExencion %}
+												<td style="color: red;">{{ renglon.certificadoExencion.porcentajeExencion }}</td>
+											{% else %}
+												<td style="color: #aaa;">{{ renglon.certificadoExencion.porcentajeExencion }}</td>
+											{% endif %}
+										{% else %}
+											<td style="color: #aaa;">&nbsp;n/d</td>
+										{% endif %}
+										{% if renglon.certificadoExencion is not null and  renglon.certificadoExencion.fechaDesde is not null %}
+											{% if renglon.certificadoExencion.fechaDesde != renglon.fechaDesde %}
+												<td style="color: red;">{{ renglon.certificadoExencion.fechaDesde|date('d/m/Y') }}</td>
+											{% else %}
+												<td style="color: #aaa;">{{ renglon.certificadoExencion.fechaDesde|date('d/m/Y') }}</td>
+											{% endif %}
+										{% else %}
+											<td style="color: #aaa;">&nbsp;n/d</td>
+										{% endif %}
+										{% if renglon.certificadoExencion is not null and  renglon.certificadoExencion.fechaHasta is not null %}
+											{% if renglon.certificadoExencion.fechaHasta != renglon.fechaHasta %}
+												<td style="color: red;">{{ renglon.certificadoExencion.fechaHasta|date('d/m/Y') }}</td>
+											{% else %}
+												<td style="color: #aaa;">{{ renglon.certificadoExencion.fechaHasta|date('d/m/Y') }}</td>
+											{% endif %}
+										{% else %}
+											<td style="color: #aaa;">&nbsp;n/d</td>
+										{% endif %}
+										<!-- certificados nuevos -->
+										{% if renglon.numeroCertificado %}
+											{% if renglon.certificadoExencion is null or renglon.certificadoExencion.numeroCertificado != renglon.numeroCertificado %}
+												<td style="color: green;">{{ renglon.numeroCertificado }}</td>
+											{% else %}
+												<td>{{ renglon.numeroCertificado }}</td>
+											{% endif %}
+										{% else %}
+											<td>&nbsp;n/d</td>
+										{% endif %}
+										{% if renglon.certificadoExencion is null or  renglon.certificadoExencion.porcentajeExencion != renglon.porcentajeExencion %}
+											<td style="color: green;">{{ renglon.porcentajeExencion }}</td>
+										{% else %}
+											<td>{{ renglon.porcentajeExencion }}</td>
+										{% endif %}
+										{% if renglon.certificadoExencion is null or renglon.certificadoExencion.fechaDesde != renglon.fechaDesde %}
+											<td style="color: green;">{{ renglon.fechaDesde|date('d/m/Y') }}</td>
+										{% else %}
+											<td>{{ renglon.fechaDesde|date('d/m/Y') }}</td>
+										{% endif %}
+										{% if renglon.certificadoExencion is null or renglon.certificadoExencion.fechaHasta != renglon.fechaHasta %}
+											<td style="color: green;">{{ renglon.fechaHasta|date('d/m/Y') }}</td>
+										{% else %}
+											<td>{{ renglon.fechaHasta|date('d/m/Y') }}</td>
+										{% endif %}
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+						
+					
+					
+					<div class="col-md-12 right">
+						<button data-bb-handler="danger" type="reset" class="btn btn-default cancel right" id="form_guardar_padron_cancel" name="form_guardar_padron_cancel" onclick="window.location='{{ path('padrones') }}'">Volver</button>
+						{% if padron.estadoPadron.denominacion == 'Borrador' %}
+							<button data-bb-handler="success" id="form_guardar_borrador_padron_submit" name="form_guardar_borrador_padron_submit" type="submit" class="btn btn-submit btn-primary success right">Guardar Borrador</button>
+							<button data-bb-handler="success" id="form_guardar_padron_submit" name="form_guardar_padron_submit" type="submit" class="btn btn-submit btn-primary success">Actualizar excenciones</button>
+						{% endif %}
+						<input type="hidden" id="form_guardar_padron_action" name="form_guardar_padron_action" value="{{ path('guardar_padron', { 'id': padron.id }) }}" />
+						<input type="hidden" id="form_guardar_borrador_padron_action" name="form_guardar_borrador_padron_action" value="{{ path('guardar_borrador_padron', { 'id': padron.id }) }}" />
+					</div>
+				</form>
+			</div>
+		</div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# Validation #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript"></script>   
+
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/proveedor/index.js') }}" ></script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/proveedor/guardarPadron.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

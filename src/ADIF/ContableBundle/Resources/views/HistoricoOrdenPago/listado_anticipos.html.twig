@@ -1,0 +1,18 @@
+  
+{% if anticipos is defined %}
+    {% for anticipo in anticipos %}
+        {% if anticipo.ordenPago is defined and anticipo.ordenPago is not null %}
+            <p class="col-md-4 {{ loop.first ? '' : 'margin-top-10' }}"> 
+                <span class="bold">Orden pago: </span>
+                N&deg; {{ anticipo.ordenPago.numeroOrdenPago }}
+                <a class="link-detalle" href="{{ path( anticipo.ordenPago.path ~ '_show', { 'id': anticipo.ordenPago.id }) }}" target="_blank">(ver detalle)</a>
+            </p>
+        {% endif %}
+        <p class="col-md-3 {{ loop.first ? '' : 'margin-top-10' }}"> 
+            <span class="bold">Fecha: </span>{{ anticipo.fecha|date('d/m/Y') }}
+        </p>
+        <p class="col-md-5 {{ loop.first ? '' : 'margin-top-10' }}"> 
+            <span class="bold">Importe: </span>{{ anticipo.monto|money_format }}
+        </p>
+    {% endfor  %}
+{% endif %}

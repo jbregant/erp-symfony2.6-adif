@@ -1,0 +1,75 @@
+services:
+    adif_autenticacion.group.form.type:
+        class: ADIF\AutenticacionBundle\Form\GrupoType
+        arguments: [@service_container, %fos_user.model.group.class%]
+        tags:
+            - { name: form.type, alias: adif_autenticacionbundle_grupo }
+            
+    adif_autenticacion.profile.form.type:
+        class: ADIF\AutenticacionBundle\Form\ProfileType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: adif_autenticacionbundle_profile }
+    adif_autenticacion.registration.form.type:
+        class: ADIF\AutenticacionBundle\Form\RegistrationType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: adif_autenticacionbundle_registration }
+    adif_autenticacion.change_password.form.type:
+        class: ADIF\AutenticacionBundle\Form\ChangePasswordType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: adif_autenticacionbundle_change_password }
+    
+    adif_autenticacion.entity_management_guesser:
+        class: ADIF\AutenticacionBundle\Service\EntityManagementGuesser
+  
+    adif_autenticacion.listener.logger:
+        class: ADIF\AutenticacionBundle\EventListener\LoggingListener
+        arguments: ["@doctrine", "@service_container"]
+        tags:
+          - { name: doctrine.event_listener, event: prePersist }
+          - { name: doctrine.event_listener, event: postPersist }
+          - { name: doctrine.event_listener, event: preUpdate }
+          - { name: doctrine.event_listener, event: postUpdate }
+          - { name: doctrine.event_listener, event: preRemove }
+          - { name: doctrine.event_listener, event: preSoftDelete }
+          - { name: doctrine.event_listener, event: postSoftDelete }
+          - { name: doctrine.event_listener, event: postRemove }
+    
+    adif_autenticacion.listener.auditoria:
+        class: ADIF\AutenticacionBundle\EventListener\AuditoriaListener
+        arguments: ["@service_container"]
+        tags:
+          - { name: doctrine.event_listener, event: prePersist }
+          - { name: doctrine.event_listener, event: preUpdate }
+          
+    adif_autenticacion.listener.crossbundle:
+        class: ADIF\AutenticacionBundle\EventListener\PostLoadEventSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+        arguments:
+            - @doctrine
+            
+    adif_autenticacion.success_handler:
+        class: ADIF\AutenticacionBundle\Handler\AuthenticationSuccessHandler
+        public: false
+        arguments:  ["@router", "@security.context", "@service_container"]
+        
+    adif_autenticacion.fail_handler:
+        class: ADIF\AutenticacionBundle\Handler\AuthenticationFailureHandler
+        public: false
+        arguments:  ["@router", "login"]
+
+    adif_autenticacion.autenticacion_listener:
+        class: ADIF\AutenticacionBundle\EventListener\AutenticacionListener
+        arguments: ['@security.context', '@doctrine', "@service_container", "@router"]
+        tags: 
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }
+
+    adif_autenticacion.voter:
+        class:      ADIF\AutenticacionBundle\Security\AutenticacionVoter
+        public:     false
+        tags:
+           - { name: security.voter }
+        arguments: ['@service_container']

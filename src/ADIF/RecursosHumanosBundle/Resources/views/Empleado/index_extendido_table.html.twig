@@ -1,0 +1,54 @@
+{
+"data": [
+{% for empleado in empleados %}
+    [
+    "{{ empleado.id }}",
+    "{{ empleado.id }}",
+    "{{ empleado.nroLegajo }}",
+    "{{ empleado.persona.apellido }}",
+    "{{ empleado.persona.nombre }}",
+    "{{ empleado.tiposContrato[0].fechaDesde|date('d/m/Y') }}",
+    { 
+    "valor" : "{{ empleado.idSubcategoria.idCategoria.idConvenio.nombre }}",
+    "id": "{{ empleado.idSubcategoria.idCategoria.idConvenio.id }}"
+    },
+    "<a target='_blank' href='{{ path('categorias_show',{'id':empleado.idSubcategoria.idCategoria.id}) }}'>{{ empleado.idSubcategoria.idCategoria.nombre }}</a> - <a target='_blank' href='{{ path('subcategorias_show',{'id':empleado.idSubcategoria.id}) }}'>{{ empleado.idSubcategoria.nombre }} {% if(empleado.idSubcategoria.idCategoria.idConvenio.id == 3) %} ( ${{ empleado.idSubcategoria.montoBasico|number_format(2, ',', '.') }}) {% endif %}</a>",
+    {
+    "show" : "{{ path( 'empleados_show', { 'id': empleado.id }) }}"
+    {% if is_granted("ROLE_RRHH_ALTA_EMPLEADOS") %}
+        ,"edit" : "{{ path( 'empleados_edit', { 'id': empleado.id }) }}"
+        ,"archivos" : "{{ path( 'archivosempleado', { 'idEmpleado': empleado.id }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ASIGNACION_CONCEPTOS") %}
+        ,"conceptos" : "{{ path( 'empleados_asignar_conceptos', { 'idEmpleado': empleado.id }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_NOVEDADES") %}
+        ,"novedades" : "{{ path( 'empleados_asignar_novedades', { 'idEmpleado': empleado.id }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_VISTA_GANANCIAS") %}
+        ,"impuesto_ganancias_excel" : "{{ path( 'impuesto_ganancias_excel', { 'id': empleado.id, 'enSesion': 0 }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_F572") %}
+        {#        {% if empleado.formulario572 is not null %}#}
+        ,"formulario572_index_empleado" : "{{ path( 'formulario572_index_empleado', { 'id': empleado.id }) }}"
+        {#        {% else %}
+                    ,"formulario572_new" : "{{ path( 'formulario572_new', { 'empleado': empleado.id }) }}"
+                {% endif %}#}
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_F649") %}
+        {% if empleado.formulario649 is not null %}
+            ,"formulario649_show" : "{{ path( 'formulario649_show', { 'id': empleado.formulario649.id }) }}"
+        {% else %}
+            ,"formulario649_new" : "{{ path( 'formulario649_new', { 'empleado': empleado.id }) }}"
+        {% endif %}
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_EMPLEADOS") %}
+        ,"desactivar" : "{{ path( 'empleados_activar', { 'id': empleado.id, 'activo': 0 }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_VISTA_LIQUIDACIONES") %}
+        ,"recibos" : "{{ path( 'empleados_recibos', { 'id': empleado.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

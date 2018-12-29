@@ -1,0 +1,114 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">General</legend>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.estaSujetoImpuestos) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.estaSujetoImpuestos) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.participaInventario) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.participaInventario) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.esActivoFijo) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.esActivoFijo) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.categoria) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.categoria) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.tipoActivo) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoActivo) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.tipoServicio) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoServicio) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.zonaVia) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.zonaVia) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.estacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.estacion, { 'id': 'cod_estacion' }) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.latitud) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.latitud) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.longitud) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.longitud) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.observaciones) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.observaciones) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

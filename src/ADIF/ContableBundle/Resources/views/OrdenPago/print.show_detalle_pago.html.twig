@@ -1,0 +1,92 @@
+
+<h5>Detalles del pago</h5>
+
+{% if (op.pagoOrdenPago is not null) %}
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        {% for cheque in op.pagoOrdenPago.cheques %}
+                            <tr>
+                                <td class="f-12">Fecha</td>
+                                <td class="bold f-12">{{ op.pagoOrdenPago.fechaPago|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Cuenta bancaria</td>
+                                <td class="bold f-12">{{ cheque.chequera.cuenta }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">N&uacute;mero de cheque</td>
+                                <td class="bold f-12">{{ cheque.numeroCheque }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Monto</td>
+                                <td class="bold f-12">{{ cheque.monto|money_format }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% for transferencia in op.pagoOrdenPago.transferencias %}
+                            <tr>
+                                <td class="f-12">Fecha</td>
+                                <td class="bold f-12">{{ op.pagoOrdenPago.fechaPago|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Cuenta bancaria</td>
+                                <td class="bold f-12">{{ transferencia.cuenta }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">N&uacute;mero de transferencia</td>
+                                <td class="bold f-12">{{ transferencia.numeroTransferencia }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Monto</td>
+                                <td class="bold f-12">{{ transferencia.monto|money_format }}</td>
+                            </tr>
+                        {% endfor %}
+                        {% if op.pagoOrdenPago.netCash is not null %}
+                            <tr>
+                                <td class="f-12">Fecha</td>
+                                <td class="bold f-12">{{ op.pagoOrdenPago.netCash.fechaPago|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Cuenta bancaria</td>
+                                <td class="bold f-12">{{ op.pagoOrdenPago.netCash.cuenta }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">N&uacute;mero de Net Cash</td>
+                                <td class="bold f-12">{{ op.pagoOrdenPago.netCash.numero|str_pad(8, "0", 0) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Monto</td>
+                                <td class="bold f-12">{{ op.pagoOrdenPago.netCash.monto|money_format }}</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% else %}
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="f-12">Forma de pago</td>
+                            <td class="bold f-12"></td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">Fecha</td>
+                            <td class="bold f-12"></td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">Cuenta bancaria</td>
+                            <td class="bold f-12"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endif %}

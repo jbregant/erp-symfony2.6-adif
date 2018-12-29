@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaMovimientoBancario|date('d/m/Y') }}",
+    "{{ entity.numeroReferencia|escape_json|decode|default('-') }}",
+    "{{ entity.descripcion|escape_json|decode|default('-') }}",      
+    "{{ entity.conceptoConciliacion|escape_json|decode|default('-') }}",
+    "{{ (entity.monto < 0 ? entity.monto * (-1) : 0)|money_format}}",
+    "{{ (entity.monto > 0 ? entity.monto : 0)|money_format}}", 
+    "{{ entity.monto }}",
+    "{{ entity.id }}",
+    "{{ (entity.conceptoConciliacion != null) ? (entity.conceptoConciliacion.esContabilizable ? 1 : 0 ) : 0 }}",
+    "{{ (entity.conceptoConciliacion != null) ? entity.conceptoConciliacion.codigo : 0 }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

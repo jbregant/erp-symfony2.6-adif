@@ -1,0 +1,116 @@
+{% extends '::PDF/main.html.twig' %}
+
+{% block aditional_header %}
+    <div class="w-100 f-10 t-center">Requerimiento N&ordm;</div>
+    <div class="w-100 f-14 t-center b-bottom">{{ requerimiento.numero }}</div>
+
+    <div class="w-100 f-10 t-center">Fecha</div>
+    <div class="w-100 f-14 t-center">{{ fechaOrdenCompraAnterior|date('d/m/Y') }}</div>
+{% endblock %}
+
+{% block content %}
+
+    {# 
+    <iframe id="iframe-cuadro-comparativo" width="100%" height="550" frameborder="0" onload="initIframe();"
+            src="{{ path( 'cotizacion_show_comparacion', { 'idRequerimiento': requerimiento.id }) }}">
+    </iframe>    
+    #}
+
+    {{ cuadro|raw }}
+
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td class="w-50" style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        <tr>
+                            <td>Nombre y cargo:</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="w-50">
+                <table class="w-100" border="0">
+                    <tbody>
+                        <tr>
+                            <td>Firma autorizada:</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    {#
+        <script type="text/javascript">
+    
+            function initIframe() {
+                var iframe = document.getElementById('iframe-cuadro-comparativo');
+    
+                var body = iframe.contentDocument.getElementsByTagName('body')[0];
+                body.style.border = "1px solid";
+                body.style.fontSize = "9px";
+    
+                var pageContent = body.getElementsByClassName('page-content')[0];
+                pageContent.style.minHeight = "initial";
+    
+                var header = body.getElementsByClassName('header')[0];
+                header.parentNode.removeChild(header);
+    
+                var breadcrumb = body.getElementsByClassName('page-breadcrumb')[0];
+                breadcrumb.parentNode.removeChild(breadcrumb);
+    
+                var tools = body.getElementsByClassName('tools')[0];
+                tools.parentNode.removeChild(tools);
+    
+                var portlet = body.getElementsByClassName('portlet');
+    
+                for (var i = 0, len = portlet.length; i < len; i++) {
+                    portlet[i].style.border = "0";
+                    portlet[i].style.margin = "0";
+                }
+    
+                var portletTitle = body.getElementsByClassName('portlet-title')[0];
+                portletTitle.parentNode.removeChild(portletTitle);
+    
+                var popoverProveedor = body.getElementsByClassName('btn-popover-proveedor');
+    
+                while (popoverProveedor[0]) {
+                    popoverProveedor[0].parentElement.removeChild(popoverProveedor[0]);
+                }
+    
+                var ths = body.getElementsByTagName("th");
+                for (var i = 0, len = ths.length; i < len; i++) {
+                    ths[i].style.setProperty("font-size", "10px", "important");
+                    ths[i].classList.remove("nowrap");
+                }
+    
+                var tds = body.getElementsByTagName("td");
+                for (var i = 0, len = tds.length; i < len; i++) {
+                    tds[i].style.fontSize = "8px";
+                    tds[i].classList.remove("nowrap");
+                }
+    
+                var formActions = body.getElementsByClassName('form-actions')[0];
+                formActions.parentNode.removeChild(formActions);
+    
+                var printContent = body.getElementsByClassName('print-content')[0];
+                printContent.style.margin = "0";
+    
+                var md12 = body.getElementsByClassName('col-md-12');
+                for (var i = 0, len = md12.length; i < len; i++) {
+                    md12[i].style.padding = "0";
+                }
+    
+                var footer = body.getElementsByClassName('footer')[0];
+                footer.parentNode.removeChild(footer);
+    
+                var printCheck = body.getElementsByClassName('print-check');
+                for (var i = 0, len = printCheck.length; i < len; i++) {
+                    printCheck[i].nextElementSibling.remove(0);
+                }
+    
+            }
+        </script>
+    #}
+{% endblock %}

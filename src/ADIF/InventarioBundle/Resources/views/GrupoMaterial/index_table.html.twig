@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}",
+{
+"show" : " {{ path( "grupomaterial_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "grupomaterial_edit", { "id": entity.id }) }}",
+"delete" : " {{ path( "grupomaterial_delete", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

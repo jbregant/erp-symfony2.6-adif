@@ -1,0 +1,7 @@
+Manual Implementación
+=====================
+
+1. Configurar las variables app_ADIF_SIGA_dev, app_ADIF_SIGA_qa y app_ADIF_SIGA_prod en parameters.yml con la URL de SIGA
+2. Ejecutar php app/console doctrine:schema:update --em="siga_autenticacion" --force 
+
+* Otros SQL a ejecutar y sus indicaciones están en el proyecto de Portal Proveedores

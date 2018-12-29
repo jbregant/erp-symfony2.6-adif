@@ -1,0 +1,18 @@
+{
+    "data": [
+        {% for entity in entities %}
+            [
+                "{{ entity.id }}",
+                "{{ entity.id }}",
+                "{{ entity.denominacion|default('-')|escape }}",
+                "{{ entity.denominacionCorta|default('-')|escape }}",
+                "{{ entity.linea.denominacion|default('-')|escape }}",
+                {
+                    "show" : " {{ path( "ramal_show", { "id": entity.id }) }}",
+                    "edit" : " {{ path( "ramal_edit", { "id": entity.id }) }}",
+                    "delete" : " {{ path( "ramal_delete", { "id": entity.id }) }}"
+                }
+            ]{{ (loop.last ? '' : ',') }}
+        {% endfor %}
+    ]
+}

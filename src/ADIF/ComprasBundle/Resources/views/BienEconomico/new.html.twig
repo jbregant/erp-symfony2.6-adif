@@ -1,0 +1,197 @@
+{% extends '::base' ~ (app.request.get('popup') ? '_iframe' : '_reducido') ~ '.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jstree/dist/themes/default/style.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Bien econ&oacute;mico</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.denominacionBienEconomico) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.denominacionBienEconomico) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form_label(form.rubro) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.rubro) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.esProducto) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.esProducto) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            {{ form_label(form.descripcionBienEconomico) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.descripcionBienEconomico) }}
+                            </div>
+                        </div>
+                    </div>                
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            {{ form_label(form.cuentaContable) }}  
+                            <a href=#" data-original-title="Buscar cuenta contable"
+                               class="pull-right label label-sm label-success tooltips btn-search-cuenta-contable">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.cuentaContable) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.requiereEspecificacionTecnica) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.requiereEspecificacionTecnica) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.regimenRetencionSUSS) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.regimenRetencionSUSS) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.regimenRetencionIVA) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.regimenRetencionIVA) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.regimenRetencionIIBB) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.regimenRetencionIIBB) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.regimenRetencionGanancias) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.regimenRetencionGanancias) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('bieneconomico') }}">Cancelar</button>
+                </div>    
+                <div class="pull-right"> 
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {"render_rest": false}) }}
+    </div>
+
+    {% include 'ADIFContableBundle:CuentaContable:searchForm.html.twig'%}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# Validator #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+    {# Switch #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+
+    {# JSTree #}
+    <script src="{{ asset(theme_path ~ 'plugins/jstree/dist/jstree.min.js') }}" ></script>
+
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+    {% if not app.request.get('popup') %}
+        <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    {% endif %}
+
+    <script src="{{ asset(js_path ~ 'custom/contable/cuentacontable/search.js') }}" ></script>  
+
+               
+    <script type="text/javascript">
+        
+        var edit = {{ edit ? 1 : 0}};
+
+        {% if edit %} 
+            var regimenes = {{ regimenes|json_encode|raw }};
+        {% endif %} 
+
+    </script>
+    
+    
+    <script src="{{ asset(js_path ~ 'custom/compras/bieneconomico/new.js') }}" ></script>
+
+{% endblock %}

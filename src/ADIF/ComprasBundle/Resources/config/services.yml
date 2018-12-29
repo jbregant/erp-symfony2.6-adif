@@ -1,0 +1,47 @@
+services:
+    adif.crossbundle.listener.compras:
+        class: ADIF\ComprasBundle\EventListener\PostLoadEventSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+        arguments:
+            - @doctrine
+  
+    namer.justificacion:
+        class: ADIF\ComprasBundle\Namer\JustificacionNamer
+        tags:
+            - { name: namer }
+  
+    namer.especificacion_tecnica:
+        class: ADIF\ComprasBundle\Namer\EspecificacionTecnicaNamer
+        tags:
+            - { name: namer }
+  
+    namer.adjunto_exencion:
+        class: ADIF\ComprasBundle\Namer\AdjuntoExencionNamer
+        tags:
+            - { name: namer }
+    
+    namer.adjunto_cliente_proveedor:
+        class: ADIF\ComprasBundle\Namer\AdjuntoClienteProveedorNamer
+        tags:
+            - { name: namer }
+    
+    namer.adjunto_cotizacion:
+        class: ADIF\ComprasBundle\Namer\AdjuntoCotizacionArchivoNamer
+        tags:
+            - { name: namer }
+    
+    adif.cliente_proveedor_service:
+        class: ADIF\ComprasBundle\Service\ClienteProveedorService
+        arguments:
+            - @doctrine
+
+    adif.orden_compra_service:
+        class: ADIF\ComprasBundle\Service\OrdenCompraService
+        arguments:
+            - @adif.contabilidad_presupuestaria_service
+            - @doctrine
+    
+            

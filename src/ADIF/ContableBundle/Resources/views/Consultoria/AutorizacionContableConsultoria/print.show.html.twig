@@ -1,0 +1,172 @@
+{% extends '::PDF/main.html.twig' %}
+
+{% block aditional_header %}
+    <div class="w-100 f-10 t-center">Orden de pago N&ordm;</div>
+    <div class="w-100 f-14 t-center b-bottom"></div>
+
+    <div class="w-100 f-10 t-center">Fecha</div>
+    <div class="w-100 f-14 t-center"></div>
+{% endblock %}
+
+{% block content %}
+    <h2>Datos del beneficiario</h2>
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="1">Raz&oacute;n social:</td>
+                            <td colspan="3" class="bold">{{ op.proveedor.razonSocial  }}</td></tr>
+                        <tr>
+                            <td colspan="1">CUIT:</td>
+                            <td colspan="3" class="bold">{{ op.proveedor.cuit  }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">Concepto:</td>
+                            <td colspan="3" class="bold">{{ op.concepto }}</td>
+                        </tr>
+                        <tr>
+                            <td>Domicilio:</td>
+                            <td class="bold">{{ op.proveedor.domicilioComercial  }}</td>
+                            <td>Localidad:</td>
+                            <td class="bold">{{ op.proveedor.domicilioComercial.localidad }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <h2>Comprobantes cancelados</h2>
+    <table class="w-100 m-top" border="1" >
+        <thead>
+            <tr>
+                <th class="w-40">Fecha</th>
+                <th class="w-20">Tipo</th>
+                <th class="w-20">N&uacute;mero</th>
+                <th class="w-20">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comprobanteCompra in op.comprobantes %}
+                <tr>
+                    <td>{{ comprobanteCompra.fechaComprobante|date('d/m/Y') }}</td>
+                    <td class="t-center">{{ comprobanteCompra.tipoComprobante ~ ' (' ~ comprobanteCompra.letraComprobante ~ ')' }}</td>
+                    <td class="t-right">{{ comprobanteCompra.puntoVenta ~ '-' ~ comprobanteCompra.numero }}</td>
+                    <td class="t-right">{{ comprobanteCompra.total|money_format }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <table class="w-100 m-top" border="1" >
+        <tbody>
+            <tr>
+                <td>Total bruto</td>
+                <td class="t-right w-25">{{ op.totalBruto|money_format }}</td>
+            </tr>
+            {% for tipoImpuesto in ['SUSS','IIBB','Ganancias','IVA'] %}
+                <tr>
+                    <td>Retenci&oacute;n {{ tipoImpuesto }}</td>
+                    <td class="t-right w-25">{{ op.montoRetencionesPorTipoImpuesto(tipoImpuesto)|money_format }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total neto a pagar</td>
+                <td class="t-right w-25">{{ (op.totalBruto - op.montoRetenciones)|money_format }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <br>
+    <h2>Detalles del pago</h2>
+    <table class="w-100 m-top" border="1" >
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        <tr>
+                            <td>Forma de pago</td>
+                            <td class="bold"></td>
+                        </tr>
+                        <tr>
+                            <td>Fecha</td>
+                            <td class="bold"></td>
+                        </tr>
+                        <tr>
+                            <td>Cuenta bancaria</td>
+                            <td class="bold"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <br>
+    <br>
+
+    <div style="float:right">
+        <hr class="w-100 linea-firma">
+        <p>Recib&iacute; conforme</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div>
+        <label class="float-left"><input type="checkbox" name="checkbox" value="value" checked="checked">Factura conformada</label>
+    </div>
+    <div>
+        <label class="float-left"><input type="checkbox" name="checkbox" value="value" checked="checked">C&aacute;lculos verificados</label>
+    </div>
+    <div>
+        <label class="float-left"><input type="checkbox" name="checkbox" value="value" checked="checked">Impuestos verificados</label>
+    </div>
+
+    <br>
+    <br>
+    <br>    
+
+    <table class="w-100 m-top" border="0" >
+        <tr>
+            <td class="w-50" style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        <tr>
+                            <td>N&uacute;mero de autorizaci&oacute;n contable:</td>
+                            <td class="bold">{{ op.numeroAutorizacionContable }}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha de autorizaci&oacute;n contable:</td>
+                            <td class="bold">{{ op.fechaAutorizacionContable|date('d/m/Y') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="w-50">
+                <table class="w-100" border="0">
+                    <tbody>
+                        <tr>
+                            <td>   
+                                <div style="float:right">
+                                    <hr class="w-100 linea-firma">
+                                    <p>Autorizo</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

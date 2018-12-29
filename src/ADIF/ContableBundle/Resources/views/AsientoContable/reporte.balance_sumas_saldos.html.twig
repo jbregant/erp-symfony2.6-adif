@@ -1,0 +1,165 @@
+{% extends '::base.html.twig' %}  
+
+{% set ConstanteTipoOperacionContable = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoOperacionContable' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/asientocontable/asientocontable.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Balance de sumas y saldos</div>
+                </div>
+
+                <div class="portlet-body">        
+
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaInicio" 
+                                           class="control-label">Fecha inicio</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                               name="adif_contablebundle_filtro[fechaInicio]" 
+                                               class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaFin" 
+                                           class="control-label">Fecha fin</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                               name="adif_contablebundle_filtro[fechaFin]" 
+                                               class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="checkbox-saldo" class="control-label">
+                                    &nbsp;
+                                </label>
+                                <div class="checkbox">
+                                    <input id="checkbox-saldo" type="checkbox" checked="checked">
+                                    <label  for="checkbox-saldo" class="control-label">Solo cuentas con saldo </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="checkbox-asientos-formales" class="control-label">
+                                    &nbsp;
+                                </label>
+                                <div class="checkbox">
+                                    <input id="checkbox-asientos-formales" type="checkbox" checked="checked">
+                                    <label for="checkbox-asientos-formales" class="control-label">Incluir asientos formales</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="checkbox-asientos-formales" class="control-label">
+                                    &nbsp;
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button class="btn btn-small blue-hoki form-control" id="filtrar_balance">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box reporte-portlet">
+                                <div class="portlet-title">
+
+                                    <div class="caption reporte_contable_title" style="display:none">
+
+                                        <span class="bold">BALANCE DE SUMAS Y SALDOS </span>
+
+                                        — Ejercicio <span class="caption-ejercicio bold"></span>
+
+                                        desde <span class="caption-fecha-desde bold"></span>
+
+                                        hasta <span class="caption-fecha-hasta bold"></span>
+                                    </div>
+
+                                    <div class="export-tools">
+                                    </div>
+                                </div>
+                                <div class="portlet-body balance_content">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-bordered table-condensed export-custom" 
+                                               id="balance_table" dataexport-title="Balance_sumas_y_saldos" 
+                                               dataexport-title-alternativo="" style="display:none">
+                                            <thead>
+												<tr class="replace-inputs filter">
+													<th>Cuenta contable</th>
+                                                    <th>Saldo acumulado anterior</th>
+                                                    <th>Suma al debe</th>
+                                                    <th>Suma al haber</th>
+                                                    <th>Saldo</th>
+												</tr>
+                                                <tr class="headers">
+                                                    <th class="text-center">Cuenta contable</th>
+                                                    <th class="text-center" export-format="currency">Saldo acumulado anterior</th>
+                                                    <th class="text-center" export-format="currency">Suma al debe</th>
+                                                    <th class="text-center" export-format="currency">Suma al haber</th>
+                                                    <th class="text-center" export-format="currency">Saldo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        var $tipoOperacionDebe = "{{ constant(ConstanteTipoOperacionContable ~ '::DEBE') }}";
+        var $tipoOperacionHaber = "{{ constant(ConstanteTipoOperacionContable ~ '::HABER') }}";
+    </script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/reporte.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/balance_sumas_saldos.js') }}" ></script>
+
+{% endblock %}

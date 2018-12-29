@@ -1,0 +1,82 @@
+
+
+<fieldset class="certificado-exencion-content" data-esiva="{{ esIva }}">
+
+    <legend>Certificado de exenci&oacute;n</legend>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(certificadoExencion.numeroCertificado) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(certificadoExencion.numeroCertificado) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{ form_label(certificadoExencion.tipoRegimen) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(certificadoExencion.tipoRegimen) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(certificadoExencion.fechaDesde)  }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(certificadoExencion.fechaDesde) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(certificadoExencion.fechaHasta)  }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(certificadoExencion.fechaHasta) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(certificadoExencion.porcentajeExencion)  }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(certificadoExencion.porcentajeExencion) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">            
+                {{ form_label(certificadoExencion.adjunto.archivo) }}
+                {% if edit and certificadoExencion.vars.value is not null and certificadoExencion.vars.value.adjunto is not null %} 
+                    <a  class="download-link" target="_blank"
+                        href="{{ asset('uploads/adjunto_exencion/' ~ certificadoExencion.vars.value.adjunto.nombreArchivoClear) }}">
+                        (Descargar)
+                    </a>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(certificadoExencion.adjunto.archivo, {'attr' : { 'data-file' : certificadoExencion.vars.value.adjunto.nombre} }) }}
+                    </div>
+                {% else %} 
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(certificadoExencion.adjunto.archivo) }}
+                    </div>
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+
+</fieldset>
+

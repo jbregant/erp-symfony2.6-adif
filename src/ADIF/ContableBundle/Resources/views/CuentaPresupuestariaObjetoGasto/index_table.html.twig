@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.codigo }}",
+    "{{ entity.denominacion|decode }}",
+    "{{ entity.cuentaPresupuestariaEconomica }}",
+    "{{ entity.descripcion|decode|default('-') }}",
+    {
+    "show" : "{{ path( 'cuentapresupuestariaobjetogasto_show', { 'id': entity.id }) }}",
+    "edit" : "{{ path( 'cuentapresupuestariaobjetogasto_edit', { 'id': entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

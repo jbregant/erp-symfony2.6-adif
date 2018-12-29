@@ -1,0 +1,56 @@
+{%if(puntosDeVentaDisponibles)%}
+    <form name="form_generar_facturas" 
+          id="form_generar_facturas" method="post" 
+          action="{{ path( 'comprobanteventa_factura_automatica_step_2') }}">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="fecha_factura" class="control-label">Fecha facturas</label>
+                    <div class="input-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" class=" form-control  datepicker required" required="required" id="fecha_factura" name="fecha_factura">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <input type="hidden" name="idsContratos" value="{{ idsContratos|json_encode() }}">
+            <input type="hidden" name="tipoContrato" value="{{ tipoContrato }}">
+            <input type="hidden" name="moneda" value="{{ moneda }}">
+            <input type="hidden" name="mesFacturacion" value="{{ mesFacturacion }}">            
+            {% for letra,puntosVenta in letrasFacturas %}
+                {%if(puntosVenta is not empty)%}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="punto_venta_{{letra}}" class="control-label">Punto de venta {{letra}}</label>
+                            <div class="input-icon">
+                                <i class="fa"></i>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <select class="form-control choice required" required="required" name="punto_venta[{{loop.index}}][punto_venta]" id="punto_venta_{{letra}}">
+                                        {% for talonario,puntoVenta in puntosVenta %} 
+                                            <option value="{{talonario}}">{{puntoVenta}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="punto_venta[{{loop.index}}][letra]" value="{{letra}}">
+                        </div>
+                    </div> 
+                {%else%}
+                    <div>No hay talonarios disponibles para comprobantes tipo F{{letra}}</div>
+                {%endif%}
+            {%endfor%}
+            <div class="col-md-3 pull-right">
+                <div class="form-group pull-right">
+                    <label class="control-label"></label>
+                    <div class="input-group">
+                        <button type="submit" id="generar_factura_submit" name="generar_factura_submit[submit]" class="btn green pull-right">Generar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{%else%}
+    <div>No hay puntos de venta disponibles</div>
+{%endif%}

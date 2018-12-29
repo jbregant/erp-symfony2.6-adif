@@ -1,0 +1,49 @@
+{% set excludedVariables = ['id', 'fechaCreacion', 'fechaUltimaActualizacion', 'fechaBaja'] %}
+
+var index = 0;
+
+var dt_{{ entity|lower }}_column_index = {
+id: index++,
+multiselect: index++,
+{%- for field, metadata in fields if field not in excludedVariables %} 
+    {{ field|replace({'_': ''})}}: index++,
+{% endfor %}
+acciones: index
+};
+
+dt_{{ entity|lower }} = dt_datatable($('#table-{{ entity|lower }}'), {
+ajax: __AJAX_PATH__ + '{{ entity|lower }}/index_table/',
+columnDefs: [
+{
+"targets": dt_{{ entity|lower }}_column_index.multiselect,
+"data": "ch_multiselect",
+"render": function (data, type, full, meta) {
+return '<input type="checkbox" class="checkboxes" value="' + data + '" />';
+}
+},
+{
+"targets": dt_{{ entity|lower }}_column_index.acciones,
+"data": "actions",
+"render": function (data, type, full, meta) {
+var full_data = full[dt_{{ entity|lower }}_column_index.acciones];
+return '<a href="' + full_data.show + '" class="btn btn-xs blue tooltips" data-original-title="Ver detalle">\n\
+    <i class="fa fa-search"></i>\n\
+</a>' +
+(full_data.edit !== undefined ?
+'<a href="' + full_data.edit + '" class="btn btn-xs green tooltips" data-original-title="Editar">\n\
+    <i class="fa fa-pencil"></i>\n\
+</a>' : '');
+}
+},
+{
+className: "text-center",
+targets: [
+dt_{{ entity|lower }}_column_index.multiselect
+]
+},
+{
+className: "ctn_acciones text-center nowrap",
+targets: dt_{{ entity|lower }}_column_index.acciones
+}
+]
+});

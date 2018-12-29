@@ -1,0 +1,273 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Generaci&oacute;n autom&aacute;tica de comprobantes
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">   
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tipo de contrato</label>
+                        <div class="detalle_show">   
+                            {{ tipoContrato }}   
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Moneda</label>
+                        <div class="detalle_show">   
+                            {{ moneda }}   
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Mes de facturaci&oacute;n</label>
+                        <div class="detalle_show"> 
+                            {{ mesFacturacion }}
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            {% for idLetra,puntosVenta in talonarios %}
+                {% for puntoVenta,talonario in puntosVenta %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {%if(comprobantes is not empty)%}
+                                <div class="portlet box {{(talonario.numero_comprobantes_generados == 0 or talonario.numero_comprobantes_generados != talonario.numero_comprobantes) ? 'red bloqueado' : 'blue-hoki'}}">
+                                    <div class="portlet-title">
+                                        <div class="caption">Comprobantes letra {{talonario.letra}} - {{puntoVenta}} {{(talonario.numero_comprobantes_generados == 0) ? 'No se pueden generar comprobantes' : ((talonario.numero_comprobantes_generados != talonario.numero_comprobantes)? 'Se pueden generar ' ~ talonario.numero_comprobantes_generados ~ ' comprobantes de ' ~ talonario.numero_comprobantes ~ ' seleccionados' : '')}}
+                                        </div>
+                                        <div class="tools">
+                                            <a class="collapse" href="javascript:;"></a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-comunes table-bordered table-striped table-condensed flip-content dt-multiselect table-comprobantes" id="table-comprobantes-{{talonario.letra}}-{{puntoVenta}}" numero-comprobantes-maximo="{{ talonario.numero_comprobantes }}">
+                                                <thead>                            
+                                                    <tr class="replace-inputs filter">
+                                                        <th></th>
+                                                        <th class="not-in-filter"></th>
+                                                        <th>N&ordm; contrato</th>
+                                                        <th>Cliente</th>
+                                                        <th>Cuil/DNI</th>
+                                                        <th>Periodo</th>
+                                                        <th>Detalle comprobante</th>
+                                                        <th>Monto neto</th>
+                                                        <th>IVA</th>
+                                                        <th>Perc. IIBB</th>
+                                                        <th>Perc. IVA</th>
+                                                        <th>Total</th>
+                                                            {% if (not esMCL) %}
+                                                            <th>Total moneda origen</th>
+                                                            {% endif %}
+                                                        <th class="not-in-filter hidden"></th>
+                                                        <th class="not-in-filter hidden"></th>
+                                                    </tr>
+                                                    <tr class="headers">
+                                                        <th class="no-order entity_id"></th>
+                                                        <th class="text-center table-checkbox no-order">
+                                                            <input type="checkbox" class="group-checkable" 
+                                                                   data-set="#table-comprobantes .checkboxes" />
+                                                        </th>
+                                                        <th>N&ordm; contrato</th>
+                                                        <th>Cliente</th>
+                                                        <th>Cuil/DNI</th>
+                                                        <th>Periodo</th>
+                                                        <th>Detalle comprobante</th>
+                                                        <th currency>Monto neto</th>
+                                                        <th currency>IVA</th>
+                                                        <th currency>Perc. IIBB</th>
+                                                        <th currency>Perc. IVA</th>
+                                                        <th currency>Total</th>
+                                                            {% if (not esMCL) %}
+                                                            <th currency>Total moneda origen</th>
+                                                            {% endif %}
+                                                        <th class="hidden"></th>
+                                                        <th class="hidden"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for indice,comprobante in comprobantes if((comprobante.letraComprobante.id == idLetra) and (comprobante.puntoVenta.numero == puntoVenta))%}
+                                                        <tr id-contrato="{{ comprobante.contrato.id }}" indice="{{ indice }}">
+                                                            <td>{{ indice }}</td>
+                                                            <td class="text-center">
+                                                                <input type="checkbox" class="checkboxes" value="" />
+                                                            </td>                                       
+                                                            <td class="nowrap">{{ comprobante.contrato.numeroContrato }}</td>
+                                                            <td>{{ comprobante.contrato.cliente }}</td>
+                                                            <td class="nowrap">{{ comprobante.contrato.cliente.cuit is null ? comprobante.contrato.cliente.dni : comprobante.contrato.cliente.cuit}}</td>
+                                                            <td>{{ comprobante.periodo|default('-') }}</td>
+                                                            <td>{{ comprobante.observaciones }}</td>
+                                                            <td class="nowrap">{{ comprobante.importeTotalNeto|money_format }}</td>
+                                                            <td class="nowrap">{{ comprobante.importeTotalIVA|money_format }}</td>
+                                                            <td class="nowrap">{{ comprobante.importeTotalPercepcionByConcepto(conceptoPercepcionIIBB)|money_format }}</td>
+                                                            <td class="nowrap">{{ comprobante.importeTotalPercepcionByConcepto(conceptoPercepcionIVA)|money_format }}</td>
+                                                            <td class="nowrap">{{ comprobante.totalMCL|money_format }}</td>
+                                                            {% if (not esMCL) %}
+                                                                <td class="nowrap">{{ comprobante.totalMO|money_format(comprobante.contrato.simboloTipoMoneda) }}</td>
+                                                            {% endif %}
+                                                            <td class="hidden">{{ comprobante.contrato.id }}</td>
+                                                            <td class="hidden">{{ indice }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            {%endif%}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {#comprobantes electronicos#}
+            {%if(comprobantesElectronicos is not empty)%}
+                {% for letra,puntosVenta in comprobantesElectronicos %}
+                    {% for puntoVenta,comprobantes in puntosVenta %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {%if(comprobantes is not empty)%}
+                                    <div class="portlet box blue-chambray">
+                                        <div class="portlet-title">
+                                            <div class="caption">Comprobantes electr&oacute;nicos letra {{letra}} - {{puntoVenta}}</div>
+                                            <div class="tools">
+                                                <a class="collapse" href="javascript:;"></a>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-electronicos table-bordered table-striped table-condensed flip-content dt-multiselect table-comprobantes" id="table-comprobantes-{{letra}}-{{puntoVenta}}">
+                                                    <thead>                            
+                                                        <tr class="replace-inputs filter">
+                                                            <th></th>
+                                                            <th class="not-in-filter"></th>
+                                                            <th>N&ordm; contrato</th>
+                                                            <th>Cliente</th>
+                                                            <th>Cuil/DNI</th>
+                                                            <th>Periodo</th>
+                                                            <th>Detalle comprobante</th>
+                                                            <th>Monto neto</th>
+                                                            <th>IVA</th>
+                                                            <th>Perc. IIBB</th>
+                                                            <th>Perc. IVA</th>
+                                                            <th>Total</th>
+                                                                {% if (not esMCL) %}
+                                                                <th>Total moneda origen</th>
+                                                                {% endif %}
+                                                            <th class="not-in-filter hidden"></th>
+                                                            <th class="not-in-filter hidden"></th>
+                                                        </tr>
+                                                        <tr class="headers">
+                                                            <th class="no-order entity_id"></th>
+                                                            <th class="text-center table-checkbox no-order">
+                                                                <input type="checkbox" class="group-checkable" 
+                                                                       data-set="#table-comprobantes .checkboxes" />
+                                                            </th>
+                                                            <th>N&ordm; contrato</th>
+                                                            <th>Cliente</th>
+                                                            <th>Cuil/DNI</th>
+                                                            <th>Periodo</th>
+                                                            <th>Detalle comprobante</th>
+                                                            <th currency>Monto neto</th>
+                                                            <th currency>IVA</th>
+                                                            <th currency>Perc. IIBB</th>
+                                                            <th currency>Perc. IVA</th>
+                                                            <th currency>Total</th>
+                                                                {% if (not esMCL) %}
+                                                                <th currency>Total moneda origen</th>
+                                                                {% endif %}
+                                                            <th class="hidden"></th>
+                                                            <th class="hidden"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for indice,comprobante in comprobantes %}
+                                                            <tr id-contrato="{{ comprobante.contrato.id }}" indice="{{ indice }}">
+                                                                <td>{{ indice }}</td>
+                                                                <td class="text-center">
+                                                                    <input type="checkbox" class="checkboxes" value="" />
+                                                                </td>                                       
+                                                                <td class="nowrap">{{ comprobante.contrato.numeroContrato }}</td>
+                                                                <td>{{ comprobante.contrato.cliente }}</td>
+                                                                <td class="nowrap">{{ comprobante.contrato.cliente.cuit is null ? comprobante.contrato.cliente.dni : comprobante.contrato.cliente.cuit}}</td>
+                                                                <td>{{ comprobante.periodo|default('-') }}</td>
+                                                                <td>{{ comprobante.observaciones }}</td>
+                                                                <td class="nowrap">{{ comprobante.importeTotalNeto|money_format }}</td>
+                                                                <td class="nowrap">{{ comprobante.importeTotalIVA|money_format }}</td>
+                                                                <td class="nowrap">{{ comprobante.importeTotalPercepcionByConcepto(conceptoPercepcionIIBB)|money_format }}</td>
+                                                                <td class="nowrap">{{ comprobante.importeTotalPercepcionByConcepto(conceptoPercepcionIVA)|money_format }}</td>
+                                                                <td class="nowrap">{{ comprobante.totalMCL|money_format }}</td>
+                                                                {% if (not esMCL) %}
+                                                                    <td class="nowrap">{{ comprobante.totalMO|money_format(comprobante.contrato.simboloTipoMoneda) }}</td>
+                                                                {% endif %}
+                                                                <td class="hidden">{{ comprobante.contrato.id }}</td>
+                                                                <td class="hidden">{{ indice }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {%endif%}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="form-actions">
+                <div class="pull-left" id="btn_volver_step1">
+                    <a class="btn default" href="">
+                        <i class="m-icon-swapleft"></i> Volver a paso 1
+                    </a>
+                </div>
+                <div class="pull-right" id="btn_generar_comprobantes_step3">
+                    <a class="btn purple tooltips" data-placement="top" data-original-title="Continuar al paso 3" href="">
+                        Continuar <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <form name="form_volver_step1" 
+                  id="form_volver_step1" method="post" 
+                  action="{{ path( 'comprobanteventa_factura_automatica_step_1') }}">
+            </form>
+            <form name="form_generar_comprobantes_step3" 
+                  id="form_generar_comprobantes_step3" method="post" 
+                  action="{{ path( 'comprobanteventa_factura_automatica_step_3') }}">
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var idsStep1 = {{ post_step1|json_encode() }};
+                var esCupon ={{ esCupon ? 'true' : 'false' }} ;</script>
+    <script src="{{ asset('js/custom/contable/facturacion/comprobanteVentaAutomatico/generar_automatico.js') }}" ></script>
+
+{% endblock %}

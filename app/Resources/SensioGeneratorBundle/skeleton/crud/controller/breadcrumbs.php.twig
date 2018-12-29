@@ -1,0 +1,10 @@
+{# empty Twig template #}
+    private $base_breadcrumbs;
+
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null) {
+        parent::setContainer($container);
+        $this->base_breadcrumbs = array(
+            'Inicio' => '',
+            '{{ entity }}' => $this->generateUrl('{{ route_name_prefix }}')
+        );
+    }

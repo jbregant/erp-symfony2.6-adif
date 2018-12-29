@@ -1,0 +1,264 @@
+<div id="seleccion-tipo-pago">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label required" for="select_tipoPago_multiple">Tipo de registro</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select id="select_tipoPago_multiple" name="select_tipoPago_multiple" class="required form-control choice">
+                        <option value='0'>-- Seleccione un tipo --</option>
+                        {% if is_granted('ROLE_CREAR_COBRO_BANCO') %}
+                            <option value='1'>Cobro de banco</option>
+                        {% endif %}
+                        {% if is_granted('ROLE_CREAR_VALOR_A_DEPOSITAR') %}
+                            <option value='2'>Valor a depositar</option>
+                        {% endif %}
+                        {% if is_granted('ROLE_CREAR_RETENCION_CLIENTE') %}
+                            <option value='3'>Retenci&oacute;n de cliente</option>
+                        {% endif %}
+                        {% if is_granted('ROLE_CREAR_COBRO_BANCO') %}
+                            <option value='4'>Cobro ONABE</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>    
+
+<div id="formulario-banco" style="display:none">
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-10">
+            <div class="form-group">
+                <label class="control-label" for="form_file">
+                    {% if esNacion %} 
+                        Archivo del banco:
+                    {% else %}
+                        Archivo de importaci&oacute;n:
+                    {% endif %}
+                </label>
+                <div class="right">
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="input-group input-large">
+                            <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                <span class="fileinput-filename">
+                                </span>
+                            </div>
+                            <span class="input-group-addon btn default btn-file">
+                                <span class="fileinput-new">
+                                    Seleccionar archivo
+                                </span>
+                                <span class="fileinput-exists">
+                                    Cambiar
+                                </span>
+                                <input type="file" id="input_archivo" name="form[file]" required="required" />
+                            </span>
+                            <a href="#" class="input-group-addon btn default fileinput-exists" data-dismiss="fileinput" id="remover-archivo">
+                                Remover
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <button class="btn btn-small blue-hoki form-control" id="cargar-archivo">
+                    Cargar
+                </button>
+            </div>
+        </div>    
+    </div>
+    <div class="row" style="margin-bottom: 10px">        
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.fecha) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fecha) }}
+                </div>
+
+            </div>       
+        </div>            
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.numeroTransaccion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.numeroTransaccion) }}
+                </div>
+
+            </div>
+        </div>             
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.monto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.monto) }}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <button class="btn btn-small blue-hoki form-control" id="crear-movimiento">
+                    Crear
+                </button>
+            </div>
+        </div>            
+    </div>
+    <div class="row">                  
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.observacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.observacion) }}
+                </div>
+
+            </div>
+        </div> 
+    </div>            
+</div>
+<div  id="formulario-cheque" style="display:none">            
+    <div class="row" style="margin-bottom: 10px">        
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form2.fecha) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form2.fecha) }}
+                </div>
+
+            </div>       
+        </div>            
+
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form2.banco) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form2.banco) }}
+                </div>
+
+            </div>
+        </div>  
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form2.numero) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form2.numero) }}
+                </div>
+
+            </div>
+        </div>                 
+    </div>     
+    <div class="row">             
+     
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form2.monto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form2.monto) }}
+                </div>
+
+            </div>
+        </div>
+                 
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form2.observacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form2.observacion) }}
+                </div>
+
+            </div>
+        </div> 
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <button class="btn btn-small blue-hoki form-control" id="crear-cheque">
+                    Crear
+                </button>
+            </div>
+        </div>                   
+    </div>                  
+</div>            
+
+<div  id="formulario-retencion" style="display:none">            
+    <div class="row" style="margin-bottom: 10px">        
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form3.tipoImpuesto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form3.tipoImpuesto) }}
+                </div>
+
+            </div>
+        </div>          
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form3.fecha) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form3.fecha) }}
+                </div>
+
+            </div>       
+        </div>            
+
+
+
+    </div>     
+    <div class="row" style="margin-bottom: 10px">    
+
+
+        {#        <div class="col-md-7">
+                    <div class="form-group">
+                        {{ form_label(form3.cliente) }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form3.cliente) }}
+                        </div>
+        
+                    </div>
+                </div>#}
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form3.numero) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form3.numero) }}
+                </div>
+
+            </div>
+        </div>   
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form3.monto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form3.monto) }}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <button class="btn btn-small blue-hoki form-control" id="crear-retencion">
+                    Crear
+                </button>
+            </div>
+        </div>            
+    </div>            
+</div>                            

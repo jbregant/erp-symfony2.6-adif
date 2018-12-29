@@ -1,0 +1,15 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Accesos directos
+    </a>
+    <ul class="dropdown-menu">
+
+        {% if is_granted('ROLE_MENU_LINK_CONFIGURACION') %}
+            <li>
+                <a href="#">
+                    Configuraci&oacute;n
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>

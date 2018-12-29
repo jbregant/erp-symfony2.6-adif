@@ -1,0 +1,78 @@
+<div class="row cleardiv">
+    <div class="col-md-12">
+        <div class="portlet box grey-cascade">
+            <div class="portlet-title requerimiento-title">
+
+                <div class="caption">
+                    Proveedores invitados
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content" 
+                    id="table-invitaciones" >
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="hidden">Proveedor</th>
+                            <th>Raz&oacute;n social</th> 
+                            <th>CUIT</th>   
+                            <th>Evaluaci&oacute;n</th> 
+                            <th data-type="date">Fecha invitaci&oacute;n</th> 
+                            <th data-type="date">Fecha cotizaci&oacute;</th>                             
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="hidden">Proveedor</th>
+                            <th width="40%">Raz&oacute;n social</th> 
+                            <th width="15%">CUIT</th>   
+                            <th width="15%" numeric >Evaluaci&oacute;n</th> 
+                            <th width="15%" date >Fecha invitaci&oacute;n</th> 
+                            <th width="15%" date >Fecha cotizaci&oacute;n</th>                              
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invitado in requerimiento.cotizaciones %}
+                            <tr>
+                                <td>
+                                    <input value=" {{ invitado.id }} "/>
+                                </td>
+                                <td class="hidden">{{ invitado.proveedor.id }}</td>
+                                <td class="popover-proveedor">
+                                    {{ invitado.proveedor.clienteProveedor.razonSocial }}
+                                    {% include 'ADIFComprasBundle:Proveedor:popover.datos_contacto.html.twig' with {'datosContacto': invitado.proveedor.clienteProveedor.datosContacto} %}
+                                </td>
+                                <td>{{ invitado.proveedor.clienteProveedor.CUIT }}</td>
+                                <td class="text-center {{ invitado.proveedor.evaluacionProveedor.claseCalificacionFinal }}">
+                                    {{ invitado.proveedor.evaluacionProveedor.calificacionFinal }}
+                                </td>
+                                <td>{{ invitado.fechaInvitacion|date('d/m/Y') }}</td>
+                                <td>
+                                    {% if invitado.fechaCotizacion is not null %}
+                                        {{ invitado.fechaCotizacion|date('d/m/Y') }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td class="ctn_acciones text-center nowrap">
+                                    <a class="btn btn-xs red tooltips eliminar_invitacion" 
+                                       data-original-title="Eliminar" href="#">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

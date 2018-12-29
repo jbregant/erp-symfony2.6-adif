@@ -1,0 +1,24 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity['id'] }}",
+    "{{ entity['id'] }}",
+    {% if entity['cuit'] != null %}
+		"{{ entity['razon_social']|escape_json ~ '<br>' ~ entity['cuit'] }}",
+	{% elseif entity['razon_social'] is not null %}
+		"{{ entity['razon_social']|escape_json }}",
+	{% else %}
+		"(Sin datos)",
+	{% endif %}          
+    "{{ entity['numero_contrato']|default('-')  }}",
+    {% if entity['fecha_comprobante'] %}"{{ entity['fecha_comprobante'] }}",{% endif %} 
+	{% if entity['letra'] %}"{{ entity['tipo_comprobante']|escape_json ~ ' (' ~ entity['letra'] ~ ')' }}",{% else %}"{{ entity['tipo_comprobante']|escape_json }}",{% endif %} 
+    "{{ entity['numero_completo']|default('-') }}",    
+    "{{ entity['referencia']|default('-') }}",    
+    "{{ entity['total']|money_format|default('-') }}", 
+    "{{ entity['saldo']|money_format|default('-') }}", 
+    "{{ entity.id }}"     
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,15 @@
+<?php
+
+namespace ADIF\ContableBundle\Entity\EgresoValor;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Combustible
+ * 
+ * @ORM\Table(name="combustible")
+ * @ORM\Entity(repositoryClass="ADIF\ContableBundle\Repository\EgresoValorRepository")
+ */
+class Combustible extends EgresoValor {
+    
+}

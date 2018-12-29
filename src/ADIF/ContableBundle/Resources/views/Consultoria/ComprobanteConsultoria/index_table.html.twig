@@ -1,0 +1,26 @@
+
+{% set ConstanteEstadoComprobanteAnulado = constant('ADIF\\ContableBundle\\Entity\\EstadoComprobante::__ESTADO_ANULADO') %}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaComprobante|date('d/m/Y') }}", 
+    "{{ entity.contrato|default('-') }}", 
+    "{{ entity.contrato.idContratoInicial }}", 
+    "{{ entity.consultor.getCuitAndRazonSocial|default('-')|decode }}", 
+    "{{ entity.tipoComprobante ~ ' (' ~ entity.letraComprobante ~ ')' }}",
+    "{{ entity.puntoVenta ~ '-' ~ entity.numero }}",
+    "{{ entity.total|money_format }}",
+    "{{ entity.estadoComprobante.id == ConstanteEstadoComprobanteAnulado ? '1' : '0' }}",
+    {
+    "show" : " {{ path( "comprobante_consultoria_show", { "id": entity.id }) }}"
+    {% if entity.estadoComprobante.id != ConstanteEstadoComprobanteAnulado %}
+        ,"anular" : "{{ path("comprobante_consultoria_anular", { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

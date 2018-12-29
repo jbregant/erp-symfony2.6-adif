@@ -1,0 +1,7 @@
+{% if empresaActual == 'adif' %}
+	<img id="img-logo" src="{{ asset(image_path ~ 'trenes_argentinos.png') }}" alt="logo" class="img-responsive"/>
+{% elseif empresaActual == 'vossloh' %}
+	<img id="img-logo" src="{{ asset(image_path ~ 'logo_consorcio.png') }}" alt="logo" class="img-responsive"/>
+{% else %} 
+	<img id="img-logo" src="{{ asset(image_path ~ 'fase.png') }}" alt="logo" class="img-responsive"/>
+{% endif %}

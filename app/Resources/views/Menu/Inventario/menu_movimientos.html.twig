@@ -1,0 +1,19 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Movimientos
+    </a>
+    <ul class="dropdown-menu">
+        {% if is_granted("ROLE_INVENTARIO_HOJA_RUTA") %}
+        <li>
+            <a href="{{ path('hojaruta') }}">
+                Administrar Hojas de Ruta
+            </a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="#">
+                Administracion de Existencias
+            </a>
+        </li>
+    </ul>
+</li>

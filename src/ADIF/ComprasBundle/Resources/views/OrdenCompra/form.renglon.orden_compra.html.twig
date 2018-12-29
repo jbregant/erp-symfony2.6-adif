@@ -1,0 +1,78 @@
+
+<div class="renglon_orden_compra_form_content">
+
+    {{ form_start(form_renglon, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                {{ form_label(form_renglon.bienEconomico) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.bienEconomico) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form_renglon.centroCosto) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.centroCosto) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form_renglon.unidadMedida) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.unidadMedida) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form_renglon.cantidad) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.cantidad) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form_renglon.precioUnitario) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.precioUnitario) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form_renglon.tipoCambio) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.tipoCambio) }}
+                </div>
+            </div>
+        </div> 
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form_renglon.alicuotaIva) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form_renglon.alicuotaIva) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_widget(form_renglon._token) }}
+
+    {{ form_end(form_renglon, {"render_rest": false}) }}
+
+</div>

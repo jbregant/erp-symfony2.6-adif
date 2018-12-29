@@ -1,0 +1,27 @@
+
+{% if proveedor is defined %}
+    <table class="m-top" border="0" style="margin-top: 4em; margin-left: 3em;" >
+        <tbody>
+            <tr>
+                <td class="f-12" width="30%">Proveedor:</td>
+                <td class="f-12 bold">{{ proveedor.cuitAndRazonSocial  }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">OC N&ordm;:</td>
+                <td class="f-12 bold">{{ oc.numeroOrdenCompra|default('-') }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Modo contrataci&oacute;n:</td>
+                <td class="f-12 bold">{{ oc.tipoContratacion|default('-') }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">{{ comprobante is defined ? comprobante.tipoComprobante ~ 'N&ordm;:' : '&nbsp;' }}</td>
+                <td class="f-12 bold">{{ comprobante is defined ? comprobante.numero|default('-') : '&nbsp;' }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">{{ ordenPago is defined ? 'OP N&ordm;:' : '' }}</td>
+                <td class="f-12 bold">{{ ordenPago is defined ? ordenPago.numeroOrdenPago|default('-') : '&nbsp;' }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}

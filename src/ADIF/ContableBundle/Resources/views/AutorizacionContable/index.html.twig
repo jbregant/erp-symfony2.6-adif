@@ -1,0 +1,197 @@
+{% extends '::base.html.twig' %}  
+
+{% set ConstanteEstadoOrdenPago = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoOrdenPago' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css" href="">
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Autorizaciones contables</div>
+                </div>
+                <div class="portlet-body">
+
+                    <div class="table-toolbar" style="margin-top: 3em">
+
+                        <div class="btn-group pull-left" style="margin-top: -3em">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaInicio" 
+                                               class="control-label">Fecha inicio</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                                   name="adif_contablebundle_filtro[fechaInicio]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha fin</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>
+
+                        {%  if is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE") 
+                            or is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE_RRHH") 
+                            or is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE_EGRESO_VALOR")
+                        %}
+                            <div class="btn-group pull-right">
+                                <div class="btn-group" id="btn-autorizar-autorizacioncontable">
+                                    <button class="btn btn-sm yellow tooltips" type="button" data-placement="top" 
+                                            data-original-title="Autorizar autorizaciones contables">
+                                        <i class="fa fa-check"></i> Autorizar
+                                    </button>
+                                    <button data-toggle="dropdown" type="button"
+                                            class="btn btn-sm yellow dropdown-toggle">
+                                        <i class="fa fa-angle-down"></i>
+                                    </button>
+
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li>
+                                            <a href="" autorizacioncontable-table="table-autorizacioncontable" 
+                                               data-autorizar-autorizacioncontable="seleccionados">Seleccionadas</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                            
+                        <!--   DESCOMENTAR PARA HABILITAR NET CASH 
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-sm green tooltips" type="button" data-placement="top" 
+                                data-original-title="Agregar a Net Cash" id="btn-agregar-netcash">
+                                    <i class="fa fa-plus"></i> Agregar a Net Cash
+                            </button>
+                        </div>
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-sm purple tooltips" type="button" data-placement="top" 
+                                data-original-title="Generar Net Cash" id="btn-generar-netcash">
+                                    <i class="fa fa-usd"></i> Generar archivo Net Cash
+                            </button>
+                        </div>
+                        -->    
+                            
+                    </div>
+
+                    <table 
+                        class="table table-bordered table-striped table-condensed 
+                        flip-content dt-multiselect export-excel" 
+                        id="table-autorizacioncontable"
+                        dataexport-title="autorizacioncontable">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha</th>
+                                <th>N&uacute;mero</th>
+                                <th>Proveedor</th>
+                                <th>Concepto</th>
+                                <th>Monto bruto</th>
+                                <th>Monto retenciones</th>
+                                <th>Monto neto</th>
+                                <th>Usuario</th>
+                                <th data-type="select" 
+                                    data-select-ajax="ordenpago/estados" 
+                                    data-select-value="denominacionEstado" 
+                                    data-select-label="denominacionEstado"
+                                    data-select-all="Todos">Estado</th>
+                                <th class="not-in-filter"></th>
+                                <th class="not-in-filter hidden "></th>                                
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-autorizacioncontable .checkboxes" />
+                                </th>
+                                <th date export-format="date" class="nowrap">Fecha</th>
+                                <th class="nowrap">N&uacute;mero</th>
+                                <th>Proveedor</th>
+                                <th>Concepto</th>
+                                <th currency>Monto bruto</th>
+                                <th currency>Monto retenciones</th>
+                                <th currency>Monto neto</th>
+                                <th>Usuario</th>
+                                <th class="nowrap">Estado</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                                <th class="hidden"></th>                                   
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/pago/funciones.js') }}" ></script>
+
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+    
+    <script src="{{ asset('js/custom/contable/autorizacioncontable/index.js') }}" ></script>    
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+        var estadoPendientePago = "{{ constant(ConstanteEstadoOrdenPago ~ '::ESTADO_PENDIENTE_PAGO') }}";;
+        var estadoCorridaPendiente = "{{ constant(ConstanteEstadoOrdenPago ~ '::ESTADO_NETCASH_CORRIDA_PENDIENTE') }}";;
+    </script>
+
+    {% if is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE") %}
+        <script src="{{ asset('js/custom/contable/autorizacioncontable/web_notifications.js') }}" ></script>
+    {% endif %}
+
+{% endblock %}

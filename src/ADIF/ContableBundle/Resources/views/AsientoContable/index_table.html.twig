@@ -1,0 +1,46 @@
+
+{% set ConstanteConceptoAsientoContable = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteConceptoAsientoContable' %}
+
+{% set conceptosFormales = [
+        constant(ConstanteConceptoAsientoContable ~ '::FORMAL_REFUNDICION'), 
+        constant(ConstanteConceptoAsientoContable ~ '::FORMAL_CIERRE'), 
+        constant(ConstanteConceptoAsientoContable ~ '::FORMAL_APERTURA')
+    ] 
+%}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+	"{{ entity.id|str_pad(6,'0',0) }}",
+	"{{ entity.numeroOriginal }}",
+    "{{ entity.numeroAsiento }}",
+    "{{ entity.fechaContable|date('d/m/Y') }}",
+    "{{ entity.tipoAsientoContable|default('-') }}",
+    "{{ entity.conceptoAsientoContable|default('-')|decode }}",
+    "{{ entity.denominacionAsientoContable|escape_json|default('-') }}",
+    "{{ entity.numeroDocumento|default('-')|decode }}",
+    "{{ entity.razonSocial|default('-')|decode }}",
+    "{{ entity.totalDebe|currency_format }}",
+    "{{ entity.totalHaber|currency_format }}",
+    "{{ entity.usuario|default('-') }}", 
+    "{{ entity.estadoAsientoContable|default('-') }}", 
+    {
+    "show" : " {{ path( "asientocontable_show", { "id": entity.id }) }}"
+    {% if not is_granted("ROLE_SOLO_LECTURA") %}
+        {% if is_granted('ROLE_EDITAR_ASIENTO_CONTABLE') %}
+            ,"edit" : " {{ path( "asientocontable_edit", { "id": entity.id }) }}"
+        {% endif %}
+        {% if (entity.esManual or entity.codigoConceptoAsientoContable in conceptosFormales) and not entity.fueRevertido and is_granted('ROLE_REVERTIR_ASIENTO_CONTABLE') %}
+            ,"revertir" : " {{ path( "asientocontable_revertir", { "id": entity.id }) }}"
+        {% endif %}
+		{% if not entity.esManual and not entity.fueRevertido and is_granted('ROLE_REVERTIR_ASIENTO_CONTABLE_AUTOMATICO') %}
+            ,"revertir" : " {{ path( "asientocontable_revertir", { "id": entity.id }) }}"
+        {% endif %}
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

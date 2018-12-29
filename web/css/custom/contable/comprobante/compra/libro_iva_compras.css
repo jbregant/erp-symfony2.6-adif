@@ -1,0 +1,47 @@
+
+td.mr{
+    line-height: 12px;
+}
+
+td.mr div{
+    display: inline-block;
+    text-align: right;
+}
+
+td.l{
+    width: 40px;
+    text-align: left;
+}
+
+td.v{
+    width: 50px;
+    font-weight: 600;
+    text-align: right;
+    padding-right: 2px;
+}
+
+td.v.total{
+    border-top: 1px solid #555;
+    color: #0f6fff;
+}
+
+.reporte_contable_title{
+    width: 100%;
+    font-size: 17px;
+}
+
+.fecha_filtro {
+    vertical-align: middle;
+    display: inline-table;
+}
+
+.filtro{
+    vertical-align: middle;
+    display: inline-table;
+    margin-left: 1em;
+    margin-top: .1em;
+}
+
+table.full {
+    width: 100%;
+}

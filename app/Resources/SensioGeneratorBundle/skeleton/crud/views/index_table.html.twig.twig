@@ -1,0 +1,21 @@
+{% set excludedVariables = ['id', 'fechaCreacion', 'fechaUltimaActualizacion', 'fechaBaja'] %}
+{{ '{' }}
+{{ '"data": [' }}
+{{ '{% for entity in entities %}' }}
+{{ '[' }}
+{{ '"{{ entity.id }}",' }}
+{{ '"{{ entity.id }}",' }}
+{% for field, metadata in fields if field not in excludedVariables %} 
+    {%- if metadata.type in ['date', 'datetime'] %}
+    {{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}"{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'d/m/Y\') }}",{% endif %}' }}
+    {%- else %}
+    {{ '"{{ entity.' ~ field|replace({'_': ''}) ~ '|default(\'-\') }}",' }}
+    {%- endif %} 
+{% endfor %}
+{{ "{" }}
+{{ '"show" : " {{ path( "' ~ route_name_prefix ~ '_show", { "id": entity.id }) }}", ' }}
+{{ '"edit" : " {{ path( "' ~ route_name_prefix ~ '_edit", { "id": entity.id }) }}" ' }}
+{{ "}" }}
+{{ "]{{ (loop.last ? '' : ',') }}" }}
+{{ '{% endfor %}' }}
+{{ ']}' }}

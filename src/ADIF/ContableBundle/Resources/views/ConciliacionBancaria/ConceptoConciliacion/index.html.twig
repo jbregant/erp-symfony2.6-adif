@@ -1,0 +1,78 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Conceptos de conciliaci&oacute;n</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-sm green tooltips" data-placement="right" 
+                               data-original-title="Crear concepto de conciliaci&oacute;n" 
+                               href=" {{ path( 'conceptoconciliacion_new') }} ">
+                                Crear concepto de conciliaci&oacute;n <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content datatable 
+                        dt-multiselect export-excel" 
+                        id="table-conceptoconciliacion"
+                        dataexport-title="conceptoconciliacion">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Denominaci&oacute;n</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Es contabilizable</th>
+                                <th>Cuenta contable</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-conciliacionbancaria\conceptoconciliacion .checkboxes" />
+                                </th>
+                                <th>Denominaci&oacute;n</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Es contabilizable</th>
+                                <th>Cuenta contable</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+                                    <td>{{ entity.denominacion }}</td>
+                                    <td>{{ entity.descripcion|default("-") }}</td>
+                                    <td>{{ entity.esContabilizable ? 'Si' : 'No' }}</td>
+                                    <td>{{ entity.cuentaContable|default("-") }}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href=" {{ path( 'conceptoconciliacion_show', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <a href=" {{ path( 'conceptoconciliacion_edit', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs green tooltips" data-original-title="Editar">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

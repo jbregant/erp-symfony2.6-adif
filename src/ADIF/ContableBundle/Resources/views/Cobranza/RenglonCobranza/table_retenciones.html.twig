@@ -1,0 +1,58 @@
+<div class="portlet box green-seagreen" id='div-table-retenciones'>
+    <div class="portlet-title">
+        <div class="caption">
+            Retenciones de clientes
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-toolbar clear">             
+            <div class="btn-group pull-left" id="actualizar-retenciones">
+                <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Actualizar listado" href="">
+                    <i class="fa fa-refresh"></i>
+                    Actualizar listado
+                </a>
+            </div>
+            <div class="btn-group pull-right" id="eliminar-retencion" style="display:none">
+                <a class="btn btn-sm red accion-borrar tooltips" data-original-title="Eliminar" href="">
+                    <i class="fa fa-times"></i>
+                    Eliminar
+                </a>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect" id="table-retenciones">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th></th>
+                    <th class="not-in-filter"></th>
+                    <th>Fecha</th>                    
+                        {#<th>Cliente</th>#}                    
+                    <th>Impuesto</th>
+                    <th>N&uacute;mero</th>
+                    <th>Monto</th>
+                        {#<th class="not-in-filter hidden">Id Cliente</th>#}
+                    <th class="not-in-filter hidden">Id Retencion</th>
+                    <th class="not-in-filter hidden">Id Retencion</th>
+                </tr>
+                <tr class="headers">
+                    <th class="no-order entity_id"></th>
+                    <th class="text-center table-checkbox no-order">
+                        <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-retenciones .checkboxes" />
+                    </th>
+                    <th date export-format="date" class="nowrap">Fecha</th>
+                        {#<th>Cliente</th>#}                    
+                    <th>Impuesto</th>
+                    <th>N&uacute;mero</th>
+                    <th>Monto</th>   
+                        {#<th class="hidden">Id Cliente</th>#}                    
+                    <th class="hidden">Id Retencion</th>                    
+                    <th class="hidden">Id Retencion</th>                    
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del Estado de Conservaci&oacute;n: <strong>{{ entity.denominacion }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Denominaci&oacute;n</label>
+                        <div class="detalle_show">                                {{ entity.denominacion }}                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Denominaci&oacute;n Corta</label>
+                        <div class="detalle_show">                                {{ entity.denominacionCorta }}                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Material Nuevo</label>
+                        <div class="detalle_show">                                {{ entity.habilitadoMaterialNuevo ? 'Si':'No' }}                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Material Producido</label>
+                        <div class="detalle_show">                                {{ entity.habilitadoMaterialProducido ? 'Si':'No' }}                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Material Rodante</label>
+                        <div class="detalle_show">                                {{ entity.habilitadoMaterialRodante ? 'Si':'No' }}                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Activo Lineal</label>
+                        <div class="detalle_show">                                {{ entity.habilitadoActivoLineal ? 'Si':'No' }}                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"
+                        back-url="{{ path('EstadoConservacion') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

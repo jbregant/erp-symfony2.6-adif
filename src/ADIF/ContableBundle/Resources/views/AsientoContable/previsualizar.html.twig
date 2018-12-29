@@ -1,0 +1,123 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/contable/asientocontable/importar.js') }}" ></script>
+{% endblock %} 
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del asiento contable a importar
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Fecha contable</label>
+                        <div class="detalle_show">   
+                            {{ entity.fechaContable|date('d/m/Y') }}   
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">T&iacute;tulo</label>
+                        <div class="detalle_show"> 
+                            {{ entity.denominacionAsientoContable }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Concepto</label>
+                        <div class="detalle_show">   
+                            {{ entity.conceptoAsientoContable }}   
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box blue-hoki">
+                        <div class="portlet-title">
+                            <div class="caption">Detalle</div>
+                            <div class="tools">
+                                <a class="collapse" href="javascript:;"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-bordered table-condensed" id="renglon_asiento_contable_table">
+                                    <thead>
+                                        <tr>
+                                            <th width="50%" colspan ="2" class="th-cuenta-contable">Cuenta contable</th>
+                                            <th width="10%" class="text-center">Debe</th>
+                                            <th width="10%" class="text-center">Haber</th>
+                                            <th width="30%">Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set debe = 0 %}
+                                        {% set haber = 0 %}
+                                        {% for renglonAsientoContable in entity.renglonesAsientoContable %}
+                                            <tr tr_index="{{ loop.index }}">
+                                                {% if (renglonAsientoContable.tipoOperacionContable == 'Haber') %}
+                                                    <td width="5%" style="border-right-style: hidden;"></td>
+                                                    <td class="td-tipo-operacion-debe text-left">
+                                                        {{ renglonAsientoContable.cuentaContable }}
+                                                    </td>
+                                                {% else %}
+                                                    <td colspan="2" class="text-left">
+                                                        {{ renglonAsientoContable.cuentaContable }}
+                                                    </td>
+                                                {% endif %}
+                                                <td width="10%" class="text-right td-debe">
+                                                    {% if(renglonAsientoContable.tipoOperacionContable == 'Debe') %}
+                                                        {{renglonAsientoContable.importeMO|currency_format }}
+                                                        {% set debe = debe + renglonAsientoContable.importeMO %}
+                                                    {% endif %}
+                                                </td>
+                                                <td  width="10%" class="text-right td-haber">
+                                                    {% if(renglonAsientoContable.tipoOperacionContable == 'Haber') %}
+                                                        {{renglonAsientoContable.importeMO|currency_format }}
+                                                        {% set haber = haber + renglonAsientoContable.importeMO %}
+                                                    {% endif %}
+                                                </td>
+                                                <td class="td-detalle">{{ renglonAsientoContable.detalle }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-right tr-total" colspan="2">TOTAL</td>
+                                            <td class="text-right hlt total-debe">{{ debe|currency_format }}</td>
+                                            <td class="text-right hlt total-haber">{{ haber|currency_format }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <form method="post" url=""
+            <div class="form-actions">
+                <button type="button" class="btn default button-back pull-left" back-url="{{ path('asientocontable_importar') }}">Cancelar</button>
+                <button type="button" class="tooltips btn bg-blue pull-right btn-guardar-asiento" back-url="{{ path('asientocontable_importar_guardar') }}">Guardar</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

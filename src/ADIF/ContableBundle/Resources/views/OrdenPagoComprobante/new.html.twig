@@ -1,0 +1,206 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/ordenpago/comprobante/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .dashboard-stat .details .number{
+            font-size: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Orden de pago</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}  
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="dashboard-stat green-jungle">
+                        <div class="visual">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">{{ entity.proveedor.clienteProveedor.razonSocial }}</div>
+                            <div class="desc">Raz&oacute;n social</div>
+                        </div>
+                        {# <a class="more" href="#table-liquidacion">
+                            &nbsp; <i class="m-icon-swapright m-icon-white"></i>
+                        </a> #}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="dashboard-stat blue">
+                        <div class="visual">
+                            <i class="fa fa-letter">#</i>
+                        </div>
+                        <div class="details">
+                            <div class="number">{{ entity.proveedor.clienteProveedor.cuit }}</div>
+                            <div class="desc">CUIT</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="dashboard-stat purple">
+                        <div class="visual">
+                            <i class="fa fa-letter">&gt;</i>
+                        </div>
+                        <div class="details">
+                            
+                            <div class="number">{{ entity.comprobantes|first.ordenCompra.numero }}</div>
+                            <div class="desc">Concepto</div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="form-body">
+                {# <div class="row">                      
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend>Datos del beneficiario</legend>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Raz&oacute;n social</label>
+                                    <div class="detalle_show">{{ entity.proveedor.clienteProveedor.razonSocial }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">CUIT</label>
+                                    <div class="detalle_show">{{ entity.proveedor.clienteProveedor.CUIT }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Concepto</label>
+                                    <div class="detalle_show">{{ entity.comprobantes|first.ordenCompra.numero }}</div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div> #}
+
+                <div class="row cleardiv">      
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend>Comprobantes cancelados</legend>
+                            <div class="form-group item-comprobante">
+                                {% for comprobanteCompra in entity.comprobantes %}                                    
+                                    <div class="col-md-12 block-comprobante">
+                                        <input class="hidden" name="ids[]" value="{{ comprobanteCompra.id }}" />
+                                        <i class="fa fa-caret-right"></i>
+                                        <span class="comprobante-fecha">
+                                            {% if comprobanteCompra.fechaComprobante %}
+                                                {{ comprobanteCompra.fechaComprobante|date('d/m/Y') }}
+                                            {% endif %}
+                                        </span>
+                                        <span class="comprobante-tipo-comprobante">
+                                            {{ comprobanteCompra.tipoComprobante ~ ' (' ~ comprobanteCompra.letraComprobante ~ ')' }}
+                                        </span>
+                                        <span class="comprobante-numero">
+                                            {{ comprobanteCompra.puntoVenta ~ '-' ~ comprobanteCompra.numero }}
+                                        </span>
+                                        <span class="text-right bold">
+                                            {{ comprobanteCompra.total|money_format }}
+                                        </span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>                   
+                </div>
+
+                <div class="row cleardiv">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Retenciones</legend>
+                            <div class="form-group">
+                                <table id="table_comprobantes_compra" 
+                                       class="table table-bordered table-striped 
+                                       table-condensed flip-content">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-right">Total bruto</td>
+                                            <td class="text-right">{{ entity.totalBruto|money_format }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">Retenci&oacute;n SUSS</td>
+                                            <td class="text-right">{{ entity.montoRetencionesPorTipoImpuesto('SUSS')|money_format }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">Retenci&oacute;n IIBB</td>
+                                            <td class="text-right">{{ entity.montoRetencionesPorTipoImpuesto('IIBB')|money_format }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">Retenci&oacute;n Ganancias</td>
+                                            <td class="text-right">{{ entity.montoRetencionesPorTipoImpuesto('Ganancias')|money_format }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">Retenci&oacute;n IVA</td>
+                                            <td class="text-right">{{ entity.montoRetencionesPorTipoImpuesto('IVA')|money_format }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-right">Total neto a pagar</td>
+                                            <td class="text-right">{{ (entity.totalBruto - entity.montoRetenciones)|money_format }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('comprobantes_compra') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}   
+
+    <script src="{{ asset('js/custom/contable/ordenpago/comprobante/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

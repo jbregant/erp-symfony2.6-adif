@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}", 
+	"{{ entity.tipoConceptoGanancia|default('-') }}", 	
+	{% if entity.aplicaEnFormulario572 == 1 %} "Si" {% else %} "No" {% endif %},
+	{% if entity.esCargaFamiliar == 1 %} "Si" {% else %} "No" {% endif %},
+    "{{ entity.codigo572|default('-') }}", 
+	{% if entity.indicaSAC == 1 %} "Si" {% else %} "No" {% endif %},
+	{% if entity.aplicaGananciaAnual == 1 %} "Si" {% else %} "No" {% endif %},
+	{% if entity.f572Sobreescribe == 1 %} "Si" {% else %} "No" {% endif %},
+    {% if entity.tieneDetalle == 1 %} "Si" {% else %} "No" {% endif %},
+{
+"show" : " {{ path( "ganancia_concepto_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "ganancia_concepto_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

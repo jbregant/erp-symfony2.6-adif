@@ -1,0 +1,33 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Tabla para {{ entity }} .
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/index_table/", name="{{ route_name_prefix }}_table")
+     * @Method("GET|POST")
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function indexTableAction()
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $em = $this->getDoctrine()->getManager($this->getEntityManager());
+
+        $entities = $em->getRepository('{{ bundle }}:{{ entity }}')->findAll();
+        
+        $bread = $this->base_breadcrumbs;
+        $bread['{{entity}}'] = null;
+{% endblock method_body %}
+
+{% block method_return %}
+    return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index_table.html.twig', array(
+                    'entities' => $entities
+                        )
+        );
+{% endblock method_return %}
+    }

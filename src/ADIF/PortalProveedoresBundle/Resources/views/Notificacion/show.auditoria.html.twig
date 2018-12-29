@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %} {{ parent() }} {% endblock%}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Auditoria</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            <div class="form-body">
+                <div class="tabbable-custom nav-justified">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab" style="font-size: 14px !important;">Auditoria</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_2" data-toggle="tab" style="font-size: 14px !important;">Detalle</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" style="border: transparent; padding: 0;">
+
+                        {# TAB 1 - Auditoria #}
+                        <div id="tab_1" class="tab-pane active">
+                        	<div class="col-md-12">
+	                            {% include('@ADIFPortalProveedores/Notificacion/Auditoria/show.detalle_auditoria.html.twig') %}
+	                        </div>
+                        </div>
+
+                        {# TAB 2 - Detalle #}
+                        <div id="tab_2" class="tab-pane">
+                        	<div class="col-md-12">
+                            	{% include('@ADIFPortalProveedores/Notificacion/Detalle/show.detalle.html.twig') %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %} 
+    {{ parent() }} 
+    <script> var idNoti = '{{id}}'; </script>
+    <script src="{{ asset('js/custom/portalproveedores/notificacion/auditoria/index.js') }}" ></script>
+    <script src="{{ asset('js/custom/portalproveedores/notificacion/detalle/index.js') }}" ></script>
+{% endblock %}

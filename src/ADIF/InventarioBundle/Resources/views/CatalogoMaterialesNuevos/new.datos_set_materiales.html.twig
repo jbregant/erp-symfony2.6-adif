@@ -1,0 +1,26 @@
+<fieldset class="form-section-fieldset">
+
+  <legend class="form-section-legend">Set de Materiales</legend>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="form-group prototype-set-material"
+           data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:CatalogoMaterialesNuevos:prototype.set_materiales.html.twig' with {'setMaterial': form.setMateriales.vars.prototype} %}{% endfilter %}">
+          {% for setMaterial in form.setMateriales %}
+              {% include 'ADIFInventarioBundle:CatalogoMaterialesNuevos:prototype.set_materiales.html.twig' %}
+          {% endfor %}
+      </div>
+
+      <div class="row">
+          <div class="col-md-12">
+              <a href="#" class="btn btn-sm green prototype-link-add-set-material tooltips"
+                 data-placement="right" data-original-title="Agregar Material">
+                  <i class="fa fa-plus"></i>
+              </a>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</fieldset>

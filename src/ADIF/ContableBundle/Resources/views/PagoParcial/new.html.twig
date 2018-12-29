@@ -1,0 +1,146 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/pagoparcial/new.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Pago parcial</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body">
+                <div class="row">                                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.proveedor) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.proveedor) }}
+                                {{ form_widget(form.idProveedor) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form_label(form.proveedor_razonSocial) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.proveedor_razonSocial) }}
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.proveedor_cuit) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.proveedor_cuit) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row_table_comprobante_proveedor" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Comprobantes del proveedor</label>
+                            <table id="table_comprobante_proveedor" 
+                                   class="table table-bordered table-striped table-condensed table-hover">
+                                <thead>
+                                    <tr class="headers">
+                                        <th class="text-center nowrap">Fecha comprobante</th>
+                                        <th class="text-center nowrap">Comprobante</th>
+                                        <th class="text-center nowrap">N&uacute;mero referencia</th>
+                                        <th currency >Total comprobante</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaPago) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaPago) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.importe) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.importe) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            {{ form_label(form.observaciones) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.observaciones) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('pago_parcial') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/pagoparcial/new.js') }}" ></script>
+
+{% endblock %}

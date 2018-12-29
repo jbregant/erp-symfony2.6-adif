@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/compras/cotizacion/invitacion.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/compras/clienteproveedor/clienteproveedor.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Requerimiento {{ requerimiento.numero }}
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            <div class="form-body"> 
+
+                <form name="adif_comprasbundle_invitacion" method="post" 
+                      action="{{ path('cotizacion_guardar_invitaciones') }}" class="horizontal-form" 
+                      novalidate="novalidate">
+
+                    <fieldset class="form-section-fieldset">
+
+                        <legend class="form-section-legend">Datos del requerimiento</legend>
+
+                        {# ---- DATOS REQUERIMIENTO ---- #}
+                        {% include('@ADIFCompras/Cotizacion/invitar.datos_requerimiento.html.twig') %}
+                        {# ---- DATOS REQUERIMIENTO ---- #}
+                    </fieldset>
+
+                    {# ---- RENGLONES PROVEEDORES ---- #}    
+                    {% include('@ADIFCompras/Cotizacion/invitar.proveedores.html.twig') %}
+                    {# ---- RENGLONES PROVEEDORES ---- #} 
+
+                    {# ---- RENGLONES INVITACIONES ---- #}    
+                    {% include('@ADIFCompras/Cotizacion/invitar.proveedores_invitados.html.twig') %}
+                    {# ---- RENGLONES INVITACIONES ---- #} 
+
+                    <div class="form-actions">
+                        <div class="pull-left">
+                            <button type="button" class="btn default button-back">
+                                <i class="m-icon-swapleft"></i> Volver
+                            </button>
+                        </div>
+                        <div class="pull-right">
+                            <button type="submit" id="adif_comprasbundle_invitacion_submit" 
+                                    name="adif_comprasbundle_invitacion[submit]" class="btn blue">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        var requerimientoId = "{{ requerimiento.id }}";
+    </script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/cotizacion/invitacion.js') }}" ></script>    
+
+    <script src="{{ asset(js_path ~ 'custom/compras/proveedor/popover.js') }}" ></script>
+
+    <script type="text/javascript">
+       document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

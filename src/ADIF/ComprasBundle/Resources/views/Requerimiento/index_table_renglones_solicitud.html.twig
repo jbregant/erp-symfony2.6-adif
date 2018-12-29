@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in renglonesSolicitudCompra %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.solicitudCompra.numero }}",
+    "{{ entity.prioridad }}",
+    "{{ entity.rubro }}",
+    "{{ entity.bienEconomico }}",
+    "{{ entity.descripcion|default('-')|escape_json }}",
+    "{{ entity.cantidadPendiente }}",
+    "{{ entity.unidadMedida }}",
+    "{{ entity.justiprecioUnitario|money_format('$', 1, 4) }}",
+    "{{ entity.justiprecioTotal|money_format('$', 1, 4) }}",
+    {
+    "agregar_renglon_requerimiento" : "#",
+    "showAcciones": "{{ showAcciones ? 1 : 0 }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/empleado_archivo/index.js') }}" ></script>
+{% endblock %}
+{% block body -%}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Archivos del empleado: <b>{{ empleado }}</b></div>
+            </div>
+            <div class="portlet-body">
+               
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Adjuntar archivo" href=" {{ path( 'archivosempleado_new', { 'idEmpleado': empleado.id }) }} ">
+                            Adjuntar archivo <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                    id="table-empleadoarchivo"
+                    dataexport-title="empleadoarchivo">
+                    <thead>
+                        <tr class="replace-inputs filter">                            
+                            <th>Nombre</th>                            
+                            <th>Descripci&oacute;n</th>                            
+                            <th>Fecha</th>  
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">                            
+                            <th>Nombre</th>  
+                            <th>Descripci&oacute;n</th>                            
+                            <th>Fecha</th>
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for archivo in archivos %}
+                        <tr>
+                            <td>{{ archivo.nombre }}</td>                            
+                            <td>{{ archivo.descripcion }}</td>                            
+                            <td>{% if archivo.fechaAlta %}{{ archivo.fechaAlta|date('d/m/Y') }}{% endif %}</td>
+                            <td class="ctn_acciones text-center nowrap">
+                                <a href=" {{ path( 'archivosempleado_show', { 'id': archivo.id, 'idEmpleado': empleado.id }) }} " class="btn btn-xs blue tooltips" data-original-title="Ver detalle"><i class="fa fa-search"></i></a>
+                                <a href=" {{ path( 'archivosempleado_edit', { 'id': archivo.id, 'idEmpleado': empleado.id }) }} " class="btn btn-xs green tooltips" data-original-title="Editar"><i class="fa fa-pencil"></i></a> 
+                                <a href="/uploads/empleados/archivos/{{ empleado.id }}/{{ archivo.archivo }}" class="btn btn-xs yellow tooltips" data-original-title="Descargar"><i class="fa fa-download"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends '::base_reducido.html.twig' %}    
+
+{% block body -%}
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            Detalles del concepto: <strong>{{ entity.codigo ~ ' - ' ~ entity }}</strong>
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">C&oacute;digo</label>
+                    <div class="detalle_show">{{ entity.codigo }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Descripci&oacute;n</label>
+                    <div class="detalle_show">{{ entity.descripcion }}</div>
+                </div>
+            </div>
+                <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Leyenda</label>
+                    <div class="detalle_show">{{ entity.leyenda }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Tipo de concepto</label>
+                    <div class="detalle_show">{{ entity.idTipoConcepto }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Convenio</label>
+                    <div class="detalle_show">{{ entity.convenios|length == 0 ? 'Fuera de convenio' : entity.convenios|join(', ') }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Cuenta contable</label>
+                    <div class="detalle_show">{{ entity.cuentaContable ? entity.cuentaContable : '&nbsp;' }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Valor</label>
+                    <div class="detalle_show">{{ entity.valor|number_format(2, ',', '.') }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">F&oacute;rmula</label>
+                    <div class="detalle_show">{{ entity.formula }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group {{ entity.activo ? 'green' : '' }}">
+                    <label class="control-label">Activo</label>
+                    <div class="detalle_show">{{ entity.activo ? 'Si' : 'No' }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.aplicaTope ? 'green' : ''  }}">
+                    <label class="control-label">Aplica tope</label>
+                    <div class="detalle_show">{{ entity.aplicaTope ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.integraSac ? 'green' : ''  }}">
+                    <label class="control-label">Integra SAC</label>
+                    <div class="detalle_show">{{ entity.integraSac ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.integraIg ? 'green' : ''  }}">
+                    <label class="control-label">Integra IG</label>
+                    <div class="detalle_show">{{ entity.integraIg ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group {{ entity.esNovedad ? 'green' : ''  }}">
+                    <label class="control-label">Es novedad</label>
+                    <div class="detalle_show">{{ entity.esNovedad ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.esAjuste ? 'green' : ''  }}">
+                    <label class="control-label">Es ajuste</label>
+                    <div class="detalle_show">{{ entity.esAjuste ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.esIndemnizatorio ? 'green' : ''  }}">
+                    <label class="control-label">Es indemnizatorio</label>
+                    <div class="detalle_show">{{ entity.esIndemnizatorio ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.esNegativo ? 'green' : ''  }}">
+                    <label class="control-label">Es negativo</label>
+                    <div class="detalle_show">{{ entity.esNegativo ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group {{ entity.imprimeRecibo ? 'green' : ''  }}">
+                    <label class="control-label">Imprime recibo</label>
+                    <div class="detalle_show">{{ entity.imprimeRecibo ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {{ entity.imprimeLey ? 'green' : ''  }}">
+                    <label class="control-label">Imprime ley</label>
+                    <div class="detalle_show">{{ entity.imprimeLey ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+			 <div class="col-md-3">
+                <div class="form-group {{ entity.imprimeLey ? 'green' : ''  }}">
+                    <label class="control-label">Cambia escala impuesto</label>
+                    <div class="detalle_show">{{ entity.cambiaEscalaImpuesto ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group {{ entity.esPorcentaje ? 'green' : ''  }}">
+                    <label class="control-label">Porcentaje</label>
+                    <div class="detalle_show">{{ entity.esPorcentaje ? 'Si' : 'No'  }}</div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn default button-back" back-url="{{ path('conceptos') }}">
+            <i class="m-icon-swapleft"></i>
+            Volver</button>
+    </div>
+</div>
+{% endblock %}

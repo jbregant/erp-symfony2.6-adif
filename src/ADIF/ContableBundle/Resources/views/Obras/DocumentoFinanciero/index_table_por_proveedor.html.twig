@@ -1,0 +1,16 @@
+{
+"data": [
+{% for documentoFinanciero in documentosFinancieros %}
+    [
+    "{{ documentoFinanciero.id }}",
+    "{{ documentoFinanciero.tramo.licitacion }}",
+    "{{ documentoFinanciero.tramo.descripcion|escape_json }}",
+    "{{ documentoFinanciero.tipoDocumentoFinanciero ~ (documentoFinanciero.numero is not null ? (' ' ~ documentoFinanciero.numero) : '') }}",
+    "{{ documentoFinanciero.montoSinIva }}",
+    "{{ documentoFinanciero.fechaDocumentoFinancieroInicio|date('d/m/Y') ~ ' - ' ~ documentoFinanciero.fechaDocumentoFinancieroFin|date('d/m/Y') }}",
+    "{{ documentoFinanciero.saldo }}",
+    "{{ documentoFinanciero.comprobantesSinAnular is not empty ? 1 : 0 }}",    
+    "{{ documentoFinanciero.correspondePago ? 'Si' : 'No' }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

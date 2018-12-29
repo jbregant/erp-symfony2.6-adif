@@ -1,0 +1,95 @@
+<div class="row cleardiv">
+    <div class="col-md-12">
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title requerimiento-title">
+
+                <div class="caption">
+                    Proveedores
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+
+                {% if proveedores is not empty %}
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect" 
+                        id="table-proveedores" >
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th> 
+                                <th>Raz&oacute;n social</th>  
+                                <th>CUIT</th>
+                                <th>Evaluaci&oacute;n</th>  
+                                <th>Rubros</th>                          
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                                           data-set="#table-renglon-requerimiento .checkboxes" />
+                                </th> 
+                                <th width="30%">Raz&oacute;n social</th>  
+                                <th width="10%">CUIT</th>
+                                <th width="10%" numeric class="nowrap">Evaluaci&oacute;n</th>   
+                                <th width="50%">Rubros</th>                         
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proveedor in proveedores if proveedor.fechaBaja is null %}
+                                <tr>
+                                    <td>{{ proveedor.id }}</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes not-checkbox-transform" value="" />
+                                    </td>
+                                    <td class="popover-proveedor">
+                                        {{ proveedor.clienteProveedor.razonSocial|default('-') }}
+                                        {% include 'ADIFComprasBundle:Proveedor:popover.datos_contacto.html.twig' with {'datosContacto': proveedor.clienteProveedor.datosContacto} %}
+                                    </td>
+                                    <td class="nowrap">{{ proveedor.clienteProveedor.CUIT|default('-') }}</td>
+                                    <td class="text-center {{ proveedor.evaluacionProveedor.claseCalificacionFinal }}">
+                                        {{ proveedor.evaluacionProveedor.calificacionFinal }}
+                                    </td> 
+                                    <td>
+                                        {% for rubro in proveedor.rubros %}
+                                            <span>{{ rubro }}</span>
+                                            {% if not loop.last %}
+                                                &nbsp; — &nbsp;
+                                            {% endif %}
+                                        {% else %}
+                                            -
+                                        {% endfor %}
+                                    </td>                               
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a class="btn btn-xs green tooltips agregar_invitacion" 
+                                           data-original-title="Agregar a cotizaci&oacute;n" href="#">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="clearfix"></div>
+                    <p>
+                        A&uacute;n no se han cargado proveedores en el sistema.
+                        {% if app.user.isGranted('ROLE_COMPRAS_ADMINISTRACION_PROVEEDORES') %}
+                            Haga <a href="{{ path('proveedor_new') }}">click aqu&iacute;</a> 
+                            para dar de alta un nuevo proveedor.
+                        {% endif %}
+                    </p>
+
+                {% endif %}                    
+            </div>
+        </div>
+    </div>
+</div>
+
+

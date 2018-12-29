@@ -1,0 +1,58 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.cuitDni|default('-') }}",
+    "{{ entity.razonSocial|decode }}",
+    "{{ entity.actividades|default('-') }}",
+    "{{ entity.codigocliente }}",
+    "{{ entity.representantelegal|default('-') }}",
+    "{{ entity.extrajero ? 'Si' : 'No'}}",
+    "{{ entity.dc_direccion |decode}}",
+    "{{ entity.dl_direccion |decode }}",
+{#    "{{ entity.dc_calle }}",
+    "{{ entity.dc_numero }}",
+    "{{ entity.dc_piso }}",
+    "{{ entity.dc_depto }}",
+    "{{ entity.dc_cp }}",
+    "{{ entity.dc_provincia }}",
+    "{{ entity.dc_localidad }}",
+    "{{ entity.dl_calle }}",
+    "{{ entity.dl_numero }}",
+    "{{ entity.dl_piso }}",
+    "{{ entity.dl_depto }}",
+    "{{ entity.dl_cp }}",
+    "{{ entity.dl_provincia }}",
+    "{{ entity.dl_localidad }}",#}
+    "{{ entity.contactos |default('-')}}",
+    "{{ entity.numeroIIBB |default('-')}}",
+    "{{ entity.condicionIVA }}",
+    "{{ entity.exentoIVA ? 'Si' : 'No' }}",
+    "{{ entity.condicionGANANCIAS }}",
+    "{{ entity.exentoGANANCIAS ? 'Si' : 'No'}}",
+    "{{ entity.condicionSUSS }}",
+    "{{ entity.exentoSUSS ? 'Si' : 'No'}}",
+    "{{ entity.condicionIIBB }}",
+    "{{ entity.exentoIIBB ? 'Si' : 'No'}}",
+    "{{ entity.calificacionfiscal }}",
+    "{{ entity.problemasafip ? 'Si' : 'No'}}",
+    "{{ entity.riesgofiscal ? 'Si' : 'No'}}",
+    "{{ entity.magnitudessuperadas ? 'Si' : 'No'}}",        
+    {
+    "aliasTipoImportancia" : "{{ entity.aliasTipoImportancia}}",
+    "estadoProveedor" : "{{ entity.denominacionEstado is not null ? entity.denominacionEstado : '-'  }}"   
+    },
+    {
+    {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_ADMINISTRACION") %}
+        "show" : "{{ path( 'cliente_show', { 'id': entity.id }) }}"
+        {% if not is_granted("ROLE_SOLO_LECTURA") %}
+            ,"edit" : "{{ path( 'cliente_edit', { 'id': entity.id }) }}",
+            "cta_cte" : "{{ path( 'cliente_cta_cte_detalle_total', { 'idCliente': entity.id }) }}"
+        {% endif %}
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

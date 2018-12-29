@@ -1,0 +1,149 @@
+{% extends '::base.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/conciliacionbancaria\renglonconciliacion/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">ConciliacionBancaria\RenglonConciliacion</div>
+            
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+        
+        {% include ':Form:fieldsErrors.html.twig' %}
+            
+         
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+        
+            
+            <div class="form-body">
+                <div class="row">                                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.fechaMovimientoBancario) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.fechaMovimientoBancario) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.descripcion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.descripcion) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                            </div>
+                        <div class="row">
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.numeroReferencia) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.numeroReferencia) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.monto) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.monto) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                            </div>
+                        <div class="row">
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.conceptoConciliacion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.conceptoConciliacion) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.estadoRenglonConciliacion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.estadoRenglonConciliacion) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                            </div>
+                        <div class="row">
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.importacionConciliacion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.importacionConciliacion) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.cheques) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.cheques) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                            </div>
+                        <div class="row">
+                                                        <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.transferencias) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.transferencias) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+                                                    </div>
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('renglonesconciliacion') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+                
+            {{ form_widget(form._token) }}
+        
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

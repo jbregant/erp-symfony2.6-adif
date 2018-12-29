@@ -1,0 +1,39 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos principales</legend>
+
+    <div class="row">                       
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.legajo) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.legajo) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                {{ form_label(form.razonSocial) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.razonSocial) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">                            
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.observacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.observacion) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+{% include 'ADIFRecursosHumanosBundle:Consultoria/Consultor:new_archivos.html.twig' %}

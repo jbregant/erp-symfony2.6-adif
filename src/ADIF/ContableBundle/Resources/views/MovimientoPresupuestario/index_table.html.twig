@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaCreacion|date('d/m/Y') }}", 
+    "{{ entity.tipoMovimientoPresupuestario|default('-') }}",
+    "{{ entity.cuentaPresupuestariaOrigen|default('-') }}",
+    "{{ entity.cuentaPresupuestariaDestino|default('-') }}", 
+    "{{ entity.monto|money_format }}",
+    "{{ entity.usuario }}",
+    "{{ entity.detalle|default('-') }}",
+    {
+    "show" : " {{ path( "movimientopresupuestario_show", { "id": entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

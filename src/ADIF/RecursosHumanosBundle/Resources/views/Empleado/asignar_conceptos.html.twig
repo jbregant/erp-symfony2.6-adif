@@ -1,0 +1,127 @@
+{% extends '::base_reducido.html.twig' %} 
+
+{% set edit = form.vars.value.id != null %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        ul{
+            padding-left: 0;
+        }
+        
+        .ctn-columns li, .ctn-columns-3 li{
+            list-style-type: none;
+            padding: 2px;
+        }
+        
+        li.alert-info, li.alert-danger, li.alert-success{
+            
+        }
+        
+        .ctn-columns{
+            -webkit-column-count: 2; /* Chrome, Safari, Opera */
+            -moz-column-count: 2; /* Firefox */
+            column-count: 2;
+        }
+        
+        .ctn-columns-3{
+            -webkit-column-count: 3; /* Chrome, Safari, Opera */
+            -moz-column-count: 3; /* Firefox */
+            column-count: 3;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">{{ page_title }}: <b>{{ empleado }}</b> - Convenio: <b>{{ empleado.getConvenio }}</b></div>
+        </div>
+        <div class="portlet-body">
+            {{ form_start(form, {'attr': {'id' : 'adif_recursoshumanosbundle_empleado_conceptos','class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body form-body-conceptos">                
+                <div class="table-toolbar">
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-expanded mostrar-todos flip-content datatable dt-multiselect export-excel" 
+                    id="table-asignar-conceptos"
+                    dataexport-title="conceptos-empleado">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th ></th>
+                            <th class="not-in-filter"></th>   
+                            <th>C&oacute;digo</th>                                                
+                            <th>Concepto</th>                                                
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-asignar-conceptos .checkboxes" />
+                            </th>
+                            <th numeric width="100px">C&oacute;digo</th>                                                
+                            <th>Concepto</th>                                                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for child in form.conceptos %}
+                            {% set conceptoCodigo = child.vars.label|split(' - Código: ') %}
+                            <tr id="{{child.vars.name}}">
+                                <td><input type="hidden" e_id/></td>
+                                <td class="text-center">
+                                    {{ form_widget(child, {'attr': {'class': 'checkboxes not-checkbox-transform'}}) }}
+                                </td>                            
+                                <td class="text-right">{{ conceptoCodigo[1] }}</td>                                                   
+                                <td>{{ conceptoCodigo[0] }}</td>                                                   
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" back-url="{{ path('empleados') }}">Cancelar</button>
+                </div>   
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var empleado = "{{ empleado }}";
+    </script>
+
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>             
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/custom/rrhh/empleado/asignar_conceptos.js') }}" ></script>
+
+{% endblock %}

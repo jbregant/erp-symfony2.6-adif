@@ -1,0 +1,44 @@
+
+{% set ejercicioContableUsuario = 'Ejercicio ' ~ app.session.get('ejercicio_contable')|default('-') %}
+
+<li class="pull-right bold">
+    {% if is_granted("ROLE_EDITAR_EJERCICIO_CONTABLE_SESION") %}
+        <a href="{{ path( "ejercicio_editar_ejercicio_sesion") }}" class="ejercicio-contable-sesion">
+            {{ ejercicioContableUsuario }}
+        </a>
+    {% else %}
+        {{ ejercicioContableUsuario }}
+    {% endif %}
+</li>
+
+<div id="div_ejercicio_contable" class="hidden">
+    <form name="adif_contablebundle_ejerciciocontable_sesionform" 
+          method="post" action="" class="horizontal-form" novalidate="novalidate">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label required" for="adif_contablebundle_ejercicioContableSesion">Ejercicio contable</label>
+                    <div class="input-icon left">
+                        <i class="fa"></i>                
+                        <select id="adif_contablebundle_ejercicioContableSesion" 
+                                sname="adif_contablebundle_contablebundle[ejercicioContableSesion]" 
+                                class="form-control ignore"
+                                required="required choice">
+                            {% for ejercicioContable in app.session.get('ejercicios_contables') %}
+                                <option {% if app.session.get('ejercicio_contable') == ejercicioContable %} selected="selected" {% endif %}
+                                    value="{{ ejercicioContable }}">{{ ejercicioContable }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div> 
+            </div> 
+        </div> 
+    </form>           
+</div>
+
+<script type="text/javascript">
+
+    var ejercicioContableSesion = "{{ app.session.get('ejercicio_contable') }}";
+
+</script>
+

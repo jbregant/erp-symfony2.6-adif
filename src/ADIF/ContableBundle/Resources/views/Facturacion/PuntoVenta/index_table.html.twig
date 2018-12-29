@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.numero|default('-') }}", 
+    "{{ entity.generaComprobanteElectronico ? 'Sí' : 'No'  }}", 
+    {
+    "show" : " {{ path( "puntosventa_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "puntosventa_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

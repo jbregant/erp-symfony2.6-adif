@@ -1,0 +1,59 @@
+<style>
+    #filtrar_licitacion {
+        margin-top: 9% !important;
+    }
+</style>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            Tipo contrataci&oacute;n
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobanteventa_tipoContratacion_name_alias" 
+                        name="adif_contablebundle_comprobanteventa[tipoContratacion]" 
+                        class="form-control choice">
+                    {% for tipoContratacion in tipoContrataciones %}
+                        <option value="{{tipoContratacion.id}}">{{tipoContratacion.alias}} - {{tipoContratacion.denominacionTipoContratacion}} ({{tipoContratacion.montoDesde}} - {{tipoContratacion.montoHasta}})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.numero_licitacion_busqueda) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.numero_licitacion_busqueda) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.anio_licitacion_busqueda) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.anio_licitacion_busqueda) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon right">
+                <a data-original-title="Filtrar por número y año" data-placement="right" class="btn btn-sm blue-hoki tooltips" id="filtrar_licitacion">
+                    Filtrar
+                </a>
+            </div>
+        </div>
+    </div>                              
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.numero_licitacion) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.numero_licitacion) }}
+                {{ form_widget(form.idLicitacion) }}
+            </div>
+        </div>
+    </div>
+</div>

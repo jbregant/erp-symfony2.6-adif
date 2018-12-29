@@ -1,0 +1,18 @@
+{
+"data": [
+    {% for key, item in entity.itemsHojaRutaActivoLineal %}
+        [
+            "{{ key }}",
+            "{{ key }}",
+            "{{ item.linea|default('-') }}", 
+            "{{ item.operador|default('-') }}", 
+            "{{ item.division|default('-') }}", 
+            "{{ item.tipoActivo|default('-') }}", 
+            "{% if item.activoLineal is not empty %}{{item.activoLineal.progresivaInicioTramo|number_format(3,',','')|default('-') }}{% endif %}", 
+            "{% if item.activoLineal is not empty %}{{ item.activoLineal.progresivaFinalTramo|number_format(3,',','')|default('-') }}{% endif %}", 
+            {
+                "delete" : "{{key}}"
+            }
+        ]{{ (loop.last ? '' : ',') }}
+    {% endfor %}
+]}

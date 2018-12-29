@@ -1,0 +1,10 @@
+Si hay cambios en la base
+
+doctrine:mapping:import --force ADIFRecursosHumanosBundle yml
+doctrine:mapping:convert annotation ./src
+doctrine:generate:entities ADIFRecursosHumanosBundle
+
+Para generar el CRUD
+
+custom:doctrine:generate:form ADIFRecursosHumanosBundle:Area
+custom:doctrine:generate:crud --entity=ADIFRecursosHumanosBundle:Area --route-prefix=/areas --with-write --format=annotation --overwrite

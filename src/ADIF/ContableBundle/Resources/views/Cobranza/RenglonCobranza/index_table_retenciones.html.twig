@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    {% if entity.fecha %}"{{ entity.fecha|date('d/m/Y') }}",{% endif %} 
+{#    "{{ entity.cliente }}",#}  
+    "{{ entity.tipoImpuesto }}",      
+    "{{ entity.numero|default('-') }}", 
+    "{{ entity.monto|money_format }}",
+{#    "{{ entity.cliente.id|default('-') }}",    #}
+    "{{ entity.id }}",   
+    "{{ entity.tipoImpuesto.id }}"   
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

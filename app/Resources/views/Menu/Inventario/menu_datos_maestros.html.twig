@@ -1,0 +1,44 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Datos Maestros
+    </a>
+    <ul class="dropdown-menu">
+
+        {# MATERIALES RODANTES #}
+        {% if is_granted("ROLE_INVENTARIO_MATERIAL_RODANTE_CONSULTA") %}
+            <li>
+                <a href="{{ path('catalogomaterialesrodantes') }}">
+                    Materiales Rodantes
+                </a>
+            </li>
+        {% endif %}
+
+        {# MATERIALES NUEVOS #}
+        {% if is_granted("ROLE_INVENTARIO_MATERIAL_NUEVO_CONSLUTA") %}
+            <li>
+                <a href="{{ path('catalogomaterialesnuevos') }}">
+                    Materiales Nuevos
+                </a>
+            </li>
+        {% endif %}
+
+        {# MATERLIALES PRODUCIDOS DE OBRA #}
+        {% if is_granted("ROLE_INVENTARIO_MATERIAL_PROD_OBRA_CONSULTA") %}
+        <li>
+            <a href="{{ path('catalogomaterialesproducidosdeobra') }}">
+                Materiales Producidos de Obra
+            </a>
+        </li>
+        {% endif %}
+
+        {# ACTIVOS LINEALES #}
+        {% if is_granted("ROLE_INVENTARIO_ACTIVO_LINEAL_CONSULTA") %}
+        <li>
+            <a href="{{ path('activolineal') }}">
+                Activos Lineales
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</li>

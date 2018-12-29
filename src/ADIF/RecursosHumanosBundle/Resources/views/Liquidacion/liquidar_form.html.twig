@@ -1,0 +1,48 @@
+<form class="horizontal-form" novalidate="novalidate" id="form_liquidacion" method="post" name="form_liquidacion_fecha">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label required" for="tipo_liquidacion">Tipo de liquidaci&oacute;n</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select id="tipo_liquidacion" name="tipo_liquidacion" class="required form-control choice">
+                        {% for tipoLiquidacion in tiposLiquidacion %}
+                            <option value="{{tipoLiquidacion.id }}">{{tipoLiquidacion.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="ctn_conceptos_liquidacion_adicional" class="col-md-12" style="display: none;">
+            <div class="form-group">
+                <label class="control-label required" for="conceptos_liquidacion_adicional">Conceptos a liquidar</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select id="conceptos_liquidacion_adicional" multiple="multiple" name="conceptos_liquidacion_adicional" class="required form-control choice">
+                        {% for conceptoAdicional in conceptosAdicionales %}
+                            <option value="{{conceptoAdicional.id }}">{{conceptoAdicional.codigo }} - {{ conceptoAdicional.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label required" for="fecha_liquidacion">Fecha de cierre de novedades</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" required="required" id="fecha_liquidacion" name="fecha_liquidacion" class="form-control datepicker">
+                </div>
+            </div>
+        </div>                    
+        <div id="ctn_aplica_ganancias" class="col-md-12" style="display: none;">
+            <div class="form-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>                    
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="aplica_ganancias" name="aplica_ganancias" checked="checked">Aplica ganancias</label>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

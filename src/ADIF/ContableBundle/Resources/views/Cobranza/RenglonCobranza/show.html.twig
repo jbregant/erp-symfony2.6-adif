@@ -1,0 +1,172 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />    
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+
+    {{ parent() }}   
+
+    <link href="{{ asset(css_path ~ 'custom/contable/conciliacionbancaria/conciliacion/edit.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}    
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+{#                Cobranzas en la {{ entity.idTipoCuenta|lower }} del banco {{ entity.idBanco }} con CBU {{ entity.cbu }}#}
+                Cobranzas {{ entity }}
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <input type="hidden" id="id_cuenta_bancaria" value="{{ entity.id }}" />
+            <div class="tabbable-custom nav-justified"  id="tab_cobranza">
+                <ul class="nav nav-tabs nav-justified">
+
+                    {% if is_granted('ROLE_ADMINISTRACION_COBROS_PENDIENTES') %}
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab">Cobros pendientes </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMINISTRACION_COBRANZAS_A_IMPUTAR') %}
+                        <li class="{{ is_granted('ROLE_ADMINISTRACION_COBROS_PENDIENTES') ? '' : 'active' }}">
+                            <a href="#tab_2" data-toggle="tab">Cobranzas a imputar </a>
+                        </li>    
+                    {% endif %}
+                </ul>
+                <div class="tab-content">
+                    <br/>
+
+                    {% if is_granted('ROLE_ADMINISTRACION_COBROS_PENDIENTES') %}
+                        {# TAB 1 - Registros pendientes #}
+                        <div id="tab_1" class="tab-pane active">
+
+                            <div class="row">
+                                {% if is_granted('ROLE_CREAR_COBRO') %}
+                                    <div class="col-md-6">
+                                        {% include('@ADIFContable/Cobranza/RenglonCobranza/header_banco.html.twig') %}
+                                    </div>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMINISTRACION_COMPROBANTES_PENDIENTE_COBRO') %}
+                                    <div class="col-md-6" id='div-header-comprobantes-tab1'>
+                                        {% include('@ADIFContable/Cobranza/RenglonCobranza/header_comprobantes.html.twig') %}
+                                    </div>      
+                                {% endif %}              
+                            </div>  
+                            <div class="row">
+                                {% if is_granted('ROLE_CREAR_COBRO') %}
+                                    <div class="col-md-6" id='div-table-cobros-tab1'>
+                                        {% if is_granted('ROLE_CREAR_COBRO_BANCO') %}
+                                            {% include('@ADIFContable/Cobranza/RenglonCobranza/table_banco.html.twig') %}
+                                        {% endif %}
+                                        {% if is_granted('ROLE_CREAR_VALOR_A_DEPOSITAR') %}
+                                            {% include('@ADIFContable/Cobranza/RenglonCobranza/table_cheques.html.twig') %}
+                                        {% endif %}
+                                        {% if is_granted('ROLE_CREAR_RETENCION_CLIENTE') %}
+                                            {% include('@ADIFContable/Cobranza/RenglonCobranza/table_retenciones.html.twig') %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMINISTRACION_COMPROBANTES_PENDIENTE_COBRO') %}
+                                    <div class="col-md-6" id='div-table-comprobantes-tab1'>
+                                        {% include('@ADIFContable/Cobranza/RenglonCobranza/table_comprobantes.html.twig') %}
+                                        {% include('@ADIFContable/Cobranza/RenglonCobranza/table_notas_credito.html.twig') %}
+                                    </div>     
+                                {% endif %}
+                            </div>
+                        </div> 
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMINISTRACION_COBRANZAS_A_IMPUTAR') %}
+                        {# TAB 2 - Cobranzas a imputar #}
+                        <div id="tab_2" class="tab-pane {{ is_granted('ROLE_ADMINISTRACION_COBROS_PENDIENTES') ? '' : 'active' }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>    
+                                <div class="col-md-6" id='div-header-comprobantes-tab2'>
+                                </div>                            
+                            </div>    
+                            <div class="row">
+                                <div class="col-md-6" id='div-table-cobros-tab2'>
+                                    {% include('@ADIFContable/Cobranza/RenglonCobranza/table_banco_a_imputar.html.twig') %}
+                                    {% include('@ADIFContable/Cobranza/RenglonCobranza/table_cheques_a_imputar.html.twig') %}
+                                    {% include('@ADIFContable/Cobranza/RenglonCobranza/table_anticipos.html.twig') %}
+                                </div>                            
+                                <div class="col-md-6" id='div-table-comprobantes-tab2'>
+
+                                </div>                            
+                            </div>
+                        </div> 
+                    {% endif %}
+                </div>
+            </div>
+
+            {% include('@ADIFContable/Cobranza/RenglonCobranza/popup_confirmacion.html.twig') %}             
+            
+            <div class="form-actions">
+                <div class="pull-right">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('rengloncobranza') }}">
+                        <i class="m-icon-swapleft"></i> Volver
+                    </button>
+                </div>    
+            </div>                   
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }} 
+    
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>    
+
+    <script type="text/javascript">
+        var esNacion ={{ esNacion|json_encode }} ;
+                var clientes ={{ clientes|json_encode|raw }} ;    </script>  
+
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>   
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+
+    {#validacion form#}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script> 
+
+    {#    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>#}
+
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+    <script src="{{ asset(js_path ~ 'custom/contable/cobranza/rengloncobranza/index.js') }}" ></script> 
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

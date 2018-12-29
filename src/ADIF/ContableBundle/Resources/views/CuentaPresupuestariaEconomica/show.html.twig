@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la cuenta presupuestaria econ&oacute;mica: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta</label>
+                        <div class="detalle_show">
+                            {{ entity.codigo|default('-') }} - {{ entity.denominacion|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Categor&iacute;a</label>
+                        <div class="detalle_show">
+                            {{ entity.categoriaCuentaPresupuestariaEconomica|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Es imputable</label>
+                        <div class="detalle_show">    
+                            {{ entity.esImputable ? 'Sí' : 'No'  }}         
+                        </div>
+                    </div>
+                </div>      
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Descripci&oacute;n</label>
+                        <div class="detalle_show"> 
+                            {{ entity.descripcion|default('-') }}      
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('cuentapresupuestariaeconomica') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

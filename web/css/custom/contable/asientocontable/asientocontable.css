@@ -1,0 +1,118 @@
+
+/** FORM ADD RENGLON ASIENTO CONTABLE **/
+.asiento-contable-detalle {
+    margin-top: 1em;
+}
+
+.asiento-contable-detalle .control-label {
+    font-size: 13px;
+}
+
+.asiento-contable-detalle .select2-choice {
+    padding-top: 0 
+}
+
+.asiento-contable-detalle .select2-chosen {
+    font-size: 13px;
+}
+
+.asiento-contable-detalle .input-icon i {
+    margin-top: 8px !important
+}
+
+.asiento-contable-detalle .help-block {
+    font-size: 12px;
+}
+
+#add_renglon_asiento {
+    margin-top: 1em;
+    margin-left: -1.5em;
+}
+
+#cargar_modelo_asiento {
+    margin: 1em 0 0 -2.3em;
+    padding: 0;
+    width: 50px;
+}
+
+.radio-tipo-imputacion {
+    margin-top: .3em !important;
+}
+
+.radio-tipo-imputacion label {
+    font-size: 13px;
+}
+
+.radio-tipo-imputacion .radio {
+    margin-right: .1em !important;
+}
+
+.radio-tipo-imputacion label.radio-inline {
+    margin-left: 1.5em
+}
+
+.radio-tipo-imputacion label.radio-inline:last-child {
+    margin-left: 3em
+}
+
+
+/** END FORM ADD RENGLON ASIENTO CONTABLE **/
+
+.td-tipo-operacion-debe {
+    text-align: right;
+    padding-right: 2em !important;
+}
+
+.th-cuenta-contable {
+    width: 35%;
+}
+
+.tr-total {
+    border-bottom-color: #FFF !important;
+    // border-left-color: #FFF !important;
+}
+
+.total-diferencia-debe {
+    border-right-color: #fffcd8 !important;
+}
+
+td.hlt {
+    background-color: #fffcd8;
+    color: #000;
+}
+
+.td-error {
+    background-color: #fed9df !important;
+}
+
+.checkbox-detalle{
+    margin: .7em 0 0 3.9em
+}
+
+/** REPORTES */
+
+.reporte-portlet .caption  {
+    color: #000 !important;
+    font-size: 15px;    
+    padding: 0.5em 0 0 12px !important;    
+}
+
+.tr-asiento-encabezado {
+    background-color: #eff2f4;
+}
+
+.caption-ejercicio {
+    margin-right: .5em
+}
+.th-resumen-cuenta{
+    width: 60%; 
+}
+.th-subdiario{
+    width: 20%; 
+}
+.th-acciones{
+    width: 6%; 
+}
+.td-acciones-asiento {
+    text-align: center;
+}

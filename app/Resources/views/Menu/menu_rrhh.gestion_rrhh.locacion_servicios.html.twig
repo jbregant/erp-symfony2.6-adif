@@ -1,0 +1,28 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Consultores de locaci&oacute;n de servicios
+    </a>
+    <ul class="dropdown-menu">
+        {% if is_granted('ROLE_MENU_RRHH_CONSULTORES') %}
+            <li>
+                <a href="{{ path('consultor') }}">
+                    Consultores
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_MENU_RRHH_CONSULTORES') %}
+            <li>
+                <a href="{{ path('consultor_historico') }}">
+                    Consultores histórico
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_MENU_RRHH_CONTRATOS') %}
+            <li>
+                <a href="{{ path('contratoconsultoria') }}">
+                    Contratos de locaci&oacute;n
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>

@@ -1,0 +1,16 @@
+{% if(entity.montoAnticipos > 0) %}
+	<tr>
+		<td>
+			<span class="pull-left">Anticipos aplicados</span>
+			<button class="btn btn-xs btn-circle blue pull-right ver-regimenes-aplicados tooltips" 
+				regimen="anticipo" 
+				regimen-original="Anticipos aplicados"
+				data-placement="right" data-original-title="Ver detalle">
+				<i class="fa fa-search"></i>
+			</button>
+		</td>
+		<td class="text-right bold">
+			{{ entity.montoAnticipos|money_format }}
+		</td>
+	</tr>
+{% endif %}

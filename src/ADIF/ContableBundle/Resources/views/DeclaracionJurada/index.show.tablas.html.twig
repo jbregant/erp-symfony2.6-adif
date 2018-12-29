@@ -1,0 +1,11 @@
+
+<div class="row">
+    <div class="col-md-12">
+        {% include '@ADIFContable/DeclaracionJurada/tabla_retenciones.html.twig' with {'impuesto': impuesto , 'tipo_ddjj': tipo_ddjj } %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% include '@ADIFContable/DeclaracionJurada/tabla_pagos_a_cuenta.html.twig' with {'impuesto': impuesto } %}
+    </div>
+</div>

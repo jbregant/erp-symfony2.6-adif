@@ -1,0 +1,12 @@
+{
+"data": [
+{% for contrato in contratos %}
+    [
+    "{{ contrato.id }}",
+    "{{ contrato.numeroContrato|default('-') }}",    
+    {% if contrato.fechaInicio %} "{{ contrato.fechaInicio|date('d/m/Y') }}", {% endif %} 
+    {% if contrato.fechaFin %} "{{ contrato.fechaFin|date('d/m/Y') }}", {% endif %} 
+    "{{ contrato.importeTotal|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

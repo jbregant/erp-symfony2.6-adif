@@ -1,0 +1,41 @@
+<form class="horizontal-form" novalidate="novalidate" id="form_imprimir_recibos_session" method="post" name="form_imprimir_recibos_session" action="{{ path('liquidaciones_en_sesion_recibos_imprimir') }}">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label required" for="lugar_de_pago">Lugar de pago</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" required="required" id="lugar_de_pago" name="lugar_de_pago" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label required" for="fecha_pago">Fecha de pago</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input 
+                            type="text"
+                            required="required"
+                            class="form-control datepicker" 
+                            name="fecha_pago" 
+                            id="fecha_pago_imprimir_recibos_session" 
+                            value=""
+                            style="height: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</form>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    initDatepickers($("#fecha_pago_imprimir_recibos_session"));
+});
+
+
+</script>

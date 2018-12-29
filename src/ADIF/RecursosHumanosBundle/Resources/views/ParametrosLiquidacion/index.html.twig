@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}  
+
+
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Parametros de liquidaci&oacute;n</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">                    
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                        id="table-parametrosliquidacion"
+                        dataexport-title="parametrosliquidacion">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="entity_id"></th>
+                                <th class="not-in-filter"></th>                            
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-parametrosliquidacion .checkboxes" />
+                                </th>
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td>{{ entity.id }}</td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>                            
+                                    <td>{{ entity.nombre }}</td>
+                                    <td class="text-right">{{ (entity.esPorcentaje ? '(%) ' : '') ~ entity.valor|number_format(2, ',', '.') }}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href=" {{ path( 'parametros_liquidacion_show', { 'id': entity.id }) }} " class="btn btn-xs blue tooltips" data-original-title="Ver detalle"><i class="fa fa-search"></i></a>
+                                        <a href=" {{ path( 'parametros_liquidacion_edit', { 'id': entity.id }) }} " class="btn btn-xs green tooltips" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

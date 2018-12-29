@@ -1,0 +1,59 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Configuraci&oacute;n
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <a href="{{ path('bancos') }}">
+                Bancos
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('conceptoconciliacion') }}">
+                Conceptos de conciliaci&oacute;n
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('conceptoegresovalor') }}">
+                Conceptos de egreso de valor
+            </a>
+        </li> 
+        <li>
+            <a href="{{ path('concepto_orden_pago') }}">
+                Conceptos de orden de pago
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('conceptotransaccionministerial') }}">
+                Conceptos de transacci&oacute;n ministerial
+            </a>
+        </li> 
+        <li>
+            <a href="{{ path('beneficiarios_liquidacion') }}">
+                Beneficiarios retenciones liquidacion
+            </a>
+        </li> 
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_CONFIGURACION_EGRESO_VALOR") %}
+            <li>
+                <a href="{{ path('egresovalor_egresovalorgerencia') }}">
+                    Configuraci&oacute;n de caja chica por gerencia
+                </a>
+            </li> 
+        {% endif %}
+        <li>
+            <a href="{{ path('estadorenglonconciliacion') }}">
+                Estados de rengl&oacute;n de conciliaci&oacute;n
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('tipoegresovalor') }}">
+                Tipos de egresos de valor
+            </a>
+        </li>     
+        {# CONFIGURACION POLIZAS #}
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_COMPLETO') %}
+            {% include ':Menu:menu_configuracion_polizas.html.twig' %}
+        {% endif %}
+        {# FIN CONFIGURACION POLIZAS #}
+    </ul>
+</li>

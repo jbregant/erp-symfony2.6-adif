@@ -1,0 +1,6 @@
+parameters:
+    bing_key: 
+    map_service_path: 
+    layer_name_linea: 
+    layer_name_punto: 
+

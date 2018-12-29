@@ -1,0 +1,21 @@
+services:
+    adif.crossbundle.listener.inventario:
+        class: ADIF\InventarioBundle\EventListener\PostLoadEventSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+        arguments:
+            - @doctrine
+
+    namer.foto_inventario:
+        class: ADIF\InventarioBundle\Namer\FotoInventarioNamer
+        tags:
+            - { name: namer }
+
+    validator.unique.progresiva_continua:
+        class: ADIF\InventarioBundle\Validator\Constraints\ProgresivaContinuaValidator
+        arguments:
+            - @doctrine
+        tags:
+            - { name: validator.constraint_validator, alias: progresiva_continua }

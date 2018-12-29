@@ -1,0 +1,22 @@
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Inventarios <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu">
+
+        {# CONFIGURACION #}
+        {% if is_granted("ROLE_MENU_INVENTARIO_CONFIGURACION") %}
+            {% include ':Menu:Inventario/menu_configuracion.html.twig' %}
+        {% endif %}
+
+        {# DATOS MAESTROS #}
+        {% if is_granted("ROLE_MENU_INVENTARIO_DATOS_MAESTROS") %}
+            {% include ':Menu:Inventario/menu_datos_maestros.html.twig' %}
+        {% endif %}
+
+        {# MOVIMIENTOS #}
+        {% if is_granted("ROLE_MENU_INVENTARIO_MOVIMIENTOS") %}
+            {% include ':Menu:Inventario/menu_movimientos.html.twig' %}
+        {% endif %}
+    </ul>
+</li>

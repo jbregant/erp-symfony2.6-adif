@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la subcategor&iacute;a: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <div class="detalle_show">{{ entity.nombre }}</div>
+                    </div>
+                </div>                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Monto b&aacute;sico</label>
+                        <div class="detalle_show">{{ entity.montoBasico }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Categor&iacute;a</label>
+                        <div class="detalle_show">{{ entity.categoria }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Convenio</label>
+                        <div class="detalle_show">{{ entity.categoria.convenio }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Categor&iacute;a recibo</label>
+                        <div class="detalle_show">{{ entity.categoriaRecibo }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">¿Es categor&iacute;a 02?</label>
+                        <div class="detalle_show">{% if entity.esCategoria02 == true %} Si {% else %} No {% endif %}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">¿Es tiempo completo?</label>
+                        <div class="detalle_show">{% if entity.esTiempoCompleto == true %} Si {% else %} No {% endif %}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Campos Sirhu -->
+            <div class="clearfix">
+                <fieldset class="form-section-fieldset">
+                    <legend class="form-section-legend">Sirhu</legend>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Grado</label>
+                                <div class="detalle_show">{{ entity.sirhuGrado }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Escalaf&oacute;n</label>
+                                <div class="detalle_show">{{ entity.sirhuEscalafon }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-actions"> 
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('subcategorias') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>          
+            </div>
+        </div>
+    </div>
+{% endblock %}

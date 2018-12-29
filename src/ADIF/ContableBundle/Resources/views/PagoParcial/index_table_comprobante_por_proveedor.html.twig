@@ -1,0 +1,13 @@
+{
+"data": [
+{% for entity in comprobantes %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.fechaComprobante }}",
+    "{{ entity.comprobante }}",
+    "{{ entity.numeroReferencia }}",    
+    "{{ entity.importeTotal|money_format }}",
+    "{{ entity.importeTotal }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

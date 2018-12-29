@@ -1,0 +1,131 @@
+<br>
+<div class="portlet box blue">
+  <div class="portlet-title">
+    <div class="caption">Datos Generales</div>
+
+    <div class="tools">
+      <a href="javascript:;" class="collapse"></a>
+    </div>
+  </div>
+
+  <div class="portlet-body form">
+    <div class="row" style="margin-left: 0px; margin-right: 0px; margin-top:12px;">
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.numeroInterno) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.numeroInterno) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.numeroVehiculo) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.numeroVehiculo) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ form_label(form.idGrupoRodante) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.idGrupoRodante, { 'id': 'grupo_rodante' }) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ form_label(form.idTipoRodante) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.idTipoRodante) }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" style="margin-left: 0px; margin-right: 0px;">
+
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ form_label(form.denominacion) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.denominacion) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          {{ form_label(form.denominacionOtroLenguaje) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.denominacionOtroLenguaje) }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" style="margin-left: 0px; margin-right: 0px; margin-bottom: 12px;">
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.valorActual) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.valorActual) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.participaInventario) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.participaInventario) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.participaVenta) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.participaVenta) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.esActivoFijo) }}
+          <div class="input-icon right">
+            <i class="fa"></i>
+            {{ form_widget(form.esActivoFijo) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          {{ form_label(form.idEstadoInventario) }}
+          <span id="idEstadoInventario">Borrador</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

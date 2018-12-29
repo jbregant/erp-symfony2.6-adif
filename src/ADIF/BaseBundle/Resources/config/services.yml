@@ -1,0 +1,25 @@
+services:                
+    adif.alert_controller_listener:
+        class: ADIF\BaseBundle\EventListener\AlertControllerListener
+        tags:
+           - { name: kernel.event_listener, event: kernel.finish_request, method: onKernelFinishRequest }
+
+    adif.base.validator_controller:
+        class: ADIF\BaseBundle\Controller\GeneralController
+
+    adif.base.entity_management_guesser:
+        class: ADIF\BaseBundle\Service\EntityManagementGuesser
+            
+    adif.twig.twig_extension:
+        class: ADIF\BaseBundle\Twig\TwigExtension
+        tags:
+            - { name: twig.extension }
+                
+    adif.multiempresa_service:
+        class: ADIF\BaseBundle\Service\MultiEmpresaService
+        arguments:
+            - @service_container
+    adif.siso_service:
+        class: ADIF\BaseBundle\Service\SisoService
+        arguments:
+            - @service_container

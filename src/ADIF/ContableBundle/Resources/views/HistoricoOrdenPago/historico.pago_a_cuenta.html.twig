@@ -1,0 +1,41 @@
+<li class="timeline-red">
+    <div class="timeline-time">
+        <span class="time">
+            Pago a cuenta
+        </span>
+        <span class="date">{{ pagoACuenta.fechaCreacion|date('d/m/Y') }}</span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    Pago a cuenta
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  pagoACuenta.estadoPagoACuenta ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions"></div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-12">
+                    <span class="bold">Tipo: </span>{{ pagoACuenta.tipoDeclaracionJurada|default('-') }}
+                </p>
+                {% for renglonDeclaracionJurada in pagoACuenta.renglonesDeclaracionJurada %}
+                    <p class="col-md-6 {{ loop.first ? '' : 'margin-top-10' }}"> 
+                        <span class="bold">Tipo: </span>{{ renglonDeclaracionJurada.tipoRenglonDeclaracionJurada|default('-') }}
+                    </p>
+                    <p class="col-md-3 {{ loop.first ? '' : 'margin-top-10' }}"> 
+                        <span class="bold">Fecha: </span>{{ renglonDeclaracionJurada.fecha|date('d/m/Y') }}
+                    </p>
+                    <p class="col-md-3 {{ loop.first ? '' : 'margin-top-10' }}"> 
+                        <span class="bold">Importe: </span>{{ renglonDeclaracionJurada.monto|money_format }}
+                    </p>
+                {% endfor  %}
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

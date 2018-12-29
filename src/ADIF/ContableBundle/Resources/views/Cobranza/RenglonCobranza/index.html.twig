@@ -1,0 +1,76 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Cobranzas</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar"></div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed 
+                        flip-content datatable dt-multiselect export-excel" 
+                        id="table-cobranzas" dataexport-title="cobranzas"> 
+
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Banco</th>
+                                <th>Tipo cuenta</th>
+                                <th>Cuenta contable</th>
+                                <th>CBU</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="not-checkbox-transform group-checkable" data-set="#table-cobranzas .checkboxes" />
+                                </th>
+                                <th>Banco</th>
+                                <th>Tipo cuenta</th>
+                                <th>Cuenta contable</th>
+                                <th>CBU</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+                                    <td>{{ entity.idBanco }}</td>
+                                    <td>{{ entity.idTipoCuenta }}</td>
+                                    <td>{{ entity|default('-') }}</td>
+                                    <td>{{ entity.cbu }}</td>   
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href="{{ path( 'rengloncobranza_show', { 'id': entity.id }) }}" 
+                                           class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/cobranza/rengloncobranza/index.js') }}" ></script>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Egresos varios</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear egreso vario" href=" {{ path( 'orden_pago_general_new') }} ">
+                                Crear egreso vario <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-ordenpagogeneral"
+                        dataexport-title="Egreso_vario">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha</th>
+                                <th>Proveedor</th>
+                                <th>Concepto</th>
+                                <th>Detalle</th>
+                                <th>Importe</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-ordenpagogeneral .checkboxes" />
+                                </th>
+                                <th date export-format="date" >Fecha</th>
+                                <th>Proveedor</th>
+                                <th>Concepto</th>
+                                <th>Detalle</th>
+                                <th currency>Importe</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/ordenpagogeneral/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+    
+{% endblock %}

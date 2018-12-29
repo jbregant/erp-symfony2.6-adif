@@ -1,0 +1,17 @@
+{
+    "data": [
+        {% for entity in entities %}
+            [
+                "{{ entity.id }}",
+                "{{ entity.id }}",
+                "{{ entity.denominacion|default('-') }}", 
+                "{{ entity.funcion == 'I'?'Ingreso':'Egreso'|default('-') }}", 
+                {
+                    "show" : " {{ path( "tipomovimientorodante_show", { "id": entity.id }) }}", 
+                    "edit" : " {{ path( "tipomovimientorodante_edit", { "id": entity.id }) }}",
+                    "delete" : " {{ path( "tipomovimientorodante_delete", { "id": entity.id }) }}" 
+                }
+            ]{{ (loop.last ? '' : ',') }}
+        {% endfor %}
+    ]
+}

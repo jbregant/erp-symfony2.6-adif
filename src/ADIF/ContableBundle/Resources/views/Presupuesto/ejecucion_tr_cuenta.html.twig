@@ -1,0 +1,58 @@
+<tr>
+    {% set esBold = cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable ? '' : "bold" %}
+    {% set paddingNivel = cuentaPresupuestaria.cuentaPresupuestariaEconomica.nivel~'em' %}
+
+    {% set montoActual = cuentaPresupuestaria.montoActual|default(0) %}
+    {% set totalProvisorio = totalesPresupuestarios[cuentaPresupuestaria.cuentaPresupuestariaEconomica.getCodigo()]['provisorio'] |default(0) %}
+    {% set totalDefinitivo = totalesPresupuestarios[cuentaPresupuestaria.cuentaPresupuestariaEconomica.getCodigo()]['definitivo']|default(0) %}
+    {% set totalDevengado = totalesPresupuestarios[cuentaPresupuestaria.cuentaPresupuestariaEconomica.getCodigo()]['devengado']|default(0) %}
+    {% set totalEjecutado = totalesPresupuestarios[cuentaPresupuestaria.cuentaPresupuestariaEconomica.getCodigo()]['ejecutado']|default(0) %}
+	{% set saldo = totalesPresupuestarios[cuentaPresupuestaria.cuentaPresupuestariaEconomica.getCodigo()]['saldo'] |default(0) %}
+
+    <td {{ (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable)?'':'class="bold"'}} style="padding-left: {{ paddingNivel }} ;">
+        {{ cuentaPresupuestaria.cuentaPresupuestariaEconomica.codigo }}
+    </td>
+
+    <td {{ (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable)?'':'class="bold"'}} style="padding-left: {{ paddingNivel }} ;">
+        {{ cuentaPresupuestaria.cuentaPresupuestariaEconomica.denominacion }}
+    </td>
+
+    <td class="text-right {{ esBold }}">{{ montoActual|money_format }}</td>
+
+    <td class="text-right {{ esBold }} monto-cuenta-presupuestaria-economica">
+
+        {% if cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable and totalProvisorio != 0 %}
+            {% include 'ADIFContableBundle:Presupuesto:ejecucion.link_detalle.html.twig' with {'tipoAsientoPresupuestario': constant(ConstanteTipoAsientoPresupuestario ~ '::PROVISORIO') } %}
+        {% endif %}
+
+        {{ totalProvisorio|money_format }}
+    </td>
+
+    <td class="text-right {{ esBold }} monto-cuenta-presupuestaria-economica">
+        {% if cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable and totalDefinitivo != 0 %}
+            {% include 'ADIFContableBundle:Presupuesto:ejecucion.link_detalle.html.twig' with {'tipoAsientoPresupuestario': constant(ConstanteTipoAsientoPresupuestario ~ '::DEFINITIVO') } %}
+        {% endif %}
+
+       {{ totalDefinitivo|money_format }}
+    </td>
+
+    <td class="text-right {{ esBold }} monto-cuenta-presupuestaria-economica">
+        {% if cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable and totalDevengado != 0 %}
+            {% include 'ADIFContableBundle:Presupuesto:ejecucion.link_detalle.html.twig' with {'tipoAsientoPresupuestario': constant(ConstanteTipoAsientoPresupuestario ~ '::DEVENGADO') } %}
+        {% endif %}
+
+        {{ totalDevengado|money_format }}
+    </td>
+
+    <td class="text-right {{ esBold }} monto-cuenta-presupuestaria-economica">
+        {% if cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable and totalEjecutado != 0 %}            
+            {% include 'ADIFContableBundle:Presupuesto:ejecucion.link_detalle.html.twig' with {'tipoAsientoPresupuestario': constant(ConstanteTipoAsientoPresupuestario ~ '::EJECUTADO') } %}
+        {% endif %}
+
+        {{ totalEjecutado|money_format }}
+    </td>
+
+    <td class="text-right {{ esBold }}">
+        {{ saldo|money_format }}
+    </td>
+</tr>

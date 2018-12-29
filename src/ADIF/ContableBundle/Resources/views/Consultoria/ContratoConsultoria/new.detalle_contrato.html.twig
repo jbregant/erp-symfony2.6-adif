@@ -1,0 +1,31 @@
+<div class="row detalle-ciclo-facturacion">
+    <div class="col-md-12">
+
+        <div class="form-group prototype-ciclo-facturacion" 
+             data-prototype="{% filter escape %}{% include 'ADIFContableBundle:Facturacion/Contrato:prototype.ciclo_facturacion.html.twig' with {'cicloFacturacion': form.ciclosFacturacion.vars.prototype} %}{% endfilter %}">
+            {% for cicloFacturacion in form.ciclosFacturacion%}
+                {% include 'ADIFContableBundle:Facturacion/Contrato:prototype.ciclo_facturacion.html.twig' %}
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-9">
+                <a href="#" class="btn btn-sm green-jungle 
+                   prototype-link-add-ciclo-facturacion tooltips">
+                    Agregar ciclo <i class="fa fa-plus"></i>
+                </a>
+            </div>
+            <div class="col-md-2 form_field">
+                <div class="form-group">
+                    <div class="form_field">
+                        <input type="text" id="adif_contablebundle_facturacion_contrato_totalCalculado" 
+                               name="adif_contablebundle_facturacion_contrato_totalCalculado"
+                               placeholder="TOTAL" readonly="readonly"
+                               class="form-control money-format text-right importe-total">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+{% for documentacion in datosUsuario.proveedorDocumentacion %}
+    {% if documentacion.fechaBaja is null %}
+        {%  if documentacion.idTipoDocumentacion.id == idDocumentacion %}
+            <div class="form-group col-md-3">
+                <label class="control-label">Documentaci&oacute;n</label>
+                <div class="detalle_show">
+                    <a  class="download-link" target="_blank"
+                        href="http://{{ uploaded_files_host }}/uploads/documentacion/{{ documentacion.path }}">
+                        {{ documentacion.publicFilename }}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}

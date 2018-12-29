@@ -1,0 +1,214 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos impositivos</legend>
+
+    <div class="row">    
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">CUIT</label>
+                <div class="detalle_show">{{ consultor.CUIT|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">N&ordm; ingresos brutos</label>
+                <div class="detalle_show">{{ consultor.datosImpositivos.numeroIngresosBrutos|default('-') }}</div>
+            </div>
+        </div>         
+    </div>
+
+    {% for cai in consultor.cais %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">N&ordm; CAI</label>
+                    <div class="detalle_show">{{ cai.numero }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Punto de venta</label>
+                    <div class="detalle_show">{{ cai.puntoVenta }}</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Fecha de vencimiento</label>
+                    <div class="detalle_show">{{ cai.fechaVencimiento|date('d/m/Y') }}</div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</fieldset>
+
+<div class="row">    
+
+    <div class="col-md-6">
+
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">IVA</legend>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.condicionIVA|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.exentoIVA ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.pasibleRetencionIVA ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% include '@ADIFRecursosHumanos/Consultoria/Consultor/show.certificado_exencion.html.twig' with {'certificadoExencion': consultor.certificadoExencionIVA}  %}
+
+        </fieldset>
+    </div>
+
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">SUSS</legend>
+            <div class="row">   
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.condicionSUSS|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.exentoSUSS ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.pasibleRetencionSUSS ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% include '@ADIFRecursosHumanos/Consultoria/Consultor/show.certificado_exencion.html.twig' with {'certificadoExencion': consultor.certificadoExencionSUSS}  %}
+
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">     
+
+    <div class="col-md-6">
+
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Ganancias</legend>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.condicionGanancias|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.exentoGanancias ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.pasibleRetencionGanancias ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% include '@ADIFRecursosHumanos/Consultoria/Consultor/show.certificado_exencion.html.twig' with {'certificadoExencion': consultor.certificadoExencionGanancias}  %}
+
+        </fieldset>
+    </div>
+
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Ingresos brutos</legend>
+
+            <div class="row">   
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Condici&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.condicionIngresosBrutos|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Exento</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.exentoIngresosBrutos ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Pasible retenci&oacute;n</label>
+                        <div class="detalle_show">{{ consultor.pasibleRetencionIngresosBrutos ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Convenio multilateral</label>
+                        <div class="detalle_show">{{ consultor.datosImpositivos.convenioMultilateralIngresosBrutos is not null ? 'Sí' : 'No' }}</div>
+                    </div>
+                </div>
+                {% if consultor.datosImpositivos.convenioMultilateralIngresosBrutos is not null %}   
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Porcentaje aplicaci&oacute;n CABA</label>
+                            <div class="detalle_show">
+                                {{ consultor.datosImpositivos.convenioMultilateralIngresosBrutos is not null 
+                                                        ? (consultor.datosImpositivos.convenioMultilateralIngresosBrutos.porcentajeAplicacionCABA is not null 
+                                                            ? consultor.datosImpositivos.convenioMultilateralIngresosBrutos.porcentajeAplicacionCABA ~ '%'
+                                                            : '-' )
+                                                        : '-' }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if consultor.datosImpositivos.convenioMultilateralIngresosBrutos is not null %}   
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Jurisdicci&oacute;n</label>
+                            <div class="detalle_show">
+                                {{ consultor.datosImpositivos.convenioMultilateralIngresosBrutos is not null 
+                                                        ? consultor.datosImpositivos.convenioMultilateralIngresosBrutos.jurisdiccion|default('-')
+                                                        : '-' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% include '@ADIFRecursosHumanos/Consultoria/Consultor/show.certificado_exencion.html.twig' with {'certificadoExencion': consultor.certificadoExencionIngresosBrutos}  %}
+
+        </fieldset>
+    </div>
+</div>
+
+{% include '@ADIFRecursosHumanos/Consultoria/Consultor/show.calificacion_fiscal.html.twig' with {'datosImpositivos': consultor.datosImpositivos}  %}

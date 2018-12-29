@@ -1,0 +1,6 @@
+parameters:
+    entity_manager: compras
+    
+    # Indica el porcentaje de diferencia máximo que puede haber entre el justiprecio
+    # de un bien económico y la cotización del mismo.
+    porcentaje_tope_justiprecio_cotizacion: 50

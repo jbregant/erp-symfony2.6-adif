@@ -1,0 +1,61 @@
+<div class="row">
+
+    <fieldset class="form-section-fieldset">   
+
+        <legend class="form-section-legend">
+            <span>
+                Contacto
+            </span>
+            <span class="delete-link-xs">
+                <a href="#" 
+                   class="badge badge-danger prototype-link-remove-contacto-proveedor accion-borrar" 
+                   data-placement="right" data-original-title="Eliminar contacto">X</a>
+            </span>
+        </legend>
+
+        <div class="row">
+            <div class="col-md-3 form_field">
+                <div class="form-group">
+                    {{ form_label(contactoProveedor.nombre) }}
+                    <div class="form_field">
+                        {{ form_widget(contactoProveedor.nombre) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 form_field">
+                <div class="form-group">
+                    {{ form_label(contactoProveedor.cargo) }}
+                    <div class="form_field">
+                        {{ form_widget(contactoProveedor.cargo) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 form_field">
+                <div class="form-group">
+                    {{ form_label(contactoProveedor.observacion) }}
+                    <div class="form_field">
+                        {{ form_widget(contactoProveedor.observacion) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group prototype-dato-contacto" 
+             data-prototype="{% filter escape %}{% include 'ADIFComprasBundle:Proveedor:prototype.dato_contacto.html.twig' with {'datoContacto': contactoProveedor.datosContacto.vars.prototype} %}{% endfilter %}">
+                {% for datoContacto in contactoProveedor.datosContacto %}
+                    {% include 'ADIFComprasBundle:Proveedor:prototype.dato_contacto.html.twig' %}
+                {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#" class="btn btn-sm blue prototype-link-add-dato-contacto tooltips" 
+                   data-placement="right" data-original-title="Agregar dato al contacto">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+
+    </fieldset>
+</div>

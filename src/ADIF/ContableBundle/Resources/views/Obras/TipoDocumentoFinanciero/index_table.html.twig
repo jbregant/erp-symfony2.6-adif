@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.nombre|default('-') }}", 
+    "{{ entity.cuentaContable|default('-') }}", 
+    "{{ entity.regimenRetencionIVA|default('-') }}",
+    "{{ entity.regimenRetencionIIBB|default('-') }}",
+    "{{ entity.regimenRetencionSUSS|default('-') }}",
+    "{{ entity.regimenRetencionGanancias|default('-') }}",
+    {
+    "show" : " {{ path( "tipodocumentofinanciero_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "tipodocumentofinanciero_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

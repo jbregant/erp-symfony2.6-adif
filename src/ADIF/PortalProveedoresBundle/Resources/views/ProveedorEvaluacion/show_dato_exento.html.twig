@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="form-group col-md-2">
+        <label class="control-label">Exento desde</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.datoExento.fechaDesde|date('d-m-Y') }}</div>
+    </div>
+    <div class="form-group col-md-2">
+        <label class="control-label">Exento hasta</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.datoExento.fechaHasta|date('d-m-Y') }}</div>
+    </div>
+    <div class="form-group col-md-2">
+        <label class="control-label">Porcentaje exensión</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.datoExento.porcentajeExencion }} %</div>
+    </div>
+    <div class="form-group col-md-2">
+        <label class="control-label">Régimen</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.datoExento.regimen }}</div>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="control-label">Otros</label>
+        <div class="detalle_show">{{ datosUsuario.ProveedorDatoImpositivo.proveedorIva.datoExento.otros }}</div>
+    </div>
+</div>

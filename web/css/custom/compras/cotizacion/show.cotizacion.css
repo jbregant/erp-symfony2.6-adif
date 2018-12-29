@@ -1,0 +1,67 @@
+
+/** Estilos para el titulo de la tabla de RenglonesRequerimiento */
+.cotizacion-title {
+    padding: 1px 0 4px 10px !important;
+}
+
+.compact .caption-adicional {
+    margin-top: 0 !important;
+    margin-bottom: .4em !important;
+}
+
+.compact .cotizacion-title .caption {
+    margin: 5px 0 0;
+}
+
+.cotizacion-title .col-md {
+    padding: 5px 10px 0 0 !important;
+}
+
+.compact .cotizacion-title .col-md {
+    padding: 0 10px 3px 0 !important;
+}
+
+.cotizacion-title .form-group {
+    margin-bottom: 5px !important;
+}
+
+.cotizacion-title .input-group .btn {
+    font-size: 12px;
+    font-weight: 700;
+    height: 2.4em;
+    padding: 1px 10px;
+    border-radius: 5px 0 0 5px !important;
+}
+
+.cotizacion-title input {
+    border-radius: 0 5px 5px 0 !important;
+    height: 2.4em !important;
+}
+
+.cotizacion-title .precio-total {
+    width: 15em;
+}
+
+.cotizacion-title .form-control[readonly] {
+    background-color: #FFF !important;
+    font-size: 12px;
+}
+/** FIN */
+
+.compact .agregar-adicional {
+    margin-bottom: 1em
+}
+
+.agregar_tipo_adicional {
+    font-size: 11px !important;
+    padding: 0 !important;
+    margin-left: .3em
+}
+
+.agregar_tipo_adicional i {
+    margin: 3px 4px 1px 3px;
+}
+
+#colorbox {
+    z-index: 99999;
+}

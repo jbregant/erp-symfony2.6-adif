@@ -1,0 +1,14 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.numeroCheque|default('-') }}", 
+{
+"show" : " {{ path( "cheque_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "cheque_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

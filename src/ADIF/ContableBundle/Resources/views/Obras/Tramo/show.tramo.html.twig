@@ -1,0 +1,211 @@
+
+<div class="portlet box green-seagreen">
+    <div class="portlet-title">
+        <div class="caption">
+            {{ caption }}
+        </div>
+        <div class="tools tools-tramo">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Licitaci&oacute;n</label>
+                    <div class="detalle_show">{{ entity.licitacion }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Proveedor</label>
+                    <div class="detalle_show">{{ entity.proveedor.cuitAndRazonSocial }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Categor&iacute;a obra</label>
+                    <div class="detalle_show">{{ entity.categoriaObra|default('-') }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Estado</label>
+                    <div class="detalle_show">{{ entity.estadoTramo }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Tipo obra</label>
+                    <div class="detalle_show">{{ entity.tipoObra|default('-') }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Total contrato</label>
+                    <div class="detalle_show">{{ entity.totalContrato|money_format }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label margin-right-10">Saldo contrato</label>
+
+                    <button data-id-tramo="{{ entity.id }}"
+                            class="btn btn-xs btn-circle green-seagreen tooltips
+                            link-detalle-saldo" data-original-title="Ver detalle">
+                        <i class="fa fa-search"></i>
+                    </button>
+
+                    <div class="detalle_show">{{ entity.saldoFinanciero|money_format }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Firma del contrato</label>
+                    <div class="detalle_show">{{ entity.fechaFirmaContrato|date('d/m/Y') }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Plazo en d&iacute;as</label>
+                    <div class="detalle_show">{{ entity.plazoDias|default('-') }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Pct. fondo de reparo</label>
+                    <div class="detalle_show">{{ entity.porcentajeFondoReparo ~ ' %' }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Pct. avance inicial</label>
+                    <div class="detalle_show">{{ entity.porcentajeAvanceInicial ~ ' %' }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Pct. anticipo inicial</label>
+                    <div class="detalle_show">{{ entity.porcentajeAnticipoInicial ~ ' %' }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Descripci&oacute;n</label>
+                    <div class="detalle_show">{{ entity.descripcion }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row margin-top-20">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Fecha recepci&oacute;n provisoria</label>
+                    <div class="detalle_show">{{ entity.fechaRecepcionProvisoria ? entity.fechaRecepcionProvisoria|date('d/m/Y') : '-' }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Fecha recepci&oacute;n definitiva</label>
+                    <div class="detalle_show">{{ entity.fechaRecepcionDefinitiva ? entity.fechaRecepcionDefinitiva|date('d/m/Y') : '-' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <fieldset class="cleardiv margin-top-20">
+            <legend>Fuentes de financiamiento</legend>
+
+            {% if entity.fuentesFinanciamiento is not empty %}
+                <table class="table table-bordered table-striped"
+                       id="table-poliza">
+                    <thead>
+                        <tr class="headers">
+                            <th class="nowrap">Fuente financiamiento</th>
+                            <th>Porcentaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fuenteFinanciamiento in entity.fuentesFinanciamiento %}
+                            <tr>
+                                <td class="nowrap">{{ fuenteFinanciamiento.fuenteFinanciamiento }}</td>
+                                <td>{{ fuenteFinanciamiento.porcentaje|default(0) ~ ' %'}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <span>El rengl&oacute;n de licitaci&oacute;n no contiene fuentes de financiamiento.</span>
+            {% endif %}
+        </fieldset>
+
+        <fieldset class="cleardiv margin-top-20">
+            <legend>P&oacute;lizas de seguro</legend>
+
+            {% if entity.polizasSeguro is not empty %}
+                <table class="table table-bordered table-striped"
+                       id="table-poliza">
+                    <thead>
+                        <tr class="headers">
+                            <th date class="nowrap">Fecha inicio</th>
+                            <th date class="nowrap">Fecha venc.</th>
+                            <th class="nowrap">N&uacute;mero</th>
+                            <th class="nowrap">Aseguradora</th>
+                            <th>N&deg; tr&aacute;mite original</th>
+                            <th>N&deg; tr&aacute;mite P&oacute;liza en Gt&iacute;a</th>
+                            <th class="nowrap">Tipo de cobertura</th>
+                            <th class="nowrap">Monto asegurado</th>
+                            <th class="nowrap">Estado p&oacute;liza</th>
+                            <th class="nowrap">Estado revisi&oacute;n p&oacute;liza</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for polizaSeguro in entity.polizasSeguro %}
+                            <tr>
+                                <td class="nowrap">{{ polizaSeguro.fechaInicio|date('d/m/Y') }}</td>
+                                <td class="nowrap">{{ polizaSeguro.fechaVencimiento|date('d/m/Y') }}</td>
+                                <td class="nowrap">{{ polizaSeguro.numeroPoliza}}</td>
+                                <td class="nowrap">{{ polizaSeguro.aseguradora }}</td>
+                                <td>{{ polizaSeguro.numeroTramiteEnvio|default('-') }}</td>
+                                <td>{{ polizaSeguro.numeroTramitePolizaGarantia|default('-') }}</td>
+                                <td class="nowrap">{{ polizaSeguro.tipoCobertura }}</td>
+                                <td class="nowrap">{{ polizaSeguro.montoAsegurado }}</td>
+                                <td class="nowrap">{{ polizaSeguro.EstadoPoliza }}</td>
+                                <td class="nowrap">{{ polizaSeguro.EstadoRevisionPoliza }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <span>El rengl&oacute;n de licitaci&oacute;n no contiene p&oacute;lizas.</span>
+            {% endif %}
+        </fieldset>
+
+        {% if entity.esEditable or entity.esEliminable %}
+            <div class="form-actions">
+                <div class="pull-right">
+                    {% if entity.esEditable %}
+                        <button type="button" class="btn btn-sm green button-back"
+                                back-url="{{ path( 'obras_tramos_edit', { 'id': entity.id }) }}">
+                            <i class="fa fa-pencil"></i> Editar
+                        </button>
+                    {% endif %}
+
+                    {% if entity.esEliminable %}
+                        <button type="button" class="btn btn-sm red button-back link-eliminar-tramo"
+                                back-url="{{ path( 'obras_tramos_delete', { 'id': entity.id }) }}">
+                            <i class="fa fa-trash"></i> Eliminar
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

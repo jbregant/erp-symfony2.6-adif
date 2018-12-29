@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Documentos financieros</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-sm green tooltips" data-placement="right"
+                               data-original-title="Crear documento financiero"
+                               href=" {{ path( 'documento_financiero_new') }} ">
+                                Crear documento financiero <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel"
+                        id="table-obras_documentofinanciero"
+                        dataexport-title="documentofinanciero">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha creaci&oacute;n</th>
+                                <th>Tipo</th>
+                                <th>N&deg; licitaci&oacute;n</th>
+                                <th>A&ntilde;o</th>
+                                <th>Rengl&oacute;n</th>
+                                <th>Proveedor</th>
+                                <th>Tipo</th>
+                                <th data-type="date">Fecha inicio</th>
+                                <th data-type="date">Fecha fin</th>
+                                <th data-type="date">Fecha ingreso ADIF</th>
+                                <th>Monto sin IVA</th>
+                                <th>Monto IVA</th>
+                                <th>Monto fondo reparo</th>
+                                <th>Total</th>
+                                <th data-type="date">Fecha anulaci&oacute;n</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-obras\documentofinanciero .checkboxes" />
+                                </th>
+                                <th date export-format="date" class="text-center">Fecha creaci&oacute;n</th>
+                                <th class="text-center">Tipo</th>
+                                <th class="text-center">N&deg; licitaci&oacute;n</th>
+                                <th class="text-center">A&ntilde;o</th>
+                                <th class="text-center">Rengl&oacute;n</th>
+                                <th class="text-center">Proveedor</th>
+                                <th class="text-center">Tipo</th>
+                                <th date export-format="date" class="text-center">Fecha inicio</th>
+                                <th date export-format="date" class="text-center">Fecha fin</th>
+                                <th date export-format="date" class="text-center">Fecha ingreso ADIF</th>
+                                <th currency class="text-center">Monto sin IVA</th>
+                                <th currency class="text-center">Monto IVA</th>
+                                <th currency>Monto fondo reparo</th>
+                                <th currency>Total</th>
+                                <th date export-format="date" class="text-center">Fecha anulaci&oacute;n</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/obras/documentofinanciero/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

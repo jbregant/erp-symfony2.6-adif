@@ -1,0 +1,134 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Material Nuevo</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %}
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+            <div class="form-body">
+                <div class="tabbable-custom nav-justified">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab">General </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_2" data-toggle="tab">Compras </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_3" data-toggle="tab">Inventarios </a>
+                        </li>
+                        <li class="disabled" id="setMaterialesTab">
+                            <a href="#tab_4" data-toggle="tab">Set Materiales </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_5" data-toggle="tab">Propiedades </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_6" data-toggle="tab">Im&aacute;genes </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- Datos Generales -->
+                        {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_generales_todos.html.twig') %}
+
+                        {# TAB 1 - General #}
+                        <div id="tab_1" class="tab-pane active">
+                            {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_generales.html.twig') %}
+                        </div>
+
+                        {# TAB 2 - Compras #}
+                        <div id="tab_2" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_compras.html.twig') %}
+                        </div>
+
+                        {# TAB 3 - Inventarios #}
+                        <div id="tab_3" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_inventarios.html.twig') %}
+                        </div>
+
+                        {# TAB 4 - Set de Materiales #}
+                        <div id="tab_4" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_set_materiales.html.twig') %}
+                        </div>
+
+                        {# TAB 5 - Propiedades #}
+                        <div id="tab_5" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_propiedades.html.twig') %}
+                        </div>
+
+                        {# TAB 6 - Fotos #}
+                        <div id="tab_6" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesNuevos/new.datos_fotos.html.twig') %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('catalogomaterialesnuevos') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# Validator #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+    {# InputMask #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+
+    {# DatePicker #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
+    {# Switch #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+
+    {# FileStyle #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+
+    <script src="{{ asset('js/custom/inventario/catalogomaterialesnuevos/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

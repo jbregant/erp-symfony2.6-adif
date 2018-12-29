@@ -1,0 +1,27 @@
+<div class="row row_fuente_financiamiento">
+    <div class="col-md-4 form_field">
+        <div class="form-group">
+            {{ form_label(fuenteFinanciamiento.fuenteFinanciamiento) }}
+            <div class="form_field">
+                {{ form_widget(fuenteFinanciamiento.fuenteFinanciamiento) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(fuenteFinanciamiento.porcentaje) }}
+            <div class="form_field">
+                {{ form_widget(fuenteFinanciamiento.porcentaje) }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-fuente-financiamiento accion-borrar" 
+           data-placement="top" data-original-title="Eliminar fuente de financiamiento">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

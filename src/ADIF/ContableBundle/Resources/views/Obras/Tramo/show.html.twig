@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    {% set caption =  'Detalles del tramo: <strong>' ~ entity ~ '</strong>' %}
+
+    {% include '@ADIFContable/Obras/Tramo/show.tramo.html.twig' with {'caption': caption} %}
+
+    <div class="form-actions">
+        <button type="button" class="btn default button-back" 
+                back-url="{{ path('obras_tramos') }}">
+            <i class="m-icon-swapleft"></i> Volver
+        </button>
+    </div>
+{% endblock %}

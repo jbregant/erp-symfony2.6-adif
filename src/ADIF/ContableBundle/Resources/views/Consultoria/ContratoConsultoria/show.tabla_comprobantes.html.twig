@@ -1,0 +1,61 @@
+<table class="table table-bordered table-striped table-comprobantes">
+    <thead>
+        <tr class="headers">
+            <th class="nowrap text-center">Detalle</th>
+            <th date class="nowrap text-center">Fecha</th>
+            <th class="nowrap text-center">Comprobante</th>
+            <th class="nowrap text-center">Letra</th>
+            <th numeric class="nowrap text-center">N&uacute;mero</th>
+            <th currency colspan="3">
+                Importe neto
+            </th>
+        </tr>
+    </thead>
+    {% if muestraSaldo %}
+        <tfoot>
+            <tr class="tr-detalle-saldo">
+                <td class="text-right bold" colspan="5">SALDO</td>
+                <td class="bold">{{ entity.saldoPendienteFacturacion|money_format(entity.simboloTipoMoneda) }}</td>
+            </tr>
+        </tfoot>
+    {% endif %}
+    <tbody>
+        {% for comprobante in comprobantes %}
+            <tr>
+                <td class="nowrap">{{ comprobante.observaciones }}</td>
+                <td class="nowrap">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                <td class="nowrap">{{ comprobante.tipoComprobante }}</td>
+                <td class="nowrap">{{ comprobante.letraComprobante }}</td>
+                <td class="nowrap">{{ comprobante.numero }}</td>
+                <td colspan="3">
+                    {{ comprobante.totalNeto|money_format(comprobante.contrato.simboloTipoMoneda) }}
+
+                    <button class="btn btn-xs btn-circle green-seagreen tooltips link-detalle-importe" 
+                            data-original-title="Ver detalle">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr class="tr-detalle-importe hidden">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="bold text-left">IVA</td>
+                <td class="bold text-left">IIBB</td>
+                <td class="bold text-left">TOTAL</td>
+            </tr>
+            <tr class="tr-detalle-importe hidden">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="hlt">{{ comprobante.importeTotalIVA|money_format }}</td>
+                <td class="hlt">{{ comprobante.importeTotalPercepcion|money_format }}</td>
+                <td class="hlt">{{ comprobante.total|money_format(comprobante.contrato.simboloTipoMoneda) }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

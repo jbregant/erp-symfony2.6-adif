@@ -1,0 +1,45 @@
+
+{% set tieneAutorizacionContableAsignada = ordenPago is defined %}
+
+{% set esAutorizacionContable = tieneAutorizacionContableAsignada and ordenPago.getEsAutorizacionContable %}
+
+{% set tienePagoAsignado = tieneAutorizacionContableAsignada and ordenPago.pagoOrdenPago is not null %}
+
+{% set textoPagoParcial = tieneAutorizacionContableAsignada and ordenPago.esOrdenPagoParcial ? 'Parcial - ' : '' %}
+
+<tr>
+    <td> {{ documentoFinanciero.id }} </td>
+    <td class="text-center">
+        <input type="checkbox" class="checkboxes" value="" />
+    </td>
+    <td>{{ documentoFinanciero.fechaCreacion is not null ? documentoFinanciero.fechaCreacion|date('d/m/Y') : '' }}</td>
+    <td>{{ documentoFinanciero.tramo.licitacion.tipoContratacion.alias|default('-') }}</td>
+    <td>{{ documentoFinanciero.tramo.licitacion.numero|default('-') }}</td>
+    <td>{{ documentoFinanciero.tramo.licitacion.anio|default('-') }}</td>
+    <td>
+        <span class="truncate tooltips" data-original-title=" {{ documentoFinanciero.tramo.descripcion|escape_json }}">
+            {{ documentoFinanciero.tramo.descripcion|escape_json }}
+        </span>
+    </td>
+    <td class="nowrap">{{ documentoFinanciero.tramo.proveedor.CUIT }}</td>
+    <td>{{ documentoFinanciero.tramo.proveedor.razonSocial }}</td>
+    <td>{{ documentoFinanciero.tipoDocumentoFinanciero }}</td>
+    <td>{{ documentoFinanciero.numero|default('-') }}</td>
+    <td>{{ documentoFinanciero.fechaAnulacion is not null ? documentoFinanciero.fechaAnulacion|date('d/m/Y') : '-' }}</td>
+    <td class="nowrap">{{ documentoFinanciero.montoSinIVA|money_format }}</td>
+    <td class="nowrap">{{ documentoFinanciero.correspondePago ? 'Si' : 'No' }}</td>
+    <td>
+        {{ comprobante is defined ? (comprobante.tipoComprobante ~ ' (' ~ comprobante.letraComprobante ~ ') ' ~ comprobante.numeroCompleto) : '-' }}
+    </td>
+    <td class="nowrap">{{ (comprobante is defined ? comprobante.total : 0)|money_format }}</td>
+    <td>{{ documentoFinanciero.fechaIngresoADIF|date('d/m/Y') }}</td>
+    <td>{{ documentoFinanciero.fechaIngresoGerenciaAdministracion|date('d/m/Y') }}</td>
+    <td>{{ documentoFinanciero.numeroReferencia|default('-') }}</td>
+    <td class="nowrap">
+        {{ tieneAutorizacionContableAsignada ? (textoPagoParcial ~ (esAutorizacionContable ? (ordenPago.numeroAutorizacionContable ~ ' (AC)') : ordenPago.numeroOrdenPago)) : '-' }}
+    </td>
+    <td>{{ tienePagoAsignado ? ordenPago.pagoOrdenPago : '-' }}</td>
+    <td>{{ tienePagoAsignado ? ordenPago.pagoOrdenPago.fechaPago|date('d/m/Y') : '-' }}</td>
+    <td>{{ tienePagoAsignado ? ordenPago.pagoOrdenPago.estadoPago : '-' }}</td>
+    <td class="nowrap">{{ tienePagoAsignado ? ordenPago.pagoOrdenPago.ordenPagoPagada.montoNeto|money_format : '-' }}</td>
+</tr>

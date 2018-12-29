@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+[
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.periodo }}",
+    "{{ entity.fechaCierre ? entity.fechaCierre|date('d/m/Y') : '' }}",
+    {
+    "show" : " {{ path( "declaracionesjuradasivacontribuyente_show", { "id": entity.id }) }}"
+    {% if(not entity.fechaCierre) %}
+    ,"edit" : " {{ path( "declaracionesjuradasivacontribuyente_edit", { "id": entity.id }) }}" 
+    {% endif %}
+    }
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

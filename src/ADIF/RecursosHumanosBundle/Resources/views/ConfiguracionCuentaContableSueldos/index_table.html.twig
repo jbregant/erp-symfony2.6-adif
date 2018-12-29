@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",    
+    "{{ entity.descripcion|default('-')|decode }}", 
+    "{{ entity.cuentaContable|default('-') }}", 
+    {
+    "show" : " {{ path( "configuracion_cuenta_contable_sueldos_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "configuracion_cuenta_contable_sueldos_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

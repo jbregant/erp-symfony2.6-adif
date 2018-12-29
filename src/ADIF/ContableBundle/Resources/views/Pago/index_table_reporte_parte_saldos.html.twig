@@ -1,0 +1,20 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.banco }}",
+    "{{ entity.numeroSucursalYCuenta }}",
+    "{{ entity.saldoBancario|money_format }}",
+    "{{ entity.fechaExtracto is not null ? entity.fechaExtracto|date('d/m/Y') : '-' }}",
+    "{{ entity.montoAGenerar|money_format }}",
+    "{{ entity.montoALaFirma|money_format }}",
+    "{{ entity.montoEnCartera|money_format }}",
+    "{{ entity.montoRetirado|money_format }}",
+    "{{ entity.montoChequesPendientes|money_format }}",
+    "{{ entity.montoIngresosPendientes|money_format }}",
+    "{{ entity.saldoFinanciero|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

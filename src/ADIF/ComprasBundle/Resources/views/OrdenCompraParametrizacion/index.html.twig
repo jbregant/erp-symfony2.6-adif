@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}  
+
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Parametrizaci&oacute;n de orden de compra</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        {% if entities is empty %}
+                            <div class="btn-group">
+                                <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Configurar parametrizaci&oacute;n de orden de compra" href=" {{ path( 'orden_compra_parametrizacion_new') }} ">
+                                    Configurar parametrizaci&oacute;n <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                        id="table-ordencompraparametrizacion"
+                        dataexport-title="ordencompraparametrizacion">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Observacion</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-ordencompraparametrizacion .checkboxes" />
+                                </th>
+                                <th>Observacion</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+
+                                    <td>{{ entity.observacion }}</td>
+
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href=" {{ path( 'orden_compra_parametrizacion_show', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <a href=" {{ path( 'orden_compra_parametrizacion_edit', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs green tooltips" data-original-title="Editar">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

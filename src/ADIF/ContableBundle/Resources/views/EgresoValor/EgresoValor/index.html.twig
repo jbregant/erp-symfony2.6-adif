@@ -1,0 +1,86 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Egresos de valor</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-sm green tooltips" data-placement="right" 
+                               data-original-title="Crear egreso de valor" 
+                               href=" {{ path( 'egresovalor_new') }} ">
+                                Crear egreso de valor <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed 
+                        flip-content dt-multiselect export-excel" 
+                        id="table-egresovalor"
+                        dataexport-title="egresovalor">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="select" 
+                                    data-select-ajax="egresovalor/tipos" 
+                                    data-select-value="denominacion" 
+                                    data-select-label="denominacion"
+                                    data-select-all="Todos">Tipo</th>
+                                <th>N&ordm; carpeta</th>
+                                <th>Responsable</th>
+                                <th data-type="date">Fecha</th>
+                                <th data-type="select" 
+                                    data-select-ajax="gerencias/nombres" 
+                                    data-select-value="nombre" 
+                                    data-select-label="nombre"
+                                    data-select-all="Todas">Gerencia</th>
+                                <th>Saldo</th>
+                                <th>% Rendido</th>
+                                <th data-type="select" 
+                                    data-select-ajax="egresovalor/estados" 
+                                    data-select-value="denominacionEstado" 
+                                    data-select-label="denominacionEstado"
+                                    data-select-all="Todos">Estado</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-egresovalor .checkboxes" />
+                                </th>
+                                <th class="nowrap">Tipo</th>
+                                <th>N&ordm; carpeta</th>
+                                <th>Responsable</th>
+                                <th date export-format="date" class="nowrap">Fecha</th>
+                                <th class="nowrap">Gerencia</th>
+                                <th>Saldo</th>
+                                <th>% Rendido</th>
+                                <th class="nowrap">Estado</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+    
+    <script src="{{ asset('js/custom/contable/egreso_valor/index.js') }}" ></script>
+
+{% endblock %}

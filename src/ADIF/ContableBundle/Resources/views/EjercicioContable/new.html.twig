@@ -1,0 +1,211 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Ejercicio contable</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="form-body">
+                <div class="row">  
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.denominacionEjercicio) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.denominacionEjercicio) }}
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.fechaInicio) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaInicio) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.fechaFin) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaFin) }}
+                            </div>
+                        </div>
+                    </div> 
+
+                    {% if app.user.isGranted('ROLE_EDITAR_PERIODO_REGISTRACION_EJERCICIO_CONTABLE') %}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {{ form_label(form.estaCerrado) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.estaCerrado) }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %} 
+                </div>
+
+                {% if app.user.isGranted('ROLE_EDITAR_PERIODO_REGISTRACION_EJERCICIO_CONTABLE') %}
+                    <fieldset style="margin-top: 1em">
+                        <legend>Per&iacute;odos de registraci&oacute;n</legend>
+
+                        <div class="row">
+                            <div class="col-md-2">                                
+                                <div class="form-group">
+                                    {{ form_label(form.periodoEneroHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoEneroHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoFebreroHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoFebreroHabilitado) }}
+                                    </div>
+                                </div>                                                                
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoMarzoHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoMarzoHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoAbrilHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoAbrilHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">        
+                                <div class="form-group">
+                                    {{ form_label(form.periodoMayoHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoMayoHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoJunioHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoJunioHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoJulioHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoJulioHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoAgostoHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoAgostoHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2"> 
+                                <div class="form-group">
+                                    {{ form_label(form.periodoSeptiembreHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoSeptiembreHabilitado) }}
+                                    </div>
+
+                                </div>
+                            </div>  
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoOctubreHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoOctubreHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoNoviembreHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoNoviembreHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    {{ form_label(form.periodoDiciembreHabilitado) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.periodoDiciembreHabilitado) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                {% endif %}
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('ejercicio') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/ejercicio/new.js') }}" ></script>
+
+{% endblock %}

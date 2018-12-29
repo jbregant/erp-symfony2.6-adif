@@ -1,0 +1,225 @@
+<div class="form649_2018 page-custom">
+    <h3>LIQUIDACIÓN DE IMPUESTO A LAS GANANCIAS - 4ta. CATEGORÍA RELACIÓN DE DEPENDENCIA - Resolución General AFIP N&ordm; 4003/2017</h3>
+    <div class="container">
+        <ul>
+            <li>Fecha: {{'now'|date('d/m/Y') }}</li>
+            <li>Empleado: {{ empleado.persona.cuil ~ ' ' ~ empleado.persona.apellido ~ ' ' ~ empleado.persona.nombre }}</li>
+            <li>Agente de retención: {{ adif.cuil ~ ' - ' ~  adif.nombre }}</li>
+            <li>Período fiscal: {{ anio }}</li>
+        </ul>
+        <table class="tabla-remuneraciones w-100" style="width:100%; font-size: 25px">
+             <tbody>
+                <tr>
+                    <td class="seccion"><strong>REMUNERACIONES</strong></td>
+                    <td class="seccion"><strong>Conceptos</strong></td>
+                </tr>
+                <tr>
+                    <td>Remuneración bruta</td>
+                    <td class="monto">{{ remuneraciones.remuneracionBruta|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Retribuciones no habituales</td>
+                    <td class="monto">{{ remuneraciones.retribucionesNoHabituales|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>SAC primera cuota</td>
+                    <td class="monto">{{ remuneraciones.sacPrimeraCuota|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>SAC segunda cuota</td>
+                    <td class="monto">{{ remuneraciones.sacSegundaCuota|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Remuneración no alcanzada</td>
+                    <td class="monto">{{ remuneraciones.remuneracionNoAlcanzada|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Remuneración exenta (sin incluir horas extras)</td>
+                    <td class="monto">{{ remuneraciones.remuneracionExenta|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Remuneración exenta horas extras</td>
+                    <td class="monto">{{ remuneraciones.remuneracionExentaHsExtras|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Remuneración otros empleos</td>
+                    <td class="monto">{{ remuneraciones.remuneracionOtroEmpleos|money_format }}</td>
+                </tr>
+                <tr>
+                    <td><strong>REMUNERACIÓN COMPUTABLE</strong></td>
+                    <td class="monto">{{ remuneraciones.remumeracionComputable|money_format }}</td>
+                </tr>                
+                <tr>
+                    <td class="seccion"><strong>DEDUCCIONES</strong></td>
+                    <td></td>
+                <tr>
+                    <td>Aportes a fondos de jubilaciones, retiros, pensiones o subsidios que se destinen a cajas nacionales, provinciales o municipales</td>
+                    <td class="monto">{{ deducciones.jubilacionYley19032|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Aportes obra social</td>
+                    <td class="monto">{{ deducciones.aportesObraSocial|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Cuota sindical</td>
+                    <td class="monto">{{ deducciones.cuotaSindical|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Aportes jubilatorios otros empleos</td>
+                    <td class="monto">{{ deducciones.aporteJubilatoriosOtrosEmpleos|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Aportes obra social otros empleos</td>
+                    <td class="monto">{{ deducciones.aporteObraSocialOtrosEmpleos|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Cuota sindical otros empleos</td>
+                    <td class="monto">{{ deducciones.cuotaSindicalOtrosEmpleos|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Cuotas médico asistenciales</td>
+                    <td class="monto">{{ deducciones.cuotasMedicoAsistenciales|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Primas de seguro para el caso de muerte</td>
+                    <td class="monto">{{ deducciones.primasSeguroCasosMuerte|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Gastos de sepelio</td>
+                    <td class="monto">{{ deducciones.gastosSepelios|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Gastos estimativos para corredores y viajantes de comercio</td>
+                    <td class="monto">{{ deducciones.gastosEstimativosCorredoresViajantes|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Donaciones a fiscos nacional, provinciales y municipales, y a instituciones comprendidas en el art. 20, inc. e) y f) de la ley</td>
+                    <td class="monto">{{ deducciones.donaciones|money_format }}</td>
+                 </tr>
+                 <tr>
+                    <td>Descuentos obligatorios establecidos por ley nacional, provincial o municipal</td>
+                    <td class="monto">{{ deducciones.descuentosLeyNacionalProvincialMunicipal|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Honorarios por servicios de asistencia sanitaria, médica y paramédica</td>
+                    <td class="monto">{{ deducciones.honorariosAsistenciaSanitaria|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Intereses créditos hipotecarios</td>
+                    <td class="monto">{{ deducciones.interesesCreditosHipotecarios|money_format }}</td>
+                </tr>
+                <tr>
+                   <td>Aportes al capital social o al fondo de riesgo de socios protectores de Sociedades de garantía recíproca</td>
+                   <td class="monto">{{ deducciones.aportesCapitalSocialFondoRiesgo|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Empleados del servicio doméstico</td>
+                    <td class="monto">{{ deducciones.empleadosServicioDomestico|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Aportes a cajas complementarias de previsión, fondos compensadores de previsión o similares</td>
+                    <td class="monto">{{ deducciones.aportesCajaPrevision|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Alquileres de inmuebles destinados a su casa habitación</td>
+                    <td class="monto">{{ deducciones.alquiler|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Gastos de movilidad, viáticos y otras compensaciones análogas abonados por el empleador</td>
+                    <td class="monto">{{ deducciones.gastosMovilidad|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Otras deducciones</td>
+                    <td class="monto">{{ deducciones.otrasDeducciones|money_format }}</td>
+                </tr>
+                <tr>
+                    <td><strong>TOTAL DEDUCCIONES</strong></td>
+                    <td class="monto">{{ deducciones.totalDeducciones|money_format }}</td>
+                </tr>
+                <tr>
+                    <td class="seccion"><strong>DEDUCCIONES ART 23</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Ganancia no imponible</td>
+                    <td class="monto">{{ deduccionesArt23.gananciaNoImponible|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Deducción especial /Deducción especifica</td>
+                    <td class="monto">{{ deduccionesArt23.deduccionEspecial|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Cargas de familia</td>
+                    <td class="monto">{{ deduccionesArt23.cargasFamilia|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Cónyuge</td>
+                    <td class="monto">{{ deduccionesArt23.conyuge|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Hijos</td>
+                    <td class="monto">{{ deduccionesArt23.hijos|money_format }}</td>
+                </tr>
+                <tr>
+                    <td><strong>TOTAL DEDUCCIONES ART 23</strong></td>
+                    <td class="monto">{{ deduccionesArt23.totalDeduccionesArt23|money_format }}</td>
+                </tr>
+                <tr>
+                    <td><strong>REMUNERACIÓN SUJETA IMPUESTO</strong></td>
+                    <td class="monto">{{ remuneracionSujetaImpuesto|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Tramo de alícuota artículo 90 ley gravamen</td>
+                    <td class="monto">{{ porcentaje * 100 }}%</td>
+                </tr>
+                <tr>
+                    <td>Tramo de alícuota aplicable (sin incluir horas extras)</td>
+                    <td class="monto">{{ tramoAlicuotaAplicabale }}</td>
+                </tr>
+                <tr>
+                    <td>Impuesto determinado</td>
+                    <td class="monto">{{ impuestoDeterminado|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Impuesto retenido</td>
+                    <td class="monto">{{ retenidoAnual|money_format }}</td>
+                </tr>
+                <tr>    
+                    <td>Pagos a cuenta</td>
+                    <td class="monto">{{ percepciones|money_format }}</td>
+                </tr>
+                <tr>    
+                    <td>Saldo</td>
+                    <td class="monto">{{ saldo|money_format }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>Se extiende el presente certificado para constancia del interesado.</li>
+            <li>BUENOS AIRES, {{ "now"|date("d/m/Y") }}</li>
+        </ul>
+        
+        <br>
+        <br>
+        <div style="height: 3%;">
+            <div>Firma responsable</div>
+            <br/>
+            <div>Identificación del responsable</div>
+            <div style="position: relative; left: 1030px; bottom: 250px;">
+                <img 
+                    src="{{ app.request.getSchemeAndHttpHost() ~ '/images/firma_carro.png' }}"
+                    width="250px"
+                />
+            </div>
+            <div style="position: relative; left: 850px; bottom: 250px;">
+                <p style="font-size: 20px;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    LIC. MARCELO MAXIMO CARRO <br/>
+                    GERENTE DE RECURSOS HUMANOS Y RELACIONES LABORALES <br/>
+                    ADMINISTRACIÓN DE INFRAESTRUCTURAS FERROVIARIAS S.E.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

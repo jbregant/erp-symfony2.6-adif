@@ -1,0 +1,215 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">        
+        .div_ctn_seccion table {
+            background-color: #FFF;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+    <div class="pull-left">
+        <h3 style="margin-top:0;">Detalles del comprobante</h3>
+    </div>
+
+    <br />
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Proveedor</div>
+
+        <div class="row">    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Raz&oacute;n social</label>
+                    <div class="detalle_show">{{ entity.razonSocial }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">CUIT</label>
+                    <div class="detalle_show">{{ entity.CUIT|default('-') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Datos del comprobante</div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Fecha ingreso ADIF</label>
+                    <div class="detalle_show">{{ entity.fechaIngresoADIF|date('d/m/Y') }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">N&uacute;mero de referencia otros sistemas</label>
+                    <div class="detalle_show">{{ entity.numeroReferencia|default('-') }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Tipo de comprobante</label>
+                    <div class="detalle_show">{{ entity.tipoComprobante }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Letra</label>
+                    <div class="detalle_show">{{ entity.letraComprobante|default('-') }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">N&uacute;mero de comprobante</label>
+                    <div class="detalle_show">{{ entity.numeroCompleto }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Fecha</label>
+                    <div class="detalle_show">{{ entity.fechaComprobante|date('d/m/Y') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Renglones</div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="control-label">Renglones</label>
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Concepto</th>
+                                <th class="text-center">Descripci&oacute;n</th>
+                                <th class="text-center">Neto</th>
+                                <th class="text-center">% IVA</th>
+                                <th class="text-center">IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for renglon_comprobante in entity.renglonesComprobante %}
+                                <tr tr_index="{{ loop.index }}">
+                                    <td>{{ renglon_comprobante.conceptoEgresoValor }}</td>
+                                    <td>{{ renglon_comprobante.descripcion }}</td>
+                                    <td class="text-right">{{ renglon_comprobante.montoNeto|money_format }}</td>
+                                    <td class="text-center">{{ renglon_comprobante.alicuotaIva }}</td>
+                                    <td class="text-right">{{ renglon_comprobante.montoIva|money_format }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Percepciones e impuestos</div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label class="control-label">Percepciones</label>
+                {% if entity.renglonesPercepcion is not empty %}
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Concepto</th>
+                                    <th class="text-center">Jurisdicci&oacute;n</th>
+                                    <th class="text-center">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for renglon_percepcion in entity.renglonesPercepcion %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td class="text-center">{{ renglon_percepcion.conceptoPercepcion }}</td>
+                                        <td class="text-center">{{ renglon_percepcion.jurisdiccion }}</td>
+                                        <td class="text-center">{{ renglon_percepcion.monto|currency_format }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="bold">El comprobante no presenta percepciones.</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">Impuestos</label>
+                {% if entity.renglonesImpuesto is not empty %}
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Concepto</th>
+                                    <th class="text-center">Detalle</th>
+                                    <th class="text-center">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for renglon_impuesto in entity.renglonesImpuesto %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td class="text-center">{{ renglon_impuesto.conceptoImpuesto }}</td>
+                                        <td class="text-center">{{ renglon_impuesto.detalle }}</td>
+                                        <td class="text-center">{{ renglon_impuesto.monto|currency_format }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="bold">El comprobante no presenta impuestos.</div>
+                {% endif %}
+            </div>
+        </div>       
+    </div>
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Observaciones</div>
+
+        <div class="row">    
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Observaciones</label>
+                    <div class="detalle_show">{{ entity.observaciones|default('-') }}</div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">TOTAL</div>
+
+        <div class="row">    
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Total</label>
+                    <div class="detalle_show">{{ entity.total|currency_format }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="button" class="btn default button-back">
+            <i class="m-icon-swapleft"></i> Volver
+        </button>
+    </div>
+{% endblock %}

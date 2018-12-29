@@ -1,0 +1,96 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %} {{ parent() }} {% endblock%}
+
+{% block body %}
+    {% set estadoEvaluacion =  datosUsuario.proveedorEvaluacion.estadoEvaluacionGafFinanzas.id %}
+    {% set idProveedorEvaluacion  =   datosUsuario.proveedorEvaluacion.id | format_file_from_text %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="col-lg-12 caption">
+                        <div class="col-lg-7">
+                            Evaluaci&oacute;n de Interesado GAF
+                        </div>
+                        <div class="col-lg-3">
+                            Email: {{ datosUsuario.email }}
+                        </div>
+                         <div class="col-lg-2">
+                            {% if datosUsuario.extranjero %}
+                                Nro. de Identificación tributara: {{ datosUsuario.numeroIdTributaria }}
+                            {% else %}
+                                CUIT: {{ datosUsuario.cuit }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">Gerencia Adm. Finanzas</div>
+                            </div>
+                            <div class="portlet-body">
+
+                                <!-- Datos Bancarios -->
+                                <fieldset class="form-section-fieldset">
+                                    <legend class="form-section-legend">Datos Bancarios</legend>
+
+                                    <!-- Persona Física -->
+                                    {% if datosUsuario.tipoProveedor.id == 1  %}
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_tipo_persona.html.twig'  %}
+                                    {% endif %}
+
+                                    <!-- Persona Jurídica  -->
+                                    {% if datosUsuario.tipoProveedor.id == 2  %}
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_tipo_persona.html.twig' %}
+                                    {% endif %}
+
+                                    <!-- Contratos de Colaboración Empresaria -->
+                                    {% if datosUsuario.tipoProveedor.id == 3 %}
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_tipo_persona.html.twig'  %}
+                                    {% endif %}
+
+                                    <!-- Persona Física Extrangera -->
+                                    {% if datosUsuario.tipoProveedor.id == 4 %}
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_tipo_persona_extranjera.html.twig' %}
+                                    {% endif %}
+
+                                    <!-- Persona Jurídica Extrangera -->
+                                    {% if  datosUsuario.tipoProveedor.id == 5 %}
+                                        {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_tipo_persona_extranjera.html.twig'  %}
+                                    {% endif %}
+                                </fieldset>
+                                <!-- Fin Datos Bancarios -->
+
+                                {% if datosUsuario.proveedorEvaluacion.motivoRechazoGafFinanzas is not null and datosUsuario.proveedorEvaluacion.motivoRechazoInternoGafFinanzas is not null %}
+                                    {% set motivoRechazo = datosUsuario.proveedorEvaluacion.motivoRechazoGafFinanzas|raw %}
+                                    {% set motivoRechazoInterno = datosUsuario.proveedorEvaluacion.motivoRechazoInternoGafFinanzas|raw %}
+                                    {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:show_motivo_rechazo_gerencia.html.twig' with {'motivoRechazo': motivoRechazo, 'motivoRechazoInterno': motivoRechazoInterno } %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        {%  if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GAF_FINZNAZAS") %}
+                            {% include 'ADIFPortalProveedoresBundle:ProveedorEvaluacion:btn_form_actions.html.twig' with {'idGerencia':4} %}
+                        {% endif %}
+                        <button type="button" class="btn default button-back" back-url="{{ path('proveedor_evaluacion') }}">
+                            <i class="m-icon-swapleft"></i>
+                            Volver
+                        </button>
+                    </div>
+                    {{ form_widget(form._token) }}
+                    {{ form_end(form, {"render_rest": false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/portalproveedores/detalle/index.js') }}" ></script>
+{% endblock %}

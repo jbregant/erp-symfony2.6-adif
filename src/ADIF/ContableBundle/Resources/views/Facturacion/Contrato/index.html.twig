@@ -1,0 +1,121 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/facturacion/contrato/index.css') }}" 
+          rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% set ConstanteEstadoContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoContrato' %}
+{% set ConstanteClaseContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteClaseContrato' %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Contratos</div>
+                </div>
+                <div class="portlet-body">
+                    <form name="form_generar_facturas" 
+                          id="form_generar_facturas" method="post" 
+                          action="{{ path( 'comprobanteventa_factura_automatica_step_1') }}">
+                        <div class="table-toolbar">
+                            <div class="btn-group">
+                                <a class="btn btn-sm green tooltips" data-placement="right" 
+                                   data-original-title="Crear contrato" 
+                                   href=" {{ path( 'contrato_new') }} ">
+                                    Crear contrato <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right" id="btn_generar_comprobantes">
+                                <a class="btn btn-sm purple tooltips" data-placement="top" data-original-title="Generar comprobantes automáticamente" href="">
+                                    <i class="fa fa-list-alt"></i>
+                                    Generaci&oacute;n autom&aacute;tica
+                                </a>
+                            </div>
+                        </div>
+                        <table 
+                            class="table table-no-scrollable table-bordered table-striped table-condensed 
+                            flip-content dt-multiselect export-excel" 
+                            id="table-contrato"
+                            dataexport-title="contrato">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th></th>
+                                    <th class="not-in-filter"></th>
+                                    <th>Tipo</th>
+                                    <th>Moneda</th>
+                                    <th>N&ordm; contrato</th>
+                                    <th>N&ordm; carpeta</th>
+                                    <th>Cliente</th>
+                                    <th data-type="date">Fecha inicio</th>
+                                    <th data-type="date">Fecha fin</th>
+                                    <th data-type="date">F. desocup.</th>
+                                    <th>Saldo pendiente facturaci&oacute;n</th>
+                                    <th>Estado</th>
+                                    <th class="not-in-filter"></th>
+                                    <th class="hidden not-in-filter"></th>
+                                    <th class="hidden not-in-filter"></th>
+                                    <th class="hidden not-in-filter"></th>
+                                    <th class="hidden not-in-filter"></th>
+                                </tr>
+                                <tr class="headers">
+                                    <th class="no-order entity_id"></th>
+                                    <th class="text-center table-checkbox no-order">
+                                        <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                                               data-set="#table-contrato .checkboxes" />
+                                    </th>
+                                    <th>Tipo</th>
+                                    <th class="text-center nowrap">Moneda</th>
+                                    <th class="text-center">N&ordm; contrato</th>
+                                    <th class="text-center">N&ordm; carpeta</th>
+                                    <th>Cliente</th>
+                                    <th date export-format="date" class="text-center">Fecha inicio</th>
+                                    <th date export-format="date" class="text-center">Fecha fin</th>
+                                    <th date export-format="date" class="text-center">F. desocup.</th>                                    
+                                    <th currency class="text-center nowrap">Saldo pendiente fact.</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="hidden"></th>
+                                    <th class="hidden"></th>
+                                    <th class="hidden"></th>
+                                    <th class="hidden"></th>
+                                    <th class="text-center no-order ctn_acciones">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+    <script type="text/javascript">
+        var constanteSinDNI = {{ constant(ConstanteEstadoContrato ~ '::SIN_DNI') }};
+                var constanteActivoOk = {{ constant(ConstanteEstadoContrato ~ '::ACTIVO_OK') }};
+                var constanteActivoComentado = {{ constant(ConstanteEstadoContrato ~ '::ACTIVO_COMENTADO') }};
+                var constanteDesocupado = {{ constant(ConstanteEstadoContrato ~ '::DESOCUPADO') }};
+                var tipoCambioPorTipoMoneda ={{ tipoCambioPorTipoMoneda|json_encode|raw }} ;</script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/facturacion/contrato/index.js') }}" ></script>
+
+{% endblock %}

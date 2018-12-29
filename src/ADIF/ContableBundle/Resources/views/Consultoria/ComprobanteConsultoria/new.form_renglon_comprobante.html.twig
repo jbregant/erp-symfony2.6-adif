@@ -1,0 +1,94 @@
+<div class="row row_renglon_comprobante_nuevo" style="display: none;">
+
+    <div class="col-md-7">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___descripcion" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][descripcion]" 
+                       required="required" class="form-control ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="hidden">
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___cantidad" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][cantidad]" 
+                       required="required" class="form-control ignore hidden" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___numeroCuota" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][numeroCuota]" 
+                       required="required" class="form-control ignore hidden" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___cicloFacturacion" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][cicloFacturacion]" 
+                       required="required" class="form-control currency ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___precioUnitario" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][precioUnitario]" 
+                       required="required" class="form-control currency ignore" value="">
+            </div>
+        </div>
+    </div>   
+    <div class="hidden">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___neto" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][montoNeto]" 
+                       required="required" class="form-control currency ignore hidden" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___alicuotaIva" 
+                        sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][alicuotaIva]" 
+                        class="form-control ignore"
+                        required="required">
+                    {% for choice_alicuota_iva in form.renglonesComprobante.vars.prototype.alicuotaIva.vars.choices %}
+                        <option value="{{choice_alicuota_iva.data.id}}">{{choice_alicuota_iva.data.valor}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___montoIva" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][montoIva]" 
+                       required="required" class="form-control currency ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="hidden">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesComprobante___name___mes" 
+                       sname="adif_contablebundle_comprobanteconsultoria[renglonesComprobante][__name__][mes]" 
+                       class="form-control ignore hidden" value="">
+            </div>
+        </div>
+    </div>
+</div>

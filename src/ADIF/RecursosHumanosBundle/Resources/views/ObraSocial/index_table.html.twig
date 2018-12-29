@@ -1,0 +1,15 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.nombre|escape_json|default('-') }}", 
+    "{{ entity.codigo|default('-') }}", 
+{
+"show" : " {{ path( "obra_social_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "obra_social_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

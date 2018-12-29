@@ -1,0 +1,89 @@
+<div class="div_ctn_seccion">
+    <div class="btn btn-info btn-sm label_seccion">Datos iniciales del comprobante</div>
+
+    <div class="row">
+
+        {% if form.fechaIngresoADIF is defined %}
+            <div class="col-md-2">
+                <div class="form-group">
+                    {{ form_label(form.fechaIngresoADIF) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.fechaIngresoADIF) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.numeroReferencia) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.numeroReferencia) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.tipoComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoComprobante) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.letraComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.letraComprobante) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.numero) }}
+                <div class="input-group">                                    
+                    {{ form_widget(form.puntoVenta) }}
+                    <span class="input-group-addon" style="width: 0; background-color: #EDF4F9;border: none;">
+                        <i class="fa fa-minus"></i>
+                    </span>
+                    {{ form_widget(form.numero) }}
+                </div>
+            </div>
+        </div>   
+        <div class="col-md-3 datos-cupon">
+            <div class="form-group">
+                {{ form_label(form.numeroCupon) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.numeroCupon) }}
+                </div>
+            </div>
+        </div>                     
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.fechaComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fechaComprobante) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.montoValidacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.montoValidacion) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Cuentas por cobrar <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu">
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_CONFIGURACION') %}
+            {% include ':Menu:menu_configuracion_clientes.html.twig' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_ADMINISTRACION') %}
+            {% include ':Menu:menu_cuentas_por_cobrar.administracion_datos.html.twig' %}
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_CONTRATOS") %}
+            <li>
+                <a href="{{ path('contrato') }}">
+                    Contratos
+                </a>
+            </li>
+        {% endif %} 
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_FACTURAS") %}
+            <li>
+                <a href="{{ path('comprobanteventa') }}">
+                    Facturaci&oacute;n
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_FACTURACION_GENERAL") %}
+            <li>
+                <a href="{{ path('comprobanteventa_new_venta_general') }}">
+                    Facturaci&oacute;n general
+                </a>
+            </li>            
+        {% endif %}
+		
+		{% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_COMPROBANTE_RENDICION_LIQUIDO_PRODUCTO") %}
+            <li>
+                <a href="{{ path('comprobante_rendicion_liquido_producto_new') }}">
+                    Rendici&oacute;n liquido producto
+                </a>
+            </li>            
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_FACTURACION_PLIEGO") %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Facturaci&oacute;n de pliegos
+                </a>
+                <ul class="dropdown-menu">
+                    {# {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_FACTURACION_PLIEGO_COMPRA") %} #}
+                    <li>
+                        <a href="{{ path('comprobanteventa_new_pliego_compra') }}">
+                            Pliegos de compra
+                        </a>
+                    </li>
+                    {# {% endif %} #}
+                    {# {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_FACTURACION_PLIEGO_OBRA") %} #}
+                    <li>
+                        <a href="{{ path('comprobanteventa_new_pliego_obra') }}">
+                            Pliegos de obra
+                        </a>
+                    </li>
+                    {# {% endif %} #}
+                </ul>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_REPORTES") %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Reportes
+                </a>
+                <ul class="dropdown-menu">
+                    {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_REPORTES_LIBRO_IVA_VENTAS") %} 
+                        <li>
+                            <a href="{{ path('comprobanteventa_libroiva_venta') }}">
+                                Libro IVA ventas
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_REPORTES_MOVIMIENTOS_CLIENTE") %} 
+                        <li>
+                            <a href="{{ path('asientocontable_movimientos_cliente') }}">
+                                Movimientos por cliente
+                            </a>
+                        </li>
+                    {% endif %} 
+                    {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_REPORTES_RESUMEN_CC_CLIENTES") %} 
+                        <li>
+                            <a href="{{ path('cliente_resumen_cuenta_corriente') }}">
+                                Resumen cuenta corriente clientes
+                            </a>
+                        </li>
+                    {% endif %} 
+                    {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_REPORTES_POLIZAS") %} 
+                        <li>
+                            <a href="{{ path('polizacontrato') }}">
+                                P&oacute;lizas
+                            </a>
+                        </li>
+                    {% endif %} 
+                    {% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR_REPORTES") %}
+                        <li>
+                            <a href="{{ path('reporte_facturacion_provincias') }}">
+                                Reporte facturacion por provincias
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>

@@ -1,0 +1,307 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/asientocontable/asientocontable.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(theme_path ~ 'plugins/jstree/dist/themes/default/style.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Modelo de asiento contable</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+
+            <div class="form-body">
+
+                <div class="row asiento-contable-encabezado">   
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ form_label(form.denominacionModeloAsientoContable) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.denominacionModeloAsientoContable) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form_label(form.conceptoAsientoContable) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.conceptoAsientoContable) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# FORM para agregar renglones al asiento #}
+                <div id="row_renglon_asiento" class="asiento-contable-detalle">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="renglon_asiento_cuentaContable" class="control-label">
+                                    Cuenta contable
+                                </label>
+                                <a href=#" data-original-title="Buscar cuenta contable"
+                                   class="pull-right label label-sm label-success tooltips btn-search-cuenta-contable">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <select class="choice form-control"
+                                                id="renglon_asiento_cuentaContable" name="renglon_asiento_cuentaContable">
+                                            <option value=""> -- Cuenta contable --</option>
+                                            {% for cuentaContable in cuentasContables %}
+                                                <option value="{{ cuentaContable.id }}">{{ cuentaContable }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="renglon_asiento_operacionContable" class="control-label">Imputaci&oacute;n</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <div class="radio-list radio-tipo-imputacion">
+                                            {% for operacionContable in operacionesContables %}
+                                                <label class="radio-inline">
+                                                    <input type="radio" class="uniformable" 
+                                                           {% if loop.first %} checked="checked" {% endif %}
+                                                           value="{{ operacionContable.id }}" 
+                                                           name="renglon_asiento_operacionContable" 
+                                                           text="{{ operacionContable }}">
+                                                    {{ operacionContable }}
+                                                </label>                                                
+                                            {% endfor %} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="renglon_asiento_importeMO" class="control-label">Importe</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type=text class="currency form-control"
+                                               id="renglon_asiento_importeMO" name="renglon_asiento_importeMO">
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="renglon_asiento_tipoMoneda" class="control-label">Moneda</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <select class="choice form-control"
+                                                id="renglon_asiento_tipoMoneda" name="renglon_asiento_tipoMoneda">
+                                            {% for tipoMoneda in tiposMoneda %}
+                                                <option value="{{ tipoMoneda.id }}"> {{ tipoMoneda }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-11">
+                            <div class="form-group">
+                                <label for="renglon_asiento_detalle" class="control-label">Concepto</label>
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type=text class="form-control"
+                                               id="renglon_asiento_detalle" name="renglon_asiento_detalle">
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button  data-original-title="Agregar rengl&oacute;n"
+                                         class="btn green form-control tooltips" id="add_renglon_asiento">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {# END FORM#}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">Detalle</div>
+                                <div class="tools">
+                                    <a class="collapse" href="javascript:;"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-bordered table-condensed" id="renglon_asiento_contable_table">
+                                        <thead>
+                                            <tr>
+                                                <th class="th-cuenta-contable">Cuenta contable</th>
+                                                <th class="text-center">Debe</th>
+                                                <th class="text-center">Haber</th>
+                                                <th>Concepto</th>
+                                                <th class="th-acciones">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <td class="text-right tr-total">Total</td>
+                                                <td class="text-right hlt total-debe money-format"></td>
+                                                <td class="text-right hlt total-haber money-format"></td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right bold">Diferencia</td>
+                                                <td class="text-right hlt total-diferencia-debe money-format"></td>
+                                                <td class="text-right hlt total-diferencia-haber money-format"></td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {% for renglonAsientoContable in entity.renglonesModeloAsientoContable %}
+                                                <tr tr_index="{{ loop.index }}">
+                                                    <td {{ renglonAsientoContable.tipoOperacionContable == 'Haber' ? 'class="td-tipo-operacion-debe"' : ''}}>
+                                                        {{ renglonAsientoContable.cuentaContable }}
+                                                    </td>
+                                                    <td class="text-right td-debe">
+                                                        {{ renglonAsientoContable.tipoOperacionContable == 'Debe' ? renglonAsientoContable.importeMO|currency_format : '' }}
+                                                    </td>
+                                                    <td class="text-right td-haber">
+                                                        {{ renglonAsientoContable.tipoOperacionContable == 'Haber' ? renglonAsientoContable.importeMO|currency_format : '' }}
+                                                    </td>
+                                                    <td class="td-detalle">{{ renglonAsientoContable.detalle }}</td>
+                                                    <td class="td-acciones-asiento">
+                                                        <a class="btn btn-xs green editar_renglon_asiento" data-original-title="Editar">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                        <a class="btn default btn-xs red tooltips remove_renglon_cuenta"
+                                                           data-original-title="Eliminar" >
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('modelos_asiento_contable') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+
+        {% include 'ADIFContableBundle:CuentaContable:searchForm.html.twig'%}
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jstree/dist/jstree.min.js') }}" ></script>
+
+    <script src="{{ asset(js_path ~ 'custom/contable/cuentacontable/search.js') }}" ></script> 
+
+    <script type="text/javascript">
+
+        var permiteAjuste = "{{ is_granted("ROLE_CONTABLE_ASIENTO_AJUSTE") ? '1' : '0' }}";
+
+    </script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/new.js') }}" ></script>
+
+    <script type="text/javascript">
+
+        var renglonesOriginales = [];
+
+        {% for renglonModeloAsientoContable in entity.renglonesModeloAsientoContable %}
+
+            renglonesOriginales.push({
+                'id': "{{ renglonModeloAsientoContable.id }}",
+                'idCuentaContable': "{{ renglonModeloAsientoContable.cuentaContable.id }}",
+                'idOperacionContable': "{{ renglonModeloAsientoContable.tipoOperacionContable.id }}",
+                'idTipoMoneda': "{{ renglonModeloAsientoContable.tipoMoneda.id }}",
+                'importeMO': "{{ renglonModeloAsientoContable.importeMO }}",
+                'detalle': "{{ renglonModeloAsientoContable.detalle }}"
+            });
+        {% endfor %}
+
+            addRenglonAsientoToRequest(renglonesOriginales);
+
+    </script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

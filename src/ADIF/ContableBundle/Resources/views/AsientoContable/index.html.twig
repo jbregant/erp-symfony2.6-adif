@@ -1,0 +1,176 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Asientos contables</div>
+                </div>
+                <div class="portlet-body">
+
+                    <div class="table-toolbar" style="margin-top: 2.5em">
+
+                        {% if not is_granted("ROLE_SOLO_LECTURA") %}
+
+                            <div class="btn-group pull-left">
+                                <a class="btn btn-sm green tooltips" data-placement="right" 
+                                   data-original-title="Crear asiento manual" 
+                                   href=" {{ path('asientocontable_new') }} ">
+                                    Crear asiento manual <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                            <div class="btn-group pull-left margin-right-10">
+                                <a class="btn btn-sm blue tooltips" 
+                                   style="margin-left: 10px;"
+                                   data-placement="right" 
+                                   data-original-title="Crear asiento desde Excel" 
+                                   href=" {{ path('asientocontable_importar') }} ">
+                                    Crear asiento desde Excel <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+
+                        {% endif %}
+
+                        <div class="btn-group pull-left" style="margin-top: -2.2em; margin-bottom: -1em">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaInicio" 
+                                               class="control-label">Fecha inicio</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                                   name="adif_contablebundle_filtro[fechaInicio]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha fin</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-asientocontable"
+                        data-toggler="1"
+                        dataexport-title="asientocontable">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+								<th>N&ordm; ID sec.</th>
+                                <th>N&ordm; original</th>
+                                <th>N&ordm; asiento</th>
+                                <th data-type="date">Fecha contable</th>
+                                <th>Tipo</th>
+                                <th>Concepto</th>
+                                <th>T&iacute;tulo</th>
+                                <th>N&deg; documento</th>
+                                <th>Raz&oacute;n social</th>
+                                <th>Total debe</th>
+                                <th>Total haber</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-asientocontable .checkboxes" />
+                                </th>
+								<th class="nowrap">N&ordm; ID sec.</th>
+                                <th class="nowrap">N&ordm; original</th>
+                                <th class="nowrap">N&ordm; asiento</th>
+                                <th date export-format="date" class="nowrap">Fecha contable</th>
+                                <th>Tipo</th>
+                                <th>Concepto</th>
+                                <th>T&iacute;tulo</th>
+                                <th>N&deg; documento</th>
+                                <th>Raz&oacute;n social</th>
+                                <th currency>Total debe</th>
+                                <th currency>Total haber</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detalle_asiento_reversion" class="hidden">     
+        <form name="adif_contablebundle_detalle_asiento_reversion" 
+              method="post" action="" class="horizontal-form" novalidate="novalidate">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label required" for="adif_contablebundle_asientocontable_fechaContable">Fecha contable</label>
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><div class="input-icon right">
+                                <i class="fa" data-original-title=""></i>
+                                <input type="text" id="adif_contablebundle_asientocontable_fechaContable" 
+                                       name="adif_contablebundle_asientocontable[fechaContable]" 
+                                       required="required" class="form-control datepicker fecha_custom">
+                            </div>
+                        </div>
+                    </div> 
+                </div> 
+            </div> 
+        </form>           
+    </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var fechaMesCerradoSuperior = "{{ fechaMesCerradoSuperior }}";
+    </script>
+
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+
+    <script src="{{ asset('js/custom/contable/asientocontable/index.js') }}" ></script>    
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

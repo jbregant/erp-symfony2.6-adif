@@ -1,0 +1,114 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/asientocontable/asientocontable.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del modelo de asiento contable: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label class="control-label">Denominaci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.denominacionModeloAsientoContable }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Concepto</label>
+                        <div class="detalle_show">
+                            {{ entity.conceptoAsientoContable }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box blue-hoki">
+                        <div class="portlet-title">
+                            <div class="caption">Detalle</div>
+                            <div class="tools">
+                                <a class="collapse" href="javascript:;"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-bordered table-condensed" id="renglon_asiento_contable_table">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-cuenta-contable">Cuenta contable</th>
+                                            <th class="text-center">Debe</th>
+                                            <th class="text-center">Haber</th>
+                                            <th>Concepto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set debe = 0 %}
+                                        {% set haber = 0 %}
+                                        {% for renglonAsientoContable in entity.renglonesModeloAsientoContable %}
+                                            <tr tr_index="{{ loop.index }}">
+                                                <td {{ renglonAsientoContable.tipoOperacionContable == 'Haber' ? 'class="td-tipo-operacion-debe"' : ''}}>
+                                                    {{ renglonAsientoContable.cuentaContable }}
+                                                </td>
+                                                <td class="text-right td-debe">
+                                                    {% if(renglonAsientoContable.tipoOperacionContable == 'Debe') %}
+                                                        {{renglonAsientoContable.importeMO|currency_format }}
+                                                        {% set debe = debe + renglonAsientoContable.importeMO %}
+                                                    {% endif %}
+                                                </td>
+                                                <td class="text-right td-haber">
+                                                    {% if(renglonAsientoContable.tipoOperacionContable == 'Haber') %}
+                                                        {{renglonAsientoContable.importeMO|currency_format }}
+                                                        {% set haber = haber + renglonAsientoContable.importeMO %}
+                                                    {% endif %}
+                                                </td>
+                                                <td class="td-detalle">{{ renglonAsientoContable.detalle }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-right tr-total">Total</td>
+                                            <td class="text-right hlt total-debe">{{ debe|currency_format }}</td>
+                                            <td class="text-right hlt total-haber">{{ haber|currency_format }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('modelos_asiento_contable') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+                <div class="pull-right">
+                    <a href=" {{ path( 'modelos_asiento_contable_edit', { 'id': entity.id }) }} " 
+                       class="btn green tooltips" data-original-title="Editar">
+                        <i class="fa fa-pencil"></i> Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

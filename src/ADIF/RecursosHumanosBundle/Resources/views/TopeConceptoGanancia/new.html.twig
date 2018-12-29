@@ -1,0 +1,137 @@
+{% extends '::base.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/topeconceptoganancia/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Tope concepto {% if edit %} {{ entity }} {% endif %}</div>
+            
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+        
+        {% include ':Form:fieldsErrors.html.twig' %}
+            
+         
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+        
+            
+            <div class="form-body">
+			
+                <div class="row">                                    
+					<div class="col-md-6">
+                        <div class="form-group">
+							 {{ form_label(form.rangoRemuneracion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+									{{ form_widget(form.rangoRemuneracion) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+					<div class="col-md-6">
+                        <div class="form-group">
+							{{ form_label(form.conceptoGanancia) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+									{{ form_widget(form.conceptoGanancia) }}
+                                </div>
+                        </div>
+                    </div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.valorTope) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.valorTope) }}
+                                </div>
+                        </div>
+                    </div>
+					
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.esPorcentaje) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.esPorcentaje) }}
+                                </div>
+                        </div>
+                    </div>
+				</div>
+				
+                <div class="row">
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.esValorAnual) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.esValorAnual) }}
+                                </div>
+                        </div>
+                    </div>
+					
+					<div class="col-md-6">
+							<div class="form-group">
+								{{ form_label(form.vigente) }}
+									<div class="input-icon right">
+										<i class="fa"></i>
+										{{ form_widget(form.vigente) }}
+									</div>
+							</div>
+                    </div>
+                    
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.fechaDesde) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.fechaDesde) }}
+                                </div>
+                        </div>
+                    </div>
+					<div class="col-md-6">
+						<div class="form-group">
+							{{ form_label(form.fechaHasta) }}
+								<div class="input-icon right">
+									<i class="fa"></i>
+									{{ form_widget(form.fechaHasta) }}
+								</div>
+						</div>
+					</div>
+				</div>
+                        
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('tope_concepto') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+                
+            {{ form_widget(form._token) }}
+        
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

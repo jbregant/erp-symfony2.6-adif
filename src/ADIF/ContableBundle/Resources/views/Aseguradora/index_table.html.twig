@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.nombre|default('-') }}",
+    "{{ entity.detalle|default('-') }}",
+    "{{ entity.activo|default('-') }}",
+{
+"show" : " {{ path( "aseguradoras_show", { "id": entity.id }) }}",
+"edit" : " {{ path( "aseguradoras_edit", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

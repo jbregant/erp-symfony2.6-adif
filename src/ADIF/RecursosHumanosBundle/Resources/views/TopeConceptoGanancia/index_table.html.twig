@@ -1,0 +1,24 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.rangoRemuneracion|default('-') }}", 
+	{% if entity.rangoRemuneracion.vigente == 1 %} "Si" {% else %} "No" {% endif %},
+	"{{ entity.conceptoGanancia|default('-') }}", 
+    "{{ entity.valorTope|default('-') }}", 
+	
+	{% if entity.esPorcentaje == 1 %} "Si" {% else %} "No" {% endif %},
+	{% if entity.esValorAnual == 1 %} "Si" {% else %} "No" {% endif %},
+	{% if entity.vigente == 1 %} "Si" {% else %} "No" {% endif %},
+	
+    {% if entity.fechaDesde %}"{{ entity.fechaDesde|date('d/m/Y') }}" {% else %} "-" {% endif %}, 
+    {% if entity.fechaHasta %}"{{ entity.fechaHasta|date('d/m/Y') }}" {% else %} "-" {% endif %}, 
+{
+"show" : " {{ path( "tope_concepto_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "tope_concepto_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

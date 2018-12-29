@@ -1,0 +1,293 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-magnific-popup/css/magnific-popup.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del documento financiero
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                {% if entity.fechaAnulacion is not null %}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label bold">FECHA ANULACI&Oacute;N</label>
+                            <div class="detalle_show">{{ entity.fechaAnulacion|date('d/m/Y') }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&uacute;mero de referencia otros sistemas</label>
+                        <div class="detalle_show">{{ entity.numeroReferencia|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tipo documento financiero</label>
+                        <div class="detalle_show">{{ entity.tipoDocumentoFinanciero }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Total documento financiero</label>
+                        <div class="detalle_show">{{ entity.montoTotalDocumentoFinanciero|money_format }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Monto sin IVA</label>
+                        <div class="detalle_show">{{ entity.montoSinIVA|money_format }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Monto IVA</label>
+                        <div class="detalle_show">{{ entity.montoIVA|money_format }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Monto Percepciones</label>
+                        <div class="detalle_show">{{ entity.montoPercepciones|money_format }}</div>
+                    </div>
+                </div>
+                {% if not entity.esFondoReparo %}
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Monto fondo reparo</label>
+                            <div class="detalle_show">{{ entity.montoFondoReparo|money_format }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Fecha inicio</label>
+                        <div class="detalle_show">{{ entity.fechaDocumentoFinancieroInicio|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Fecha fin</label>
+                        <div class="detalle_show">{{ entity.fechaDocumentoFinancieroFin|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Ingreso ADIF</label>
+                        <div class="detalle_show">{{ entity.fechaIngresoADIF|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Remisi&oacute;n Gerencia Admin.</label>
+                        <div class="detalle_show">
+                            {{ entity.fechaRemisionGerenciaAdministracion is not null ? entity.fechaRemisionGerenciaAdministracion|date('d/m/Y') : '-' }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Ingreso Gerencia Admin.</label>
+                        <div class="detalle_show">
+                            {{ entity.fechaIngresoGerenciaAdministracion is not null ? entity.fechaIngresoGerenciaAdministracion|date('d/m/Y') : '-' }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Aprobaci&oacute;n t&eacute;cnica</label>
+                        <div class="detalle_show">
+                            {{ entity.fechaAprobacionTecnica is not null ? entity.fechaAprobacionTecnica|date('d/m/Y') : '-' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                {# FONDO REPARO ---------------------------- #}
+                {% if entity.esFondoReparo %}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Porcentaje a abonar</label>
+                            <div class="detalle_show">{{ entity.porcentajeAbonar ~ ' %' }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {# ANTICIPO FINANCIERO ---------------------------- #}
+                {% if entity.esAnticipoFinanciero %}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Porcentaje anticipo</label>
+                            <div class="detalle_show">{{ entity.porcentajeAnticipo ~ ' %' }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {# CERTIFICADO OBRA ---------------------------- #}
+                {% if entity.esCertificadoObra %}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">N&deg; certificado</label>
+                            <div class="detalle_show">{{ entity.numero }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Porcentaje certificaci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.porcentajeCertificacion|default(0) ~ ' %' }}</div>
+                    </div>
+                </div>
+
+                {# REDETERMINACION OBRA ---------------------------- #}
+                {% if entity.esRedeterminacionObra %}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">N&deg; redeterminaci&oacute;n</label>
+                            <div class="detalle_show">{{ entity.numero }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {# FIN - DATOS SUBCLASES ---------------------------- #}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Observaci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.observacion|default('-') }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="cleardiv margin-top-20">
+                <legend>P&oacute;lizas de seguro</legend>
+
+                {% if entity.polizasSeguro is not empty %}
+                    <table class="table table-bordered table-striped"
+                           id="table-poliza">
+                        <thead>
+                            <tr class="headers">
+                                <th date class="nowrap">Fecha inicio</th>
+                                <th date class="nowrap">Fecha venc.</th>
+                                <th class="nowrap">N&uacute;mero</th>
+                                <th class="nowrap">Aseguradora</th>
+                                <th>N&deg; tr&aacute;mite original</th>
+                                <th>N&deg; tr&aacute;mite P&oacute;liza en Gt&iacute;a</th>
+                                <th class="nowrap">Tipo de cobertura</th>
+                                <th class="nowrap">Monto asegurado</th>
+                                <th class="nowrap">Estado p&oacute;liza</th>
+                                <th class="nowrap">Estado revisi&oacute;n p&oacute;liza</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for polizaSeguro in entity.polizasSeguro %}
+                                <tr>
+                                    <td class="nowrap">{{ polizaSeguro.fechaInicio|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.fechaVencimiento|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.numeroPoliza}}</td>
+                                    {% if polizaSeguro.aseguradora2 is not null %}
+                                        <td class="nowrap">{{ polizaSeguro.aseguradora2.nombre ~ ' (normalizada)' }}</td>
+                                    {% elseif polizaSeguro.aseguradora is not null %}
+                                        <td class="nowrap">{{ polizaSeguro.aseguradora ~ ' (sin normalizar)' }}</td>
+                                    {% else %}
+                                        <td class="nowrap">n/d</td>
+                                    {% endif %}
+                                    <td>{{ polizaSeguro.numeroTramiteEnvio|default('-') }}</td>
+                                    <td>{{ polizaSeguro.numeroTramitePolizaGarantia|default('-') }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.tipoCobertura }}</td>
+                                    <td class="nowrap" style="text-align: right !important;">{{ polizaSeguro.montoAsegurado|money_format }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.EstadoPoliza }}</td>
+                                    <td class="nowrap">{{ polizaSeguro.EstadoRevisionPoliza }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span>El documento financiero no contiene p&oacute;lizas.</span>
+                {% endif %}
+            </fieldset>
+
+            {% if entity.archivos is not empty %}
+
+                <label class="control-label">Adjuntos</label>
+
+                <div class="imagenes-container">
+                    {% for archivo in entity.archivos %}
+
+                        {% set extension = archivo.nombreArchivo|split('.')|last %}
+
+                        {% if extension is not null and extension == 'pdf' %}
+                            <a href="{{ app.request.basePath ~ '/uploads/adjunto_documento_financiero/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                                <img src="{{ app.request.basePath ~ '/images/PDF.jpg' }}" alt="{{ archivo.nombre }}"/>
+                            </a>
+                        {% elseif extension is not null and (extension == 'doc' or extension == 'docx') %}
+                            <a href="{{ app.request.basePath ~ '/uploads/adjunto_documento_financiero/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                                <img src="{{ app.request.basePath ~ '/images/Word.png' }}" alt="{{ archivo.nombre }}"/>
+                            </a>
+                        {% elseif extension is not null and (extension == 'xls' or extension == 'xlsx') %}
+                            <a href="{{ app.request.basePath ~ '/uploads/adjunto_documento_financiero/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                                <img src="{{ app.request.basePath ~ '/images/Excel.png' }}" alt="{{ archivo.nombre }}"/>
+                            </a>
+                        {% else %}
+                            <span class="link-adjunto">
+                                <a href="{{ app.request.basePath ~ '/uploads/adjunto_documento_financiero/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" >
+                                    <img src="{{ app.request.basePath }}{{ vich_uploader_asset(archivo, 'archivo') }}" alt="{{ archivo.nombre }}"/>
+                                </a>
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"
+                        back-url="{{ path('documento_financiero') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+                <button type="button" class="btn btn-sm green button-back pull-right"
+                        back-url="{{ path( 'documento_financiero_edit', { 'id': entity.id }) }}">
+                    <i class="fa fa-pencil"></i> Editar
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-magnific-popup/js/jquery.magnific-popup.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'custom/contable/obras/documentofinanciero/show.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}
+

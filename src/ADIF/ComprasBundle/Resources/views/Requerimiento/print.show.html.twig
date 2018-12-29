@@ -1,0 +1,61 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% if ( idEmpresa != null ) and ( idEmpresa ) == 2 %}
+                    {% include('PDF/logo.datos.fase.html.twig') %}
+                {% else %}
+                    {% include('PDF/logo.datos.adif.html.twig') %}
+                {% endif %}
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">Requerimiento N&ordm;</div>
+                    <div class="w-100 f-12 t-center">{{ entity.numero }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ entity.fechaRequerimiento|date('d/m/Y') }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}
+    {% if entity.renglonesRequerimiento is not empty %}
+        <table class="w-100 m-top" border="1" >
+            <thead>
+                <tr>
+                    <th class="f-10 t-left hlt" colspan="6">Detalle</th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th class="f-10 nowrap">Rubro</th>
+                    <th class="f-10">Bien econ&oacute;mico</th>
+                    <th class="f-10">Descripci&oacute;n</th>
+                    <th class="f-10 nowrap">Cantidad</th>
+                    <th class="f-10 nowrap">Justiprecio</th>
+                    <th class="f-10 nowrap">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for renglon in entity.renglonesRequerimiento %}
+                    <tr>    
+                        <td class="f-10 nowrap">{{ renglon.renglonSolicitudCompra.rubro }}</td>
+                        <td class="f-10">{{ renglon.renglonSolicitudCompra.bienEconomico }}</td>
+                        <td class="f-10">{{ renglon.renglonSolicitudCompra.descripcion|default('-') }}</td>
+                        <td class="f-10 nowrap">{{ renglon.cantidad ~ ' (' ~ renglon.renglonSolicitudCompra.unidadMedida ~ ')' }}</td>
+                        <td class="f-10 nowrap">{{ renglon.justiprecioUnitario|money_format }}</td>
+                        <td class="f-10 nowrap">{{ renglon.justiprecioTotal|money_format }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <span class="f-12">El requerimiento no contiene &iacute;tems.</span>
+    {% endif %}
+
+    {% include('@ADIFCompras/Print/print.firma.html.twig') %}
+
+{% endblock %}

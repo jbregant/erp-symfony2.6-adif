@@ -1,0 +1,29 @@
+<div class="portlet box green-seagreen">
+    <div class="portlet-title">
+        <div class="caption">
+            Retenciones {{ impuesto|replace({'-': " "})|upper }}
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-toolbar">
+            {% if readonly is defined and not readonly %}
+                <div class="btn-group pull-right">
+                    <a id="button-pago-cuenta-{{ impuesto }}" class="btn btn-sm red-intense tooltips button-pago-cuenta"
+                       data-placement="left" data-original-title="Crear pago a cuenta" 
+                       href="#">
+                        Pago a cuenta <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        <table class="table table-bordered table-striped table-condensed 
+               flip-content dt-multiselect export-excel table-retenciones"
+               dataexport-title="Retenciones-{{ impuesto }}"
+               id="table-retenciones-{{ impuesto }}" data-tipo-ddjj="{{ tipo_ddjj }}">
+            {% include('@ADIFContable/DeclaracionJurada/cuerpo_tabla_retenciones.html.twig') %}
+        </table>
+    </div>
+</div>

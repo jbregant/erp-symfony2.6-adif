@@ -1,0 +1,87 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Compras</legend>
+
+    <div class="row">
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">¿Sujeto a Impuestos?</label>
+              <div class="detalle_show">{{ entity.esSujetoImpuesto ? 'Si':'No'|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Fabricante</label>
+              <div class="detalle_show">{{ entity.idFabricante|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Fecha Adquisici&oacute;n</label>
+              <div class="detalle_show">{{ entity.fechaAdquisicion ? entity.fechaAdquisicion|date('d/m/Y'):'-' }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Valor Adquisici&oacute;n</label>
+              <div class="detalle_show">{{ entity.valorAdquisicion|default('-') }}</div>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Estaci&oacute;n</label>
+              <div class="detalle_show">{{ entity.idEstacion|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Estado de Conservaci&oacute;n</label>
+              <div class="detalle_show">{{ entity.idEstadoConservacion|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Servicio</label>
+              <div class="detalle_show">{{ entity.idEstadoServicio|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">Tipo de Env&iacute;o</label>
+              <div class="detalle_show">{{ entity.idTipoEnvio|default('-') }}</div>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-3">
+          <div class="form-group">
+              <label class="control-label">C&oacute;digo de Tr&aacute;fico</label>
+              <div class="detalle_show">{{ entity.idCodigoTrafico|default('-') }}</div>
+          </div>
+      </div>
+
+      <div class="col-md-9">
+          <div class="form-group">
+              <label class="control-label">Observaciones</label>
+              <div class="detalle_show">{{ entity.observacion|default('-') }}</div>
+          </div>
+      </div>
+
+    </div>
+
+</fieldset>

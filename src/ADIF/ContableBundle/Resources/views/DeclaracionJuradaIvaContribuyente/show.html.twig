@@ -1,0 +1,181 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <style>
+        .row.espacio {
+            margin-top: 10px;
+        }
+        
+        label.subtotal {
+            font-weight: bold !important;
+        }
+        
+        div.total {
+            background-color:rgba(54, 161, 255, 0.64) !important;
+            color: #FFF;
+        }
+        
+        input {
+            padding: 3px !important;
+        }
+        
+        .detalle_show {
+            text-align: right;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/contable/declaracionjuradaivacontribuyente/show.js') }}" ></script>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Declaraci&oacute;n Jurada Iva - Per&iacute;odo {{ entity.periodo }}</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <div id="contenido_detalle_credito_fiscal" style="display:none;">
+                {% include('@ADIFContable/DeclaracionJuradaIvaContribuyente/show.detalle_credito_fiscal.html.twig') %}
+            </div>
+            <input type="hidden" id="id_ddjj" value="{{ entity.id }}" />
+            <div class="form-body">                
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label">D&eacute;bito fiscal</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detalle_show">{{ entity.montoDebitoFiscal|money_format }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row espacio">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label">Cr&eacute;dito fiscal</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detalle_show">{{ entity.montoCreditoFiscal|money_format }}</div>                               
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" id="boton_detalle_credito_fiscal" class="btn btn-xs blue tooltips detalle_credito_fiscal" data-original-title="Ver detalle">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row espacio">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label subtotal">Saldo DDJJ</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-icon right">
+                                    <div class="detalle_show">{{ entity.saldo|money_format }} </div>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="row espacio">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label">Saldo mes anterior</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-icon right">
+                                    <div class="detalle_show">{{ saldoMesAnterior|money_format }}</div>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="row espacio">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label">Retenciones Iva</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detalle_show">{{ entity.montoRetencionesIva|money_format }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label">Percepciones Iva</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detalle_show">{{ entity.montoPercepcionesIva|money_format }}</div>
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" id="boton_detalle_percepciones_iva" class="btn btn-xs blue tooltips detalle_percepciones_iva" data-original-title="Ver detalle">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                            <label class="control-label subtotal">Total retenciones y percepciones</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-icon right">
+                                    <div class="detalle_show">{{ entity.totalRetencionesYPercepciones|money_format }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+                <div class="row espacio">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5 total">
+                        <div class="form-group">                            
+                            <div class="col-md-7">
+                                <label class="control-label subtotal">Saldo a favor de {{ entity.saldo > 0 ? 'AFIP' : 'ADIF' }}</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detalle_show">{{ entity.saldo|money_format }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('declaracionesjuradasivacontribuyente') }}">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

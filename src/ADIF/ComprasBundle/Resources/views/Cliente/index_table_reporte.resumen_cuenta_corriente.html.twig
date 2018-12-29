@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in clientes %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.codigo|default('-') }}",
+    "{{ entity.razonSocial|default('-') }}",
+    "{{ entity.cuit|default('-') }}",
+    "{{ entity.tipoContratacion|default('-') }}",
+    "{{ entity.numeroContrato|default('-') }}",
+    "{{ entity.cuentaContable|default('-') }}",
+    "{{ entity.saldoComprobantesConContrato|money_format }}",
+    "{{ entity.saldoComprobantesSinContrato|money_format }}",
+    "{{ entity.anticipoCliente|money_format }}",
+    "{{ entity.total|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

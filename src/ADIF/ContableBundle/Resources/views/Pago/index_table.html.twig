@@ -1,0 +1,32 @@
+{% set ConstanteEstadoNetCash = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoNetCash' %}
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.banco|escape_json|default('-') }}",
+    "{{ entity.numeroSucursalYCuenta|escape_json|default('-') }}",
+    "{{ entity.formaPago|capitalize }}",
+    "{{ entity.numero|escape_json|default('-') }}",
+    "{{ entity.fecha|date('d/m/Y') }}",
+    "{{ entity.importe|money_format }}",
+    "{{ entity.beneficiario|escape_json|default('-') }}",
+    "{{ entity.numeroOP != null ? 'OP n&ordm; ' ~ entity.numeroOP : '-' }}",
+    "{{ entity.estado|escape_json|default('-') }}",
+    "{{ entity.fechaUltimaModificacionEstado|date('d/m/Y') }}",
+    {
+    {% if entity.esEditable %}
+        "edit" : "{{ path( entity.editPath ,{ 'id': entity.id }) }}",
+    {% endif %}
+    {% if entity.esNetCash %}
+        {% if entity.estado != constant(ConstanteEstadoNetCash ~ '::ESTADO_ANULADO') %}
+            "exportar" : "{{ path( "netcash_exportar", { "id": entity.id }) }}",
+            "anular" : "{{ path( "netcash_anular", { "id": entity.id }) }}"
+        {% endif %}
+    {% endif %}
+    "historico" : "{{ path( entity.historicoPath ,{ 'id': entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

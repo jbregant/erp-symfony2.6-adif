@@ -1,0 +1,201 @@
+
+{% set ConstanteTipoImpuesto = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoImpuesto' %}
+
+<htmlpageheader name="default_header_{{cr.id}}">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {#{ cr.regimenRetencion.tipoImpuesto.denominacion }#}
+                {% include 'PDF/logo.datos.laura.adif.html.twig' with {'cr' : cr } %}
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">N&ordm; de comprobante</div>
+                    <div class="w-100 f-12 t-center">{{ cr.numeroComprobanteRetencion|default('') }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ cr.fechaComprobanteRetencion is null ? '' : cr.fechaComprobanteRetencion|date('d/m/Y') }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Lugar</div>
+                    <div class="w-100 f-12 t-center">CABA</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header_{{cr.id}}" show-this-page="1"/>
+
+{% block content %}
+    <br>
+    <!-- h6>Comprobante de retenci&oacute;n de {#{ cr.regimenRetencion.tipoImpuesto.denominacion }#}</h6 -->
+    <h6>Datos del agente de retenci&oacute;n</h6>
+    <table class="w-100" border="1" >
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        {% if (cr.ordenPago.beneficiario.esUTE is defined and cr.ordenPago.beneficiario.esUTE and cr.proveedor is not null) %}
+                            {% set beneficiario = cr.proveedor %}
+                        {% else %}
+                            {% set beneficiario = cr.ordenPago.beneficiario %}
+                        {% endif %}
+                        <tr>
+                            <td class="f-12" colspan="1">Raz&oacute;n social:</td>
+                            <td colspan="3" class="bold f-12">Administraci&oacute;n de Infraestructuras Ferroviarias Sociedad del Estado</td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">CUIT:</td>
+                            <td colspan="2" class="bold f-12">30-71069599-3</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">Domicilio:</td>
+                            <td class="bold f-12">AV. RAMOS MEJIA 1302 6<sup>to</sup> piso</td>
+                            <td class="f-12">Localidad:</td>
+                            <td class="bold f-12">C.A.B.A.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    {% if cp.esExtranjero is defined and cp.esExtranjero == true %}
+        <h6>Datos del ordenante de retenci&oacute;n</h6>
+        <table class="w-100" border="1" >
+            <tr>
+                <td style="vertical-align: top;">
+                    <table class="w-100 t-left" border="0">
+                        <tbody>
+                            {% if (cr.ordenPago.beneficiario.esUTE is defined and cr.ordenPago.beneficiario.esUTE and cr.proveedor is not null) %}
+                                {% set beneficiario = cr.proveedor %}
+                            {% else %}
+                                {% set beneficiario = cr.ordenPago.beneficiario %}
+                            {% endif %}
+                            <tr>
+                                <td class="f-12" colspan="1">Raz&oacute;n social:</td>
+                                <td colspan="3" class="bold f-12">Administraci&oacute;n de Infraestructuras Ferroviarias Sociedad del Estado</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">CUIT:</td>
+                                <td colspan="2" class="bold f-12">30-71069599-3</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="f-12">Domicilio:</td>
+                                <td class="bold f-12">AV. RAMOS MEJIA 1302 6<sup>to</sup> piso</td>
+                                <td class="f-12">Localidad:</td>
+                                <td class="bold f-12">C.A.B.A.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+    <h6>Datos del sujeto retenido</h6>
+    <table class="w-100" border="1" >
+        <tr>
+            <td style="vertical-align: top;">
+                <table class="w-100 t-left" border="0">
+                    <tbody>
+                        {% if (cr.ordenPago.beneficiario.esUTE is defined and cr.ordenPago.beneficiario.esUTE and cr.proveedor is not null) %}
+                            {% set beneficiario = cr.proveedor %}
+                        {% else %}
+                            {% set beneficiario = cr.ordenPago.beneficiario %}
+                        {% endif %}
+                        <tr>
+                            <td class="f-12" colspan="1">Raz&oacute;n social:</td>
+                            <td colspan="3" class="bold f-12">{{ beneficiario.razonSocial  }}</td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">CUIT:</td>
+                            <td colspan="3" class="bold f-12">{{ beneficiario.cuit  }}</td>
+                        </tr>
+                        <tr>
+                            <td class="f-12">Domicilio:</td>
+                            <td class="bold f-12">{{ beneficiario.domicilioComercial  }}</td>
+                            {% if cp.esExtranjero is defined and cp.esExtranjero == true %}
+                                <td class="f-12">Pais de origen:</td>
+                                <td class="bold f-12">Extranjero</td>
+                            {% else %}
+                                <td class="f-12">Localidad:</td>
+                                <td class="bold f-12">{{ beneficiario.domicilioComercial.localidad }}</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    {% set lugar = cr.regimenRetencion.tipoImpuesto.denominacion == constant(ConstanteTipoImpuesto ~ '::IIBB') ? ' - CABA' : '' %}
+
+    <h6>Datos de la retenci&oacute;n practicada</h6>
+    <table class="w-100" border="0" >
+        <tbody>
+            <tr>
+                <td class="f-12">N&deg; AC</td>
+                <td class="bold f-12">{{ cr.ordenPago.numeroAutorizacionContable|default('-') }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">N&deg; OP</td>
+                <td class="bold f-12">{{ cr.ordenPago.numeroOrdenPago|default('-') }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Concepto:</td>
+                <td class="bold f-12">{{ cr.ordenPago.concepto }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">R&eacute;gimen:</td>
+                <td class="bold f-12">{{ cr.regimenRetencion.denominacion ~ lugar }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <h6>Comprobante/s que origina/n retenci&oacute;n:</h6>
+    <div class="w-100" style="margin: auto">
+        <table class="w-100">
+            <thead>
+                <tr>
+                    <th class="f-12 only-bottom-border w-30">Fecha</th>
+                    <th class="f-12 only-bottom-border w-35">Tipo</th>
+                    <th class="f-12 only-bottom-border w-35">N&uacute;mero</th>
+                    <th class="f-12 only-bottom-border w-35">Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set totalBruto = 0 %}
+				{% for comprobante in comprobantes %}
+                    <tr>
+                        {% set totalBruto = totalBruto + comprobante.total %}
+                        <td class="f-14 borderless t-center">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                        <td class="f-14 borderless t-center">{{ comprobante.tipoComprobante ~ ' (' ~ comprobante.letraComprobante ~ ')' }}</td>
+                        <td class="f-14 borderless t-center">{{ comprobante.puntoVenta ~ '-' ~ comprobante.numero }}</td>
+                        <td class="f-14 borderless t-center">{{ (comprobante.total * (comprobante.esNotaCredito ? -1 : 1))|money_format }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="clear: both;">&nbsp;</div>
+    <table class="w-100" border="0" >
+        <tbody>
+            <tr>
+                <td class="f-12">Total bruto:</td>
+				<td class="bold t-right f-12">{{ totalBruto|money_format }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Monto retenci&oacute;n:</td>
+                <td class="bold t-right f-12">{{ cr.monto|money_format }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <div class="t-center w-30" style="margin: auto">
+        <img src="{{ app.request.getSchemeAndHttpHost() ~ '/images/firma_laura.jpg' }}" width="440"/>
+        <hr class="w-100 linea-firma">
+        <p class="f-12">Firma y aclaraci&oacute;n</p>
+    </div>
+
+
+{% endblock %}

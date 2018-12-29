@@ -1,0 +1,72 @@
+{% extends 'ADIFInventarioBundle:ActivoLineal:modal.html.twig' %}
+
+{% block title %}
+    Unificar Progresivas
+{% endblock %}
+
+{% block body %}
+    {% if error is not defined %}
+        <p>Se unificarán las siguientes progresivas:</p>
+        <table
+            class="table table-condensed flip-content"
+            id="table-unir-activolineal" >
+            <thead>
+                <tr>
+                    <th></th>
+                    {% for key in tramos|keys %}
+                        <th>Tramo {{ key + 1 }}</th>
+                    {% endfor %}
+                    <th style='color: green;'>Tramo Resultante</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Progresiva Inicio</td>
+                    {% for tramo in tramos %}
+                        <td>{{ tramo['progresivaInicioTramo'] }}</td>
+                    {% endfor %}
+                    <td style='color: green;'>{{ tramoNuevo['progresivaInicioTramo'] }}</td>
+                </tr>
+                <tr>
+                    <td>Progresiva Fin</td>
+                    {% for tramo in tramos %}
+                        <td>{{ tramo['progresivaFinalTramo']}}</td>
+                    {% endfor %}
+                    <td style='color: green;'>{{tramoNuevo['progresivaFinalTramo']}}</td>
+                </tr>
+                <tr>
+                    <td>Estado</td>
+                    {% for tramo in tramos %}
+                        <td>{{ tramo['estadoConservacion'].denominacion }}</td>
+                    {% endfor %}
+                    <td style='color: green;'>{{tramoNuevo['estadoConservacion'].denominacion}}</td>
+                </tr>
+                {% if tramos[0]['atributos'] is defined %}
+                    {% for atributo in tramos[0]['atributos']|keys %}
+                        <tr>
+                            <td>{{ atributo }}</td>
+                            {% for tramo in tramos %}
+                                <td>{{ tramo['atributos'][atributo] }}</td>
+                            {% endfor %}
+                            <td style='color: green;'>{{tramoNuevo['atributos'][atributo] }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        <p>Se generará el tramo resultante eliminando los anteriores.</p>
+        <p>¿Desea continuar?</p>
+    {% else %}
+        <div class='error_unir'>
+            <p>
+                {{ error }}
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block confirmar %}
+    {% if error is not defined %}
+        <button type="button" class="btn blue" id='modal_confirmar' onclick="location.href='{{ path('activolineal_guardar_union') }}';" >Confirmar</button>
+    {% endif %}
+{% endblock %}

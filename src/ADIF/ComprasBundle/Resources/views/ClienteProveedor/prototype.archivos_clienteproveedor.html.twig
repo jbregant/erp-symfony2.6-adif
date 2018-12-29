@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-5 form_field">
+        <div class="form-group">            
+            {{ form_label(adjunto.archivo) }}
+            {% if edit and adjunto.vars.value is not null and adjunto.vars.value.archivo is not null %} 
+                <a  class="download-link" target="_blank"
+                    href="{{ asset('uploads/adjunto_cliente_proveedor/' ~ adjunto.vars.value.nombreArchivoClear) }}">
+                    (Descargar)
+                </a>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(adjunto.archivo, {'attr' : { 'data-file' : adjunto.vars.value.nombre} }) }}
+                </div>
+            {% else %} 
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(adjunto.archivo) }}
+                </div>
+            {% endif %} 
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-archivo accion-borrar" 
+           data-placement="top" data-original-title="Eliminar archivo">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

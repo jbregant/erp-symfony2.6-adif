@@ -1,0 +1,40 @@
+
+{# MENU INVENTARIO #}
+{% if is_granted("ROLE_MENU_INVENTARIO") %}
+    {% include ':Menu:Inventario/menu.html.twig' %}
+{% endif %}
+
+{# MENU RRHH #}
+{% if is_granted("ROLE_MENU_RRHH") %}
+    {% include ':Menu:menu_rrhh.html.twig' %}
+{% endif %}
+
+{# MENU CUENTAS POR COBRAR #}
+{% if is_granted("ROLE_MENU_CUENTAS_POR_COBRAR") %}
+    {% include ':Menu:menu_cuentas_por_cobrar.html.twig' %}
+{% endif %}
+
+{# MENU CUENTAS POR PAGAR #}
+{% if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR") %}
+    {% include ':Menu:menu_cuentas_por_pagar.html.twig' %}
+{% endif %}
+
+{# MENU PRESUPUESTARIO #}
+{% if is_granted("ROLE_MENU_PRESUPUESTARIO") %}
+    {% include ':Menu:menu_presupuestario.html.twig' %}
+{% endif %}
+
+{# MENU ADMINISTRACION DE FONDOS #}
+{% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS") %}
+    {% include ':Menu:menu_administracion_fondos.html.twig' %}
+{% endif %}
+
+{# MENU CONTABILIDAD #}
+{% if is_granted("ROLE_MENU_CONTABILIDAD") %}
+    {% include ':Menu:menu_contabilidad.html.twig' %}
+{% endif %}
+
+{# MENU SEGURIDAD #}
+{% if is_granted("ROLE_MENU_SEGURIDAD") %}
+    {% include ':Menu:menu_seguridad.html.twig' %}
+{% endif %}

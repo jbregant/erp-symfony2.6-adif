@@ -1,0 +1,38 @@
+imports:
+    - { resource: roles.yml }
+
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            switch_user: true
+            pattern: ^/
+            form_login:
+                #provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                default_target_path: /empleados
+                success_handler: adif_autenticacion.success_handler
+                failure_handler: adif_autenticacion.fail_handler
+                login_path: /login
+                check_path:    login_check
+            simple_form:
+                authenticator: ldap_authenticator
+                check_path:    login_check
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ordenpago, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }

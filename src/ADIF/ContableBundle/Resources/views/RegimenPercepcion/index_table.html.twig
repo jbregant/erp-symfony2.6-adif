@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.conceptoPercepcion|decode }}", 
+    "{{ entity.denominacion|decode }}", 
+    "{{ entity.descripcion|decode }}",     
+    "{{ entity.alicuota|currency_format ~ ' %' }}", 
+    {
+    "show" : " {{ path( "regimenespercepcion_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "regimenespercepcion_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

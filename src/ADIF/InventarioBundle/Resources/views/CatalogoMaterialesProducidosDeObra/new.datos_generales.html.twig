@@ -1,0 +1,40 @@
+<fieldset class="form-section-fieldset">
+        
+    <legend class="form-section-legend">General</legend>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.unidadMedida) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.unidadMedida) }}
+                    </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.tipoEnvio) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.tipoEnvio) }}
+                    </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.observacion) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.observacion) }}
+                    </div>
+            </div>
+        </div>
+        
+    </div>
+    
+</fieldset>

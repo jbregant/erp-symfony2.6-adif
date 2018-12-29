@@ -1,0 +1,33 @@
+<div class="div_ctn_seccion" style="min-height: 45px">
+    <div class="btn btn-info btn-sm label_seccion">Proveedor</div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(form.busquedaProveedor) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.busquedaProveedor) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form.razonSocial) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.razonSocial) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.CUIT) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.CUIT) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

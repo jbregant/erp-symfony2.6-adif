@@ -1,0 +1,29 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    {% autoescape  %}
+    "{{ entity.grupoRodante|default('-') }}",
+    "{{ entity.tipoRodante|default('-') }}",
+    "{{ entity.numeroVehiculo|default('-') }}",
+    "{{ entity.marca|default('-') }}",
+    "{{ entity.modelo|default('-') }}",
+    "{{ entity.estadoConservacion|default('-') }}",
+    "{{ entity.estadoServicio|default('-') }}",
+    "{{ entity.codigoTrafico|default('N/A') }}",
+    "{{ entity.linea|default('-') }}",
+    "{{ entity.operador|default('-') }}",
+    "{{ entity.ubicacion|default('-') }}",
+    "{{ entity.estadoInventario|default('-') }}",
+    {% endautoescape %}
+{
+"show" : " {{ path( "catalogomaterialesrodantes_show", { "id": entity.id }) }}",
+{% if is_granted("ROLE_INVENTARIO_MATERIAL_RODANTE_MODIFICAR") %}
+    "edit" : " {{ path( "catalogomaterialesrodantes_edit", { "id": entity.id }) }}"
+{% endif %}
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

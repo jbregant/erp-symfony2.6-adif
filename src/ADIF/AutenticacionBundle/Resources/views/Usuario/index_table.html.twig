@@ -1,0 +1,23 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.username|default('-') }}", 
+    "{{ entity.email|default('-') }}",
+    "{% for grupo in entity.groups %}<div>{{ grupo }}</div>{% else %}<span class="cursiva">No tiene grupos seleccionados.</span>{% endfor %}",
+    "{{ entity.area|default('-') }}", 
+    "{{ entity.enabled ? 'Sí' : 'No' }}",
+    "{{ entity.lastLogin|date('d/m/Y H:m:s') }}",
+	"{% for empresa in entity.empresas %}<div>{{ empresa }}</div>{% else %}<span class="cursiva">No tiene empresas seleccionadas.</span>{% endfor %}",
+    {
+    "show" : " {{ path( "usuarios_show", { "id": entity.id }) }}",
+    "edit" : " {{ path( "usuarios_edit", { "id": entity.id }) }}"
+    {% if entity.password != null %}
+        ,"limpiar" : " {{ path( "usuarios_limpiar", { "id": entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

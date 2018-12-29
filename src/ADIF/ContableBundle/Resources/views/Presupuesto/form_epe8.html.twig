@@ -1,0 +1,19 @@
+<form id="form_epe8" name="form_epe8" method="post" 
+      action="{{ path('configuracionreportespresupuestarios_epe8_update', { 'id': concepto.id }) }}" class="horizontal-form" 
+      novalidate="novalidate">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select multiple="multiple" id="form_epe8_categorias" name="form_epe8[categorias][]" 
+                            class="form-control choice">                                            
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}" {{ attribute(idsCategorias,categoria.id) is defined ? 'selected="selected"' : '' }}>{{ categoria }} - {{ categoria.idConvenio }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>  
+    </div>
+</form>

@@ -1,0 +1,62 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="panel panel-primary panel-table">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3>Editar el perfil</h3>
+            <span>Se actualiza el perfil</span>
+        </div>
+        <div class="panel-options">
+            <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+            <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+        </div>
+    </div>
+    <div class="panel-body">
+        {#<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">#}
+
+        {{ form_start(form, {
+                'attr' : {
+                    'class'  : 'jq_validate fos_user_profile_edit',
+                    'action' :  path('fos_user_profile_edit'),
+                    'method' : 'POST',
+                    'novalidate' : 'novalidate'
+                }
+            })
+        }}
+        
+            <div class="row">
+                
+                {% include ':Form:fieldsErrors.html.twig' %}
+                
+                <div class="col-sm-3 form_field">
+                    {{ form_label(form.username) }}                
+                    <div class="form_field">
+                        {{ form_widget(form.username) }}
+                    </div>
+                </div>
+                <div class="col-sm-3 form_field">
+                    {{ form_label(form.email) }}                
+                    <div class="form_field">
+                        {{ form_widget(form.email) }}
+                    </div>
+                </div>
+                <div class="col-sm-3 form_field">
+                    {{ form_label(form.current_password) }}                
+                    <div class="form_field">
+                        {{ form_widget(form.current_password) }}
+                    </div>
+                </div>
+            </div>
+            
+            {{ form_rest(form) }}
+            
+            <div class="clear"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-default btn-icon icon-left button-back">Volver<i class="entypo-left"></i></button>
+                    <input type="submit" class="btn btn-green pull-right" tabindex="5" value="Actualizar" />
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>

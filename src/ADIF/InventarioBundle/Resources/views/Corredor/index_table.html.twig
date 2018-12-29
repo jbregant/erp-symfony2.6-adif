@@ -1,0 +1,20 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    {% autoescape  %}
+    "{{ entity.denominacion|default('-') }}",
+    "{{ entity.linea.denominacion|default('-') }}",
+    "{{ entity.operador.denominacion|default('-') }}",
+    "{{ entity.division.denominacion|default('-') }}",
+    {% endautoescape %}
+    {
+    "show" : " {{ path( "corredor_show", { "id": entity.id }) }}",
+    "edit" : " {{ path( "corredor_edit", { "id": entity.id }) }}",
+    "delete" : " {{ path( "corredor_delete", { "id": entity.id }) }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

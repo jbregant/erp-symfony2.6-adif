@@ -1,0 +1,39 @@
+{% set ConstanteEstadoOrdenPagoAnulada = constant('ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoOrdenPago::ESTADO_ANULADA') %}
+{
+"data": [
+{% for entity in ordenesPago %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaOrdenPago|date('d/m/Y') }}",
+    "{{ entity.numeroOrdenPago }}",
+    "{{ entity.proveedor }}",
+    "{{ entity.proveedorCUIT|default('-') }}",
+    "{{ entity.concepto|decode }}",
+{#    "{{ entity.cuentaBancariaADIFString|default('-') }}",    #}
+    "{{ entity.pagos|default('-') }}",
+    "{{ entity.totalBruto|money_format }}",
+    "{{ entity.montoRetenciones|money_format }}",
+    "{{ entity.montoNeto|money_format }}",
+    "{{ entity.usuarioCreacion|default('-') }}",
+    {
+    "estado" : "{{ entity.estadoOrdenPago }}",
+    "estadoClass" : "{{ (entity.aliasTipoImportanciaEstadoOrdenPago is not null ? entity.aliasTipoImportanciaEstadoOrdenPago : 'default') }}"   
+    },
+    {#{
+    "estado" : "{{ entity.estadoPago }}",
+    "estadoClass" : "{{ (entity.aliasTipoImportanciaEstadoPago is not null ? entity.aliasTipoImportanciaEstadoPago : 'default') }}"   
+    },#}
+    {
+    "show" : "{{ path( entity.path ~ '_show', { 'id': entity.id }) }}",
+    "historico_general" : "{{ path( entity.path ~ '_historico_general', { 'id': entity.id }) }}",
+    "imprimir" : "{{ path( entity.path ~ '_print', { 'id': entity.id }) }}"
+    {% if entity.estadoOrdenPago != ConstanteEstadoOrdenPagoAnulada %}
+		{% if is_granted('ROLE_ANULAR_OP') %}
+			,"anular" : "{{ path( entity.path ~ '_anular', { 'id': entity.id }) }}"
+		{% endif %}
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

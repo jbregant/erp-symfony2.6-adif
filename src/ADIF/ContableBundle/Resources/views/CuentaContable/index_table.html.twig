@@ -1,0 +1,29 @@
+{
+"data": [
+{% for cuentaContable in cuentasContables %}
+    [
+    "{{ cuentaContable.id }}",
+    "{{ cuentaContable.id }}",
+    {
+    "codigoCuentaContable" : "{{ cuentaContable.codigoCuentaContable }}",
+    "nivel" : "{{ cuentaContable.nivel }}"   
+    },
+    {
+    "denominacionCuentaContable" : "{{ cuentaContable.denominacionCuentaContable|decode }}",
+    "nivel" : "{{ cuentaContable.nivel }}",
+    "esImputable" : {{ cuentaContable.esImputable ? 1 : 0 }}
+    },
+    "{{ cuentaContable.cuentaPresupuestariaEconomica|default('-') }}",
+    "{{ cuentaContable.cuentaPresupuestariaObjetoGasto|default('-') }}",
+    "{{ cuentaContable.esImputable ? 'Sí' : 'No' }}",
+    "{{ cuentaContable.activa ? 'Sí' : 'No' }}",
+    "{{ cuentaContable.codigoCuentaContableOrden }}",
+    {
+    "show" : "{{ path( 'cuentacontable_show', { 'id': cuentaContable.id }) }}"
+    {% if app.user.granted("ROLE_EDITAR_CUENTA_CONTABLE") %}
+        ,"edit" : "{{ path( 'cuentacontable_edit', { 'id': cuentaContable.id }) }}"   
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

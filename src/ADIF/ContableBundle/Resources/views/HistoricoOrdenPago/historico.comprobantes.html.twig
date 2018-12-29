@@ -1,0 +1,43 @@
+<li class="timeline-yellow">
+    <div class="timeline-time">
+        <span class="time">Comprobantes</span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+
+        {% if comprobantes is defined  %}
+            <div class="timeline-body-head">
+                <div class="timeline-body-head-caption">
+                    <span class="timeline-body-title">
+                        Comprobantes
+                    </span>
+                </div>
+            </div>
+            <div class="timeline-body-content">
+                <span class="font-grey-gallery">
+                    {% include('@ADIFContable/HistoricoOrdenPago/listado_comprobantes.html.twig') %}
+                </span>
+            </div>
+            <div class="timeline-footer"></div>
+        {% endif  %}
+
+        {% if anticipos is defined %}
+            <div class="timeline-body-head {{ comprobantes is defined ? 'margin-top-20' : '' }}">
+                <div class="timeline-body-head-caption">
+                    <span class="timeline-body-title">
+                        Anticipos
+                    </span>
+                </div>
+            </div>
+            <div class="timeline-body-content clearfix">
+                <div class="font-grey-gallery cleardiv">
+                    {% include('@ADIFContable/HistoricoOrdenPago/listado_anticipos.html.twig') %}
+                </div>
+            </div>
+            <div class="timeline-footer"></div>
+        {% endif  %}
+
+    </div>
+</li>

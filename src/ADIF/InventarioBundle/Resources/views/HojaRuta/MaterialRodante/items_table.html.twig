@@ -1,0 +1,20 @@
+{
+"data": [
+{% for key, item in entity.itemsHojaRutaMaterialRodante %}
+[
+"{{ key }}",
+"{{ key }}",
+    {% autoescape  %}
+    "{{ item.operador|default('-') }}",
+    "{{ item.linea|default('-') }}",
+    "{{ item.estacion|default('-') }}",
+    "{{ item.grupoRodante|default('-') }}",
+    "{{ item.tipoRodante|default('-') }}",
+    "{{ item.materialRodante.numeroVehiculo|default('-') }}",
+    {% endautoescape %}
+    {
+        "delete" : "{{ key }}"
+    }
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

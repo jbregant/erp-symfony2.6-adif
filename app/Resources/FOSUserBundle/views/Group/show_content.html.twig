@@ -1,0 +1,50 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            Detalles del grupo: <strong>{{ group.name }}</strong>
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>                
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">                
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="control-label">Nombre</label>
+                    <div class="detalle_show">{{ group.name}}</div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="form-group">
+                    <label class="control-label">Roles</label>
+                    <div class="detalle_show">
+                        {% if group.roles|length != 0 %}
+                            {{ group.roles|join(' | ') }}
+                        {% else %}
+                            No tiene roles seleccionados.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">                
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Descripci&oacute;n</label>
+                    <div class="detalle_show">{{ group.descripcion|default('-') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn default button-back" 
+                    back-url="{{ path('fos_user_group_list') }}">
+                <i class="m-icon-swapleft"></i> Volver
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% include('PDF/logo.datos.adif.html.twig') %}
+                <td class="hlt t-center w-25">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}    
+
+    {% include('@ADIFContable/Presupuesto/print.asiento_presupuestario.titulo.html.twig') %} 
+
+    {% include('@ADIFContable/Presupuesto/print.asiento_presupuestario.detalle_proveedor.html.twig') %}    
+
+    {% include('@ADIFContable/Presupuesto/print.asiento_presupuestario.detalle_cuentas_economicas.html.twig') %}    
+
+{% endblock %}

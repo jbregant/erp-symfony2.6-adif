@@ -1,0 +1,74 @@
+
+<div class="row row_headers_renglon_comprobante" style="display:{{ entity.renglonesComprobante|length ? 'block' : 'none' }}; margin-top: 5px;">
+
+    <div class="col-md-2">
+        <label class="control-label">Concepto</label>
+    </div>
+    <div class="col-md-2">
+        <label class="control-label">Descripci&oacute;n</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">Cantidad</label>
+    </div>
+
+    {% if es_mcl %}
+        <div class="col-md-2">
+            <label class="control-label">Precio unit. {{ contrato is defined ? ('<span class="tipo-moneda">(' ~ contrato.tipoMoneda.codigoTipoMoneda ~ ')</span>') : '' }}</label>
+        </div>
+    {% else%}
+        <div class="col-md-1" style="padding-right: 0;">
+            <label class="control-label">Precio unit. {{ contrato is defined ? ('<span class="tipo-moneda">(' ~ contrato.tipoMoneda.codigoTipoMoneda ~ ')</span>') : '' }}</label>
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">Tipo cambio</label>
+        </div>
+    {% endif %}
+
+    <div class="col-md-2">
+        <label class="control-label">Neto <span class="tipo-moneda">(ARS)</span></label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">% IVA</label>
+    </div>
+    <div class="col-md-2">
+        <label class="control-label">IVA</label>
+    </div>
+</div>
+
+{% include('@ADIFContable/Facturacion/ComprobanteVentaManual/new.form_renglon_comprobante_venta_general.html.twig') %}
+
+<div class="ctn_rows_renglon_comprobante">    
+</div>
+
+<div class="row row_footer row_footer_renglon_comprobante row_subtotal" style="display:none;" >
+
+    <div class="col-md-7">
+        <input class="form-control subtotal_input" type="text" 
+               readonly="readonly" value="SUBTOTAL" style="text-align: right;">
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteventa_renglonesComprobante_subtotal_neto" 
+                       readonly="readonly" class="form-control currency" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>&nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteventa_renglonesComprobante_subtotal_iva" 
+                       readonly="readonly" class="form-control currency" value="0">
+            </div>
+        </div>
+    </div>
+</div>

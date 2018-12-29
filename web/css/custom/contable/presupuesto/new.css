@@ -1,0 +1,17 @@
+.total-inicial, .monto-total-cuenta {
+    margin-right: 40px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.monto-total-cuenta {
+    margin-right: 33px;
+}
+
+.inicial .form-group {
+    margin-bottom: 0px;
+}
+
+.form-control.numberPositive {
+    padding: 0px;
+}

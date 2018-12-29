@@ -1,0 +1,146 @@
+{% extends '::base.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/conceptoganancia/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Concepto ganancia</div>
+            
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+        
+        {% include ':Form:fieldsErrors.html.twig' %}
+            
+         
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+        
+            
+            <div class="form-body">
+			
+                <div class="row">                                    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.denominacion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.denominacion) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.aplicaEnFormulario572) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.aplicaEnFormulario572) }}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="row">                                    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.esCargaFamiliar) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.esCargaFamiliar) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.codigo572) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.codigo572) }}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="row">    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.indicaSAC) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.indicaSAC) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.aplicaGananciaAnual) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.aplicaGananciaAnual) }}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="row">    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.f572Sobreescribe) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.f572Sobreescribe) }}
+                                </div>
+                        </div>
+                    </div>
+                    
+					<div class="col-md-6">
+						<div class="form-group">
+                            {{ form_label(form.tieneDetalle) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.tieneDetalle) }}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="row">    
+					<div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.tipoConceptoGanancia) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.tipoConceptoGanancia) }}
+                                </div>
+                        </div>
+                    </div>
+				</div>
+            </div>                
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('ganancia_concepto') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+                
+            {{ form_widget(form._token) }}
+        
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

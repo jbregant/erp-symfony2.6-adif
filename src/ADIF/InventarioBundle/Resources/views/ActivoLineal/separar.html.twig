@@ -1,0 +1,78 @@
+{% extends 'ADIFInventarioBundle:ActivoLineal:modal.html.twig' %}
+
+{% block title %}
+    Separar Progresiva
+{% endblock %}
+
+{% block body %}
+    {% if error is not defined %}
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+        
+        {% include ':Form:fieldsErrors.html.twig' %}
+        <div class="row">
+            <div class="col-md-6">
+                <table
+                    class="table table-condensed flip-content"
+                    id="table-separar-activolineal" >
+                    <thead>
+                        <tr>
+                            <th>Tramo inicial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Progresiva Inicio: {{ entity.progresivaInicioTramo }} </td>
+                        </tr>
+                        <tr>
+                            <td>Progresiva Fin: {{ entity.progresivaFinalTramo }} </td>
+                        </tr>
+                        <tr>
+                            <td>Estado: {{ entity.estadoConservacion.denominacion|default('-') }} </td>
+                        </tr>
+                        {% for valorAtributo in entity.valoresAtributo %}
+                            <tr>
+                                <td>{{ valorAtributo.atributo ~ ": " ~ valorAtributo.denominacion }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.kilometrajeSeparacion) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.kilometrajeSeparacion) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for activoLineal in form.activosLineales %}
+                <div class="col-md-6">
+                    {% include 'ADIFInventarioBundle:ActivoLineal:prototype.separar.html.twig' %}
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {"render_rest": false}) }}
+        
+    {% else %}
+        <div class='error_unir'>
+            <p>
+                {{ error }}
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block confirmar %}
+    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'} }) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        
+    </script>
+{% endblock %}

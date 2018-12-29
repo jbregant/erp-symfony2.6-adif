@@ -1,0 +1,36 @@
+<div class="row row_renglon_comprobante_centro_de_costo_nuevo" style="display: none;">
+
+    <div class="col-md-8">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___renglonComprobanteCompraCentrosDeCosto___name___centroDeCosto" 
+                        sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][renglonComprobanteCompraCentrosDeCosto][__name__][centroDeCosto]" 
+                        class="form-control ignore">
+                    {% for choice_centro_costo in form.renglonesComprobante.vars.prototype.renglonComprobanteCompraCentrosDeCosto.vars.prototype.centroDeCosto.vars.choices %}
+                        <option value="{{ choice_centro_costo.data.id }}">{{ choice_centro_costo.data.denominacion }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___renglonComprobanteCompraCentrosDeCosto___name___porcentaje" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][renglonComprobanteCompraCentrosDeCosto][__name__][porcentaje]" 
+                       class="form-control percentage porcentajeCentroDeCosto ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">                                
+            <div class="form-group">
+                <button class="btn btn-sm red renglon_comprobante_centro_costo_borrar">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

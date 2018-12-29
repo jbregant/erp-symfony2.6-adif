@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in consultores %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.legajo|default('-') }}",
+    "{{ entity.razonSocial|default('-') }}",
+    "{{ entity.cuit|default('-') }}",
+    "{{ entity.tipoContratacion|default('-') }}",
+    "{{ entity.numeroContrato|default('-') }}",
+    "{{ entity.cuentaContable|default('-') }}",
+    "{{ entity.saldoPendientePago|money_format }}"    
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

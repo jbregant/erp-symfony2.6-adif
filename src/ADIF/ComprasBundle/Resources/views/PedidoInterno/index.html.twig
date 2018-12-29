@@ -1,0 +1,97 @@
+{% extends '::base_reducido.html.twig' %} 
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%} 
+
+{% set ConstanteEstadoPedidoInterno = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoPedidoInterno' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+
+                <div class="portlet-title">
+                    <div class="caption">Pedidos internos</div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            {% if app.user.isGranted('ROLE_USER') %}
+                                <a class="btn btn-sm green tooltips" data-placement="right" 
+                                   data-original-title="Crear nuevo pedido interno" 
+                                   href=" {{ path( 'pedidointerno_new') }} ">
+                                    Crear pedido <i class="fa fa-plus"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-pedidointerno" dataexport-title="pedidointerno">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="entity_id"></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha</th>
+                                <th>Descripci&oacute;n</th>
+                                <th data-type="select" 
+                                    data-select-ajax="pedidointerno/estados" 
+                                    data-select-value="denominacionEstadoPedidoInterno" 
+                                    data-select-label="denominacionEstadoPedidoInterno"
+                                    data-select-all="Todos">Estado</th>  
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-pedidointerno .checkboxes" />
+                                </th>
+                                <th date export-format="date" class="nowrap">Fecha</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Estado</th> 
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# Inputmask #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# DatePicker #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script> 
+
+    <script src="{{ asset(js_path ~ 'custom/compras/pedidointerno/index.js') }}" ></script>
+
+{% endblock %}

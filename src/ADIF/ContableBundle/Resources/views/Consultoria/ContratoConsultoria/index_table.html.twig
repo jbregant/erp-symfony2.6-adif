@@ -1,0 +1,44 @@
+
+{% set ConstanteEstadoContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoContrato' %}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.numeroContrato|default('-') }}", 
+    "{{ entity.numeroCarpeta|default('-') }}", 
+    "{{ entity.consultor.cuitAndRazonSocial|default('-')|decode }}", 
+    {% if entity.fechaInicio %} "{{ entity.fechaInicio|date('d/m/Y') }}", {% endif %} 
+    {% if entity.fechaFin %} "{{ entity.fechaFin|date('d/m/Y') }}", {% endif %} 
+    "{{ entity.importeTotal|money_format }}",
+    {
+    "saldo" : "{{ entity.saldoPendienteFacturacion|money_format(entity.simboloTipoMoneda) }}", 
+    "href" : " {{ path( "contratoconsultoria_detalle_saldo", { "id": entity.id }) }}" 
+    },
+    "{{ entity.gerencia.nombre|default('-') }}",
+	{% set break = false %}
+	{% for cicloFacturacion in entity.ciclosFacturacion if not break %}
+		"{{ cicloFacturacion.importe|money_format }}",
+		{% set break = true %}
+	{% endfor %}
+    {
+    "show" : " {{ path( "contratoconsultoria_show", { "id": entity.id }) }}"
+    {% if entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::PRORROGADO') and entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::ADENDADO') %}
+        {% if is_granted('ROLE_EDITAR_CONTRATO_CONSULTOR') %}
+            , "edit" : " {{ path( "contratoconsultoria_edit", { "id": entity.id }) }}"
+        {% endif %}
+        {% if entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::FINALIZADO') %}
+            {% if is_granted('ROLE_ADENDAR_CONTRATO_CONSULTOR') %}
+                ,"adenda" : "{{ path( "contratoconsultoria_adenda", { "id": entity.id }) }}"
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if is_granted('ROLE_VER_HISTORICO_CONTRATO_CONSULTOR') %}
+        ,"historico" : "{{ path( "contratoconsultoria_historico", { "id": entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,169 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos principales</legend>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">C&oacute;digo</label>
+                <div class="detalle_show">{{ proveedor.clienteProveedor.codigo|default('-') }}</div>
+            </div>
+        </div>     
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Raz&oacute;n social</label>
+                <div class="detalle_show">{{ proveedor.clienteProveedor.razonSocial|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Representante legal</label>
+                <div class="detalle_show">{{ proveedor.representanteLegal|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Estado</label>
+                <div class="detalle_show">{{ proveedor.estadoProveedor|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Extranjero</label>
+                <div class="detalle_show">
+                    {{ proveedor.clienteProveedor.esExtranjero ? 'Sí' : 'No' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="control-label">Actividad</label>
+                <div class="detalle_show">
+                    {% for actividad in proveedor.clienteProveedor.actividades %}
+                        <span>{{ actividad }}</span>
+                        {% if not loop.last %}
+                            <span> | </span>
+                        {% endif %}
+                    {% else %}
+                        -
+                    {% endfor %}
+                </div>
+            </div>
+        </div>    
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="control-label">Rubros</label>
+                <div class="detalle_show">
+                    {% for rubro in proveedor.rubros %}
+                        <span>{{ rubro }}</span>
+                        {% if not loop.last %}
+                            <span>&nbsp; — &nbsp;</span>
+                        {% endif %}
+                    {% else %}
+                        -
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Nacionalidad</label>
+                <div class="detalle_show">
+                    {{ proveedor.nacionalidad|default('-') }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Observaci&oacute;n</label>
+                <div class="detalle_show">{{ proveedor.observacion|default('-') }}</div>
+            </div>
+        </div>            
+    </div>
+</fieldset>
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Uni&oacute;n Transitoria de Empresas</legend>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Es UTE</label>
+                <div class="detalle_show">                                         
+                    {{ proveedor.esUTE ? 'Si' : 'No' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for proveedorUTE in proveedor.proveedoresUTE %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Proveedor</label>
+                    <div class="detalle_show">                                         
+                        {{ proveedorUTE.proveedor.clienteProveedor.razonSocial }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Pct. incidencia en remuneraciones</label>
+                    <div class="detalle_show">                                         
+                        {{ proveedorUTE.porcentajeRemuneracion|default('0') ~ ' %' }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Pct. incidencia en la ganancia</label>
+                    <div class="detalle_show">                                         
+                        {{ proveedorUTE.porcentajeGanancia|default('0') ~ ' %' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</fieldset>
+
+{% if proveedor.clienteProveedor.archivos is not empty %}
+    <fieldset class="form-section-fieldset">
+
+        <legend class="form-section-legend">Adjuntos</legend>
+
+        <div class="imagenes-container">
+            {% for archivo in proveedor.clienteProveedor.archivos %}
+
+                {% set extension = archivo.nombreArchivo|split('.')|last %}
+
+                {% if extension is not null and extension == 'pdf' %}
+                    <a href="{{ app.request.basePath ~ '/uploads/adjunto_cliente_proveedor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                        <img src="{{ app.request.basePath ~ '/images/PDF.jpg' }}" alt="{{ archivo.nombre }}"/>
+                    </a>
+                {% elseif extension is not null and (extension == 'doc' or extension == 'docx') %}
+                    <a href="{{ app.request.basePath ~ '/uploads/adjunto_cliente_proveedor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                        <img src="{{ app.request.basePath ~ '/images/Word.png' }}" alt="{{ archivo.nombre }}"/>
+                    </a>
+                {% elseif extension is not null and (extension == 'xls' or extension == 'xlsx') %}
+                    <a href="{{ app.request.basePath ~ '/uploads/adjunto_cliente_proveedor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" target="_tab" >
+                        <img src="{{ app.request.basePath ~ '/images/Excel.png' }}" alt="{{ archivo.nombre }}"/>
+                    </a>
+                {% else %}
+                    <span class="link-adjunto">
+                        <a href="{{ app.request.basePath ~ '/uploads/adjunto_cliente_proveedor/' ~ archivo.nombreArchivo }}" title="{{archivo.nombre}}" >
+                            <img src="{{ app.request.basePath }}{{ vich_uploader_asset(archivo, 'archivo') }}" alt="{{ archivo.nombre }}"/>
+                        </a>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </fieldset>
+{% endif %}

@@ -1,0 +1,21 @@
+
+{% if placement is not defined %}
+    {% set placement = 'rigth' %}
+{%endif %}
+
+<a tabindex="0" type="button" class="btn btn-xs btn-circle blue pull-right btn-group-popover btn-popover-proveedor" 
+   data-toggle="popover" data-title="Datos de contacto" data-placement="{{ placement }}"
+   data-content="
+   {% for dato in datosContacto %}
+       <div>
+       <span class='bold'>
+       {{ dato.tipoContacto ~ ': '}}
+       </span>
+       {{ dato.descripcionDatoContacto }}
+       </div>
+   {% else %}
+       Sin datos de contacto
+   {% endfor%}
+   " >
+    <i class="fa fa-search"></i>
+</a>

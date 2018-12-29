@@ -1,0 +1,105 @@
+
+<div class="row cleardiv">
+    <div class="col-md-12">
+        <div class="portlet box blue-madison">
+            <div class="portlet-title requerimiento-title">
+
+                <div class="caption">
+                    Renglones del requerimiento
+                </div>
+                <div class="pull-right">
+                    <div class="tipo-contratacion col-md pull-left">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button">Contrataci&oacute;n</button>
+                            </span>
+                            {{ form_widget(form.tipoContratacion) }}
+                        </div>
+                    </div>
+                    <div class="justiprecio-total col-md  pull-right">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button">Total</button>
+                            </span>
+                            {{ form_widget(form.justiprecio) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <table 
+                    class="table table-bordered table-striped table-condensed 
+                    flip-content dt-multiselect" 
+                    id="table-renglon-requerimiento" >
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th class="entity_id"></th>
+                            <th class="not-in-filter"></th>
+                            <th></th>  
+                            <th>Rubro</th>                            
+                            <th>Bien econ&oacute;mico</th>                            
+                            <th>Descripci&oacute;n</th>                       
+                            <th>Cantidad a cotizar</th>                            
+                            <th>Unidad</th>                            
+                            <th>Justiprecio unitario</th> 
+                            <th>Justiprecio total</th>                           
+                            <th class="hidden">Cantidad pendiente</th>                         
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id hidden"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                                       data-set="#table-renglon-requerimiento .checkboxes" />
+                            </th>
+                            <th class="nowrap">Rengl&oacute;n solicitud</th>  
+                            <th>Rubro</th>                            
+                            <th>Bien econ&oacute;mico</th>                            
+                            <th>Descripci&oacute;n</th>                            
+                            <th numeric class="nowrap">Cantidad a cotizar</th>                            
+                            <th>Unidad</th>                            
+                            <th currency class="nowrap">Justiprecio unitario</th>
+                            <th currency class="nowrap">Justiprecio total</th>
+                            <th numeric class="hidden">Cantidad pendiente</th>                              
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for renglonRequerimiento in requerimiento.renglonesRequerimiento if renglonRequerimiento.fechaBaja is null %}
+                            <tr>
+                                <td class="hidden"><input type="hidden" value=" {{ renglonRequerimiento.id }} "/></td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="checkboxes not-checkbox-transform" value="" />
+                                </td>
+                                <td>{{ renglonRequerimiento.renglonSolicitudCompra.numero }}</td>
+                                <td class="nowrap">{{ renglonRequerimiento.renglonSolicitudCompra.rubro }}</td>
+                                <td>{{ renglonRequerimiento.renglonSolicitudCompra.bienEconomico }}</td>
+                                <td>{{ renglonRequerimiento.renglonSolicitudCompra.descripcion|default('-') }}</td>
+                                <td>{{ renglonRequerimiento.cantidad }}</td>
+                                <td>{{ renglonRequerimiento.renglonSolicitudCompra.unidadMedida }}</td>
+                                <td currency >{{ renglonRequerimiento.justiprecioUnitario|money_format('$', 1, 4) }}</td>
+                                <td currency class="justiprecio-total">
+                                    {{ renglonRequerimiento.justiprecioTotal|money_format('$', 1, 4) }}
+                                </td> 
+                                <td class="hidden">{{ renglonRequerimiento.renglonSolicitudCompra.cantidadPendiente }}</td>                            
+                                <td class="ctn_acciones text-center nowrap">
+                                    <a class="btn btn-xs green tooltips editar_renglon_requerimiento" 
+                                       data-original-title="Editar" href="#">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-xs red tooltips quitar_renglon_requerimiento" 
+                                       data-original-title="Eliminar" href="#">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

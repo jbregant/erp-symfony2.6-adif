@@ -1,0 +1,4 @@
+services:
+#    adif_warehouse.example:
+#        class: ADIF\WarehouseBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

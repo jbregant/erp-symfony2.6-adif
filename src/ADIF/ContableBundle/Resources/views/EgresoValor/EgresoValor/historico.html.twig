@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Hist&oacute;rico de {{ entity.tipoEgresoValor }}
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed 
+                        flip-content datatable dt-multiselect export-excel" 
+                        id="table-egresovalor-historico"
+                        data-no-ordenable="1"
+                        dataexport-title="egresovalor-historico">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th data-type="date">Fecha</th>
+                                <th>Tipo</th>
+                                <th>Responsable</th>
+                                <th>Importe</th>
+                                <th>Estado OP</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-egresovalor-historico .checkboxes" />
+                                </th>
+                                <th datetime >Fecha</th>
+                                <th>Tipo</th>
+                                <th>Responsable</th>
+                                <th currency>Importe</th>
+                                <th class="nowrap">Estado OP</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in historicos %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+                                    <td class="nowrap">{{ entity.fecha|date('d/m/Y H:i:s')}}</td>
+                                    <td class="nowrap {{ entity.font_color }} bold">{{ entity.tipo }} {{ entity.link_impresion_rendicion }}</td>
+                                    <td>
+                                        {% if entity.responsable is not null %}
+                                            {% if entity.cambiaResponsable %}
+                                                {{ entity.responsable ~ ' - Reemplazo de responsable por la totalidad del monto del egreso valor' }}
+                                            {% else %}
+                                                {{ entity.responsable }}
+                                            {% endif %}
+                                        {% else %}
+                                            {{ '-' }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="nowrap">{{ entity.importe|money_format }}</td>
+                                    <td>{{ entity.estado|default('-') }}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        {% if (entity.link != '') %}
+                                            <a href="{{ entity.link }}" 
+                                               class="btn btn-xs blue tooltips" data-original-title="Detalle {{ entity.tipo|lower }}">
+                                                <i class="fa fa-search"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('egresovalor') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

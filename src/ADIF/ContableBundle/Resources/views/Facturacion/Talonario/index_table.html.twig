@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.tipoComprobante|default("-") }}",
+    "{{ entity.letraComprobante|default("-") }}",
+    "{{ entity.puntoVenta|default("-") }}",
+    "{{ entity.numeroDesde|default("-") }}",
+    "{{ entity.numeroHasta|default("-") }}",
+    "{{ entity.codigoAutorizacionImpresionTalonario.numero|default('-') }}",
+    "{{ entity.codigoAutorizacionImpresionTalonario.fechaVencimiento|date('d/m/Y') }}",
+    {
+    "show" : " {{ path( "talonarios_show", { "id": entity.id }) }}"
+    {% if entity.esEditable %}
+        ,"edit" : " {{ path( "talonarios_edit", { "id": entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

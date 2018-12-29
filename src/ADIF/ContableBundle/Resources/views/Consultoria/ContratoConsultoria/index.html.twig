@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Contratos de locaci&oacute;n</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            {% if is_granted('ROLE_CREAR_CONTRATO_CONSULTOR') %}
+                                <a class="btn btn-sm green tooltips" data-placement="right" 
+                                   data-original-title="Crear contrato de locaci&oacute;n" 
+                                   href=" {{ path( 'contratoconsultoria_new') }} ">
+                                    Crear contrato de locaci&oacute;n <i class="fa fa-plus"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed 
+                        flip-content dt-multiselect export-excel" 
+                        id="table-contratoconsultoria"
+                        dataexport-title="contratoconsultoria">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>N&ordm; contrato</th>
+                                <th>N&ordm; carpeta</th>
+                                <th>Consultor</th>
+                                <th data-type="date">Fecha inicio</th>
+                                <th data-type="date">Fecha fin</th>
+                                <th>Importe</th>
+                                <th>Saldo pendiente facturaci&oacute;n</th>
+                                <th>Gerencia</th>
+								<th>Importe Ciclo</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-contratoconsultoria .checkboxes" />
+                                </th>
+                                <th class="nowrap">N&ordm; contrato</th>
+                                <th class="nowrap">N&ordm; carpeta</th>
+                                <th>Consultor</th>
+                                <th date export-format="date" class="nowrap">Fecha inicio</th>
+                                <th date export-format="date" class="nowrap">Fecha fin</th>
+                                <th class="nowrap">Importe</th>
+                                <th class="text-center nowrap">Saldo pendiente fact.</th>
+                                <th class="nowrap">Gerencia</th>
+								<th>Importe Ciclo</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/consultoria/contratoconsultoria/index.js') }}" ></script>
+{% endblock %}

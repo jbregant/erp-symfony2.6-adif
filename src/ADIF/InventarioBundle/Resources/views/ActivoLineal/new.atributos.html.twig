@@ -1,0 +1,26 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Atributos</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-valor-atributo" 
+                 data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:ActivoLineal:prototype.atributo_activolineal.html.twig' with {'valorAtributo': form.valoresAtributo.vars.prototype} %}{% endfilter %}">
+                {% for valorAtributo in form.valoresAtributo %}
+                    {% include 'ADIFInventarioBundle:ActivoLineal:prototype.atributo_activolineal.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green prototype-link-add-valor-atributo tooltips" 
+                       data-placement="right" data-original-title="Agregar atributo">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</fieldset>

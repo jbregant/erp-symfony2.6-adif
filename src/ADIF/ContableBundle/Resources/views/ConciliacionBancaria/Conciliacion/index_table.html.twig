@@ -1,0 +1,20 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaInicio ? entity.fechaInicio|date('d/m/Y') : '-' }}",
+    "{{ entity.fechaFin ? entity.fechaFin|date('d/m/Y') : '-' }}",
+    "{{ entity.fechaCierre ? entity.fechaCierre|date('d/m/Y') : '-' }}",
+    "{{ entity.cuenta|default("-") }}",
+    {
+    {% if entity.fechaCierre %}
+        "show" : "{{ path( 'conciliacion_show', { 'id': entity.id }) }}"
+    {% else %}
+        "edit" : "{{ path( 'conciliacion_edit', { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

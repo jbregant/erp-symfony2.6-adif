@@ -1,0 +1,26 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Adjuntos</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-archivos-clienteproveedor" 
+                 data-prototype="{% filter escape %}{% include 'ADIFComprasBundle:ClienteProveedor:prototype.archivos_clienteproveedor.html.twig' with {'adjunto': form.clienteProveedor.archivos.vars.prototype} %}{% endfilter %}">
+                {% for adjunto in form.clienteProveedor.archivos %}
+                    {% include 'ADIFComprasBundle:ClienteProveedor:prototype.archivos_clienteproveedor.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green-jungle 
+                       prototype-link-add-archivo-clienteproveedor tooltips">
+                        Agregar archivo <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

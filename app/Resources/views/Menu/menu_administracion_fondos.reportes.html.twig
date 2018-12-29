@@ -1,0 +1,33 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Reportes
+    </a>    
+    <ul class="dropdown-menu">
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_REPORTE_LISTADO_COBRANZAS") %}
+            <li> 
+                <a href="{{ path('rengloncobranza_recibos') }}">
+                    Listado de recibos de cobranzas
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_REPORTE_LISTADO_PAGOS") %}
+            <li>
+                <a href="{{ path('pagos_reporte_pagos') }}">
+                    Listado de cheques / transferencias emitidas
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_REPORTE_PARTE_SALDOS") %}
+            <li>
+                <a href="{{ path('pagos_reporte_parte_saldos') }}">
+                    Parte diario de tesorer&iacute;a 
+                </a>
+            </li>
+        {% endif %}
+            <li> 
+                <a href="{{ path('reporte_cobranzas_aabe_adif') }}">
+                    Listado de cobranzas AABE y ADIF
+                </a>
+            </li>        
+    </ul>
+</li>

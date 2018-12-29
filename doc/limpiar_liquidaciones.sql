@@ -1,0 +1,9 @@
+SET FOREIGN_KEY_CHECKS=0; 
+TRUNCATE liquidacion_empleado_concepto; 
+TRUNCATE liquidacion_empleado; 
+TRUNCATE liquidacion; 
+TRUNCATE g_concepto_ganancia_calculado;
+TRUNCATE g_concepto_formulario_572;
+TRUNCATE g_formulario_572;
+TRUNCATE g_ganancia_empleado;
+SET FOREIGN_KEY_CHECKS=1;

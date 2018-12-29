@@ -1,0 +1,27 @@
+
+{% set ConstanteEstadoPedidoInterno = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoPedidoInterno' %}  
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaPedido|date('d/m/Y') }}",
+    "{{ entity.descripcion|default('-')|escape_json }}",
+    {
+    "aliasTipoImportancia" : "{{ entity.estadoPedidoInterno is not null ? entity.estadoPedidoInterno.tipoImportancia.aliasTipoImportancia : 'default' }}",
+    "estadoPedidoInterno" : "{{ entity.estadoPedidoInterno is not null ? entity.estadoPedidoInterno.denominacionEstadoPedidoInterno : '-'  }}"   
+    },
+    {
+    "show" : "{{ path( 'pedidointerno_show', { 'id': entity.id }) }}"
+    {% if entity.esEditable %}
+        ,"edit" : "{{ path( 'pedidointerno_edit', { 'id': entity.id }) }}"
+    {% endif %}
+    {% if entity.esAnulable %}
+        ,"anular" : "{{ path( 'pedidointerno_anular', { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

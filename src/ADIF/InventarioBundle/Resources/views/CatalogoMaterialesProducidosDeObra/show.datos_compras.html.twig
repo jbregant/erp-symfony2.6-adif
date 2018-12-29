@@ -1,0 +1,30 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Compras</legend>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Medidas</label>
+                <div class="detalle_show"> {{ entity.medida|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Peso</label>
+                <div class="detalle_show"> {{ entity.peso|default('-') }} </div>
+            </div>
+        </div>
+        
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Volumen</label>
+                <div class="detalle_show"> {{ entity.volumen|default('-') }} </div>
+            </div>
+        </div>
+
+    </div>
+
+</fieldset>

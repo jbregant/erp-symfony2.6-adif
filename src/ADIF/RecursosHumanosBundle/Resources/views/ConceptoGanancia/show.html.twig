@@ -1,0 +1,115 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del concepto ganancia: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Denominacion</label>
+                        <div class="detalle_show">
+							{{ entity.denominacion }}                        
+						</div>
+                    </div>
+                </div>
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Aplica en formulario 572</label>
+                        <div class="detalle_show">
+							{% if entity.aplicaEnFormulario572 == 1 %} Si {% else %} No {% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Es carga familiar</label>
+						<div class="detalle_show">
+							{% if entity.esCargaFamiliar == 1 %} Si {% else %} No {% endif %}
+						</div>
+                    </div>
+                </div>
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Codigo 572</label>
+                        <div class="detalle_show">
+							{{ entity.codigo572 }}                        
+						</div>
+                    </div>
+                </div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Indica SAC</label>
+                        <div class="detalle_show">
+							{% if entity.indicaSAC == 1 %} Si {% else %} No {% endif %}
+						</div>
+                    </div>
+                </div>
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Aplica ganancia anual</label>
+                        <div class="detalle_show">
+							{% if entity.aplicaGananciaAnual == 1 %} Si {% else %} No {% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">F572 sobreescribe</label>
+                        <div class="detalle_show">
+							{% if entity.f572Sobreescribe == 1 %} Si {% else %} No {% endif %}
+						</div>
+                    </div>
+                </div>
+			
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Tiene detalle</label>
+						<div class="detalle_show">
+							{% if entity.tieneDetalle == 1 %} Si {% else %} No {% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Tipo concepto ganancia</label>
+                        <div class="detalle_show">
+							{{ entity.tipoConceptoGanancia.denominacion|default('-') }}
+						</div>
+                    </div>
+                </div>
+			</div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('ganancia_concepto') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

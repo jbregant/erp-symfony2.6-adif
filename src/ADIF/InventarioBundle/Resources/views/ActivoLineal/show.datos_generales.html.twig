@@ -1,0 +1,83 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">General</legend>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">¿Sujeto a Impuestos?</label>
+                <div class="detalle_show">{{ entity.estaSujetoImpuestos?'Si':'No' }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">¿Es Item de Inventario?</label>
+                <div class="detalle_show">{{ entity.participaInventario?'Si':'No' }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">¿Es Activo Fijo?</label>
+                <div class="detalle_show">{{ entity.esActivoFijo?'Si':'No' }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Categoría</label>
+                <div class="detalle_show">{{ entity.categoria }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Tipo de Activo</label>
+                <div class="detalle_show">{{ entity.tipoActivo|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Tipo de Servicio</label>
+                <div class="detalle_show">{{ entity.tipoServicio|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Zona de Vía</label>
+                <div class="detalle_show">{{ entity.zonaVia|default('-') }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Estación</label>
+                <div class="detalle_show">{{ entity.estacion|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Latitud</label>
+                <div class="detalle_show">{{ entity.latitud|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Longitud</label>
+                <div class="detalle_show">{{ entity.longitud|default('-') }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label">Observaciones</label>
+                <div class="detalle_show">{{ entity.observaciones|default('-') }}</div>
+            </div>
+        </div>
+    </div>
+</fieldset>

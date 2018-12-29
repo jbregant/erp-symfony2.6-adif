@@ -1,0 +1,53 @@
+<div class="div_ctn_seccion" id="seccion_tipo_cambio" style="display:none;">
+    <div class="btn btn-info btn-sm label_seccion">Datos del tipo de cambio</div>
+
+    <div class="row">
+
+		<input type="hidden" id="idTipoMoneda" name="idTipoMoneda" class="hidden" value="" >
+		<input type="hidden" id="esOcMonedaExtranjera" name="esOcMonedaExtranjera" class="hidden" value="0" >
+		
+        <div class="col-md-3">
+            <div class="form-group">
+				Tipo de moneda OC
+                <div class="input-icon right">
+                    <i class="fa"></i>
+					<input type="text"
+						class = "form-control"
+						id="strTipoMoneda"
+						value=""
+						>
+                </div>
+            </div>
+        </div>
+                
+        
+        <div class="col-md-3">
+            <div class="form-group">
+				Tipo de cambio
+                <div class="input-icon right">
+                    <i class="fa"></i>
+					<input type="text"
+						class = "form-control currency"
+						id="strTipoCambio"
+						name="strTipoCambio"
+						data-digits="2"
+						value=""
+						>
+                </div>
+            </div>
+        </div>
+		
+		<div class="col-md-1">
+            <div class="form-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                   <button type="button" 
+					id="adif_contablebundle_comprobantecompra_actualizar_tipo_cambio" 
+					class="btn blue">OK</button>
+                </div>
+            </div>
+        </div>
+		
+    </div>
+	
+</div>

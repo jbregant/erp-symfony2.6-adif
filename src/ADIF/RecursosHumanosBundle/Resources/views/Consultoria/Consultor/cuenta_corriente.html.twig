@@ -1,0 +1,118 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# PriceFormat #}
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+
+{% endblock%}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Cuenta corriente <b>{{ consultor.razonSocial ~  ' - ' ~ consultor.cuit }}</b></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+
+                    </div>
+
+                    <table 
+                        class="table datatable table-bordered table-striped flip-content table-condensed export-excel" 
+                        id="table-cuenta-corriente-consultor" 
+                        dataexport-title="consultor-cuenta-corriente">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="entity_id"></th>
+                                <th>N&ordm; de Contrato</th>
+                                <th>N&ordm; Carpeta</th>
+                                <th>Fecha inicio</th>
+                                <th>Fecha fin</th>
+                                <th>Importe</th>
+                                <th>Saldo</th>
+                                <th>Gerencia</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th>N&ordm; de Contrato</th>
+                                <th>N&ordm; Carpeta</th>
+                                <th>Fecha inicio</th>
+                                <th>Fecha fin</th>
+                                <th>Importe</th>
+                                <th>Saldo</th>
+                                <th>Gerencia</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set total = 0%}
+                            {% set saldo = 0%}
+                            {% for contrato in contratos %}                                
+                                <tr>
+                                    <td>{{ contrato.id }}</td>
+                                    <td class="nowrap">{{ contrato.numeroContrato|default('-') }}</td>
+                                    <td class="nowrap">{{ contrato.numeroCarpeta|default('-') }}</td>
+                                    <td class="nowrap">{{ contrato.fechaInicio|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ contrato.fechaFin|date('d/m/Y') }}</td>
+                                    <td class="text-right">{{ contrato.importeTotal|money_format }}</td>
+                                    <td class="text-right">{{ contrato.saldoPendienteFacturacion|money_format(contrato.simboloTipoMoneda) }}</td>
+                                    <td class="nowrap">{{ contrato.gerencia|default('-') }}</td>
+                                    <td class="text-center" width="10%">
+                                        <a class="btn btn-xs blue tooltips" 
+                                            data-placement="left" 
+                                            data-original-title="Ver detalle"
+                                            href="{{ path( 'consultor_cta_cte_detalle', { 'idConsultor': consultor.id, 'idContrato': contrato.id }) }}"><i class="fa fa-letter">Detalle</i></a>
+                                    </td>
+                                </tr>
+                                {% set total = total + contrato.importeTotal %}
+                                {% set saldo = saldo + contrato.saldoPendienteFacturacion %}
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right bold">{{ total|money_format }}</th>
+                                <th class="text-right bold">{{ saldo|money_format }}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="pull-left">
+            <button type="button" class="btn default button-back" 
+                    back-url="{{ path( 'cliente') }}">Volver</button>
+        </div>
+    </div>
+{% endblock %}

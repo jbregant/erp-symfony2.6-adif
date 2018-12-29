@@ -1,0 +1,26 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    {% autoescape  %}
+    "{{ entity.num|default('-') }}",
+    "{{ entity.grupoMaterial|default('-') }}",
+    "{{ entity.denominacion|default('-') }}",
+    "{{ entity.medida|default('-') }}",
+    "{{ entity.peso|default('-') }}",
+    "{{ entity.volumen|default('-') }}",
+    "{{ entity.unidadMedida|default('-') }}",
+    "{{ entity.observacion|default('-') }}",
+    "{{ entity.estadoInventario|default('-') }}",
+    {% endautoescape %}
+{
+"show" : " {{ path( "catalogomaterialesproducidosdeobra_show", { "id": entity.id }) }}",
+{% if is_granted("ROLE_INVENTARIO_MATERIAL_PROD_OBRA_MODIFICAR") %}
+    "edit" : " {{ path( "catalogomaterialesproducidosdeobra_edit", { "id": entity.id }) }}"
+{% endif %}
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

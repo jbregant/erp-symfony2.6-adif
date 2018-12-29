@@ -1,0 +1,85 @@
+
+<div class="row">                        
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.fechaSolicitud) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.fechaSolicitud) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            {{ form_label(form.tipoSolicitudCompra) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.tipoSolicitudCompra) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.justiprecio) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.justiprecio) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-group">            
+            {{ form_label(form.justificacion.archivo) }}
+            {% if edit and form.vars.value.justificacion is not null and form.vars.value.justificacion is not null %} 
+                <a  class="download-link" target="_blank"
+                    href="{{ asset('uploads/justificacion_solicitud_compra/' ~ form.vars.value.justificacion.nombreArchivoClear) }}">
+                    (Descargar)
+                </a>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.justificacion.archivo, {'attr' : { 'data-file' : form.vars.value.justificacion.nombre} }) }}
+                </div>
+            {% else %} 
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.justificacion.archivo) }}
+                </div>
+            {% endif %} 
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.numeroReferencia) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.numeroReferencia) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="form-group">
+            {{ form_label(form.descripcion) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.descripcion) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if form.vars.value.observacion is not empty %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.observacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.observacion) }}
+                </div>
+            </div>
+        </div>
+    </div> 
+{% endif %}

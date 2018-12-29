@@ -1,0 +1,48 @@
+<div class="row row_renglon_percepcion_nuevo" style="display: none;">
+    <div class="col-md-4">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobanteobra_renglonesPercepcion___name___conceptoPercepcion" 
+                        sname="adif_contablebundle_comprobanteobra[renglonesPercepcion][__name__][conceptoPercepcion]" 
+                        class="form-control no-editable">                                            
+                    {% for choice_concepto_percepcion in form.renglonesPercepcion.vars.prototype.conceptoPercepcion.vars.choices %}
+                        <option value="{{choice_concepto_percepcion.data.id}}">{{choice_concepto_percepcion.data.denominacion}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 jurisdiccion-data" >
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobanteobra_renglonesPercepcion___name___jurisdiccion" 
+                        sname="adif_contablebundle_comprobanteobra[renglonesPercepcion][__name__][jurisdiccion]" 
+                        class="form-control no-editable">                                            
+                    {% for choice_jurisdiccion in form.renglonesPercepcion.vars.prototype.jurisdiccion.vars.choices %}
+                        <option value="{{choice_jurisdiccion.data.id}}">{{choice_jurisdiccion.data.denominacion}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>                        
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanteobra_renglonesPercepcion___name___monto" 
+                       sname="adif_contablebundle_comprobanteobra[renglonesPercepcion][__name__][monto]" 
+                       required="required" class="form-control currency no-editable" data-digits="4" value="0" 
+                       style="padding-right: 10px !important;">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <button class="btn btn-sm red renglon_percepcion_borrar">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>  

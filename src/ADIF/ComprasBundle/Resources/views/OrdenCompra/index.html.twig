@@ -1,0 +1,129 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% set ConstanteEstadoOrdenCompra = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoOrdenCompra' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .modal-dialog {
+            width: 850px;
+        }
+
+        .link-detalle-saldo {
+            margin-right: -2px;
+        }
+
+        .link-detalle-saldo i {
+            font-size: 14px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+
+            {% include '@ADIFCompras/PanelControl/portlet.panel_control.html.twig'  %}
+
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption caption-orden-compra">Ordenes de compra</div>
+                </div>
+                <div class="portlet-body">
+
+                    <div class="tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li>
+                                <a href="#tab_1" data-toggle="tab" class="tab-ordencompra-pendientes-generacion">Pendientes de generaci&oacute;n</a>
+                            </li>
+
+                            <li class="active">
+                                <a href="#tab_2" data-toggle="tab" class="tab-ordencompra-generadas">Generadas</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div id="tab_1" class="tab-pane ">
+                                {% include '@ADIFCompras/OrdenCompra/table.orden_compra.html.twig' with {'tipo': 'pendientes-generacion', 'muestraSaldo': false}  %}
+                            </div> 
+
+                            <div id="tab_2" class="tab-pane active">
+                                {% include '@ADIFCompras/OrdenCompra/table.orden_compra.html.twig' with {'tipo': 'generadas', 'muestraSaldo': true}  %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detalle_motivo_anulacion" class="hidden">     
+        <form name="adif_comprasbundle_detalle_motivo_anulacion" 
+              method="post" action="" class="horizontal-form" novalidate="novalidate">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label required" for="adif_comprasbundle_ordencompra_motivoAnulacion">
+                            Motivo de anulaci&oacute;n
+                        </label>
+                        <div class="input-group col-md-12">
+                            <div class="input-icon right">
+                                <i class="fa" data-original-title=""></i>
+                                <input type="text" id="adif_comprasbundle_ordencompra_motivoAnulacion" 
+                                       name="adif_comprasbundle_ordencompra[motivoAnulacion]" 
+                                       maxlength="255" required="required" class="form-control">
+                            </div>
+                        </div>
+                    </div> 
+                </div> 
+            </div> 
+        </form>           
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Validation #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>       
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# DatePicker #}
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/ordencompra/index.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %} 

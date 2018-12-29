@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}  
+
+
+{% block body -%}
+    <div class="row">
+		<div class="col-md-3">&nbsp;</div>
+        <div class="col-md-6">
+			
+			{% if empresaActual == 'adif' %}
+				<img id="img-logo" src="{{ asset(image_path ~ 'logo_landing.jpg') }}" alt="logo" class="img-responsive"/>
+			{% elseif empresaActual == 'vossloh' %}
+				<img id="img-logo" src="{{ asset(image_path ~ 'logo_consorcio.png') }}" alt="logo" class="img-responsive"/>
+			{% else %} 
+				<img id="img-logo" src="{{ asset(image_path ~ 'fase.png') }}" alt="logo" class="img-responsive"/>
+			{% endif %}
+		
+		</div>
+	</div>
+{% endblock %} 
+

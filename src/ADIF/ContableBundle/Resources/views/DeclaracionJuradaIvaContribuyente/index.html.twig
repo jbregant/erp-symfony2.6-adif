@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+ 
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Declaraciones Juradas Iva</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    {% if(not existenDeclaracionesAbiertas) %}
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear declaracion jurada" href=" {{ path( 'declaracionesjuradasivacontribuyente_new') }} ">
+                            Crear declaracion jurada <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                    id="table-declaracionjuradaivacontribuyente"
+                    dataexport-title="ddjjivacontribuyente">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                            <th>Per&iacute;odo</th>
+                            <th data-type="date">Fecha cierre</th>
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-declaracionjuradaivacontribuyente .checkboxes" />
+                            </th>
+                            <th>Per&iacute;odo</th>
+                            <th date export-format="date">Fecha cierre</th>
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/contable/declaracionjuradaivacontribuyente/index.js') }}" ></script>
+{% endblock %}

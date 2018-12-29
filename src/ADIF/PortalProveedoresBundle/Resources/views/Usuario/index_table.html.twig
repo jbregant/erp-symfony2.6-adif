@@ -1,0 +1,18 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.email|default('-') }}", 
+    "{{ entity.cuit|default('-') }}", 
+    {% if entity.fecha_alta %}"{{ entity.fecha_alta|date('d/m/Y') }}",{% else %}"-",{% endif %} 
+    {% if entity.last_login %}"{{ entity.last_login|date('d/m/Y') }}",{% else %}"-",{% endif %} 
+    "{{ entity.estado|default('-') }}", 
+{
+"show" : "# {# {{ path( "portal_usuarios_show", { "id": entity.id }) }} #}" 
+{# "edit" : " {{ path( "portal_usuarios_edit", { "id": entity.id }) }}"  #}
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,98 @@
+<div class="portlet-body">
+    <div style="margin-top: 5em">
+        <div class="btn-group pull-left" style="margin-top: -3em">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="adif_comprasbundle_filtro_fechaInicio" 
+                               class="control-label">Fecha inicio</label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_comprasbundle_filtro_fechaInicio-{{ tipo }}" 
+                                   name="adif_comprasbundle_filtro[fechaInicio]" 
+                                   class="form-control datepicker">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="adif_comprasbundle_filtro_fechaFin" 
+                               class="control-label">Fecha fin</label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_comprasbundle_filtro_fechaFin-{{ tipo }}" 
+                                   name="adif_comprasbundle_filtro[fechaFin]" 
+                                   class="form-control datepicker">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <button class="btn btn-small blue-hoki form-control" id="filtrar-{{ tipo }}">
+                        Filtrar
+                    </button>
+                </div>
+            </div>                        
+        </div>
+    </div>
+
+    <div class="table-toolbar">    
+    </div>
+    <table 
+        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+        id="table-ordencompra-{{ tipo }}" dataexport-title="ordencompra">
+        <thead>
+            <tr class="replace-inputs filter">
+                <th></th>
+                <th class="not-in-filter"></th>
+                <th>N&uacute;mero</th>
+                <th>N&uacute;mero calipso</th>
+				<th>N&uacute;mero requerimiento</th>
+                <th data-type="date">Fecha</th>
+                <th>Proveedor</th>
+                <th>Cotizaci&oacute;n</th>
+                <th>Descripci&oacute;n</th>
+                <th class="hidden">S&iacute;mbolo moneda</th>
+                <th>Importe</th>
+                <th>Rubros</th>
+                <th>Bienes</th>
+                    {% if muestraSaldo %}
+                    <th>Saldo</th>
+                    <th>Usuario</th>
+                    {% endif %}
+                <th>Estado</th>
+                <th class="not-in-filter"></th>
+            </tr>
+            <tr class="headers">
+                <th class="no-order entity_id"></th>
+                <th class="text-center table-checkbox no-order">
+                    <input type="checkbox" class="group-checkable" data-set="#table-ordencompra .checkboxes" />
+                </th>
+                <th class="nowrap">N&uacute;mero</th>
+                <th class="nowrap">N&uacute;mero calipso</th>
+				<th class="nowrap">N&uacute;mero requerimiento</th>
+                <th date export-format="date" class="nowrap">Fecha</th>
+                <th>Proveedor</th>
+                <th class="nowrap">Cotizaci&oacute;n</th>
+                <th>Descripci&oacute;n</th>
+                <th class="hidden">S&iacute;mbolo moneda</th>
+                <th>Importe</th>
+                <th>Rubros</th>
+                <th>Bienes</th>
+                    {% if muestraSaldo %}
+                    <th>Saldo</th>
+                    <th>Usuario</th>
+                    {% endif %}
+                <th>Estado</th>
+                <th class="text-center no-order ctn_acciones">Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

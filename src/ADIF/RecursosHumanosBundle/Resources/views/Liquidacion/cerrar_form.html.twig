@@ -1,0 +1,59 @@
+{# empty Twig template #}
+<form class="horizontal-form" novalidate="novalidate" id="form_liquidacion_cierre" method="post" name="form_liquidacion_cierre" action="{{ path('liquidaciones_cerrar') }}">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label required" for="lugar_de_pago">Lugar de pago</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" required="required" id="lugar_de_pago" name="lugar_de_pago" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label required" for="fecha_pago">Fecha de pago</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" required="required" id="fecha_pago" name="fecha_pago" class="form-control datepicker">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label" for="fecha_ultimo_aporte">Mes del &uacute;ltimo aporte</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="fecha_ultimo_aporte_dp" class="form-control datepicker nomask novalidate">
+                    <input type="hidden" id="fecha_ultimo_aporte" name="fecha_ultimo_aporte">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label" for="banco_aporte">Banco dep&oacute;sito aportes</label>
+                    <div class="input-icon right">
+                        <select class="form-control" id="banco_aporte" name="banco_aporte"></select>
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label" for="fecha_deposito_aporte">Fecha dep&oacute;sito aporte</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="fecha_deposito_aporte" name="fecha_deposito_aporte" class="form-control datepicker">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label" for="observacion">Observaci&oacute;n</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <textarea id="observacion" name="observacion" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

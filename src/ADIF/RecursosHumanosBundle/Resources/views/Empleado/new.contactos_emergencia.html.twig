@@ -1,0 +1,128 @@
+<div style="display:none" id="contactos_datos">
+    {% for contacto in empleado.contactosEmergencia %}
+        <input name="adif_recursoshumanosbundle_empleado_contacto[{{ loop.index }}][id]" type="hidden" value="{{ contacto.id }}"/>        
+        <input name="adif_recursoshumanosbundle_empleado_contacto[{{ loop.index }}][apellido]" type="hidden" value="{{ contacto.apellido }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_contacto[{{ loop.index }}][nombre]" type="hidden" value="{{ contacto.nombre }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_contacto[{{ loop.index }}][domicilio]" type="hidden" value="{{ contacto.domicilio }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_contacto[{{ loop.index }}][telefono]" type="hidden" value="{{ contacto.telefono }}"/>
+        <input name="adif_recursoshumanosbundle_empleado_contacto[{{ loop.index }}][id_tipo_relacion]" type="hidden" value="{{ contacto.idTipoRelacion.id }}"/>
+    {% endfor %}
+</div>
+
+<div class="row" id="row_contactos">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="contacto_apellido" class="control-label">Apellido</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control" maxlength="255" required="required" id="contacto_apellido" name="contacto_apellido" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="contacto_nombre" class="control-label">Nombre</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control" maxlength="255" required="required" id="contacto_nombre" name="contacto_nombre" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="contacto_domicilio" class="control-label">Domicilio</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control" maxlength="255" required="required" id="contacto_domicilio" name="contacto_domicilio" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="contacto_telefono" class="control-label">Tel&eacute;fono</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control" maxlength="255" required="required" id="contacto_telefono" name="contacto_telefono" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="contacto_tipo_relacion" class="control-label">Parentesco</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="choice form-control" id="contacto_tipo_relacion" name="contacto_tipo_relacion"></select>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="width-100">&nbsp;</label>
+            <button class="btn green width-100" id="contacto_agregar">
+                <i class="fa fa-plus"></i>
+                Agregar
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-book"></i>Contactos actuales
+                </div>
+                <div class="tools">
+                    <a class="collapse" href="javascript:;"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover table-striped " id="contactos_table">
+                        <thead>
+                            <tr>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Domicilio</th>
+                                <th>Tel&eacute;fono</th>
+                                <th>Parentesco</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contacto in empleado.contactosEmergencia %}
+                            <tr tr_index="{{ loop.index }}">
+                                <td>{{ contacto.apellido }}</td>
+                                <td>{{ contacto.nombre }}</td>
+                                <td>{{ contacto.domicilio }}</td>
+                                <td>{{ contacto.telefono  }}</td>
+                                <td>{{ contacto.idTipoRelacion }}</td>
+                                <td>
+                                    <a class="btn default btn-xs red contacto_borrar" href="#">
+                                        <i class="fa fa-trash-o"></i> Borrar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

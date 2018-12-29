@@ -1,0 +1,12 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.tipoDeclaracionJurada|default('-') }}",
+    "{{ entity.ordenPago.fechaOrdenPago|date('d/m/Y') }}",
+    "{{ entity.ordenPago.importe|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

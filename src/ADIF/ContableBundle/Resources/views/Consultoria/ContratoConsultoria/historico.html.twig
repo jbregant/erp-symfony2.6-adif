@@ -1,0 +1,95 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'css/pages/timeline.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/facturacion/contrato/timeline.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Hist&oacute;rico del contrato: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="timeline">
+                        {% for contrato in entity.historico %}
+                            <li class="{{'timeline-'~ contrato.estadoContrato.tipoImportancia.colorTipoImportancia }} {% if loop.last %}timeline-noline{%endif%}">
+                                <div class="timeline-time">
+                                    <span class="time">{{ contrato.numeroContrato }}</span>
+                                    <span class="date">
+                                        {{ contrato.fechaInicio|date('d/m/y') ~ ' - ' ~ contrato.fechaFin|date('d/m/y') }}
+                                    </span>
+                                </div>
+                                <div class="timeline-icon">
+                                    {% if loop.first %}
+                                        <i class="fa fa-circle"></i>
+                                    {% else %}
+                                        <i class="fa fa-check"></i>
+                                    {%endif%}
+                                </div>
+                                <div class="timeline-body">
+                                    <div class="timeline-body-head">
+                                        <div class="timeline-body-head-caption">
+                                            <span class="timeline-body-title">
+                                                {{ contrato.numeroContrato ~ ' - ' ~ contrato.claseContrato }}
+                                            </span>
+                                            <span class="timeline-body-time">{{ ' (' ~  contrato.estadoContrato ~ ')' }}</span>
+                                        </div>
+                                        <div class="timeline-body-head-actions">
+                                            <a href="{{ path( 'contratoconsultoria_show', { 'id': contrato.id }) }}" target="_blank">Ver detalle</a>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-body-content">
+                                        <span class="font-grey-gallery">
+                                            <p class="col-md-6">
+                                                <span class="bold">Consultor: </span>{{ contrato.consultor.cuitAndRazonSocial }}
+                                            </p>
+                                            <p class="col-md-6">
+                                                <span class="bold">Nro carpeta: </span>{{ contrato.numeroCarpeta|default('-') }}
+                                            </p>
+                                            <p class="col-md-6">
+                                                <span class="bold">Importe original: </span>{{ contrato.importeTotal|money_format(entity.simboloTipoMoneda) }}
+                                            </p>
+                                            <p class="col-md-6">
+                                                <span class="bold">Saldo pendiente: </span>{{ contrato.saldoPendienteFacturacion|money_format(entity.simboloTipoMoneda) }}
+                                            </p>                                         
+                                            <p class="col-md-6">
+                                                <span class="bold">Fecha inicio: </span>{{ contrato.fechaInicio|date('d/m/Y') }}
+                                            </p>                                           
+                                            <p class="col-md-6">
+                                                <span class="bold">Fecha fin: </span>{{ contrato.fechaFin|date('d/m/Y') }}
+                                            </p>
+                                            <p class="col-md-12"> 
+                                                <span class="bold">Observaci&oacute;n: </span>{{ contrato.observacion|default('-') }}
+                                            </p>
+                                        </span>
+                                    </div>
+                                    <div class="timeline-footer"></div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"><i class="m-icon-swapleft">
+                    </i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

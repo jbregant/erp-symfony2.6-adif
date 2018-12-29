@@ -1,0 +1,26 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Propiedades</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-valor-propiedad-CMN" 
+                 data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:CatalogoMaterialesNuevos:prototype.propiedad_materialesnuevos.html.twig' with {'valorPropiedad': form.valoresPropiedad.vars.prototype} %}{% endfilter %}">
+                {% for valorPropiedad in form.valoresPropiedad %}
+                    {% include 'ADIFInventarioBundle:CatalogoMaterialesNuevos:prototype.propiedad_materialesnuevos.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green prototype-link-add-valor-propiedad tooltips"
+                       data-placement="right" data-original-title="Agregar propiedad">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</fieldset>

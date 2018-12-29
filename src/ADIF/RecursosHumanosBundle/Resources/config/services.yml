@@ -1,0 +1,20 @@
+services:
+    adif.crossbundle.listener.recursoshumanos:
+        class: ADIF\RecursosHumanosBundle\EventListener\PostLoadEventSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+        arguments:
+            - @doctrine
+    adif.empleado_historico_rango_remuneracion_service:
+        class: ADIF\RecursosHumanosBundle\Service\EmpleadoHistoricoRangoRemuneracionService
+        arguments:
+            - @doctrine
+    adif.consultor_service:
+        class: ADIF\RecursosHumanosBundle\Service\ConsultorService
+        arguments:
+            - @doctrine
+    
+    namer.adjunto_consultor:
+        class: ADIF\RecursosHumanosBundle\Namer\AdjuntoConsultorNamer
+        tags:
+            - { name: namer }

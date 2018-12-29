@@ -1,0 +1,32 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Activo Fijo</legend>
+
+    <div class="row">                        
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Valor Origen</label>
+                <div class="detalle_show">{{ entity.valorOrigen|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Rubro</label>
+                <div class="detalle_show">{{ entity.rubro|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Método de Amortización</label>
+                <div class="detalle_show">{{ entity.metodoAmortizacion|default('-') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Vida Útil</label>
+                <div class="detalle_show">{{ entity.vidaUtil|default('-') }}</div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

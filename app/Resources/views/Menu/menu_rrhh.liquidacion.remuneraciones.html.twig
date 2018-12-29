@@ -1,0 +1,49 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Remuneraciones
+    </a>    
+    <ul class="dropdown-menu">
+
+        {% if is_granted("ROLE_MENU_RRHH_CONFIGURACION_LIQUIDACION") %}
+            {% include ':Menu:menu_rrhh.configuracion_liquidacion.html.twig' %}
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_RRHH_VISTA_LIQUIDACIONES") %}
+            <li>
+                <a href="{{ path('liquidaciones') }}">
+                    Liquidaci&oacute;n de sueldos
+                </a>
+            </li>
+        {% endif %}
+        
+        {% if is_granted("ROLE_MENU_RRHH_VISTA_CONCEPTOS") %}        
+            <li>
+                <a href="{{ path('conceptos') }}">
+                    Conceptos de liquidaci&oacute;n
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('empleados_conceptos') }}">
+                    Conceptos por empleado
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('empleados_novedades') }}">
+                    Novedades por empleado
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('empleado_novedades_importar') }}">
+                    Importar novedad
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted("ROLE_RRHH_ALTA_LIQUIDACIONES") %}
+             <li>
+                <a href="{{ path('reporte_mejor_remunerativo') }}">
+                    Reporte mejor remunerativo semestre
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>

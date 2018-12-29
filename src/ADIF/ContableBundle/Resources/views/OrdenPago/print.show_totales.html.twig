@@ -1,0 +1,30 @@
+
+<table class="w-100 m-top" border="1" >
+    <tbody>
+        <tr>
+            <td class="f-12">Total bruto</td>
+            <td class="f-12 t-right w-25">{{ op.totalBruto|money_format }}</td>
+        </tr>
+        {% for tipoImpuesto in ['SUSS','IIBB','Ganancias','IVA'] %}
+            <tr>
+                <td class="f-12">Retenci&oacute;n {{ tipoImpuesto }}</td>
+                <td class="f-12 t-right w-25">{{ op.montoRetencionesPorTipoImpuesto(tipoImpuesto)|money_format }}</td>
+            </tr>
+        {% endfor %}
+        {% if (op.montoAnticipos > 0) %}
+            <tr>
+                <td class="f-12">Anticipos aplicados</td>
+                <td class="f-12 t-right w-25">
+                    {{ op.montoAnticipos|money_format }}
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="f-12">Total neto a pagar</td>
+            <td class="f-12 t-right w-25">{{ (op.montoNeto)|money_format }}</td>
+        </tr>
+    </tfoot>
+</table>
+

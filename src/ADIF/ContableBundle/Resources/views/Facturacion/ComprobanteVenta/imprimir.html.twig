@@ -1,0 +1,311 @@
+{% set conceptoPercepcion = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteConceptoPercepcion' %}
+
+{% set claseContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteClaseContrato' %}
+
+{% set tipoComprobante = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoComprobanteVenta' %}
+
+{% set facturaNotaDebitoCredito = (
+        entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_DEBITO') or 
+        entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_DEBITO_INTERESES') or 
+	entity.tipoComprobante.id == constant(tipoComprobante ~ '::FACTURA') or 
+	entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_CREDITO')) %}   
+
+{% set facturaAutomatica = (entity.tipoComprobante.id == constant(tipoComprobante ~ '::FACTURA')) and 
+	(
+            entity.codigoClaseContrato == constant(claseContrato ~ '::ALQUILER_AGROPECUARIO') or 
+            entity.codigoClaseContrato == constant(claseContrato ~ '::ALQUILER_COMERCIAL') or 
+            entity.codigoClaseContrato == constant(claseContrato ~ '::ALQUILER_VIVIENDA') or 
+            entity.codigoClaseContrato == constant(claseContrato ~ '::TENENCIA_PRECARIA') or 
+            entity.codigoClaseContrato == constant(claseContrato ~ '::ASUNTO_OFICIAL_MUNICIPALIDAD')
+        ) 
+%}   
+
+{% set esServidumbrePaso = (entity.tipoComprobante.id == constant(tipoComprobante ~ '::FACTURA')) and (entity.codigoClaseContrato == constant(claseContrato ~ '::SERVIDUMBRE_DE_PASO')) %}
+
+{% if(esFacturaElectronica or esComprobanteRendicionLiquidoProducto) %}   
+
+    <div style="height:7.3mm; border: none;">&nbsp;</div>
+    <table cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                {% if entity.letraComprobante != null %}
+                    <td style="padding-left: 102mm; font-size: 18px; font-weight: bold;">{{ entity.letraComprobante.letra }}</td>
+                {% else %}
+                    <td style="padding-left: 102mm; font-size: 18px; font-weight: bold;">-</td>
+                {% endif %}
+                <td style="padding-left: 13mm; padding-top: 1.5mm; vertical-align: bottom; font-size: 20px; font-weight: bold;">{{ entity.tipoComprobante }}</td>
+            </tr>
+            <tr>
+                <td style="padding-left: 95mm; font-size: 10px; vertical-align: top;">CODIGO N&ordm; {{ codigoComprobante }}</td>
+                <td style="padding-left: 20mm; padding-top: 1mm; vertical-align: top; font-size: 18px;">{{ entity.numeroCompleto }}</td>
+            </tr>
+            <tr>
+                <td style="padding-left: 140mm; padding-top: 1mm; font-size: 15px; vertical-align: top;" colspan="2">{{ entity.fechaComprobante|date('d/m/Y') }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="height:16mm; border: none;">&nbsp;</div>
+{% else %}
+    <div style="height:44mm; border: none;">&nbsp;</div>
+{% endif %}
+<table>
+    <tbody>
+        <tr>
+            <td class="datos_cliente">
+                {% if entity.comprobanteImpresion is not null %}
+                    {{ entity.comprobanteImpresion.razonSocial|default('-') }}
+                {% else %}
+                    {{ entity.cliente|default('-') }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="datos_cliente">
+                {% if entity.comprobanteImpresion is not null %}
+                    {{ entity.comprobanteImpresion.domicilioLegal|default('-') }}
+                {% else %}
+                    {{ entity.cliente.clienteProveedor.domicilioLegal|default('-') }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="datos_cliente">
+                {% if entity.comprobanteImpresion is not null %}
+                    {{ entity.comprobanteImpresion.codigoPostal|default('-') }} - 
+                    {{ entity.comprobanteImpresion.localidad|default('-') }}, 
+                    {{ entity.comprobanteImpresion.provincia|default('-') }}
+                {% else %}
+                    {{ entity.cliente.clienteProveedor.domicilioLegal.codPostal|default('-') }} - 
+                    {{ entity.cliente.clienteProveedor.domicilioLegal.localidad|default('-') }}, 
+                    {{ entity.cliente.clienteProveedor.domicilioLegal.localidad.provincia|default('-') }}
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <tbody>
+        <tr>
+            <td class="datos_condicion_pago" style="width:140mm;">
+                {% if entity.comprobanteImpresion is not null and entity.comprobanteImpresion.condicionIVA is not null %}
+                    {{ entity.comprobanteImpresion.condicionIVA|default('-') }}
+                {% else %}                
+                    {{ condicionIVA|default('-') }}
+                {% endif %}</td>
+            <td style="vertical-align: top;">
+                {% if entity.comprobanteImpresion is not null %}
+                    {{ entity.comprobanteImpresion.numeroDocumento|default('-') }}
+                {% else %}                
+                    {{ (entity.cliente.cuit is null)? entity.cliente.dni|default('-') : entity.cliente.cuit|default('-') }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            {% if(facturaNotaDebitoCredito) %}
+                <td class="datos_condicion_pago">CONTADO</td>
+                <td style="width: 60mm; text-align: center;">
+                    {{ entity.contrato.numeroContrato|default('-') }}
+                </td>
+            {% else %}
+                <td class="datos_condicion_pago" colspan="2">CONTADO</td>
+            {% endif%}
+            {#            <td class="datos_condicion_pago" colspan="2">CONTADO</td>#}
+        </tr>
+    </tbody>
+</table>
+<div style="height:31mm; padding-top: 4mm;">
+    <table>
+        <tbody>
+            {% for renglon in entity.renglonesComprobante %}
+                {% if(entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_DEBITO_INTERESES')) %}
+                    {% set descripcion = 'INTERESES' %}
+                {% elseif(entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_DEBITO')) %}
+                    {% set descripcion = renglon.descripcion|default('-')%}
+                {% else %}
+                    {% if(entity.codigoClaseContrato == constant(claseContrato ~ '::PLIEGO') or entity.codigoClaseContrato == constant(claseContrato ~ '::VENTA_GENERAL')) %}
+                        {% set descripcion = renglon.descripcion|default('-')%}
+                    {% elseif(esServidumbrePaso) %}
+                        {% set descripcion = 'CANON '  ~ (entity.contrato.numeroContrato|default('-')) %}
+                    {% elseif(esComprobanteRendicionLiquidoProducto) %}   
+                        {% set descripcion = renglon.descripcion|default('-')%}
+                    {% else %}
+                        {% set descripcion = 'CANON' %}
+                    {% endif %}
+                {% endif %}
+                <tr>
+                    <td class="cantidad">{{ renglon.cantidad|default('-') }}</td>
+                    <td class="descripcion">{{ descripcion }}</td>
+                    <td class="importe">{{ (esLetraB)? (renglon.montoNeto + renglon.montoIva)|money_format : renglon.montoNeto|money_format }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<table style="border: thin border red;">
+    <tbody>
+        <tr>
+            <td colspan = "2" class="subtotales">{{ (esLetraB)? 0|money_format : entity.importeTotalNeto|money_format }}</td>
+        </tr>
+    <div>
+    </div>
+        <tr>
+            
+            {% if( entity.alicuotaIva|number_format == "21" or entity.alicuotaIva|number_format == "27" ) %}
+                <td class="porc_iva">
+                        IVA {{ entity.alicuotaIva|number_format }}%
+                </td>
+                <td class="subtotales_iva">
+                        {{ 
+                                (esLetraB)? 0|money_format 
+                                        : entity.importeTotalIVA|money_format }}{{(entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IVA')) > 0) 
+                                        ? ' / ' ~ ((entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IVA')))|money_format) ~ '(Perc. IVA)' : ''
+                        }}
+                </td>
+
+            {% else %}
+                <div style="position:absolute; right: 58%; top: 66%">{{ entity.alicuotaIva }}</div>
+                <td colspan = "2" class="subtotales">
+                    {{ 
+                            (esLetraB)? 0|money_format 
+                                    : entity.importeTotalIVA|money_format }}{{(entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IVA')) > 0) 
+                                    ? ' / ' ~ ((entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IVA')))|money_format) ~ '(Perc. IVA)' : ''
+                    }}
+                </td>
+
+            {% endif %}
+                              
+        </tr>
+        {% if(entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IIBB')) > 0 ) %}
+            <tr>
+                <td style="padding-left: 136mm; font-weight: bold" class="percepciones">Perc. IIBB</td>
+                <td style="padding-left: 5mm;" class="total-perc-iibb">{{ entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IIBB'))|money_format }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% if(entity.importeTotalPercepcionByConcepto(constant(conceptoPercepcion ~ '::CONCEPTO_PERCEPCION_IIBB')) == 0 ) %}
+    <div style="height:5mm;"></div>
+{% endif %}
+<table>
+    <tbody>
+        <tr>
+            <td class="subtotales">{{ entity.totalMCL|money_format }}</td>
+        </tr>
+    </tbody>
+</table>
+{% if(esFacturaElectronica) %}
+    <div style="height:13mm;">&nbsp;</div>
+    <table>
+        <tbody>
+            <tr>
+                <td class="subtotales">CAE: {{ entity.caeNumero }}</td>
+            </tr>
+            <tr>
+                <td class="subtotales">F/Vto: {{ entity.caeVencimiento|date('d/m/Y') }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="height:20mm;">&nbsp;</div>
+    <table>
+        <tbody>
+            <tr>
+                <td style="padding-left: 10mm; padding-right: 10mm;">
+					SE LE NOTIFICA QUE EN CASO DE QUE LA PRESENTE CUENTA REGISTRE DEUDA, LOS PAGOS EFECTUADOS SE IMPUTARAN DE CONFORMIDAD A LAS DISPOSICIONES DEL CÓDIGO CIVIL Y COMERCIAL DE LA NACION.
+				</td>
+            </tr>
+            <tr>
+                <td style="padding-left: 10mm; font-size: small;">
+					En caso de realizar la cancelaci&oacute;n a trav&eacute;s dep&oacute;sito bancario, giro, transferencia bancaria o 
+					pago electr&oacute;nico, remitir fax al 4318-3657 o mail a cobranzas@adifse.com.ar, con copia del comprobante de pago identificando 
+					titular y/o n&uacute;mero de contacto. Gracias.
+				</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if(facturaNotaDebitoCredito) %}
+        <div style="height:19.5mm;">&nbsp;</div>
+        <div style="height:15mm; padding-right: 10mm; text-align: right; font-size: 20px;">TAL&Oacute;N PARA EL BANCO</div>
+    {% else %}
+        <div style="height:34.5mm;">&nbsp;</div>
+    {% endif%}
+    {#    <div style="height:71.5mm;">&nbsp;</div>#}
+{% else %}
+    <div style="height:95mm;">&nbsp;</div>
+{% endif %}
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 10mm;">&nbsp;</td>
+            <td style="width: 60mm; text-align: center;">{{ entity.contrato.numeroContrato|default('-') }}</td>
+            <td style="width: 65mm; text-align: center;">{{ entity.contrato.numeroOnabe|default('-') }}</td>
+            <td style="width: 70mm; text-align: center;">{{ entity.fechaVencimiento is not null ? entity.fechaVencimiento|date('d/m/Y') : '-' }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" style="padding-left: 60mm;">
+                {{ entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_DEBITO_INTERESES')
+                    ? 'INTERESES' 
+                    : (entity.tipoComprobante.id == constant(tipoComprobante ~ '::NOTA_DEBITO')
+                        ? ((entity.renglonesComprobante|first).descripcion)|default('-')
+                        : (entity.codigoClaseContrato == constant(claseContrato ~ '::PLIEGO')
+                            ? 'Licitaci&oacute;n ' ~ entity.licitacion|default('-') 
+                            : (entity.codigoClaseContrato == constant(claseContrato ~ '::VENTA_GENERAL') 
+                                ? '-'
+                                : (esComprobanteRendicionLiquidoProducto
+                                    ? (observacionesComprobante)|default('-')
+                                    : 'CANON' )))) }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="padding-left: 55mm;">
+                {% if entity.comprobanteImpresion is not null %}
+                    {{ entity.comprobanteImpresion.numeroDocumento ~ ' - ' ~ entity.comprobanteImpresion.razonSocial|default('-') }}
+                {% else %}
+                    {{ ((entity.cliente.cuit is null)? entity.cliente.dni|default('-') : entity.cliente.cuit|default('-')) ~ ' - ' ~ entity.cliente|default('-') }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding-left: 40mm;">{% if entity.comprobanteImpresion is not null and entity.comprobanteImpresion.periodo is not null %}
+                {{ entity.comprobanteImpresion.periodo|default('-') }}
+                {% else %}                
+                    {{ entity.fechaComprobante|date('m') ~ '/' ~ entity.fechaComprobante|date('Y') }}
+                    {% endif %}</td>
+                    <td style="padding-left: 10mm;">{{ entity.totalMCL|money_format }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width: 50mm;">&nbsp;</td>
+                    <td style="width: 20mm; text-align: left;">{{ (facturaNotaDebitoCredito)? '' : entity.totalMCL|number_format(2,',','.') }}</td>
+                    <td style="padding-left: 25mm;">{{ (facturaNotaDebitoCredito)? '' : entity.totalMCL|number_format(2,'.','')|a_letras|capitalize }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="height:4mm;">&nbsp;</div>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width: 110mm;">&nbsp;</td>
+                    <td>
+                        {% if not esComprobanteRendicionLiquidoProducto  %}
+                            <img src="{{ barCode }}" />
+                         {% else %}
+                            <td>&nbsp;</td>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 110mm;">&nbsp;</td>
+                    {% if not esComprobanteRendicionLiquidoProducto  %}
+                        <td style="letter-spacing: 3px;">{{ barCodeNumber }}</td>
+                    {% else %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>

@@ -1,0 +1,225 @@
+<div class="div_ctn_seccion">
+    <div class="btn btn-info btn-sm label_seccion">Datos iniciales del comprobante</div>
+
+    <div class="row margin-top-20">
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.tipoComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoComprobante) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.letraComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.letraComprobante) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                <label>Punto venta</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select id="adif_contablebundle_comprobanteventa_puntoVentaSelect" 
+                            sname="adif_contablebundle_comprobanteventa[puntoVentaSelect]" 
+                            class="form-control ignore" required="required">
+                        <option value="">-- Punto venta --</option>
+                    </select>
+                </div>
+            </div>
+
+            {{ form_widget(form.puntoVenta) }}
+            {#{ form_widget(formRendicionLiquidoProducto.puntoVenta) }#}
+        </div>
+<!-- -->
+        <div class="col-md-2" style="display: none;" id="div_adif_contablebundle_comprobanterendicionliquidoproducto_puntoVenta">
+            <label>Punto venta</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobanterendicionliquidoproducto_puntoVenta" name="adif_contablebundle_comprobanterendicionliquidoproducto_puntoVenta" value=""/>
+            </div>
+        </div>
+<!-- -->
+        <div class="col-md-2 datos-no-cupon">
+            <div class="form-group">
+                {{ form_label(form.numero) }}
+                <div class="input-group">
+                    {{ form_widget(form.numero) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 mensaje-electronico" style="display:none;">
+            <div class="form-group">
+                Facturaci&oacute;n electr&oacute;nica
+                <div class="input-group">
+                    N&uacute;mero disponible al autorizar con AFIP
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 datos-cupon">
+            <div class="form-group">
+                {{ form_label(form.numeroCupon) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.numeroCupon) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 datos-cupon">
+            <div class="form-group">
+                {{ form_label(form.esCuponGarantia) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.esCuponGarantia) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.fechaComprobante) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fechaComprobante) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.fechaVencimiento) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.fechaVencimiento) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if form.numeroContrato is defined %}
+        <div class="row datos-cupon-general" style="display:none;">
+            <div class="col-md-2 datos-cupon-general" style="display:none;">
+                <div class="form-group">
+                    {{ form_label(form.numeroContrato) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.numeroContrato) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 datos-cupon-general" style="display:none;">
+                <div class="form-group">
+                    {{ form_label(form.numeroOnabe) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.numeroOnabe) }}
+                    </div>
+                </div>
+            </div>
+            
+           <div class="col-md-2 datos-cupon-general" style="display:none;">
+                <div class="form-group">
+                    {{ form_label(form.contratoCli) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <div id="select_contratos_innerHtml"></div>
+                    </div>
+                </div>
+            </div>         
+                    
+        </div>
+    {% endif %}
+    {% if form.comprobanteCancelado is defined %}
+        <div class="row nota-credito-cancela" style="display:none;">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {{ form_label(form.cancelaCuota) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.cancelaCuota) }}
+                    </div>
+                </div>
+            </div>
+            {{ form_widget(form.comprobanteCancelado) }}
+        </div>
+        <div class="row cuotas-cancelables-data" style="display: none;">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Cuota a cancelar</label>
+                    <table id="table_cuotas_cancelables" 
+                           class="table table-bordered table-striped 
+                           table-condensed table-hover" >
+                        <thead>
+                            <tr class="headers">
+                                <th class="hidden">Id</th>
+                                <th class="nowrap">Fecha</th>
+                                <th class="nowrap">Tipo comprobante</th>
+                                <th>Letra</th>
+                                <th class="nowrap">N&ordm; comprobante</th>
+                                <th>Observaciones</th>
+                                <th class="nowrap">N&ordm; cuota</th>
+                                <th class="nowrap">Monto neto</th>
+                                <th class="nowrap">IVA</th>
+                                <th class="nowrap">Perc. IIBB</th>
+                                <th class="nowrap">Perc. IVA</th>
+                                <th class="nowrap">Total</th>
+                                    {#                            <th class="nowrap">Total moneda origen</th>#}
+                            </tr>
+                        </thead>
+                        <tbody>                                    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if contrato is defined %}
+        <div class="row datos-debito-interes">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Tasa de inter&eacute;s mensual</label>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input id="adif_contablebundle_comprobanteventa_porcentajeTasaInteresMensual" 
+                               sname="adif_contablebundle_comprobanteventa[porcentajeTasaInteresMensual]" 
+                               value ="{{contrato.porcentajeTasaInteresMensual}}"
+                               class="form-control ignore" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>D&iacute;as de atraso</label>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input id="adif_contablebundle_comprobanteventa_diasAtraso" 
+                               sname="adif_contablebundle_comprobanteventa[diasAtraso]" 
+                               value ="0" class="form-control integerPositive ignore" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Monto</label>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input id="adif_contablebundle_comprobanteventa_montoInteres" 
+                               sname="adif_contablebundle_comprobanteventa[montoInteres]" 
+                               value ="0" class="form-control currency ignore" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif  %}
+
+</div>

@@ -1,0 +1,128 @@
+{% extends '::base.html.twig' %}  
+
+{% set ConstanteTipoOperacionContable = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoOperacionContable' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/asientocontable/asientocontable.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/comprobantecompras.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/libro_iva_compras.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Libro IVA compras</div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="table-toolbar clear">
+                        <div class="caption reporte_contable_title" style="display:none">
+
+                            <span class="bold">LIBRO IVA COMPRAS </span>
+
+                            — Ejercicio <span class="caption-ejercicio bold"></span>
+
+                            desde el
+                            <div class="input-group fecha_filtro">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                           name="adif_contablebundle_filtro[fechaInicio]" 
+                                           class="form-control datepicker">
+                                </div>
+                            </div>
+
+                            hasta el 
+                            <div class="input-group fecha_filtro">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                           name="adif_contablebundle_filtro[fechaFin]" 
+                                           class="form-control datepicker">
+                                </div>
+                            </div>
+
+                            <div class="input-group filtro">
+                                <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                    Filtrar
+                                </button>
+                            </div>
+
+                            <button style="margin-left:3px;" id="export-excel-button" 
+                                    class="btn green pull-right" 
+                                    type="button">
+                                <i class="fa fa-floppy-o"></i>
+                                Exportar a Excel
+                            </button>
+                            <button id="export-pdf-button" 
+                                    class="btn dark pull-right pdf" 
+                                    type="button">
+                                <i class="fa fa-file-pdf-o"></i>
+                                Exportar a PDF
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover table-bordered table-condensed" 
+                           id="libro_iva_compras_table" style="display:none">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="text-middle">Id Asiento</th>
+                                <th class="text-middle" data-type="date">Fecha</th>
+                                <th class="text-middle">Comprobante</th>
+                                <th class="text-middle">N&uacute;mero</th>
+                                <th class="text-middle">Proveedor/Consultor</th>
+                                <th class="text-middle">Condici&oacute;n impositiva</th>
+                                <th class="text-middle">Neto</th>
+                                <th class="text-middle">Total exento</th>
+                                <th class="text-middle">IVA</th>
+                                <th class="text-middle">Perc. IIBB</th>
+                                <th class="text-middle">Perc. GCIAS</th>
+                                <th class="text-middle">Perc. IVA</th>
+                                <th class="text-middle">Perc. SUSS</th>
+                                <th class="text-middle">Otros impuestos</th>
+                                <th class="text-middle">Importe total</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="text-middle">Id Asiento</th>
+                                <th class="text-middle" date >Fecha</th>
+                                <th class="text-middle">Comprobante</th>
+                                <th class="text-middle">N&uacute;mero</th>
+                                <th class="text-middle">Proveedor/Consultor</th>
+                                <th class="text-middle">Condici&oacute;n impositiva</th>
+                                <th class="text-middle">Neto</th>
+                                <th class="text-middle" currency >Total exento</th>
+                                <th class="text-middle">IVA</th>
+                                <th class="text-middle">Perc. IIBB</th>
+                                <th class="text-middle" currency>Perc. GCIAS</th>
+                                <th class="text-middle" currency>Perc. IVA</th>
+                                <th class="text-middle" currency>Perc. SUSS</th>
+                                <th class="text-middle" currency >Otros impuestos</th>
+                                <th class="text-middle" currency >Importe total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/comprobante/compra/libro_iva_compras.js') }}" ></script>
+
+{% endblock %}

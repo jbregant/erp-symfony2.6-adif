@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="presentacion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:short" name="periodo"/>
+        <xs:element type="xs:byte" name="nroPresentacion"/>
+        <xs:element type="xs:date" name="fechaPresentacion"/>
+        <xs:element name="empleado">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:long" name="cuit"/>
+              <xs:element type="xs:byte" name="tipoDoc"/>
+              <xs:element type="xs:string" name="apellido"/>
+              <xs:element type="xs:string" name="nombre" minOccurs="0"/>
+              <xs:element name="direccion">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:short" name="provincia"/>
+                    <xs:element type="xs:string" name="cp"/>
+                    <xs:element type="xs:string" name="localidad"/>
+                    <xs:element type="xs:string" name="calle"/>
+                    <xs:element type="xs:string" name="nro" minOccurs="0"/>
+                    <xs:element type="xs:string" name="piso" minOccurs="0"/>
+                    <xs:element type="xs:string" name="dpto" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="cargasFamilia" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cargaFamilia" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="tipoDoc"/>
+                    <xs:element type="xs:long" name="nroDoc"/>
+                    <xs:element type="xs:string" name="apellido"/>
+                    <xs:element type="xs:string" name="nombre" minOccurs="0"/>
+                    <xs:element type="xs:date" name="fechaNac"/>
+                    <xs:element type="xs:short" name="mesDesde"/>
+                    <xs:element type="xs:short" name="mesHasta"/>
+                    <xs:element type="xs:short" name="parentesco"/>
+                    <xs:element type="xs:string" name="vigenteProximosPeriodos" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ganLiqOtrosEmpEnt" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="empEnt" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:long" name="cuit"/>
+                    <xs:element type="xs:string" name="denominacion"/>
+                    <xs:element name="ingresosAportes" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="ingAp" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:float" name="obraSoc"/>
+                                <xs:element type="xs:float" name="segSoc"/>
+                                <xs:element type="xs:float" name="sind" minOccurs="0"/>
+                                <xs:element type="xs:float" name="ganBrut"/>
+                                <xs:element type="xs:float" name="retGan" minOccurs="0"/>
+                                <xs:element type="xs:float" name="retribNoHab" minOccurs="0"/>
+                                <xs:element type="xs:float" name="ajuste" minOccurs="0"/>
+								<xs:element type="xs:float" name="exeNoAlc" minOccurs="0"/>
+								<xs:element type="xs:float" name="sac" minOccurs="0"/>
+                                <xs:element type="xs:float" name="horasExtGr" minOccurs="0"/>
+                                <xs:element type="xs:float" name="horasExtEx" minOccurs="0"/>
+                                <xs:element type="xs:float" name="matDid" minOccurs="0"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="mes" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="deducciones" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="deduccion" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="tipoDoc" minOccurs="0"/>
+                    <xs:element type="xs:long" name="nroDoc" minOccurs="0"/>
+                    <xs:element type="xs:string" name="denominacion" minOccurs="0"/>
+                    <xs:element type="xs:string" name="descBasica"/>
+                    <xs:element type="xs:string" name="descAdicional" minOccurs="0"/>
+                    <xs:element type="xs:float" name="montoTotal"/>
+                    <xs:element name="periodos" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="periodo" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="mesDesde" use="optional"/>
+                                  <xs:attribute type="xs:string" name="mesHasta" use="optional"/>
+                                  <xs:attribute type="xs:string" name="montoMensual" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="detalles" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="detalle" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="nombre" use="optional"/>
+                                  <xs:attribute type="xs:string" name="valor" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="tipo" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="retPerPagos" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="retPerPago" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="tipoDoc" minOccurs="0"/>
+                    <xs:element type="xs:long" name="nroDoc" minOccurs="0"/>
+                    <xs:element type="xs:string" name="denominacion" minOccurs="0"/>
+                    <xs:element type="xs:string" name="descBasica"/>
+                    <xs:element type="xs:string" name="descAdicional" minOccurs="0"/>
+                    <xs:element type="xs:float" name="montoTotal"/>
+                    <xs:element name="periodos" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="periodo" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:byte" name="mesDesde" use="optional"/>
+                                  <xs:attribute type="xs:byte" name="mesHasta" use="optional"/>
+                                  <xs:attribute type="xs:float" name="montoMensual" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="detalles" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="detalle" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="nombre" use="optional"/>
+                                  <xs:attribute type="xs:string" name="valor" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="tipo"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ajustes" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ajuste" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="cuit" minOccurs="0"/>
+                    <xs:element type="xs:string" name="denominacion" minOccurs="0"/>
+                    <xs:element type="xs:string" name="descBasica"/>
+                    <xs:element type="xs:string" name="descAdicional" minOccurs="0"/>
+                    <xs:element type="xs:float" name="montoTotal"/>
+                    <xs:element name="detalles" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="detalle" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="nombre" use="optional"/>
+                                  <xs:attribute type="xs:string" name="valor" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="tipo"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+		
+		<xs:element name="datosAdicionales" maxOccurs="1" minOccurs="0">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="datoAdicional" maxOccurs="unbounded" minOccurs="1">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:string">
+									<xs:attribute type="xs:string" name="nombre" use="optional"/>
+									<xs:attribute type="xs:string" name="valor" use="optional"/>
+                                    <xs:attribute type="xs:string" name="mesDesde" use="optional"/>
+                                    <xs:attribute type="xs:string" name="mesHasta" use="optional"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		
+		<xs:element name="agenteRetencion" maxOccurs="unbounded" minOccurs="0">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element type="xs:string" name="cuit" minOccurs="0"/>
+					<xs:element type="xs:string" name="denominacion" minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,207 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% trans_default_domain "app" %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+        
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+    
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script> 
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"  type="text/javascript"></script>
+    
+    <script src="{{ asset('js/custom/rrhh/liquidacion/show.js') }}" ></script>
+{% endblock%}
+    
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #btn-cerrar-liquidacion{
+            cursor: pointer;
+        }
+        
+        .hlt{
+            background-color: #fff2a8;
+        }
+        
+        .dashboard-stat .details .number{
+            font-size: 30px;
+        }
+        
+        #cant_seleccionados {
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+    
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la liquidaci&oacute;n: <b>N&ordm; {{ entity.numero }} - {{ entity.fechaCierreNovedades|localizeddate('full','none',app.request.locale,null,'MMMM')|upper }}</b>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dashboard-stat yellow">
+                        <div class="visual">
+                            <i class="fa fa-letter">#</i>
+                        </div>
+                        <div class="details">
+                            <div class="number">{{ entity.numero }} - {{ entity.fechaCierreNovedades|localizeddate('full','none',app.request.locale,null,'MMMM')|upper }}</div>
+                            <div class="desc">{{ entity.tipoLiquidacion }}</div>
+                        </div>
+                        <a class="more" href="#table-liquidacion">
+                            &nbsp; <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-stat blue">
+                        <div class="visual">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">{{ entity.fechaCierreNovedades|date('d/m/Y') }}</div>
+                            <div class="desc">Cierre de novedades</div>
+                        </div>
+                        <a class="more" href="#table-liquidacion">
+                            &nbsp; <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-stat purple">
+                        <div class="visual">
+                            <i class="fa fa-group"></i>
+                        </div>
+                        <div class="details">
+                            {% set nroEmpleados = entity.liquidacionEmpleados|length() %}
+                            <div class="number">{{ nroEmpleados }}</div>
+                            <div class="desc">Empleado{{ nroEmpleados != 1 ? 's' : '' }}</div>
+                        </div>
+                        <a class="more" href="#table-liquidacion">
+                            &nbsp; <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-stat green">
+                        <div class="visual">
+                            <i class="fa fa-dollar"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number" id="total_neto"></div>
+                            <div class="desc">Neto total</div>
+                        </div>
+                        <a class="more" href="#table-liquidacion">
+                            &nbsp; <i class="m-icon-swapright m-icon-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>           
+            
+            <div class="table-toolbar clear" style="margin-top: 10px;">
+                <button class="btn btn-sm grey empleados_seleccionados pull-left" type="button" data-placement="right" disabled>
+                    <span id="cant_seleccionados">0</span> empleados seleccionados
+                </button>
+                {% if (is_granted('ROLE_IMPRIMIR_RECIBOS_SUELDOS')) %}
+                    <a 
+                        class="btn btn-sm green tooltips pull-left" 
+                        id="imprimir_recibos_sueldos_session"
+                        data-placement="top" 
+                        data-original-title="Imprimir recibos de los empleados seleccionados (de la sesión)" >
+                        <i class="fa fa-list"></i> Imprimir recibos (sin cerrar liquidación)
+                    </a>
+                {% endif %}
+                {% if not en_sesion %}
+                    {% if (is_granted('ROLE_IMPRIMIR_RECIBOS_SUELDOS')) %}
+                        <button 
+                            id="btn_imprimir_recibos"
+                            class="btn btn-sm blue tooltips pull-left" 
+                            data-placement="top" 
+                            data-original-title="Imprimir recibos de los empleados seleccionados" >
+                            <i class="fa fa-list"></i> Imprimir recibos 
+                        </button>
+                    {% endif %}
+                {% else  %}                    
+                <button id="btn-cerrar-liquidacion" class="btn btn-sm red tooltips pull-right" data-placement="top" data-original-title="Cerrar liquidacion" {{ entity.tipoLiquidacion.id ==  constant('ADIF\\RecursosHumanosBundle\\Entity\\TipoLiquidacion::__SAC') ? 'es_sac="1" href_cerrar="'~path('liquidaciones_cerrar')~'"' : '' }} >Cerrar liquidaci&oacute;n</button>
+                <a                     
+                    target='_blank' 
+                    href='{{ path('liquidaciones_show_contribuciones') }}'
+                    class="btn btn-sm blue tooltips pull-right" 
+                    data-placement="top" 
+                    data-original-title="Ver contribuciones"
+                >
+                    <i class="fa fa-list"></i> Ver contribuciones
+                </a>
+                {% endif %}
+{#                <button id="btn_ver_columnas" class="btn grey-cararra btn-sm todas">Ocultar columnas</button>#}
+                {% if (is_granted('ROLE_IMPRIMIR_RECIBOS_SUELDOS')) %}
+                    <a href="{{ path('liquidaciones_show_vista2', en_sesion ? {} : {'id' : entity.id }) }}" id="btn-ver-liquidacion-recibo" class="btn btn-sm purple tooltips pull-right" data-placement="top" data-original-title="Ver en forma de recibos">Ver en forma de recibos</a>
+                {% endif %}
+            </div>                    
+            <table style="font-size: 10px;" id="table-liquidacion" class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" dataexport-title="Liquidaciones">
+                <thead>
+                    <tr class="replace-inputs filter">                            
+                        <th class="not-in-filter"></th>
+                        <th class="not-in-filter"></th>
+                        {% for header in headers %}
+                            <th {{ header == 'Convenio' ? '
+                                data-type="select" 
+                                data-select-ajax="convenios/lista_convenios" 
+                                data-select-value="nombre" 
+                                data-select-label="nombre"
+                                data-select-all="Todos"' : '' }}></th>
+                        {% endfor %}
+                        {% if en_sesion %}<th class="not-in-filter"></th>{% endif %}
+                    </tr>
+                    <tr class="headers">
+                        <th class="no-order entity_id"></th>
+                        <th class="text-center table-checkbox no-order">
+                            <input type="checkbox" class="group-checkable not-checkbox-transform" />
+                        </th>
+                        {% for header in headers %}
+                            <th 
+                                {{ loop.index > 9 or loop.index == 1 ? ' numeric ' : '' }}
+                                export-format="{{ loop.index == 1 ? 'number' : (loop.index > 9 ? 'currency' : 'text') }}"
+                                class="{{ loop.index > 9 ? ' th-concepto ' : 'nowrap' }}"
+                            >{{ header }}</th>
+                        {% endfor %}
+                        {% if en_sesion %}<th class="no-order th-acciones">Acciones</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>                        
+                </tbody>
+            </table>
+            
+            <button type="button" class="btn default button-back" back-url="{{ path('liquidaciones') }}"><i class="m-icon-swapleft"></i>Volver</button>
+        </div>
+    </div>
+{% endblock %}

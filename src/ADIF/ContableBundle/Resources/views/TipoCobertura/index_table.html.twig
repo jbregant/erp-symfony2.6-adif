@@ -1,0 +1,14 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.nombre|default('-') }}",
+{
+"show" : " {{ path( "tipo_cobertura_show", { "id": entity.id }) }}",
+"edit" : " {{ path( "tipo_cobertura_edit", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

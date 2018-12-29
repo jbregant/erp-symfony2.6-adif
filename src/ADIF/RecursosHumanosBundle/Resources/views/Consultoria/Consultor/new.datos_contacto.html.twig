@@ -1,0 +1,35 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Informaci&oacute;n</legend>
+
+    <div class="row">                       
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.email) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.telefono) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.telefono) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<div class="row">                        
+    <div class="col-md-6">
+        {% include '@ADIFRecursosHumanos/Consultoria/Consultor/new.domicilio.html.twig' with {'domicilio': form.domicilioComercial, 'tipo_domicilio': 'comercial'}  %}
+    </div>
+    <div class="col-md-6">
+        {% include '@ADIFRecursosHumanos/Consultoria/Consultor/new.domicilio.html.twig' with {'domicilio': form.domicilioFiscal, 'tipo_domicilio': 'fiscal'}  %}
+    </div>
+</div>

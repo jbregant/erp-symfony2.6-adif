@@ -1,0 +1,13 @@
+{
+"data": [
+{% for entity in entity %}
+	[
+	"{{ entity.email }}",
+    "{{ entity.cuit }}", 
+    "{{ entity.razonSocial }}", 
+    "{{ entity.leido == 0 ? 'NO' : 'SI'}}", 
+    "{{ entity.fecha_hora|date('d/m/Y H:i') }}"
+	]
+	{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}                     

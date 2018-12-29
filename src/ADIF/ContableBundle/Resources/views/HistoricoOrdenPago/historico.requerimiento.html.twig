@@ -1,0 +1,41 @@
+<li class="timeline-green">
+    <div class="timeline-time">
+        <span class="time">Requerimiento n&deg; {{ requerimiento.numero }}</span>
+        <span class="date">
+            {{ requerimiento.fechaRequerimiento|date('d/m/y') }}
+        </span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    Requerimiento de {{ requerimiento.usuario }}
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  requerimiento.estadoRequerimiento ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( 'requerimiento_show', { 'id': requerimiento.id }) }}" target="_blank">Ver detalle</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-12">
+                    <span class="bold">Descripci&oacute;n: </span>{{ requerimiento.descripcion|default('-') }}
+                </p>
+                <p class="col-md-7">
+                    <span class="bold">Contrataci&oacute;n: </span>{{ requerimiento.tipoContratacion|default('-') }}
+                </p>
+                <p class="col-md-5">
+                    <span class="bold">Justiprecio total: </span>{{ requerimiento.justiprecioTotal|money_format }}
+                </p>
+                <p class="col-md-12"> 
+                    <span class="bold">Observaci&oacute;n: </span>{{ requerimiento.observacion|default('-') }}
+                </p>
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

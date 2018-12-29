@@ -1,0 +1,146 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/compras/clienteproveedor/clienteproveedor.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('js/lib/leaflet/leaflet.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Activos Lineales</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        
+                        {% if not is_granted("ROLE_SOLO_LECTURA") %}
+                            {% if is_granted("ROLE_INVENTARIO_ACTIVO_LINEAL_MODIFICAR") %}
+                            <div class="btn-group">
+                                <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear activo lineal" href=" {{ path( 'activolineal_new') }} ">
+                                    Crear activo lineal <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% if not is_granted("ROLE_SOLO_LECTURA") %}
+                            {% if is_granted("ROLE_INVENTARIO_ACTIVO_LINEAL_SEPARAR_UNIR") %}
+                            <div class="btn-group pull-right">
+                                <a class="btn btn-sm green tooltips btn-unir" data-placement="right" data-original-title="Unir activos lineales" href=" {{ path( 'activolineal_unir') }} ">
+                                    Unir <i class="fa fa-code-fork"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <table
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel"
+                        id="table-activolineal"
+                        dataexport-title="activolineal">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Operador</th>
+                                <th>L&iacute;nea</th>
+                                <th>Divisi&oacute;n</th>
+                                <th>Corredor</th>
+                                <th>Ramal</th>
+                                <th>Categor&iacute;a</th>
+                                <th>de Km.</th>
+                                <th>a Km.</th>
+                                <th>Vía</th>
+                                <th>Km.</th>
+                                <th>Tipo de Activo</th>
+                                <th>Nombre</th>
+                                <th>Tipo de Servicio</th>
+                                <th>Estado de Conservaci&oacute;n</th>
+                                <!--Atributos del activo lineal <th></th>-->
+                                <th>Balasto</th>
+                                <th>Rieles</th>
+                                <th>Durmientes</th>
+                                <th>Velocidad</th>
+                                <th>Capacidad</th>
+                                <th>Estado</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-activolineal .checkboxes" />
+                                </th>
+                                <th>Operador</th>
+                                <th>L&iacute;nea</th>
+                                <th>Divisi&oacute;n</th>
+                                <th>Corredor</th>
+                                <th>Ramal</th>
+                                <th>Categor&iacute;a</th>
+                                <th>de Km.</th>
+                                <th>a Km.</th>
+                                <th>Vía</th>
+                                <th>Km.</th>
+                                <th>Tipo de Activo</th>
+                                <th>Nombre</th>
+                                <th>Tipo de Servicio</th>
+                                <th>Estado de Conservaci&oacute;n</th>
+                                <!--Atributos del activo lineal <th></th>-->
+                                <th>Balasto</th>
+                                <th>Rieles</th>
+                                <th>Durmientes</th>
+                                <th>Velocidad</th>
+                                <th>Capacidad</th>
+                                <th>Estado</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal_container"></div>
+
+	<div class="modal fade" id="modal-mapa" tabindex="-1" role="dialog" aria-labelledby="label" style="width:100%;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="label">Mapa</h4>
+            </div>
+            <div class="modal-body">
+			<div id="leafletMap" style="height: 768px;widht:100%"></div>
+            </div>
+			<div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                
+ 	
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/inventario/activolineal/index.js') }}" ></script>
+    <script src="{{ asset('js/lib/leaflet/leaflet.js') }}" ></script>
+    <script src="{{ asset('js/lib/leaflet/leaflet-bing-layer.min.js') }}" ></script>
+    <script src="{{ asset('js/custom/inventario/activolineal/mapa.js') }}" ></script>
+	<script>
+		var BING_KEY = "{{bing_key}}";
+		var MAP_SERVICE_PATH = "{{map_service_path}}";
+		var LAYERNAME_PUNTO = "{{layer_name_punto}}";
+		var LAYERNAME_LINEA = "{{layer_name_linea}}";
+	</script>
+{% endblock %}

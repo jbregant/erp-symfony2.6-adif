@@ -1,0 +1,30 @@
+{
+"data": [
+{% for entity in entities %}
+[
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}", 
+    "{{ entity.usuarioAsignado|default('-') }}", 
+    {% if entity.fechaVencimiento %}"{{ entity.fechaVencimiento|date('d/m/Y') }}",{% endif %} 
+    "{{ entity.estadoHojaRuta|default('-') }}", 
+{
+    "show" : "{{ path( "hojaruta_show_indice", { "id": entity.id, "indice": indice }) }}"
+    {% if ( entity.estadoHojaRuta == "Asignada" )   %}
+            ,"edit" : "{{ path( "hojaruta_edit_indice", { "id": entity.id, "indice": indice }) }}",
+            "delete" : "{{ path( "hojaruta_delete", { "id": entity.id, "indice": indice }) }}"
+    {% endif %}
+    
+    {% if ( entity.estadoHojaRuta == "Completa" )   %}
+            ,"delete" : "{{ path( "hojaruta_delete", { "id": entity.id, "indice": indice }) }}"
+    {% endif %}
+    
+     {% if ( entity.estadoHojaRuta == "Incompleta" )   %}
+            ,"delete" : "{{ path( "hojaruta_delete", { "id": entity.id, "indice": indice }) }}"
+    {% endif %} 
+    
+    
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

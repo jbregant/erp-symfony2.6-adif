@@ -1,0 +1,41 @@
+
+{% set fecha = ordenPago.numeroOrdenPago is not null ? ordenPago.fechaOrdenPago : ordenPago.fechaAutorizacionContable %}
+
+<li class="timeline-red">
+    <div class="timeline-time">
+        <span class="time">{{ egresoValor.tipoEgresoValor }}</span>
+        <span class="date">
+            {{ fecha|date('d/m/Y') }}
+        </span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    {{ egresoValor.tipoEgresoValor }}
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  egresoValor.estadoEgresoValor ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( 'egresovalor_historico', { 'id': egresoValor.id }) }}" target="_blank">Ver hist&oacute;rico</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Gerencia: </span>{{ egresoValor.gerencia|default('-') }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">N&deg; carpeta: </span>{{ egresoValor.carpeta|default('-') }}
+                </p>
+                <p class="col-md-12 margin-top-10">
+                    <span class="bold">Observaci&oacute;n: </span>{{ egresoValor.observaciones|default('-') }}
+                </p>
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

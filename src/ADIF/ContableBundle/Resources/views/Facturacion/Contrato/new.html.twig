@@ -1,0 +1,107 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+    
+{% endblock %}
+
+{% set ConstanteClaseContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteClaseContrato' %}
+{% set ConstanteCategoriaContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteCategoriaContrato' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+
+    <div>
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+        {% if edit %} 
+            <input type="hidden" name="_method" value="PUT" />
+        {% endif %}
+
+        <div class="form-body form-comprobante">
+
+            <div class="div_ctn_seccion" style="min-height: 45px">
+                <div class="btn btn-info btn-sm label_seccion">Cliente</div>
+                {% include('@ADIFContable/Facturacion/Contrato/new.datos_cliente.html.twig') %}
+            </div> 
+
+            <div class="div_ctn_seccion" style="min-height: 45px">
+                <div class="btn btn-info btn-sm label_seccion">Contrato</div>
+                {% include('@ADIFContable/Facturacion/Contrato/new.datos_contrato.html.twig') %}
+            </div>
+
+            <div class="div_ctn_seccion" style="min-height: 45px">
+                <div class="btn btn-info btn-sm label_seccion">Detalle</div>
+                {% include('@ADIFContable/Facturacion/Contrato/new.detalle_contrato.html.twig') %}
+            </div>
+
+            <div class="div_ctn_seccion" style="min-height: 45px">
+                <div class="btn btn-info btn-sm label_seccion">P&oacute;lizas</div>
+                {% include('@ADIFContable/Facturacion/Contrato/new.datos_poliza.html.twig') %}
+            </div>
+        </div>                
+
+        <div class="form-actions">
+            <div class="pull-left">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('contrato') }}">Cancelar</button>
+            </div>
+            <div class="pull-right">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {"render_rest": false}) }}
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script>
+        var __idEstadoContratoActivoComentado = "{{ idEstadoContratoActivoComentado }}";
+        var __idEstadoContratoInactivo = "{{ idEstadoContratoInactivo }}";
+        var __idEstadoContratoDesocupado = "{{ idEstadoContratoDesocupado }}";
+        
+        var __esEdicionTotal = {{ edicion_total ? 1 : 0 }};
+        
+        var __categoriaContratoOriginal = "{{ constant(ConstanteCategoriaContrato ~ '::CONTRATO_ORIGINAL') }}";
+        var __categoriaContratoProrroga = "{{ constant(ConstanteCategoriaContrato ~ '::PRORROGA') }}";
+        var __categoriaContratoAdenda = "{{ constant(ConstanteCategoriaContrato ~ '::ADENDA') }}";
+        
+        var __unidadesTiempo = {{ unidadesTiempo }};
+        
+        var __claseContratoChatarra = "{{ constant(ConstanteClaseContrato ~ '::CHATARRA') }}";
+        var __claseContratoTenenciaPrecaria = "{{ constant(ConstanteClaseContrato ~ '::TENENCIA_PRECARIA') }}";
+        var __claseContratoServidumbrePaso = "{{ constant(ConstanteClaseContrato ~ '::SERVIDUMBRE_DE_PASO') }}";
+        var __claseContratoAsuntoOficialMunicipalidad = "{{ constant(ConstanteClaseContrato ~ '::ASUNTO_OFICIAL_MUNICIPALIDAD') }}";
+        var __claseContratoPliego = "{{ constant(ConstanteClaseContrato ~ '::PLIEGO') }}";
+        var __claseContratoLocacionServicio = "{{ constant(ConstanteClaseContrato ~ '::LOCACION_SERVICIOS') }}";
+    </script>
+
+    <script src="{{ asset('js/custom/contable/facturacion/contrato/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

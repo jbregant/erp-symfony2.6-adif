@@ -1,0 +1,84 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'css/pages/timeline.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/ordenpago/timeline.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                {{ title|default('Hist&oacute;rico general') }}
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="timeline">
+
+                        {% if requerimiento is defined and requerimiento is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.requerimiento.html.twig') %}
+                        {% endif %}
+
+                        {% if ordenCompra is defined and ordenCompra is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.orden_compra.html.twig') %}
+                        {% endif %}
+
+                        {% if tramo is defined and tramo is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.tramo.html.twig') %}
+                        {% endif %}
+
+                        {% if documentosFinancieros is defined and documentosFinancieros is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.documentos_financieros.html.twig') %}
+                        {% endif %}
+
+                        {% if contratoConsultoria is defined and contratoConsultoria is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.contrato_consultoria.html.twig') %}
+                        {% endif %}
+
+                        {% if empleado is defined and empleado is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.empleado.html.twig') %}
+                        {% endif %}
+
+                        {% if liquidacion is defined and liquidacion is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.liquidacion.html.twig') %}
+                        {% endif %}
+
+                        {% if pagoACuenta is defined and pagoACuenta is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.pago_a_cuenta.html.twig') %}
+                        {% endif %}
+
+                        {% if egresoValor is defined and egresoValor is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.egreso_valor.html.twig') %}
+                        {% endif %}
+
+                        {% if comprobantes is defined or anticipos is defined %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.comprobantes.html.twig') %}
+                        {% endif %}
+
+                        {% if ordenPago is defined and ordenPago is not null %}
+                            {% include('@ADIFContable/HistoricoOrdenPago/historico.orden_pago.html.twig') %}
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"><i class="m-icon-swapleft">
+                    </i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

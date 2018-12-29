@@ -1,0 +1,36 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos principales</legend>
+    <div class="row">
+    	<div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> Fabricante </label>
+                <div class="detalle_show"> {{ entity.fabricante|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> Unidad medida</label>
+                <div class="detalle_show"> {{ entity.unidadMedida|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> Tipo envio</label>
+                <div class="detalle_show"> {{ entity.tipoEnvio|default('-') }} </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"> Observaciones</label>
+                <div class="detalle_show"> {{ entity.observacion|default('-') }} </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

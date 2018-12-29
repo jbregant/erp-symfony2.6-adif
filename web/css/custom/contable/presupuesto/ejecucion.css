@@ -1,0 +1,23 @@
+.total-inicial{
+    margin-right: 4px;
+}
+
+.link-detalle-presupuestario {
+    width: 21px;
+}  
+
+.link-detalle-presupuestario i {
+    font-size: 11px;
+}
+
+.portlet-body {
+    min-height: 150px
+}
+
+.modal-dialog {
+    width: 80%;
+}
+
+.modal-body {
+    padding: 21px
+}

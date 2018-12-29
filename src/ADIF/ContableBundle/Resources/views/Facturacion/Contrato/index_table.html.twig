@@ -1,0 +1,97 @@
+
+{% set ConstanteEstadoContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoContrato' %}
+{% set ConstanteClaseContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteClaseContrato' %}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.claseContrato }}",
+    "{{ entity.codigoTipoMoneda }}",
+    "{{ entity.numeroContrato }}",
+    "{{ entity.numeroCarpeta|default('-') }}",
+    "{{ entity.cliente }}",
+    "{{ entity.fechaInicio|date('d/m/Y') }}",
+    "{{ entity.fechaFin|date('d/m/Y') }}",
+    "{{ entity.fechaDesocupacion ? entity.fechaDesocupacion|date('d/m/Y') : '-' }}",
+    {
+    "saldo" : "{{ entity.saldo|money_format(entity.simboloTipoMoneda) }}",
+    "linkSaldo" : "{{ path( 'contrato_show', { 'id': entity.id }) }}"   
+    },
+    {
+    "estado" : "{{ entity.estadoContrato }}",
+    "estadoClass" : "{{'state state-' ~ entity.aliasTipoImportancia }}"   
+    },
+    "{{ entity.estadoContratoCodigo }}",
+    "{{ entity.esContratoAlquiler }}",
+    "{{ entity.esContratoVentaPlazo }}",
+    "{{ entity.idTipoMoneda }}",
+    {
+    "show" : "{{ path( 'contrato_show', { 'id': entity.id }) }}"
+    {% if entity.estadoContratoCodigo != constant(ConstanteEstadoContrato ~ '::PRORROGADO') and entity.estadoContratoCodigo != constant(ConstanteEstadoContrato ~ '::ADENDADO') %}
+        ,"edit" : "{{ path( 'contrato_edit', { 'id': entity.id }) }}"
+        {% if entity.estadoContratoCodigo != constant(ConstanteEstadoContrato ~ '::FINALIZADO')  %}
+            ,"adendar" : "{{ path( 'contrato_adenda', { 'id': entity.id }) }}"
+        {% endif %}
+    {% endif %}    
+    {% if entity.estadoContratoCodigo == constant(ConstanteEstadoContrato ~ '::FINALIZADO')  %}
+        ,"prorroga" : "{{ path( 'contrato_prorroga', { 'id': entity.id }) }}"
+    {% endif %}    
+    ,"historico" : "{{ path( 'contrato_historico', { 'id': entity.id }) }}"
+    {% if (entity.estadoContratoCodigo != constant(ConstanteEstadoContrato ~ '::FINALIZADO')) %}
+        ,"comprobante" : "{{ path( 'comprobanteventa_new', { 'id': entity.id }) }}"
+    {% endif %}    
+    {% if is_granted('ROLE_ELIMINAR_CONTRATO')  %}
+        ,"delete" : "{{ path( 'contrato_delete', { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}
+{#
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.claseContrato }}",
+    "{{ entity.tipoMoneda.codigoTipoMoneda }}",
+    "{{ entity.numeroContrato }}",
+    "{{ entity.numeroCarpeta|default('-') }}",
+    "{{ entity.cliente.cuitAndRazonSocial }}",
+    "{{ entity.fechaInicio|date('d/m/Y') }}",
+    "{{ entity.fechaFin|date('d/m/Y') }}",
+    {
+    "saldo" : "{{ entity.saldoPendienteFacturacion|money_format(entity.simboloTipoMoneda) }}",
+    "linkSaldo" : "{{ path( 'contrato_show', { 'id': entity.id }) }}"   
+    },
+    {
+    "estado" : "{{ entity.estadoContrato }}",
+    "estadoClass" : "{{'state state-' ~ entity.estadoContrato.tipoImportancia.aliasTipoImportancia }}"   
+    },
+    "{{ entity.estadoContrato.codigo }}",
+    "{{ entity.esContratoAlquiler ? 1 : 0 }}",
+    "{{ entity.esContratoVentaPlazo ? 1 : 0 }}",
+    "{{ entity.tipoMoneda.id }}",
+    {
+    "show" : "{{ path( 'contrato_show', { 'id': entity.id }) }}"
+    {% if entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::PRORROGADO') and entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::ADENDADO') %}
+        ,"edit" : "{{ path( 'contrato_edit', { 'id': entity.id }) }}"
+        {% if entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::FINALIZADO')  %}
+            ,"adendar" : "{{ path( 'contrato_adenda', { 'id': entity.id }) }}"
+        {% endif %}
+    {% endif %}
+    {% if entity.estadoContrato.codigo == constant(ConstanteEstadoContrato ~ '::FINALIZADO')  %}
+        ,"prorroga" : "{{ path( 'contrato_prorroga', { 'id': entity.id }) }}"
+    {% endif %}
+    ,"historico" : "{{ path( 'contrato_historico', { 'id': entity.id }) }}"
+    {% if (entity.estadoContrato.codigo != constant(ConstanteEstadoContrato ~ '::FINALIZADO')) %}
+        ,"comprobante" : "{{ path( 'comprobanteventa_new', { 'id': entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}#}

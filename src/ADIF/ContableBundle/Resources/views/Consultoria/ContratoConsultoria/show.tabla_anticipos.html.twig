@@ -1,0 +1,21 @@
+
+<table class="table table-bordered table-striped table-anticipos">
+    <thead>
+        <tr class="headers">
+            <th date class="text-center nowrap">Fecha</th>
+            <th currency class="text-center nowrap">Monto</th>
+            <th class="text-center nowrap">Orden pago anticipo n&deg;</th>
+            <th>Orden pago cancelada n&deg;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for anticipo in entity.anticipos %}
+            <tr>
+                <td class="text-center nowrap">{{ anticipo.fecha|date('d/m/Y') }}</td>
+                <td class="text-center nowrap">{{ anticipo.monto|money_format }}</td>
+                <td class="text-center nowrap">{{ anticipo.ordenPago is not null ? anticipo.ordenPago.numeroOrdenPago|default('-') : '-' }}</td>
+                <td>{{ anticipo.ordenPagoCancelada is not null ? anticipo.ordenPagoCancelada.numeroOrdenPago|default('-') : '-' }}</td>
+            </tr>           
+        {% endfor %}
+    </tbody>
+</table>

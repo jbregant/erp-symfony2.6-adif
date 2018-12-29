@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in recibos %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha|date('d/m/Y') }}", 
+    "{{ entity.numeroRecibo }}", 
+    "{{ entity.cuentaBancaria|default("-") }}",
+    "{{ entity.referenciasCobro|default('-') }}",
+    "{{ entity.cliente|default("-") }}",
+    "{{ entity.tipoComprobantesAsString|default("-") }}",
+    "{{ entity.numerosComprobantesAsString|default("-") }}",
+    "{{ entity.detalle|default("-") }}",
+    "{{ entity.importeTotal|money_format }}",
+    "{{ entity.importeSinImputar|money_format }}",
+        {
+        "print" : "{{ path( 'recibo_cobranza_print', { 'id': entity.id }) }}"
+        }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-4 form_field">
+        <div class="form-group">
+            {{ form_label(cai.numero) }}
+            <div class="form_field">
+                {{ form_widget(cai.numero) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 form_field">
+        <div class="form-group">
+            {{ form_label(cai.puntoVenta) }}
+            <div class="form_field">
+                {{ form_widget(cai.puntoVenta) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_field">
+        <div class="form-group">
+            {{ form_label(cai.fechaVencimiento) }}
+            <div class="form_field">
+                {{ form_widget(cai.fechaVencimiento) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-cai accion-borrar" 
+           data-placement="top" data-original-title="Eliminar CAI">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

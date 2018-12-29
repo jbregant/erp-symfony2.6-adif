@@ -1,0 +1,88 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte vencimiento</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="col-md-12">
+                        <div class="portlet box reporte-portlet">
+                            <div class="portlet-body reporte_content">
+                                <div class="table-toolbar export-tools"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-bordered table-condensed export-excel" 
+                                           id="table-reporte" dataexport-title="Reporte_vencimiento_comprobantes" 
+                                           tyle="display:block" data-toggler="1">
+                                        <thead>
+                                            <tr class="replace-inputs filter">
+                                                <th class="text-center nowrap">N&deg; documento</th>
+                                                <th class="text-center">Raz&oacute;n social</th>
+                                                <th class="text-center nowrap">Tipo proveedor</th>
+                                                <th class="text-center nowrap">Tipo</th>
+                                                <th class="text-center nowrap">N&uacute;mero</th>
+                                                <th class="text-center nowrap">Nro. ref.</th>
+                                                <th class="text-center nowrap">Importe</th>
+                                                <th class="text-center nowrap">Fecha comprobante</th>
+                                                <th class="text-center nowrap">Fecha ingreso ADIF</th>
+                                                <th class="text-center nowrap">Fecha vto</th>
+                                                {#<th class="text-center nowrap">Plazo previsto pago</th>#}
+                                                <th class="text-center nowrap">Vencida</th>
+                                                <th class="text-center nowrap">D&iacute;as venc</th>
+                                            </tr>
+                                            <tr class="headers">
+                                                <th class="text-center nowrap">N&deg; documento</th>
+                                                <th class="text-center">Raz&oacute;n social</th>
+                                                <th class="text-center nowrap">Tipo proveedor</th>
+                                                <th class="text-center nowrap">Tipo</th>
+                                                <th class="text-center nowrap">N&uacute;mero</th>
+                                                <th class="text-center nowrap">Nro. ref.</th>
+                                                <th currency export-format="currency" class="text-center nowrap">Importe</th>
+                                                <th date export-format="date" class="text-center nowrap">Fecha comprobante</th>
+                                                <th date export-format="date"  class="text-center nowrap">Fecha ingreso ADIF</th>
+                                                <th date export-format="date" class="text-center nowrap">Fecha vto</th>
+                                                {#<th class="text-center nowrap">Plazo previsto pago</th>#}
+                                                <th class="text-center nowrap">Vencida</th>
+                                                <th number class="text-center nowrap">D&iacute;as venc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover 
+                                           table-bordered table-condensed table-no-order"
+                                           id="table-resumen-aging" dataexport-title="Reporte_resumen_aging" 
+                                           tyle="display:block" data-toggler="1">
+                                        <thead>
+                                            <tr class="headers">
+                                                <th number class="text-center nowrap no-order">Resumen reporte vencimiento</th>
+                                                <th class="text-center no-order">Plazo en d&iacute;as</th>
+                                                <th currency export-format="currency" class="text-center no-order"></th>
+                                                <th class="text-center no-order"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/compras/proveedor/reporte_vencimiento_comprobante.js') }}" ></script>
+
+{% endblock %}

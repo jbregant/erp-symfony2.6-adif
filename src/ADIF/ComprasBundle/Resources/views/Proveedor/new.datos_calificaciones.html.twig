@@ -1,0 +1,81 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Evaluaci&oacute;n</legend>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.evaluacionProveedor.fechaEvaluacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.evaluacionProveedor.fechaEvaluacion) }}
+                </div>
+            </div>
+        </div>     
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.evaluacionProveedor.calificacionFinal) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.evaluacionProveedor.calificacionFinal, {
+                        'attr': {'class': 'form-control ' ~ entity.evaluacionProveedor.claseCalificacionFinal}, 
+                        'value' : form.evaluacionProveedor.vars.data.calificacionFinal} ) 
+                    }}
+                </div>
+            </div>
+        </div>        
+    </div>
+</fieldset>
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Aspectos</legend>
+
+    {% for evaluacionAspecto in form.evaluacionProveedor.evaluacionesAspectos %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ form_label(evaluacionAspecto.aspectoEvaluacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(evaluacionAspecto.aspectoEvaluacion) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(evaluacionAspecto.valorAlcanzado) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <div class="raty" 
+                         data-score="{{ evaluacionAspecto.valorAlcanzado.vars.value|replace(',','.') }}"
+                         data-number="{{evaluacionAspecto.aspectoEvaluacion.vars.data.valorIdeal}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(evaluacionAspecto.valorAlcanzado) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</fieldset>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+                {{ form_label(form.observacionCalificacion) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                    {{ form_widget(form.observacionCalificacion) }}
+            </div>
+        </div>
+    </div>                            
+</div>

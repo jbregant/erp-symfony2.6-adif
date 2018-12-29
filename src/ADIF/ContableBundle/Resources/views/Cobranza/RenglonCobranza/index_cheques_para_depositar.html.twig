@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    {% if entity.fecha %}"{{ entity.fecha|date('d/m/Y') }}",{% endif %} 
+    "{{ entity.banco }}",    
+    "{{ entity.numero|default('-') }}", 
+    "{{ entity.monto }}",
+    "{{ entity.fechaRegistro ? entity.fechaRegistro|date('d/m/Y') : '-' }}",
+    "{{ entity.reciboCheque.numero|default('-') }}",
+    "{{ entity.cuenta ? entity.cuenta : '-' }}",
+    "{{ entity.fechaDeposito ? entity.fechaDeposito|date('d/m/Y') : '-' }}",
+    "{{ entity.id }}",
+    "{{ entity.cuenta? entity.cuenta.id : '-' }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,10 @@
+{
+  "data": [
+	{% for fila in data %}[
+  		"{{ fila[0] }}",
+  		"{{'-'}}",
+            {% for celda in fila|slice(1, fila|length) %}
+        	"{{ celda }}"{{ (loop.last ? '' : ',') }}
+            {% endfor %}
+	]{{ (loop.last ? '' : ',') }}{% endfor %}
+]}

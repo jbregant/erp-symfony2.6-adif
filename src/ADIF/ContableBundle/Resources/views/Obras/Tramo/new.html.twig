@@ -1,0 +1,294 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+{% endblock%}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+
+    <div class="form-body form-comprobante">
+
+        <div class="div_ctn_seccion" style="min-height: 45px;">
+            <div class="btn btn-info btn-sm label_seccion">Licitaci&oacute;n</div>
+
+            <div class="row">    
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">N&uacute;mero</label>
+                        <div class="detalle_show">{{ licitacion.numero }}</div>
+                    </div>
+                </div>  
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">A&ntilde;o</label>
+                        <div class="detalle_show">{{ licitacion.anio|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Fecha apertura</label>
+                        <div id="licitacion-fecha-apertura" class="detalle_show">{{ licitacion.fechaApertura|date('d/m/Y') }}</div>
+                    </div>
+                </div>           
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Importe pliego</label>
+                        <div class="detalle_show">{{ licitacion.importePliego|money_format }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Importe licitaci&oacute;n</label>
+                        <div class="detalle_show">{{ licitacion.importeLicitacion|money_format }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2 hidden">
+                    <div class="form-group">
+                        <label class="control-label">Saldo licitaci&oacute;n</label>
+                        <div id="licitacion-saldo" class="detalle_show">{{ licitacion.saldo }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cleardiv">
+
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %} 
+
+            <div class="div_ctn_seccion" style="min-height: 45px;">
+                <div class="btn btn-info btn-sm label_seccion">Rengl&oacute;n</div>
+
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            {{ form_label(form.proveedor) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.proveedor) }}
+                                {{ form_widget(form.idProveedor) }}
+                            </div>
+                        </div>
+                    </div>                     
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            {{ form_label(form.proveedor_razonSocial) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.proveedor_razonSocial) }}
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.proveedor_cuit) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.proveedor_cuit) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.categoriaObra) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.categoriaObra) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.estadoTramo) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.estadoTramo) }}
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="{{ edit ? 'col-md-2' : 'col-md-3'}}">
+                        <div class="form-group">
+                            {{ form_label(form.tipoObra) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.tipoObra) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="{{ edit ? 'col-md-2' : 'col-md-3'}}">
+                        <div class="form-group">
+                            {{ form_label(form.totalContrato) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.totalContrato) }}
+                            </div>
+                        </div>
+                    </div> 
+                    {% if edit %}
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                {{ form_label(form.saldo) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.saldo) }}
+                                </div>
+                            </div>
+                        </div> 
+                    {% endif %}
+                </div>               
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.fechaFirmaContrato) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaFirmaContrato) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.plazoDias) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.plazoDias) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.porcentajeFondoReparo) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.porcentajeFondoReparo) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.porcentajeAvanceInicial) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.porcentajeAvanceInicial) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.porcentajeAnticipoInicial) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.porcentajeAnticipoInicial) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.descripcion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.descripcion) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+
+            {% if edit %}
+                <div class="div_ctn_seccion" style="min-height: 45px;">
+                    <div class="btn btn-info btn-sm label_seccion">Recepci&oacute;n</div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.fechaRecepcionProvisoria) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.fechaRecepcionProvisoria) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.fechaRecepcionDefinitiva) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.fechaRecepcionDefinitiva) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %} 
+
+            <div class="div_ctn_seccion" style="min-height: 45px;">
+                <div class="btn btn-info btn-sm label_seccion">Fuentes de financiamiento</div>
+
+                {% include('@ADIFContable/Obras/Tramo/new.datos_fuente_financiamiento.html.twig') %}
+            </div>  
+
+            <div class="div_ctn_seccion" style="min-height: 45px;">
+                <div class="btn btn-info btn-sm label_seccion">P&oacute;lizas</div>
+
+                {% include('@ADIFContable/Obras/Tramo/new.datos_poliza.html.twig') %}
+            </div>   
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('licitacion_obra') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script type="text/javascript">
+        var __tieneDocumentosFinancieros = "{{ tiene_documentos_financieros is defined and tiene_documentos_financieros ? 1 : 0 }}";
+
+        var __saldoTotalDocumentosFinancieros = {{ saldo_total_documentos_financieros }};    </script>
+
+    <script src="{{ asset('js/custom/contable/obras/tramo/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

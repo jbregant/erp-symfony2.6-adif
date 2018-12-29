@@ -1,0 +1,73 @@
+
+<div class="formulario-devolucion cleardiv" style=" display: none">
+    <form name="adif_contablebundle_devolucionegresovalor" 
+          method="post" action="{{ path('egresovalor_devoluciondinero_create', { 'id': egresoValor.id }) }}" 
+          class="horizontal-form" novalidate="novalidate">
+
+        <div class="div_ctn_seccion"  style="min-height: 45px;">
+            <div class="btn btn-info btn-sm label_seccion">Devoluci&oacute;n</div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {{ form_label(form.devolucionDinero.fechaIngresoADIF) }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.devolucionDinero.fechaIngresoADIF) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ form_label(form.devolucionDinero.numeroReferencia) }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.devolucionDinero.numeroReferencia) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ form_label(form.devolucionDinero.montoDevolucion) }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.devolucionDinero.montoDevolucion) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ form_label(form.devolucionDinero.numero) }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.devolucionDinero.numero) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.devolucionDinero.cuenta) }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.devolucionDinero.cuenta) }}
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+        <div class="form-actions">
+            <div class="pull-left">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('egresovalor') }}">Cancelar</button>
+            </div>
+            <div class="pull-right">
+
+                <button type="submit" id="adif_contablebundle_devolucionegresovalor_submit" 
+                        name="adif_contablebundle_devolucionegresovalor[submit]" 
+                        class="btn blue link-guardar-formulario-devolucion">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,16 @@
+{
+    "data": [
+        {% for entity in entities %}
+            [
+                "{{ entity.id }}",
+                "{{ entity.id }}",
+                "{{ entity.denominacion|default('-') }}", 
+                {
+                    "show" : " {{ path( "marca_show", { "id": entity.id }) }}", 
+                    "edit" : " {{ path( "marca_edit", { "id": entity.id }) }}",
+                    "delete" : " {{ path( "marca_delete", { "id": entity.id }) }}" 
+                }
+            ]{{ (loop.last ? '' : ',') }}
+        {% endfor %}    
+    ]
+}

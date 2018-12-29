@@ -1,0 +1,57 @@
+{# Errors #}
+{% block form_errors -%}
+{% spaceless -%}
+    {% if errors|length > 0 %}
+        {%- for error in errors -%}
+            <div>
+                <i class="fa fa-exclamation-circle" ></i>&nbsp;&nbsp;
+                <span class="alert-error" href="#{{ form.vars.id ? form.vars.id ~ (error.origin ? '_'~error.origin.config.name : '') : '' }}">
+                    <strong>{{ form.vars.label|length > 0 ? form.vars.label~': ' : '' }}</strong>{{ error.message }}
+                </span>
+            </div>
+        {%- endfor -%}
+    {% endif %}
+{%- endspaceless %}
+{%- endblock form_errors %}
+{#
+{% block datetime_widget %}
+{% spaceless %}
+    {% if widget == 'single_text' %}
+        {{ block('form_widget_simple') }}
+    {% else %}
+        {% set type = type|default('text') %}
+        <input
+            type="text"
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value.date.day|length > 0 ? value.date.day~'/'~value.date.month~'/'~value.date.year : '' }}" {% endif %}
+        />
+    {% endif %}
+{% endspaceless %}
+{% endblock datetime_widget %}
+        
+{% block date_widget %}
+{% spaceless %}
+    {% if widget == 'single_text' %}
+        {{ block('form_widget_simple') }}
+    {% else %}
+        {% set type = type|default('text') %}
+        <input
+            type="text"
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value.day|length > 0 ? value.day~'/'~value.month~'/'~value.year : '' }}" {% endif %}
+            
+        />
+    {% endif %}
+{% endspaceless %}
+{% endblock date_widget %}
+#}
+
+{% block integer_widget %}
+{% spaceless %}
+    <input
+        type="text"
+        {{ block('widget_attributes') }}
+        {% if value is not empty %}value="{{ value }}" {% endif %}
+    />
+{% endspaceless %}
+{% endblock integer_widget %}

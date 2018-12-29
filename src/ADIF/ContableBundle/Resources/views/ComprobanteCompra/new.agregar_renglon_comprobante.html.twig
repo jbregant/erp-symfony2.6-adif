@@ -1,0 +1,84 @@
+<div class="row" id="nc_agregar_renlgon_ctn" style="display: none;" >
+    <div class="col-md-12" >
+        <a id="nc_renglon_comprobante_agregar" class="btn btn-sm green-jungle tooltips" data-placement="right" data-original-title="Agregar rengl&oacute;n para NOTA DE CR&Eacute;DITO">
+            Agregar rengl&oacute;n para NOTA DE CR&Eacute;DITO <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row row_headers_renglon_comprobante" style="display:none; margin-top: 5px;">
+    <div class="col-md-2 descripcion">
+        <label class="control-label">Descripci&oacute;n</label>
+    </div>
+    <div class="col-md-1 devolucion">
+        <label class="control-label">Devoluci&oacute;n</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">Cantidad</label>
+    </div>
+    <!--
+    <div class="col-md-1">
+        <label class="control-label">Mod. cant.</label>
+    </div>
+    -->
+	<div class="col-md-1">
+        <label class="control-label">T. cambio</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">P. unitario</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">Tipo bonif.</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">Valor</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">Neto</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">% IVA</label>
+    </div>
+    <div class="col-md-1">
+        <label class="control-label">IVA</label>
+    </div>
+</div>
+
+{% include('@ADIFContable/ComprobanteCompra/new.form_renglon_comprobante.html.twig') %}
+
+
+<div class="ctn_rows_renglon_comprobante"></div>
+
+<div class="row row_footer row_footer_renglon_comprobante row_subtotal" 
+     style="display:none;">
+
+    <div class="col-md-8">
+        <input class="form-control subtotal_input" type="text" 
+               readonly="readonly" value="SUBTOTAL" style="text-align: right;">
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante_subtotal_neto" 
+                       readonly="readonly" class="form-control currency" data-digits="2" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>&nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante_subtotal_iva" 
+                       readonly="readonly" class="form-control currency" data-digits="2" value="0">
+            </div>
+        </div>
+    </div>
+</div>

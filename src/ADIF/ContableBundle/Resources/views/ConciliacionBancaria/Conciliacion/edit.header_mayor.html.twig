@@ -1,0 +1,32 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Mayor</legend>
+    
+    <div class="row" style="margin-bottom: 10px">        
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="mayor_fecha_fin" class="control-label">Movimientos del mayor a la fecha:</label>
+                <div class="input-group">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input type="text" class="form-control datepicker fecha_custom" required="required" id="mayor_fecha_fin" style="height: auto;" value="{{ entity.fechaFin|date('d/m/Y') }}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="input-group">
+                    <a data-original-title="Actualizar" data-placement="right" 
+                       class="btn btn-sm green-jungle tooltips" id="actualizar_mayor">
+                        Actualizar
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>                    
+    </div>
+                    
+</fieldset>

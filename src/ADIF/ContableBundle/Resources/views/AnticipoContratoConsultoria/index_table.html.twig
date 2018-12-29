@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha|date('d/m/Y') }}",
+    "{{ entity.consultor }}", 
+    "{{ entity.contrato }}", 
+    "{{ entity.monto|money_format }}", 
+    {
+    "show" : " {{ path( "anticiposcontratoconsultoria_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "anticiposcontratoconsultoria_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

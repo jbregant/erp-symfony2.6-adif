@@ -1,0 +1,35 @@
+<div class="row" style="margin-bottom: 10px" id='div-header-comprobantes'> 
+    <div class="col-md-5">
+        <div class="form-group">
+            <label for="adif_contablebundle_filtro_fechaInicio" class="control-label">Desde:</label>            
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input id="comprobantes_desde" class="form-control datepicker fecha_custom" name="adif_contablebundle_filtro[fechaInicio]" required="required" value="{{ "now"|date_modify("-30 day")|date("d/m/Y") }}" type="text">
+                </div>            
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="form-group">            
+                <label for="adif_contablebundle_filtro_fechaFin" class="control-label">Hasta: </label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="comprobantes_hasta" 
+                           name="adif_contablebundle_filtro[fechaFin]" 
+                           class="form-control datepicker" value="{{ "now"|date("d/m/Y") }}">
+                </div>
+        </div>
+    </div>            
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">&nbsp;</label>
+            <button class="btn btn-small blue-hoki form-control" id="filtrar-comprobantes">
+                Filtrar
+            </button>
+        </div>
+    </div>
+</div>
+
+{% if esNacion %} 
+    <div class="row" style="margin-bottom: 10px"><div class="col-md-12"></div></div>
+{% endif %} 

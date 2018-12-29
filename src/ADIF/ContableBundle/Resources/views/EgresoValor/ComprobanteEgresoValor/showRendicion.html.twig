@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Detalle de rendici&oacute;n</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="export-tools">
+                    </div>
+                    <table
+                        class="table table-bordered table-striped table-condensed datatable export-custom" 
+                        id="table-comprobantes"
+                        dataexport-title="rendicion">
+                        <thead>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th date class="nowrap">Fecha</th>
+                                <th class="nowrap">Comprobante</th>
+                                <th class="nowrap">N&uacute;mero</th>
+                                <th>Proveedor</th>
+                                <th currency class="nowrap">Total</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for comprobante in comprobantes %}
+                                <tr>
+                                    <td>{{ comprobante.id }}</td>
+                                    <td class="nowrap">{{ comprobante.fecha|date('d/m/Y') }}</td>
+                                    <td class="nowrap">{{ comprobante.tipoComprobante }}</td> 
+                                    <td class="nowrap">{{ comprobante.numero }}</td>
+                                    <td>{{ comprobante.proveedor }}</td>
+                                    <td class="nowrap total-comprobante">{{ comprobante.importe|money_format }}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href="{{ comprobante.link_show }}" 
+                                           class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="button" class="btn default button-back" 
+                back-url="">
+            <i class="m-icon-swapleft"></i> Volver
+        </button>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        initExportCustom('#table-comprobantes');
+    </script>
+
+{% endblock %}

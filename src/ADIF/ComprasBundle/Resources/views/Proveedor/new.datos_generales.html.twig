@@ -1,0 +1,135 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Datos principales</legend>
+
+    <div class="row">                        
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.codigo) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.codigo) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.razonSocial) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.razonSocial) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.representanteLegal) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.representanteLegal) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.estadoProveedor) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.estadoProveedor) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.esExtranjero) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.esExtranjero) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">                            
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.actividades) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.actividades) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form.rubros) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.rubros) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.nacionalidad) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.nacionalidad) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">                            
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ form_label(form.observacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.observacion) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Uni&oacute;n Transitoria de Empresas</legend>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.esUTE) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.esUTE) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row proveedor-ute-data" style="display: none">
+        <div class="col-md-12">
+
+            <div class="form-group prototype-proveedor-ute" 
+                 data-prototype="{% filter escape %}{% include 'ADIFComprasBundle:Proveedor:prototype.proveedor_ute.html.twig' with {'proveedorUTE': form.proveedoresUTE.vars.prototype} %}{% endfilter %}">
+                {% for proveedorUTE in form.proveedoresUTE%}
+                    {% include 'ADIFComprasBundle:Proveedor:prototype.proveedor_ute.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-sm green-jungle 
+                       prototype-link-add-proveedor-ute tooltips">
+                        Agregar proveedor &nbsp;<i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>
+
+{% include 'ADIFComprasBundle:ClienteProveedor:new_archivos.html.twig' %}

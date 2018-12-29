@@ -1,0 +1,66 @@
+
+{% set labelMontoVencidoSetted = 0 %}
+{% set labelMontoNoVencidoSetted = 0 %}
+
+{
+"data": [
+{% for registro in resumenAging %}
+    {% if registro.rango == "> 0" and labelMontoNoVencidoSetted == 0 %}
+    [
+    "<BR>", "<BR>", "<BR>", "<BR>"
+    ],
+    {% elseif registro.rango == 'SinVto' %}
+    [
+    "<BR>", "<BR>", "<BR>", "<BR>"
+    ],
+    {% endif %}
+    [
+    {% if registro.orden < 0 and labelMontoVencidoSetted == 0 %}
+        "Montos vencidos",
+        {% set labelMontoVencidoSetted = 1 %}
+    {% else %}
+        {% if registro.rango == "> 0" and labelMontoNoVencidoSetted == 0 %}
+            "Montos no vencidos",
+            {% set labelMontoNoVencidoSetted = 1 %}
+        {% elseif registro.rango == "SinVto"%}
+            "Sin plazo de vencimiento",
+        {% else %}
+            "",
+        {% endif %}
+    {% endif %}
+    
+    {% if registro.rango == '< 60' %}
+        " > 60",
+    {% elseif registro.rango == '< 45' %}
+        " > 45",
+    {% elseif registro.rango == '< 35' %}
+        " > 35",
+    {% elseif registro.rango == '< 25' %}
+        " > 25",
+    {% elseif registro.rango == '< 15' %}
+        " > 15",
+    {% elseif registro.rango == '< 10' %}
+        " > 10",
+    {% elseif registro.rango == '< 0' %}
+        " > 0",
+    {% elseif registro.rango == '> 0' %}
+        "&ge; 0",
+    {% elseif registro.rango == 'SinVto' %}
+        "",
+    {% elseif registro.rango == 'suma_total' %}    
+        "TOTAL",
+    {% else %}
+        "{{ registro.rango }}",
+    {% endif %}
+        
+    {% if registro.rango == 'SinVto' %}
+        "{{ registro.sumatoria|money_format }}",
+    {% else %}
+        "{{ registro.sumatoria|money_format }}",
+    {% endif %}
+    
+    ""
+   
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

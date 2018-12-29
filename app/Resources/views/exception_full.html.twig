@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Página no encontrada | {{ multiempresa_service.organizationName }} </title>
+        {% set theme_path   = 'theme/' %}
+        {% set js_path      = 'js/' %}
+        {% set css_path     = 'css/' %}
+        {% set image_path   = 'images/' %}
+        <link href="{{ asset(theme_path ~ 'plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path ~ 'plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(css_path ~ 'fonts.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path ~ 'css/style-metronic.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path ~ 'css/style.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path ~ 'css/style-responsive.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path ~ 'css/themes/blue.css') }}" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="{{ asset(theme_path ~ 'css/custom.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(css_path ~ 'custom.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path ~ 'css/pages/error.css') }}" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="{{ asset(image_path ~ 'adifse.ico') }}" type="image/x-icon" />
+        <style type="text/css">
+            .page-404 .details{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body class="page-404-full-page">
+        <div class="header navbar navbar-static-top mega-menu">
+            <div class="header-inner ">
+                <a class="navbar-brand" href="{{ path('adif_homepage') }}">
+                    <img src="{{ asset(image_path ~ 'trenes_argentinos.png') }}" alt="logo" class="img-responsive"/>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 page-404">
+                <div class="number ">
+                    <i class="fa fa-{{ (status_code == 403) ? 'unlock-alt' : 'exclamation-triangle' }}" style="font-size: 150px;"></i>
+                </div>
+                <div class="details">
+                    {% if (status_code == 403) %}
+                        <h3>No tiene los permisos necesarios para realizar la acci&oacute;n solicitada</h3>
+                    {% elseif (status_code == 404) %}
+                        <h3>No se puede encontrar la p&aacute;gina solicitada</h3>
+                    {% else %}
+                        <h3>Ocurri&oacute; un error al procesar su solicitud. Intente nuevamente m&aacute;s tarde.</h3>
+                    {% endif %}
+{#                        <h4>Error {{ numeroError }}</h4>#}
+                    <p>
+                        <a class="btn btn-info" href="{{ path('adif_homepage') }}">Volver</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

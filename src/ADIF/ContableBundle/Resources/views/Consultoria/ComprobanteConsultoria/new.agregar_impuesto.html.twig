@@ -1,0 +1,36 @@
+<div class="col-md-6">
+    <a id="agregar_renglon_impuesto" class="btn btn-sm green-jungle tooltips" 
+       data-placement="right" data-original-title="Agregar impuesto">
+        Agregar impuesto <i class="fa fa-plus"></i>
+    </a>
+
+    <div class="row row_headers_renglon_impuesto" style="display:none;margin-top: 5px;">
+        <div class="col-md-4">
+            <label class="control-label">Concepto</label>
+        </div>
+        <div class="col-md-5">
+            <label class="control-label">Detalle</label>
+        </div>
+        <div class="col-md-2">
+            <label class="control-label">Monto</label>
+        </div>
+    </div>
+
+    {% include('@ADIFContable/Consultoria/ComprobanteConsultoria/new.form_renglon_impuesto.html.twig') %}
+
+    <div class="ctn_rows_renglon_impuesto"></div>
+
+    <div class="row row_footer row_footer_renglon_impuesto row_subtotal" style="display:none;">
+        <div class="col-md-9">
+            <input class="form-control subtotal_input" type="text" readonly="readonly" value="SUBTOTAL" style="text-align: right;">
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="adif_contablebundle_comprobanteconsultoria_renglonesImpuesto_subtotal" readonly="readonly" class="form-control currency" value="0">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

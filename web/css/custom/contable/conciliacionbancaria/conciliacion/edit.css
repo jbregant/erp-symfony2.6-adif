@@ -1,0 +1,88 @@
+.div_ctn_seccion{
+    padding: 10px;
+    background-color: #EDF4F9;
+    border: 1px solid #ccc;
+    margin-top: 12px;
+    height: 130px;
+    margin-bottom: 5px;
+}
+
+.div_ctn_seccion:first-child{
+    margin-top: 0px;
+}
+
+.div_ctn_seccion > .label_seccion{
+    position: absolute;
+    right: 15px;
+    margin-top: -11px;
+    text-transform: uppercase;
+}
+
+.modal-dialog {
+    width: 850px;
+}
+
+.tabbable-custom .nav-tabs > li.active > a {
+    color: #555;
+    background-color: #FFF;
+    border-top: medium none !important;
+}
+
+.tab-pane {
+    margin-top: .8em !important;
+}
+
+#table-extracto-bancario th,
+#table-extracto-bancario-conciliado th,
+#table-mayor th,
+#table-mayor-conciliado th {
+    font-size: 12px !important;
+    text-align: center;
+    padding: .2em !important
+}
+
+#table-extracto-bancario td,
+#table-extracto-bancario-conciliado td,
+#table-mayor td,
+#table-mayor-conciliado td {
+    font-size: 11px;
+    padding: .2em .5em;
+    margin: 0
+}
+
+#table-mayor_wrapper {
+    margin-top: 0em;//2.5em;
+}
+
+#tabla-previsualizacion-conciliacion .item-conciliacion-negrita {
+    font-size: 14px; font-weight: 600; padding: 5px; text-align: left; color: #000;
+}
+
+#tabla-previsualizacion-conciliacion .item-conciliacion {
+    padding: 0.2em 0.7em;
+}        
+
+#tabla-previsualizacion-conciliacion .valor-conciliacion-negrita {
+    text-align: center; font-size: 14px; font-weight: 600; padding: 5px; color: #000;
+}
+
+#tabla-previsualizacion-conciliacion .valor-conciliacion {
+    text-align: center;
+}
+
+#tabla-previsualizacion-conciliacion .encabezado-conciliacion {
+    height: 50px; vertical-align: middle;
+}  
+
+mark {
+    color: #000;
+}
+
+mark.punto_venta {
+    background: #E6FFCC none repeat scroll 0 0;    
+}
+
+mark.numero_comprobante {
+    background: #CCE6FF none repeat scroll 0 0;    
+}
+    

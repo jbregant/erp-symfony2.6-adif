@@ -1,0 +1,10 @@
+<!-- CUSTOM THEME STYLES -->
+<link href="{{ asset(css_path ~ 'components.css') }}" rel="stylesheet" type="text/css"/>
+{% if empresaActual == 'adif' %}
+	<link href="{{ asset(css_path ~ 'custom.css') }}" rel="stylesheet" type="text/css"/>
+{% elseif empresaActual == 'vossloh' %}
+	<link href="{{ asset(css_path ~ 'custom_consorcio.css') }}" rel="stylesheet" type="text/css"/>
+{% else %}
+	<link href="{{ asset(css_path ~ 'custom_fase.css') }}" rel="stylesheet" type="text/css"/>
+{% endif %}
+<!-- END CUSTOM THEME STYLES -->

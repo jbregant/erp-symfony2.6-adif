@@ -1,0 +1,74 @@
+<div class="portlet box blue-madison" id='div-table-comprobantes'>
+    <div class="portlet-title">
+        <div class="caption">
+            Comprobantes pendientes de cobro
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-toolbar clear"> 
+            {% if esNacion %} 
+                <div class="btn-group pull-left" id="autoimputar">
+                    <a class="btn btn-sm blue tooltips" data-placement="right" data-original-title="Imputar automáticamente" href="">
+                        <i class="fa fa-retweet"></i>
+                        Imputaci&oacute;n automática
+                    </a>
+                </div> 
+            {% endif %}             
+            <div class="btn-group pull-right" id="imputar_manual" style="display:none">
+                <a class="btn btn-sm green tooltips" data-placement="left" data-original-title="Imputar manualmente" href="">
+                    <i class="fa fa-retweet"></i>
+                    Imputaci&oacute;n manual
+                </a>
+            </div>
+            <div class="btn-group pull-right" id="crear_anticipo" style="display:none">
+                <a class="btn btn-sm green tooltips" data-placement="left" data-original-title="Crear anticipo manual" href="">
+                    <i class="fa fa-money "></i>
+                    Crear anticipo manual
+                </a>
+            </div>            
+        </div>       
+
+        <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect" id="table-comprobantes">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th></th>
+                    <th class="not-in-filter"></th>
+                    <th>Fecha</th>                    
+                    <th>Tipo</th>                    
+                    <th>Numero</th>
+                    <th class="hidden">Vencimiento</th>
+                    <th>Cliente</th>
+                    <th>Contrato</th>
+                    <th class="hidden">Codigo de barras</th>
+                    <th class="hidden">Total</th>
+                    <th>Saldo</th>
+                    <th class="not-in-filter hidden">Id Cliente</th>
+                    <th class="not-in-filter hidden">Id Comprobante</th>
+
+                </tr>
+                <tr class="headers">
+                    <th class="no-order entity_id"></th>
+                    <th class="text-center table-checkbox no-order">
+                        <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-comprobantes .checkboxes" />
+                    </th>
+                    <th date export-format="date" class="nowrap">Fecha</th>
+                    <th>Tipo</th>                      
+                    <th>Numero</th>
+                    <th date export-format="date" class="hidden nowrap">Vencimiento</th>
+                    <th>Cliente</th>
+                    <th>Contrato</th>
+                    <th class="hidden">Codigo de barras</th>                   
+                    <th class="hidden">Total</th>
+                    <th currency >Saldo</th>
+                    <th class="hidden">Id Cliente</th>                    
+                    <th class="hidden">Id Comprobante</th>                    
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

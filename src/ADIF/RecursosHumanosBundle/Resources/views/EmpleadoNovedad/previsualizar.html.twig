@@ -1,0 +1,171 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        tr.tr-ok{
+            background-color: #CCFFCC;
+        }
+        
+        tr.tr-sin-valor{
+            background-color: #FFCCCC;
+        }
+        
+        tr.tr-convenio-erroneo{
+            background-color: #FFAAAA;
+        }
+        
+        tr.tr-ya-cargado{
+            background-color: #FF8080;
+        }
+        
+        tr.tr-desactivado{
+            background-color: #FF80AA;
+        }
+        
+        li {
+            list-style-type: none;
+        }
+    </style>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Previsualizar novedades a importar
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                        
+                <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Novedad</label>
+                            <div class="detalle_show">{{ novedad.codigo ~ " - " ~ novedad }}</div>
+                        </div>
+                </div>
+                <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Fecha</label>
+                            <div class="detalle_show">{{ fecha|date('d/m/Y') }}</div>
+                        </div>
+                </div>
+            </div>
+            {% if (cuil_empleados_inexistentes|length > 0) %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Cuils de empleados que no existen en el sistema ({{ cuil_empleados_inexistentes|length }})</label>
+                        <ul class="ctn-columns-7 detalle_show">
+                            {% for cuil in cuil_empleados_inexistentes %}
+                                <li>{{ cuil }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="datatable table table-bordered table-striped table-condensed flip-content">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th>Legajo</th>
+                                <th>Cuil</th>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th>D&iacute;s</th>
+                                <th>Liquidaci&oacute;n a la que aplica</th>
+                                <th data-type="select" data-select-mode="auto" data-select-all="Todos">Error</th>
+                            </tr>
+                            <tr class="headers">
+                                <th numeric style="width: 10%;">Legajo</th>
+                                <th>Cuil</th>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th>D&iacute;as</th>
+                                <th>Liquidaci&oacute;n a la que aplica</th>
+                                <th>Error</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for en in empleados_novedades %}
+                                <tr class="tr-ok">
+                                    <td class="text-center">{{ en.empleado.nroLegajo }}</td>
+                                    <td class="text-center">{{ en.empleado.persona.cuil }}</td>
+                                    <td>{{ en.empleado.persona.apellido }}</td>
+                                    <td>{{ en.empleado.persona.nombre }}</td>
+                                    <td class="text-right">{{ en.valor }}</td>
+                                    <td class="text-right">{{ en.dias }}</td>
+                                    <td class="text-right">{{ en.liquidacionAjuste ? en.liquidacionAjuste.numero }}</td>
+                                    <td>No</td>
+                                </tr>
+                            {% endfor %}
+                            {% for e in empleados_sin_novedad %}
+                                <tr class="tr-error tr-sin-valor">
+                                    <td class="text-center">{{ e.nroLegajo }}</td>
+                                    <td class="text-center">{{ e.persona.cuil }}</td>
+                                    <td>{{ e.persona.apellido }}</td>
+                                    <td>{{ e.persona.nombre }}</td>
+                                    <td class="text-right valor"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Sin valor cargado</td>
+                                </tr>
+                            {% endfor %}
+                            {% for e in empleados_convenio_erroneo %}
+                                <tr class="tr-error tr-convenio-erroneo">
+                                    <td class="text-center">{{ e.nroLegajo }}</td>
+                                    <td class="text-center">{{ e.persona.cuil }}</td>
+                                    <td>{{ e.persona.apellido }}</td>
+                                    <td>{{ e.persona.nombre }}</td>
+                                    <td class="text-right valor"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Convenio err&oacute;neo</td>
+                                </tr>
+                            {% endfor %}
+                            {% for en in empleados_ya_cargados %}
+                                <tr class="tr-error tr-ya-cargado">
+                                    <td class="text-center">{{ en.empleado.nroLegajo }}</td>
+                                    <td class="text-center">{{ en.empleado.persona.cuil }}</td>
+                                    <td>{{ en.empleado.persona.apellido }}</td>
+                                    <td>{{ en.empleado.persona.nombre }}</td>
+                                    <td class="text-right">{{ en.valor }}</td>
+                                    <td class="text-right">{{ en.dias }}</td>
+                                    <td class="text-right">{{ en.liquidacionAjuste ? en.liquidacionAjuste.numero }}</td>
+                                    <td>Novedad ya cargada</td>
+                                </tr>
+                            {% endfor %}
+                            {% for e in empleados_desactivados %}
+                                <tr class="tr-error tr-desactivado">
+                                    <td class="text-center">{{ e.nroLegajo }}</td>
+                                    <td class="text-center">{{ e.persona.cuil }}</td>
+                                    <td>{{ e.persona.apellido }}</td>
+                                    <td>{{ e.persona.nombre }}</td>
+                                    <td class="text-right valor"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Empleado desactivado</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn default button-back pull-right" back-url="{{ path('empleado_novedades_importar') }}">Cancelar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="tooltips btn bg-blue pull-left" href="{{ path('empleado_novedades_importar_guardar') }}" data-placement="left">Guardar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

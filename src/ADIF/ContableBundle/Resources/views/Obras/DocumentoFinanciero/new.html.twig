@@ -1,0 +1,358 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/obras/documentofinanciero/new.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% set ConstanteTipoDocumentoFinanciero = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoDocumentoFinanciero' %}
+
+{% block body %}
+<script>
+	var esEdit = "{{ edit }}";
+</script>
+
+{% set disabled = false %}
+{% if entity.esEditable == 0 %}
+    {% set disabled = true %}
+{% endif %}
+    <div>
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form'} }) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+        {% if edit %}
+            <input type="hidden" name="_method" value="PUT" />
+        {% endif %}
+
+        {{ form_widget(form.tramo) }}
+
+        <div class="form-body form-comprobante">
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Proveedor</div>
+
+                {% include '@ADIFContable/Obras/DocumentoFinanciero/new.datos_proveedor.html.twig' %}
+
+                <div class="row row_table_renglon_licitacion_proveedor" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Renglones de licitaci&oacute;n del proveedor</label>
+                            <table id="table_tramo_proveedor"
+                                   class="table table-bordered table-striped table-condensed table-hover"
+                                   style="display: none;">
+                                <thead>
+                                    <tr class="headers">
+                                        <th>Licitaci&oacute;n</th>
+                                        <th>Descripci&oacute;n</th>
+                                        <th>Saldo pendiente de certificaci&oacute;n</th>
+                                        <th>Saldo pendiente de fondo de reparo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="div-no-result" class="bold margin-top-10" style="display: none;">
+                    El proveedor no posee licitaciones en curso.
+                </div>
+            </div>
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Detalle </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.numeroReferencia) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.numeroReferencia) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.correspondePago) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.correspondePago) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.tipoDocumentoFinanciero) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.tipoDocumentoFinanciero) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.montoTotalDocumentoFinanciero) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.montoTotalDocumentoFinanciero) }}
+								<input type="hidden" id="total_real_df" value="{{ total_real_df }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.montoSinIVA) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.montoSinIVA) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.montoIVA) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.montoIVA) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.montoPercepciones) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.montoPercepciones) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 anticipo-financiero certificado-obra redeterminacion-obra subclase">
+                        <div class="form-group">
+                            {{ form_label(form.montoFondoReparo) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.montoFondoReparo) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaDocumentoFinancieroInicio) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaDocumentoFinancieroInicio) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaDocumentoFinancieroFin) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaDocumentoFinancieroFin) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaIngresoADIF) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaIngresoADIF) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaRemisionGerenciaAdministracion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaRemisionGerenciaAdministracion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaIngresoGerenciaAdministracion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaIngresoGerenciaAdministracion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaAprobacionTecnica) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaAprobacionTecnica) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# DATOS SUBCLASES ---------------------------- #}
+                <div class="row detalle-subclase">
+                    <div class="col-md-3 fondo-reparo subclase">
+                        <div class="form-group">
+                            {{ form_label(form.porcentajeAbonar) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.porcentajeAbonar) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 anticipo-financiero subclase">
+                        <div class="form-group">
+                            {{ form_label(form.porcentajeAnticipo) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.porcentajeAnticipo) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 certificado-obra redeterminacion-obra subclase">
+                        <div class="form-group">
+                            {{ form_label(form.numero) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.numero) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 todos-documento-financiero subclase">
+                        <div class="form-group">
+                            {{ form_label(form.porcentajeCertificacion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.porcentajeCertificacion) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {# FIN - DATOS SUBCLASES ---------------------------- #}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.observacion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.observacion) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div_ctn_seccion" style="min-height: 45px;">
+                <div class="btn btn-info btn-sm label_seccion">P&oacute;lizas</div>
+
+                {% include('@ADIFContable/Obras/DocumentoFinanciero/new.datos_poliza.html.twig') %}
+            </div>
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Adjuntos </div>
+
+                {% include 'ADIFContableBundle:Obras/DocumentoFinanciero:new_archivos.html.twig' %}
+            </div>
+        </div>
+
+
+        <div class="form-actions">
+            <div class="pull-left">
+                <button type="button" class="btn default button-back"
+                        back-url="{{ path('documento_financiero') }}">Cancelar</button>
+            </div>
+            <div class="pull-right">
+                {{ form_widget(form.save, {'attr': {'class': 'btn green margin-right-10'}}) }}
+                {% if disabled == 0 %}
+                    {{ form_widget(form.save_continue, {'disabled' : disabled, 'attr': {'class': 'btn blue'}}) }}
+                {% endif %}
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {"render_rest": false}) }}
+    </div>
+
+    <script type="text/javascript">
+        var disabled = "{{ disabled }}";
+    </script>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script type="text/javascript">
+                var __tipoCertificadoObra = "{{ constant(ConstanteTipoDocumentoFinanciero ~ '::CERTIFICADO_OBRA') }}";
+                var __tipoRedeterminacionObra = "{{ constant(ConstanteTipoDocumentoFinanciero ~ '::REDETERMINACION_OBRA') }}";
+                var __tipoAnticipoFinanciero = "{{ constant(ConstanteTipoDocumentoFinanciero ~ '::ANTICIPO_FINANCIERO') }}";
+                var __tipoFondoReparo = "{{ constant(ConstanteTipoDocumentoFinanciero ~ '::FONDO_REPARO') }}";
+                var __tipoEconomia = "{{ constant(ConstanteTipoDocumentoFinanciero ~ '::ECONOMIA') }}";
+                var __tipoDemasia = "{{ constant(ConstanteTipoDocumentoFinanciero ~ '::DEMASIA') }}";</script>
+
+    <script src="{{ asset('js/custom/contable/obras/documentofinanciero/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        {% if(entity.tramo) %}
+                    completarTramos('autocompleteselect', {
+                    item: {
+                    id:{{ entity.tramo.proveedor.id }},
+                            CUIT: "{{ entity.tramo.proveedor.CUIT }}",
+                            razonSocial: "{{ entity.tramo.proveedor.razonSocial }}"
+                    }
+                    },
+            {{ entity.tramo.id }});
+        {% endif %}
+    </script>
+
+    <script type="text/javascript">
+                document.body.classList.add('compact');
+    </script>
+    <script type="text/javascript">
+
+        if (disabled){
+            prefix = 'adif_contablebundle_obras_documentofinanciero_';
+            readonlys = [prefix+'montoTotalDocumentoFinanciero', prefix+'montoSinIVA', prefix+'montoIVA', prefix+'montoPercepciones', prefix+'montoPercepciones', prefix+'montoFondoReparo'];
+
+            $(window).load(function() {
+                $('form[name="adif_contablebundle_obras_documentofinanciero"] input').each(function(){
+
+                    if( $.inArray($(this).attr('id'),readonlys) > -1 ) {
+                        $(this).attr('readonly', true);
+                    }
+                });
+            });
+        }
+    </script>
+
+{% endblock %}

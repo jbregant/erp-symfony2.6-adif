@@ -1,0 +1,10 @@
+
+.table tbody tr.selected td, 
+.table tbody tr.selected th {
+    background-color: #e0ffd7;
+    font-weight: bold
+}
+
+#table_tramo_proveedor {
+    background-color: #FFF;
+}

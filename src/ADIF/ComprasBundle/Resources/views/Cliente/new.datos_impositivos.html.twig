@@ -1,0 +1,325 @@
+
+<fieldset class="form-section-fieldset">
+    <legend class="form-section-legend">Datos impositivos</legend>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.CUIT) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.CUIT) }}
+                </div>
+            </div>
+            <div class="form-group hidden">
+                {{ form_label(form.clienteProveedor.codigoIdentificacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.codigoIdentificacion) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.DNI) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.DNI) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.numeroIngresosBrutos) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.numeroIngresosBrutos) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <fieldset class="form-section-fieldset">
+
+                    <legend class="form-section-legend">IVA</legend>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.condicionIVA) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.condicionIVA) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.exentoIVA) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.exentoIVA) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-observacion-exento-iva hidden">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.observacionExentoIVA) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.observacionExentoIVA) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% include '@ADIFCompras/Proveedor/new.certificado_exencion.html.twig' with {'certificadoExencion': form.certificadoExencionIVA, 'esIva' : '1'}  %}
+
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset class="form-section-fieldset">
+
+                    <legend class="form-section-legend">Ganancias</legend>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.condicionGanancias) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.condicionGanancias) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.exentoGanancias) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.exentoGanancias) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% include '@ADIFCompras/Proveedor/new.certificado_exencion.html.twig' with {'certificadoExencion': form.certificadoExencionGanancias, 'esIva' : '0'}  %}
+
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset class="form-section-fieldset">
+                    <legend class="form-section-legend">SUSS</legend>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.condicionSUSS) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.condicionSUSS) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.exentoSUSS) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.exentoSUSS) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% include '@ADIFCompras/Proveedor/new.certificado_exencion.html.twig' with {'certificadoExencion': form.certificadoExencionSUSS, 'esIva' : '0'}  %}
+
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <fieldset class="form-section-fieldset">
+
+                    <legend class="form-section-legend">Ingresos Brutos</legend>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.condicionIngresosBrutos) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.condicionIngresosBrutos) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.exentoIngresosBrutos) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.exentoIngresosBrutos) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {{ form_label(form.pasiblePercepcionIngresosBrutos) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.pasiblePercepcionIngresosBrutos) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row convenio-multilateral-data">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.convenioMultilateralIngresosBrutos.jurisdiccion) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.convenioMultilateralIngresosBrutos.jurisdiccion) }}
+                                </div>
+                            </div>
+                        </div>   
+                        <div class="col-md-4 convenio-multilateral-data">
+                            <div class="form-group">
+                                {{ form_label(form.clienteProveedor.datosImpositivos.convenioMultilateralIngresosBrutos.porcentajeAplicacionCABA) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.clienteProveedor.datosImpositivos.convenioMultilateralIngresosBrutos.porcentajeAplicacionCABA) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% include '@ADIFCompras/Proveedor/new.certificado_exencion.html.twig' with {'certificadoExencion': form.certificadoExencionIngresosBrutos, 'esIva' : '0'}  %}
+					
+					
+					<!-- SECCION IIBB CABA -->
+
+					<fieldset class="form-section-fieldset">
+						<legend class="form-section-legend">Nuevo grupo percepci&oacute;n r&eacute;gimen 421/16</legend>
+						<div class="row">
+							<div class="form-group">
+								<div class="form-group">
+                                {{ form_label(form.iibbCaba) }}
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    {{ form_widget(form.iibbCaba) }}
+                                </div>
+                            </div>
+						</div>
+					</fieldset>
+
+					<!-- FIN SECCION IIBB CABA -->
+            </div>
+        </div>        
+    </div>
+</div>
+
+
+<fieldset class="form-section-fieldset">
+    <legend class="form-section-legend">Calificaci&oacute;n fiscal</legend>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.situacionClienteProveedor) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.situacionClienteProveedor) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionCodigoSituacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionCodigoSituacion) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.tieneRiesgoFiscal) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.tieneRiesgoFiscal) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionRiesgoFiscal) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionRiesgoFiscal) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.tieneProblemasAFIP) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.tieneProblemasAFIP) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionTieneProblemasAFIP) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionTieneProblemasAFIP) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.incluyeMagnitudesSuperadas) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.incluyeMagnitudesSuperadas) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionIncluyeMagnitudesSuperadas) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.clienteProveedor.datosImpositivos.fechaUltimaActualizacionIncluyeMagnitudesSuperadas) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

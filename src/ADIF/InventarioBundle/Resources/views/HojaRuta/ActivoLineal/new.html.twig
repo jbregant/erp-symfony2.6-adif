@@ -1,0 +1,230 @@
+{% extends '::base.html.twig' %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var hojaRuta = '{{ idHojaRuta|default('') }}';
+        var indiceTipo = '{{ indice | default('3') }}';
+        var errores = '{% if not form.vars.valid %} 1 {%else%} 0 {%endif%}';
+        var id_prefix = 'adif_inventariobundle_hojaruta_activolineal_';
+        var campos = ['linea', 'operador', 'division', 'tipoActivo', 'progresivaInicioTramo', 'progresivaFinalTramo'];
+        var campoDatoMaestro = 'activoLineal';
+        var camposObligatorios = ['linea', 'operador', 'division'];
+        var tipoItems = 'itemsHojaRutaActivoLineal_';
+    </script>
+    <script src="{{ asset('js/custom/inventario/hojaruta/activolineal/new.js') }}" ></script>
+    <script src="{{ asset('js/custom/inventario/hojaruta/hojaRuta_fn_ALMR.js') }}" ></script>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Hoja de Ruta</div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+
+            {% if edit %}
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+
+            <fieldset class="form-section-fieldset">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.denominacion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.denominacion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.usuarioAsignado) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.usuarioAsignado) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaVencimiento) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaVencimiento) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Estado</label>
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ entity.estadoHojaRuta }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {#{{ form_label(form.fechaAlta) }}#}
+                            <label class="control-label">Fecha de Alta</label>
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ entity.fechaAlta| default("now"|date('d/m/Y')) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="portlet box blue" >
+                <div class="portlet-title">
+                    <div class="caption">Items Activo Lineal</div>
+
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <fieldset class="form-section-fieldset form-item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.linea) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.linea) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.operador) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.operador) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.division) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.division) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.tipoActivo) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.tipoActivo) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.progresivaInicioTramo) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.progresivaInicioTramo) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.progresivaFinalTramo) }}
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        {{ form_widget(form.progresivaFinalTramo) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="btn btn-sm green prototype-link-add-item tooltips"
+                                   data-placement="right" data-original-title="Agregar">
+                                    <i class="fa fa-plus"></i> Agregar
+                                </a>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section-fieldset" >
+                        <div
+                            data-prototype="{% filter escape %}{% include 'ADIFInventarioBundle:HojaRuta:ActivoLineal/prototype.item.html.twig' with {'item': form.itemsHojaRutaActivoLineal.vars.prototype} %}{% endfilter %}"
+                            class="prototype-item" style="display:none;">
+                            {% for key,item in form.itemsHojaRutaActivoLineal %}
+                                {% include 'ADIFInventarioBundle:HojaRuta:ActivoLineal/prototype.item.html.twig' %}
+                            {% endfor %}
+                        </div>
+                        <table
+                            class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel"
+                            id="table-item"
+                            dataexport-title="hojaruta-item-activolineal">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th></th>
+                                    <th class="not-in-filter"></th>
+                                    <th>L&iacute;nea</th>
+                                    <th>Operador</th>
+                                    <th>Divisi&oacute;n</th>
+                                    <th>Tipo de Activo</th>
+                                    <th>Progresiva desde</th>
+                                    <th>Progresiva hasta</th>
+                                    <th class="not-in-filter"></th>
+                                </tr>
+                                <tr class="headers">
+                                    <th class="no-order entity_id"></th>
+                                    <th class="text-center table-checkbox no-order">
+                                        <input type="checkbox" id="table-checkbox" class="group-checkable" data-set="#table-item .checkboxes" />
+                                    </th>
+                                    <th>L&iacute;nea</th>
+                                    <th>Operador</th>
+                                    <th>Divisi&oacute;n</th>
+                                    <th>Tipo de Activo</th>
+                                    <th>Progresiva desde</th>
+                                    <th>Progresiva hasta</th>
+                                    <th class="text-center no-order ctn_acciones">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('hojaruta', { "indice": indice }) }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}

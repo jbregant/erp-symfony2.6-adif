@@ -1,0 +1,30 @@
+{% set ConstanteEstadoOrdenPagoPagado = constant('ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoOrdenPago::ESTADO_PAGADA') %}
+{% set ConstanteEstadoComprobanteAnulado = constant('ADIF\\ContableBundle\\Entity\\EstadoComprobante::__ESTADO_ANULADO') %}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha ? entity.fecha|date('d/m/Y') : '' }}",
+    "{{ entity.tipo }}",
+    "{{ entity.idTipo }}",
+    "{{ entity.consultor.getCuitAndRazonSocial|default('-')|decode }}",
+    "{{ entity.contrato }}",
+    "{{ entity.idContratoInicial }}",
+    "{{ entity.monto|money_format }}",
+    "{{ entity.estadoComprobante ? '1' : '0' }}",
+    {
+    {% if entity.esAnticipo %}
+        "show" : "{{ path( 'anticiposcontratoconsultoria_show', { 'id': entity.id }) }}"
+    {% else %}
+        "show" : "{{ path( 'comprobante_consultoria_show', { 'id': entity.id }) }}"
+        {% if not entity.estadoComprobante %}
+            ,"anular" : "{{ path("comprobante_consultoria_anular", { 'id': entity.id }) }}"
+        {% endif %}
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

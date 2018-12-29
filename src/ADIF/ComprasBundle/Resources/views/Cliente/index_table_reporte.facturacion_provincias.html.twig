@@ -1,0 +1,18 @@
+{
+"data": [
+{% for entity in clientes %}
+    [
+    "{{ entity.id }}",    
+    "{{ entity.id }}",
+    "{{ entity.Provincia }}",
+    "{{ entity.TipoComprobante|default('-') }}",
+    "{{ entity.letra|default('-') }}",
+    "{{ entity.NumeroComprobante|default('-') }}",
+    "{{ entity.Fecha|date('d/m/Y') }}",
+    "{{ entity.Destinatario|default('-') }}",
+    "{{ entity.Neto|money_format }}",
+    "{{ entity.Gravado|money_format }}",
+    "{{ entity.Exento|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

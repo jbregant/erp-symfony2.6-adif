@@ -1,0 +1,49 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    
+	{% if entity.documentoFinanciero != null %}
+		"{{ entity.documentoFinanciero.tramo.licitacion.tipoContratacion.alias|default('-') }}",
+		"{{ entity.documentoFinanciero.tramo.licitacion.numero|default('-') }}",
+		"{{ entity.documentoFinanciero.tramo.licitacion.anio|default('-') }}",
+		"{{ entity.documentoFinanciero.tramo.descripcion|escape_json|truncate(50)|default('-') }}",
+		"{{ entity.documentoFinanciero.tramo.proveedor|default('-') }}",
+		"{{ entity.documentoFinanciero.tipoDocumentoFinanciero.nombre|default('-') ~ ' ' ~ entity.documentoFinanciero.numero|default('')}}",
+		"{{ entity.documentoFinanciero.fechaDocumentoFinancieroInicio|date('d/m/Y') }}",
+		"{{ entity.documentoFinanciero.fechaDocumentoFinancieroFin|date('d/m/Y') }}",
+	{% else %}
+		"{{ entity.tramo.licitacion.tipoContratacion.alias|default('-') }}",
+		"{{ entity.tramo.licitacion.numero|default('-') }}",
+		"{{ entity.tramo.licitacion.anio|default('-') }}",
+		"{{ entity.tramo.descripcion|escape_json|truncate(50)|default('-') }}",
+		"{{ entity.tramo.proveedor|default('-') }}",
+		"Poliza de obra",
+		"--",
+		"--",
+	{%  endif %}
+	
+    "{{ entity.numeroPoliza|default('-') }}",
+    {% if entity.aseguradora2 is not null %}
+        "{{ entity.aseguradora2.nombre|default('-') }}",
+    {% else %}
+        "{{ entity.aseguradora|default('-') }}",
+    {% endif %}
+    {% if entity.aseguradora2 is not null %}
+        "{{ entity.aseguradora2.nombre|default('-') }}",
+    {% else %}
+        "sin actualizar",
+    {% endif %}
+    "{{ entity.numeroTramiteEnvio|default('-') }}",
+    "{{ entity.numeroTramitePolizaGarantia|default('-') }}",
+    "{{ entity.tipoCobertura.nombre|default('-') }}",
+    "{{ entity.montoAsegurado|money_format|default('-') }}",
+    "{{ entity.estadoPoliza }}",
+    "{{ entity.estadoRevisionPoliza }}",
+    "{{ entity.fechaInicio|date('d/m/Y') }}",
+    "{{ entity.fechaVencimiento|date('d/m/Y') }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

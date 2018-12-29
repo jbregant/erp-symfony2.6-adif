@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de Estado de Situación: <strong>{{ entity.denominacion }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Denominacion</label>
+                        <div class="detalle_show">                                {{ entity.denominacion }}                        </div>
+                    </div>
+                </div>
+                {#
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Idusuariocreacion</label>
+                        <div class="detalle_show">                                {{ entity.idUsuarioCreacion }}                        </div>
+                    </div>
+                </div>
+                #}
+            </div>
+            {#
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Idusuarioultimamodificacion</label>
+                        <div class="detalle_show">                                {{ entity.idUsuarioUltimaModificacion }}                        </div>
+                    </div>
+                </div>
+            </div>
+            #}
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"
+                        back-url="{{ path('estadoservicio') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

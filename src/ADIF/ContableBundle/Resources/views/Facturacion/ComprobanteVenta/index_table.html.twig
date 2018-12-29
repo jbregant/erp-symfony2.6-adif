@@ -1,0 +1,66 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaComprobante|date('d/m/Y') }}", 
+    "{{ entity.tipoComprobante|default('-') }}", 
+    "{{ entity.letra|default('-') }}", 
+    "{{ entity.puntoVenta|default('-') }}", 
+    "{{ entity.numeroComprobante is null? entity.numeroCupon|default('-') : entity.numeroComprobante|default('-') }}", 
+    "{{ entity.numeroContrato|default('-')}}",
+    "{{ entity.licitacion|default('-')}}",
+    "{{ entity.cliente|escape_json|default('-') }}",      
+    "{{ entity.observaciones|escape_json|default('-') }}", 
+    "{{ entity.importeTotalNeto|money_format }}", 
+    "{{ entity.importeTotalIVA|money_format }}", 
+    "{{ entity.percepcionIIBB|money_format }}", 
+    "{{ entity.percepcionIVA|money_format }}", 
+    "{{ entity.totalMCL|money_format }}", 
+    "{{ entity.estadoComprobante }}",     
+    {
+    "show" : "{{ path("comprobanteventa_show", { 'id': entity.id }) }}"
+    {% if not is_granted("ROLE_SOLO_LECTURA") %}
+        {% if entity.idEstadoComprobante != id_anulado %}
+            ,"anular" : "{{ path("comprobanteventa_anular", { 'id': entity.id }) }}"
+        {% endif %}     
+        ,"imprimir" : " {{ path("comprobanteventa_imprimir", { "id": entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}
+{#
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaComprobante|date('d/m/Y') }}", 
+    "{{ entity.tipoComprobante|default('-') }}", 
+    "{{ entity.letraComprobante|default('-') }}", 
+    "{{ entity.puntoVenta|default('-') }}", 
+    "{{ entity.numero is null? entity.numeroCupon|default('-') : entity.numero|default('-') }}", 
+    "{{ entity.contrato is not null ? entity.contrato.numeroContrato|default('-') : '-' }}",
+    "{{ entity.cliente is not null ? entity.cliente.cuitAndRazonSocial : '-' }}",      
+    "{{ entity.observaciones|default('-') }}", 
+    "{{ entity.importeTotalNeto|money_format }}", 
+    "{{ entity.importeTotalIVA|money_format }}", 
+    "{{ entity.importeTotalPercepcionByConcepto(conceptoPercepcionIIBB)|money_format }}", 
+    "{{ entity.importeTotalPercepcionByConcepto(conceptoPercepcionIVA)|money_format }}", 
+    "{{ entity.totalMCL|money_format }}", 
+    "{{ entity.estadoComprobante.nombre }}", 
+    {
+    "show" : "{{ path("comprobanteventa_show", { 'id': entity.id }) }}",
+    {% if entity.estadoComprobante.id != id_anulado %}
+        "anular" : "{{ path("comprobanteventa_anular", { 'id': entity.id }) }}",
+    {% endif %}     
+    "imprimir" : " {{ path("comprobanteventa_imprimir", { "id": entity.id }) }}"#}
+{#    "show" : " {{ path( "facturacion_comprobanteventa_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "facturacion_comprobanteventa_edit", { "id": entity.id }) }}" #}
+{#    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}#}

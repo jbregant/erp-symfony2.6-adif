@@ -1,0 +1,26 @@
+
+<table class="m-top" border="0" style="margin-top: 3em; margin-left: 3em;">
+    <tbody>
+        {% for cuenta in detalleCuentasPresupuestarias %}
+            <tr style="margin-bottom: 1em">
+                <td class="f-12 bold" style="padding-right: 8em;">{{ cuenta['denominacionCuentaEconomica'] }}</td>
+                <td class="f-12 bold">{{ cuenta['total']|money_format }}</td>
+            </tr>
+
+            {% for bienEconomico in cuenta['bienesEconomicos'] %}
+                <tr>
+                    <td class="f-12" style="padding-left: 3em;">{{ bienEconomico['denominacionBienEconomico'] }}</td>
+                    <td class="f-12">{{ bienEconomico['total']|money_format }}</td>
+                </tr>
+            {% endfor %}
+
+            {% if not loop.last %}
+                <tr style="height: 30px">
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+    </tbody>
+</table>

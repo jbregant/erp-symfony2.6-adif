@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-md-5 form_field">
+        <div class="form-group">
+             {{ form_label(propiedad.idPropiedad) }}
+            <div class="form_field">
+                {{ form_widget(propiedad.idPropiedad) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 form_field">
+        <div class="form-group">
+            {{ form_label(propiedad.valor) }}
+            <div class="form_field">
+                {{ form_widget(propiedad.valor) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-propiedad accion-borrar" 
+           data-placement="top" data-original-title="Eliminar dato">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

@@ -1,0 +1,62 @@
+{% extends '::base.html.twig' %}  
+
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Usuarios</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-sm green tooltips"  data-placement="right" data-original-title="Crear usuario" href=" {{ path( 'fos_user_registration_register') }} ">
+                                Crear usuario <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table class="export-excel table table-bordered table-striped table-condensed flip-content dt-multiselect" id="table-usuarios" dataexport-title="usuarios">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th class="entity_id"></th>
+                                <th class="not-in-filter"></th>
+                                <th>Nombre de usuario</th>
+                                <th>Email</th>
+                                <th>Grupos</th>
+                                <th>&Aacute;rea</th>
+                                <th>Habilitado</th>
+                                <th>&Uacute;ltima vez</th>
+								<th>Empresa</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-usuarios .checkboxes" />
+                                </th>                            
+                                <th>Nombre de usuario</th>
+                                <th>Email</th>
+                                <th>Grupos</th>
+                                <th>&Aacute;rea</th>
+                                <th>Habilitado</th>
+                                <th datetime>&Uacute;ltima vez</th>
+								<th>Empresa</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/autenticacion/usuarios/index.js') }}" ></script>
+
+{% endblock %}

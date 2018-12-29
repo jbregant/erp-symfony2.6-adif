@@ -1,0 +1,16 @@
+{
+"data": [
+{% for comprobante in comprobantes %}
+    [
+    "{{ comprobante.id }}",
+    "{{ comprobante.fechaComprobante|date('d/m/Y') }}",
+    "{{ comprobante.tipoComprobante ~ ' (' ~ comprobante.letraComprobante ~ ')' }}",
+    "{{ comprobante.puntoVenta ~ '-' ~ comprobante.numero }}",
+    "{{ comprobante.cuitAndRazonSocial|decode }}",
+    "{{ comprobante.tramo }}",
+    "{{ comprobante.tipoDocumentoFinanciero}}",
+    "{{ comprobante.importePendientePago|money_format }}",
+    "{{ comprobante.total|money_format }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

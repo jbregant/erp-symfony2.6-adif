@@ -1,0 +1,39 @@
+<div class="row row_renglon_impuesto_nuevo" style="display: none;">
+    <div class="col-md-4">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_renglonesImpuesto___name___conceptoImpuesto" 
+                        sname="adif_contablebundle_comprobantecompra[renglonesImpuesto][__name__][conceptoImpuesto]" 
+                        class="form-control">
+                    {% for choice_concepto_impuesto in form.renglonesImpuesto.vars.prototype.conceptoImpuesto.vars.choices %}
+                        <option value="{{choice_concepto_impuesto.data.id}}">{{choice_concepto_impuesto.data.denominacion}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesImpuesto___name___detalle" sname="adif_contablebundle_comprobantecompra[renglonesImpuesto][__name__][detalle]" class="form-control" value="">
+            </div>
+        </div>
+    </div>                        
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesImpuesto___name___monto" sname="adif_contablebundle_comprobantecompra[renglonesImpuesto][__name__][monto]" class="form-control currency" value="0" style="padding-right: 10px !important;">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <button class="btn btn-sm red renglon_impuesto_borrar">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>

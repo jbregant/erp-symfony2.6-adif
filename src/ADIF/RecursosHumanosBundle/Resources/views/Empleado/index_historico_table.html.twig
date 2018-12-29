@@ -1,0 +1,38 @@
+{
+"data": [
+{% for empleado in empleados %}
+    [
+    "{{ empleado.id }}",
+    "{{ empleado.id }}",
+    "{{ empleado.nroLegajo }}",
+    "{{ empleado.persona.apellido }}",
+    "{{ empleado.persona.nombre }}",
+    "{{ empleado.persona.cuil }}",
+    "{{ empleado.tiposContrato[0].fechaDesde|date('d/m/Y') }}",
+    "{{ empleado.fechaEgreso|date('d/m/Y') }}",
+    { 
+    "valor" : "{{ empleado.idSubcategoria.idCategoria.idConvenio.nombre }}",
+    "id": "{{ empleado.idSubcategoria.idCategoria.idConvenio.id }}"
+    },
+    "<a target='_blank' href='{{ path('categorias_show',{'id':empleado.idSubcategoria.idCategoria.id}) }}'>{{ empleado.idSubcategoria.idCategoria.nombre }}</a> - <a target='_blank' href='{{ path('subcategorias_show',{'id':empleado.idSubcategoria.id}) }}'>{{ empleado.idSubcategoria.nombre }} {% if(empleado.idSubcategoria.idCategoria.idConvenio.id == 3) %} ( ${{ empleado.idSubcategoria.montoBasico|number_format(2, ',', '.') }}) {% endif %}</a>",
+    {
+    "show" : "{{ path( 'empleados_show', { 'id': empleado.id }) }}"
+    {% if is_granted("ROLE_RRHH_VISTA_GANANCIAS") %}
+        ,"impuesto_ganancias_excel" : "{{ path( 'impuesto_ganancias_excel', { 'id': empleado.id, 'enSesion': 0 }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_F572") %}
+        ,"formulario572_index_empleado" : "{{ path( 'formulario572_index_empleado', { 'id': empleado.id }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_EXPORTAR_F649") %}
+        ,"formulario649" : "{{ path( 'exportacionF649', { 'id': empleado.id }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_RRHH_ALTA_EMPLEADOS") and is_granted("ROLE_DESACTIVAR_ACTIVAR_EMPLEADOS") %}
+        ,"activar" : "{{ path( 'empleados_activar', { 'id': empleado.id, 'activo': 1 }) }}"
+    {% endif %}
+    {% if is_granted("ROLE_IMPRIMIR_RECIBOS_SUELDOS") %}
+        ,"recibos" : "{{ path( 'empleados_recibos', { 'id': empleado.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

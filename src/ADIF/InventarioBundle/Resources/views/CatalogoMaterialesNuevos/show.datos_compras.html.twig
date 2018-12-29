@@ -1,0 +1,104 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Compras</legend>
+    <div class="row">
+    	<div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label"> ¿Sujeto a impuestos?</label>
+                <div class="detalle_show"> {{ entity.sujetoAImpuesto|default('-') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label"> Factor 1</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.factor1|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label"> Factor 2</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.factor2|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label"> Factor 3</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.factor3|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                <label class="control-label"> Factor 4</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.factor4|default('-') }} </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Grupo Aduana</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.grupoAduana|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> Tipo de Impuesto </label>
+                <div class="detalle_show"> {{ entity.tipoImpuesto|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> Unidad de Medida de Compra</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.unidadMedida|default('-') }} </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"> Items por Unidad de Compra </label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.itemPorUnidadCompra|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"> Items de Packaging</label>
+                <div class="detalle_show"> {{ entity.catalogoMaterialesNuevosCompra.unidadMedidaPackaging|default('-') }} </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label"> Medidas</label>
+                <div class="detalle_show"> {{ entity.medida|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label"> Peso </label>
+                <div class="detalle_show"> {{ entity.peso|default('-') }} </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label"> Volumen </label>
+                <div class="detalle_show"> {{ entity.volumen|default('-') }} </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

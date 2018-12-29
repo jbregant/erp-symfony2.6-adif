@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.valor|default('-') }}",
+    "{{ entity.idPropiedad.denominacion|default('-') }}",
+{
+"show" : " {{ path( "propiedadvalor_show", { "id": entity.id }) }}",
+"edit" : " {{ path( "propiedadvalor_edit", { "id": entity.id }) }}",
+"delete" : " {{ path( "propiedadvalor_delete", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

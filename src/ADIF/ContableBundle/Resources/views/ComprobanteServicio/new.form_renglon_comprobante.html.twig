@@ -1,0 +1,121 @@
+<div class="row row_renglon_comprobante_nuevo" style="display: none;">
+    <div class="col-md-3">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___bienEconomico" 
+                        sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][bienEconomico]" 
+                        class="form-control ignore">
+                    {% for choice_bien_economico in form.renglonesComprobante.vars.prototype.bienEconomico.vars.choices %}
+                        <option value="{{ choice_bien_economico.data.id }}">{{ choice_bien_economico.data.denominacionBienEconomico }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___descripcion" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][descripcion]" 
+                       class="form-control ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___cantidad" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][cantidad]" 
+                       class="form-control numberPositive ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="left">
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___precioUnitario" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][precioUnitario]" 
+                       class="form-control numberPositive ignore" data-digits="2" value="">
+            </div>
+        </div>
+    </div>
+    <div class="hidden">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___bonificacionTipo" 
+                        sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][bonificacionTipo]" 
+                        class="form-control ignore">                                            
+                    <option value="porcentaje">porcentaje</option>
+                    <option value="valor">valor</option>
+                </select>
+            </div>
+        </div>
+    </div>                        
+    <div class="hidden">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___bonificacionValor" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][bonificacionValor]" 
+                       class="form-control currency ignore" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___neto" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][montoNeto]" 
+                       class="form-control currency ignore" data-digits="2" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___alicuotaIva" 
+                        sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][alicuotaIva]" 
+                        class="form-control ignore">
+                    {% for choice_alicuota_iva in form.renglonesComprobante.vars.prototype.alicuotaIva.vars.choices %}
+                        <option value="{{choice_alicuota_iva.data.id}}">{{choice_alicuota_iva.data.valor}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_renglonesComprobante___name___montoIva" 
+                       sname="adif_contablebundle_comprobantecompra[renglonesComprobante][__name__][montoIva]" 
+                       class="form-control currency ignore" data-digits="2" value="">
+            </div>
+        </div>
+    </div>    
+    <div class="col-md-1">
+        <div class="col-md-6">
+            <a class="btn btn-sm purple tooltips renglon_comprobante_centro_de_costo" 
+               data-placement="top" data-original-title="Asignar centros de costo">
+                <i class="fa fa-letter">C</i>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <button class="btn btn-sm red renglon_comprobante_borrar">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row_centros_de_costo_renglon" style="display: none;">
+    </div>
+
+</div>

@@ -1,0 +1,27 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity['id'] }}",
+    "{{ entity['id'] }}",
+    {% if entity['fecha_comprobante'] %}"{{ entity['fecha_comprobante'] }}",{% endif %} 
+    {% if entity['id_tipo_comprobante'] != 7 %}
+        {% if entity['letra'] %} "{{ '(' ~ entity['letra'] ~ ') ' ~ entity['numero_completo'] }}", {% else %} "{{ entity['numero_completo'] }}", {% endif %}         
+    {% else %}
+        {% if entity['letra'] %} "{{ 'Cupón (' ~ entity['letra'] ~ ') ' ~ entity['numero_completo'] }}", {% else %} "{{ entity['numero_completo'] }}", {% endif %}         
+    {% endif %}    
+    {% if entity['cuit'] != null %}
+		"{{ entity['razon_social']|escape_json ~ '<br>' ~ entity['cuit'] }}",
+	{% elseif entity['razon_social'] is not null %}
+		"{{ entity['razon_social']|escape_json }}",
+	{% else %}
+		"(Sin datos)",
+	{% endif %}     
+    "{{ entity['numero_contrato']|default('-')  }}",     
+    "{{ entity['saldo']|money_format|default('-') }}",
+    "{{ entity['id_cliente']|default('-') }}",      
+    "{{ entity['id'] }}",
+    "{{ entity['total']|money_format|default('-') }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

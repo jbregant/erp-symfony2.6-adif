@@ -1,0 +1,29 @@
+{% set ConstanteEstadoComprobanteAnulado = constant('ADIF\\ContableBundle\\Entity\\EstadoComprobante::__ESTADO_ANULADO') %}
+{% set ConstanteEstadoOrdenPagoPagado = constant('ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoOrdenPago::ESTADO_PAGADA') %}
+
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fecha ? entity.fecha|date('d/m/Y') : '-' }}",
+    "{{ entity.tipo }}",
+    "{{ entity.idTipo }}",
+    "{{ entity.cuitAndRazonSocial|decode }}",
+    "{{ entity.tramo|escape_json }}",
+    "{{ entity.idTramo }}",
+    "{{ entity.correspondePago ? 'Si' : 'No' }}",
+    "{{ entity.monto|money_format('$', 1, 2) }}",
+    "{{ entity.idEstadoComprobante == ConstanteEstadoComprobanteAnulado ? '1' : '0' }}",
+    {
+    "show" : "{{ path( 'comprobanteobra_show', { 'id': entity.id }) }}"
+    {% if entity.idEstadoComprobante != ConstanteEstadoComprobanteAnulado %}
+        ,"anular" : "{{ path("comprobanteobra_anular", { 'id': entity.id }) }}",
+        "edit" : "{{ path( 'comprobanteobra_edit', { 'id': entity.id }) }}"   
+    {% endif %}
+    },
+    "{{ entity.yaUtilizada ? '1' : '0' }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

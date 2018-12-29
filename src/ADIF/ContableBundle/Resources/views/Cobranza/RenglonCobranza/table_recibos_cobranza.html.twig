@@ -1,0 +1,100 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Recibos</div>
+                </div>
+                
+                <div class="portlet-body">
+                    <div class="table-toolbar" style="margin-top: 3em" id='div-filtro-recibos'> 
+                        <div class="btn-group pull-left col-md-6" style="margin-top: -2.5em">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label">Desde:</label>            
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                               class="form-control datepicker fecha_custom" 
+                                               value="{{ "now"|date_modify("-15 days")|date("d/m/Y") }}">
+                                    </div>            
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">            
+                                    <label for="adif_contablebundle_filtro_fechaFin" class="control-label">Hasta: </label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                               class="form-control datepicker fecha_custom" 
+                                               value="{{ "now"|date_modify("15 days")|date("d/m/Y") }}">
+                                    </div>
+                                </div>
+                            </div>            
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar-recibos">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                    
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                           id="table-recibos" data-toggler="1"
+                           dataexport-title="Recibos_cobranza"
+                           dataexport-title-alternativo="{{ 'Listado de Recibos de Cobranzas (impreso el ' ~ "now"|date("d/m/Y") ~ ' a las ' ~ "now"|date("H:i:s") ~ ' hs.)' }}">
+                        <thead>
+                            <tr class="replace-inputs filter"> 
+                                <th></th>
+                                <th class="not-in-filter"></th>                                
+                                <th data-type="date">Fecha</th>                                
+                                <th>N° de recibo</th>                    
+                                <th>Cuenta bancaria</th>
+                                <th>Referencia</th>
+                                <th>Cliente</th>
+                                <th>Tipo de comprobante</th>
+                                <th>Nro de comprobante</th>
+                                <th>Detalle</th>                                
+                                <th>Importe</th>
+                                <th>Sin imputar</th>
+                                <th class="not-in-filter"></th>                                
+                            </tr>
+                            <tr class="headers">  
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-movimientobancario .checkboxes" />
+                                </th>                                
+                                <th date export-format="date">Fecha</th>
+                                <th>N° de recibo</th>
+                                <th>Cuenta bancaria</th>
+                                <th>Referencia</th>
+                                <th>Cliente</th>
+                                <th>Tipo de comprobante</th>
+                                <th>Nro de comprobante</th>
+                                <th>Detalle</th>
+                                <th export-format="currency" currency>Importe</th>
+                                <th export-format="currency" currency>Sin imputar</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }} 
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'custom/contable/cobranza/rengloncobranza/recibos_cobranza.js') }}" ></script> 
+
+{% endblock %}

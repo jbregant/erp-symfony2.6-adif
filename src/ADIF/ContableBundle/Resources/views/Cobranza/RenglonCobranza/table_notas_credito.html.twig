@@ -1,0 +1,55 @@
+<div class="portlet box blue-madison" id='div-table-notas-credito'>
+    <div class="portlet-title">
+        <div class="caption">
+            Notas de cr&eacute;dito disponibles
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">     
+        <div class="table-toolbar clear"> 
+
+            <div class="btn-group pull-right" id="actualizar-nc">
+                <a class="btn btn-sm green tooltips" data-placement="left" data-original-title="Actualizar listado" href="">
+                    <i class="fa fa-refresh"></i>
+                    Actualizar listado
+                </a>
+            </div>
+        </div>          
+        <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" id="table-notas-credito" dataexport-title="notas_de_credito_para_imputar"
+               dataexport-title-alternativo="{{ 'Listado de Notas de Crédito para imputar (impreso el ' ~ "now"|date("d/m/Y") ~ ' a las ' ~ "now"|date("H:i:s") ~ ' hs.)' }}">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th></th>
+                    <th class="not-in-filter"></th>
+                    <th>Fecha</th>                                    
+                    <th>Numero</th>
+                    <th>Cliente</th>
+                    <th>Contrato</th>
+                    <th>Saldo</th>
+                    <th class="hidden">Id Cliente</th>  
+                    <th class="hidden">Id Comprobante</th>                      
+                    <th class="hidden">Total</th>                      
+
+                </tr>
+                <tr class="headers">
+                    <th class="no-order entity_id"></th>
+                    <th class="text-center table-checkbox no-order">
+                        <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-notas-credito .checkboxes" />
+                    </th>
+                    <th date export-format="date" class="nowrap">Fecha</th>                    
+                    <th>Numero</th>
+                    <th>Cliente</th>
+                    <th>Contrato</th>                   
+                    <th currency export-format="currency" >Saldo</th>                    
+                    <th class="hidden">Id Cliente</th>  
+                    <th class="hidden">Id Comprobante</th>                       
+                    <th class="hidden">Total</th>                      
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>

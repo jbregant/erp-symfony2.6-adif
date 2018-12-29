@@ -1,0 +1,94 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% include('PDF/logo.datos.adif.html.twig') %}
+                <td class="hlt t-center w-25">
+                    <div class="w-100 f-8 t-center">Orden de compra N&ordm;</div>
+                    <div class="w-100 f-12 t-center">{{ ordenCompra.numeroOrdenCompra }}</div>
+                    <hr style="margin-top: 1px; margin-bottom: 1px; color: black">
+                    <div class="w-100 f-8 t-center">Fecha</div>
+                    <div class="w-100 f-12 t-center">{{ ordenCompra.fechaOrdenCompra|date('d/m/Y') }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}    
+    <br>
+    <div class="t-center f-20 bold">Reporte de desv&iacute;o</div>
+
+    <table class="w-100 m-top" border="0" style="margin-top: 8em; margin-left: 5em;">
+        <tbody>
+            <tr>
+                <td width="30%" class="f-14 bold">Requerimiento {{ requerimiento.numero  }}</td>
+                <td class="f-14">Fecha {{ requerimiento.fechaRequerimiento|date('d/m/Y') }}</td>
+            </tr>           
+        </tbody>
+    </table>
+
+    <table class="m-top" border="0" style="margin-left: 7em;">
+        <tbody>
+            {% for cuenta in detalleCuentasPresupuestariasProvisorio %}
+                <tr style="margin-bottom: 1em">
+                    <td class="f-14 bold" style="padding-right: 8em;">{{ cuenta['denominacionCuentaEconomica'] }}</td>
+                    <td class="f-14 bold">{{ cuenta['total']|money_format }}</td>
+                </tr>
+
+                {% if not loop.last %}
+                    <tr style="height: 30px">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="w-100 m-top" border="0" style="margin-top: 2.5em; margin-left: 5em;" >
+        <tbody>
+            <tr style="margin-top: 3em">
+                <td width="30%" class="f-14 bold">Orden de compra {{ ordenCompra.numero|default('-') }}</td>
+                <td class="f-14">Fecha {{ ordenCompra.fechaOrdenCompra|date('d/m/Y') }}</td>
+            </tr>           
+        </tbody>
+    </table>
+
+    <table class="m-top" border="0" style="margin-left: 7em;">
+        <tbody>
+            {% for cuenta in detalleCuentasPresupuestariasDefinitivo %}
+                <tr style="margin-bottom: 1em">
+                    <td class="f-14 bold" style="padding-right: 8em;">{{ cuenta['denominacionCuentaEconomica'] }}</td>
+                    <td class="f-14 bold">{{ cuenta['total']|money_format }}</td>
+                </tr>
+
+                {% if not loop.last %}
+                    <tr style="height: 30px">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="w-100 m-top" border="0" style="margin-top: 10em; margin-left: 5em;" >
+        <tbody>           
+            <tr style="margin-top: 1em">
+                <td width="15%" class="f-18 bold">Desv&iacute;o</td>
+                {% set desvio = totalDefinitivos - totalProvisorios %}
+                <td width="25%" class="f-18 bold">
+                    {{ desvio|money_format }} 
+                </td>
+                <td class="f-18 bold">
+                    {{ (desvio * 100 / totalDefinitivos)|number_format(2, '.', ',') ~ '%' }}                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

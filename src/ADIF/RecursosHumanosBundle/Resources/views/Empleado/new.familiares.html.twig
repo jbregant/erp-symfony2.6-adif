@@ -1,0 +1,229 @@
+<div style="display:none" id="familiares_datos">
+    {% for familiar in empleado.familiares %}
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][id]" value="{{ familiar.id }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][apellido]" value="{{ familiar.persona.apellido }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][nombre]" value="{{ familiar.persona.nombre }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][id_tipo_documento]" value="{{ familiar.persona.idTipoDocumento.id }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][documento]" value="{{ familiar.persona.nroDocumento }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][sexo]" value="{{ familiar.persona.sexo }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][fecha_nacimiento]" value="{{ familiar.persona.fechaNacimiento|date('d/m/Y') }}" type="hidden" >
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][id_tipo_relacion]" value="{{ familiar.idTipoRelacion.id }}" type="hidden">
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][escolaridad]" value="{{ familiar.escolaridad }}" type="hidden">
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][anio_cursa]" value="{{ familiar.anioCursa }}" type="hidden">
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][en_guarderia]" value="{{ familiar.enGuarderia }}" type="hidden">
+    <input name="adif_recursoshumanosbundle_empleado_familiar[{{ loop.index }}][a_cargo_os]" value="{{ familiar.aCargoOS }}" type="hidden">
+    {% endfor %}
+</div>
+
+<div class="row" class="row_familiares">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_apellido" class="control-label">Apellido</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class=" form-control required" maxlength="255" required="required" id="familiar_apellido" name="familiar_apellido">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_nombre" class="control-label">Nombre</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class=" form-control required " maxlength="255" required="required" id="familiar_nombre" name="familiar_nombre">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_tipo_documento" class="control-label">Tipo de documento</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="form-control choice required " required="required" name="familiar_tipo_documento" id="familiar_tipo_documento"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_documento" class="control-label">DNI</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control required" maxlength="255" required="required" name="familiar_documento" id="familiar_documento">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_sexo" class="control-label">Sexo</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="form-control choice" name="familiar_sexo" id="familiar_sexo">
+                        <option value="F">Femenino</option>
+                        <option value="M">Masculino</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_fecha_nacimiento" class="control-label">Fecha de nacimiento</label>
+            <div class="input-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class=" form-control  datepicker required" required="required" id="familiar_fecha_nacimiento" name="familiar_fecha_nacimiento">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" class="row_familiares">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_escolaridad" class="control-label">Escolaridad</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control" maxlength="255" required="required" name="familiar_escolaridad" id="familiar_escolaridad">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_anio_cursa" class="control-label">A&ntilde;o que cursa</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control" maxlength="255" required="required" name="familiar_anio_cursa" id="familiar_anio_cursa">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_en_guarderia" class="control-label">En guarder&iacute;a</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="form-control choice" name="familiar_en_guarderia" id="familiar_en_guarderia">
+                        <option value="0" selected>No</option>
+                        <option value="1">Si</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_a_cargo_os" class="control-label">A cargo OS</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="form-control choice" name="familiar_a_cargo_os" id="familiar_a_cargo_os">
+                        <option value="0" selected>No</option>
+                        <option value="1">Si</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="familiar_id_tipo_relacion" class="control-label">Relaci&oacute;n</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select class="form-control choice required" required="required" name="familiar_id_tipo_relacion" id="familiar_id_tipo_relacion"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="width-100">&nbsp;</label>
+            <button class="btn green width-100" id="familiar_agregar">
+                <i class="fa fa-plus"></i>
+                <span id="familiar_agregar_text">Agregar</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-book"></i>Familiares actuales
+                </div>
+                <div class="tools">
+                    <a class="collapse" href="javascript:;"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover  table-striped " id="familiar_familiares_table">
+                        <thead>
+                            <tr>
+                                <th>Apellido y nombre</th>
+                                <th>Documento</th>
+                                <th>Sexo</th>
+                                <th>Fecha de nacimiento</th>
+                                <th>Relaci&oacute;n</th>
+                                <th>Escolaridad</th>
+                                <th>A&ntilde;o que cursa</th>
+                                <th>En guarder&iacute;a</th>
+                                <th>A cargo OS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for familiar in empleado.familiares %}
+                            <tr tr_index="{{ loop.index }}">
+                                <td>{{ familiar.persona.apellido ~ ', ' ~ familiar.persona.nombre }}</td>
+                                <td>{{ familiar.persona.nroDocumento }}</td>
+                                <td>{{ familiar.persona.sexo == 'M' ? 'Masculino' : 'Femenino' }}</td>
+                                <td>{{ familiar.persona.fechaNacimiento|date('d/m/Y') }}</td>
+                                <td>{{ familiar.idTipoRelacion }}</td>
+                                <td>{{ familiar.escolaridad }}</td>
+                                <td>{{ familiar.anioCursa }}</td>
+                                <td>{{ familiar.enGuarderia ? 'SI' : 'NO' }}</td>
+                                <td>{{ familiar.aCargoOS ? 'SI' : 'NO' }}</td>
+                                <td>
+                                    <a class="btn default btn-xs red familiar_borrar" >
+                                        <i class="fa fa-trash-o"></i> Borrar
+                                    </a>
+                                    <a class="btn default btn-xs green familiar_editar" >
+                                        <i class="fa fa-pencil"></i> Editar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

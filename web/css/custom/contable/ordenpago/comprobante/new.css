@@ -1,0 +1,37 @@
+
+ul.item-comprobante {
+    padding: 0;
+}
+
+ul.item-comprobante .block-comprobante {
+    display: list-item;
+    padding: 0;
+    margin: 0 0 1em 2.5em
+}
+
+ul.item-comprobante .block-comprobante i { 
+    margin-top: .2em;
+}
+
+ul.item-comprobante .block-comprobante .comprobante-fecha {
+    margin-left: .5em;
+    width: 100px;
+}
+
+ul.item-comprobante .block-comprobante .comprobante-tipo-comprobante{
+    width: 170px;
+}
+
+ul.item-comprobante .block-comprobante .comprobante-numero{
+    width: 120px;
+}
+
+ul.item-comprobante .block-comprobante span,
+ul.item-comprobante .block-comprobante i {
+    display: inline-block;    
+    /*float: left;*/
+}
+
+.col-regimenes-aplicados legend {
+    margin-bottom: 15px !important;
+}

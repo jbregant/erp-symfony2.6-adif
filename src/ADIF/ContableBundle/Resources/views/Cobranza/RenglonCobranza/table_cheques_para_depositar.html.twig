@@ -1,0 +1,198 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />    
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+
+    {{ parent() }}   
+
+    <link href="{{ asset(css_path ~ 'custom/contable/conciliacionbancaria/conciliacion/edit.css') }}" rel="stylesheet" type="text/css" />
+
+    {#    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />#}
+
+{% endblock%}    
+
+{% block body -%}
+    <div class="row" style="margin-bottom: 10px"> 
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="adif_contablebundle_filtro_fechaInicio" class="control-label">Desde:</label>            
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input id="cheques_desde" class="form-control datepicker fecha_custom" name="adif_contablebundle_filtro[fechaInicio]" required="required" value="{{ "now"|date_modify("-30 day")|date("d/m/Y") }}" type="text">
+                </div>            
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="form-group">            
+                <label for="adif_contablebundle_filtro_fechaFin" class="control-label">Hasta: </label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="cheques_hasta" 
+                           name="adif_contablebundle_filtro[fechaFin]" 
+                           class="form-control datepicker" value="{{ "now"|date("d/m/Y") }}">
+                </div>
+            </div>
+        </div>            
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">&nbsp;</label>
+                <button class="btn btn-small blue-hoki form-control" id="filtrar-cheques">
+                    Filtrar
+                </button>
+            </div>
+        </div>
+    </div>    
+    <div class="portlet box blue-madison">
+        <div class="portlet-title">
+            <div class="caption">
+                Cheques de clientes para depositar
+            </div>
+            <div class="tools">
+                <a class="collapse" href="javascript:;"></a>
+            </div>
+        </div>
+        <div class="portlet-body"> 
+
+            <div class="row" style="margin-bottom: 10px" id='div-filtro-recibos'> 
+                <div class="col-md-3">
+                    <div id="actualizar" class="form-group pull-left"><label class="control-label" for="aaa"></label><div>                    
+                            <a  href="" data-original-title="Depositar" class="btn green tooltips">
+                                <i class="fa fa-refresh"></i>
+                                Actualizar listado
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group" id="div_fecha"  style="display:none">
+                        <label class="control-label">Fecha:</label>            
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="fecha" class="form-control datepicker fecha_custom" value="{{ "now"|date("d/m/Y") }}">
+                        </div>            
+                    </div>
+                </div>  
+                <div class="col-md-4">
+                    <div class="form-group" id="div_cuenta"  style="display:none">
+                        <label class="control-label required" for="select_cuenta_multiple">Cuenta:</label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+
+                        </div>
+                    </div>
+                </div>                          
+                <div class="col-md-2">
+                    <div id="deshacer" class="form-group pull-right"  style="display:none"><label class="control-label" for="aaa"></label><div>                    
+                            <a  href="" data-original-title="Deshacer" class="btn red accion-borrar tooltips">
+                                <i class="fa fa-times"></i>
+                                Deshacer
+                            </a>
+                        </div>
+                    </div>
+                    <div id="depositar" class="form-group pull-right"  style="display:none"><label class="control-label" for="aaa"></label><div>                    
+                            <a  href="" data-original-title="Depositar" class="btn green tooltips">
+                                <i class="fa fa-money"></i>
+                                Depositar
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>    
+
+
+            <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" id="table-cheques-para-depositar">{# dataexport-title="Cheques">#}
+                <thead>
+                    <tr class="replace-inputs filter">
+                        <th></th>
+                        <th class="not-in-filter"></th>
+                        <th>Fecha de cheque</th>                    
+                        <th>Banco emisor</th>                    
+                        <th>N&uacute;mero</th>
+                        <th>Monto</th>
+                        <th>Recibido</th>  
+                        <th>N° de recibo</th>                           
+                        <th>Cuenta bancaria</th>                     
+                        <th>Fecha de dep&oacute;sito</th>                                 
+                        <th class="not-in-filter hidden">Id Cheque</th>                       
+                        <th class="not-in-filter hidden">Id Banco</th>                       
+                    </tr>
+                    <tr class="headers">
+                        <th class="no-order entity_id"></th>
+                        <th class="text-center table-checkbox no-order">
+                            <input type="checkbox" class="group-checkable not-checkbox-transform" data-set="#table-cheques-para-depositar .checkboxes" />
+                        </th>
+                        <th date export-format="date" class="nowrap">Fecha de cheque</th>
+                        <th>Banco emisor</th>                    
+                        <th>N&uacute;mero</th>
+                        <th>Monto</th>   
+                        <th date export-format="date" class="nowrap">Recibido</th>
+                        <th>N° de recibo</th>                        
+                        <th>Cuenta bancaria</th>  
+                        <th>Fecha de dep&oacute;sito</th>                  
+                        <th class="hidden">Id Cheque</th>                       
+                        <th class="hidden">Id Banco</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+
+
+    {% endblock %}
+
+    {% block javascripts %}
+
+        {{ parent() }}    
+
+
+
+
+        <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>   
+
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+
+        {#validacion form#}
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+        <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script> 
+
+        {#    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>#}
+
+        <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+        <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+
+        <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+
+        <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+
+        <script src="{{ asset('js/custom/contable/asientocontable/editar_fecha.js') }}" ></script>
+
+        <script type="text/javascript">
+            var cuentas = {{ cuentas|json_encode|raw }} ;</script>  
+
+        <script src="{{ asset(js_path ~ 'custom/contable/cobranza/rengloncobranza/cheques.js') }}" ></script> 
+
+        {#    <script type="text/javascript">
+                document.body.classList.add('compact');
+            </script>#}
+
+    {% endblock %}

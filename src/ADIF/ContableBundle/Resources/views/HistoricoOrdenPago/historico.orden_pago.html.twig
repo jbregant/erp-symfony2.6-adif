@@ -1,0 +1,77 @@
+
+{% set tipo = ordenPago.numeroOrdenPago is not null ? 'Orden de pago' : 'Autorizaci&oacute;n contable'  %}
+
+{% set numero = ordenPago.numeroOrdenPago is not null ? ordenPago.numeroOrdenPago : ordenPago.numeroAutorizacionContable %}
+
+{% set fecha = ordenPago.numeroOrdenPago is not null ? ordenPago.fechaOrdenPago : ordenPago.fechaAutorizacionContable %}
+
+<li class="timeline-blue">
+    <div class="timeline-time">
+        <span class="time">{{ tipo ~ ' n&deg; ' ~ numero }}</span>
+        <span class="date">
+            {{ fecha|date('d/m/y') }}
+        </span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    {{ tipo ~ ' n&deg; ' ~ numero }}
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  ordenPago.estadoOrdenPago ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( ordenPago.path ~ '_show', { 'id': ordenPago.id }) }}" target="_blank">Ver detalle</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+
+                {% if ordenPago.numeroOrdenPago is not null %}
+                    <p class="col-md-7">
+                        <span class="bold">Autorizaci&oacute;n contable n&deg;: </span>{{ ordenPago.numeroAutorizacionContable|default('-') }}
+                    </p>
+                    <p class="col-md-5">
+                        <span class="bold">Fecha autorizaci&oacute;n contable: </span>{{ ordenPago.fechaAutorizacionContable|date('d/m/Y') }}
+                    </p>
+                {% endif %}
+
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Beneficiario: </span>{{ ordenPago.beneficiario|default('-') }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+					{% if not ordenPago.estaAnulada %}
+						<span class="bold">Monto neto: </span>{{ ordenPago.montoNeto|money_format }}
+					{% else %}
+						{% if ordenPagoLog != null %}
+							<span class="bold">Monto neto: </span>{{ ordenPagoLog.totalNeto|money_format }}
+						{% else %}
+							<span class="bold">Monto neto: </span>{{ ordenPago.montoNeto|money_format }}
+						{% endif %}
+					{% endif %}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Concepto: </span>{{ ordenPago.concepto|default('-') }}
+                </p>
+                {% if ordenPago.pagoOrdenPago is not null %}                    
+                    <p class="col-md-5 margin-top-10">
+                        <span class="bold">Estado pago: </span>{{ ordenPago.pagoOrdenPago.estadoPago|default('-') }}
+                    </p>
+                    <p class="col-md-7 margin-top-10">
+                        <span class="bold">Detalle pago: </span>{{ ordenPago.pagoOrdenPago.netCash is not null ? ordenPago.pagoOrdenPago.netCash.estadoNetCash : ordenPago.pagoOrdenPago.estadoPago|default('-') }}
+                    </p>
+                    <p class="col-md-5 margin-top-10">
+                        <span class="bold">Fecha pago: </span>{{ ordenPago.pagoOrdenPago.fechaPago|date('d/m/Y') }}
+                    </p>
+                    <p class="col-md-12 margin-top-10">
+                        <span class="bold">Cuenta bancaria: </span>{{ ordenPago.pagoOrdenPago.cuentaBancariaADIF|default('-') }}
+                    </p>
+                {% endif %}
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

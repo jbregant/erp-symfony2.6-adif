@@ -1,0 +1,67 @@
+<div class="div_ctn_seccion" style="min-height: 45px">
+    <div class="btn btn-info btn-sm label_seccion">Comprobantes</div>
+
+    <div class="row" style="margin-top: 2em">
+        <div class="col-md-12">
+            <div class="export-tools">
+            </div>
+            <br>
+            <br>
+            <table 
+                class="table table-bordered table-striped table-condensed datatable export-custom" 
+                id="table-comprobantes"
+                dataexport-title="rendicion">
+                <thead>
+                    <tr class="headers">
+                        <th class="no-order entity_id"></th>
+                        <th date class="nowrap">Fecha</th>
+                        <th class="nowrap">Comprobante</th>
+                        <th class="nowrap">N&uacute;mero</th>
+                        <th class="nowrap">Conceptos</th>
+                        <th>Proveedor</th>
+                        <th currency class="nowrap">Total</th>
+                        <th class="text-center no-order ctn_acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comprobante in comprobantes %}
+                        <tr>
+                            <td>{{ comprobante.id }}</td>
+                            <td class="nowrap">{{ comprobante.fecha|date('d/m/Y') }}</td>
+                            <td class="nowrap">{{ comprobante.tipoComprobante }}</td>
+                            <td class="nowrap">{{ comprobante.numero }}</td>
+                            <td class="nowrap">
+                                {% if comprobante.conceptosEgresoValor is defined %}
+                                    {% for concepto in comprobante.conceptosEgresoValor %}
+                                        {{- concepto|trim -}} 
+                                        {%- if not loop.last -%}
+                                        <span class="color-white"> | </span><hr class="margin-0">
+                                        {%- endif -%}
+                                    {% endfor %}
+                                {% else %}
+                                    Devoluci&oacute;n
+                                {% endif %}
+                            </td>
+                            <td>{{ comprobante.proveedor }}</td>
+                            <td class="nowrap total-comprobante">{{ comprobante.importe|money_format }}</td>
+                            <td class="ctn_acciones text-center nowrap">
+                                <a href="{{ comprobante.link_show }}" 
+                                   class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a href="{{ comprobante.link_edit }}" 
+                                   class="btn btn-xs green tooltips {{ comprobante.class_edit }}" data-original-title="Editar">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="{{ comprobante.link_borrar }}" 
+                                   class="btn btn-xs red tooltips accion-borrar" data-original-title="Eliminar">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Rengl&oacute;n de licitaci&oacute;n</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar"></div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content 
+                        datatable dt-multiselect export-excel" 
+                        id="table-renglones_licitacion" dataexport-title="renglones_licitacion">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Licitaci&oacute;n</th>
+                                <th>Proveedor</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Total contrato</th>
+                                <th>Saldo pendiente</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-renglones_licitacion .checkboxes" />
+                                </th>
+                                <th>Licitaci&oacute;n</th>
+                                <th>Proveedor</th>
+                                <th>Descripci&oacute;n</th>
+                                <th currency>Total contrato</th>
+                                <th currency>Saldo pendiente</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+                                    <td>{{ entity.licitacion }}</td>
+                                    <td>{{ entity.proveedor.cuitAndRazonSocial }}</td>
+                                    <td>{{ entity.descripcion }}</td>
+                                    <td>{{ entity.totalContrato|money_format }}</td>
+                                    <td>{{ entity.saldo|money_format }}</td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href=" {{ path( 'obras_tramos_show', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        {% if(entity.comprobantes.isEmpty) %}
+                                            <a href=" {{ path( 'obras_tramos_edit', { 'id': entity.id }) }} " 
+                                               class="btn btn-xs green tooltips" data-original-title="Editar">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

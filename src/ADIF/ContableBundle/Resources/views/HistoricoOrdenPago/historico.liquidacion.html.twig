@@ -1,0 +1,37 @@
+<li class="timeline-red">
+    <div class="timeline-time">
+        <span class="time">
+            Liquidaci&oacute;n n&ordm; {{ liquidacion.numero }} - {{ liquidacion.fechaCierreNovedades|localizeddate('full','none',app.request.locale,null,'MMMM')|upper }}
+        </span>
+        <span class="date">{{ liquidacion.fechaCierreNovedades|date('d/m/Y') }}</span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    Liquidaci&oacute;n n&ordm; {{ liquidacion.numero }} - {{ liquidacion.fechaCierreNovedades|localizeddate('full','none',app.request.locale,null,'MMMM')|upper }}
+                </span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( 'liquidaciones_show', { 'id': liquidacion.id }) }}" target="_blank">Ver detalle</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-3">
+                    <span class="bold">Tipo: </span>{{ liquidacion.tipoLiquidacion|default('-') }}
+                </p>
+                <p class="col-md-4">
+                    <span class="bold">Cierre de novedades: </span>{{ liquidacion.fechaCierreNovedades|date('d/m/Y') }}
+                </p>
+                <p class="col-md-3">
+                    <span class="bold">Cant. empleados: </span>{{ liquidacion.liquidacionEmpleados|length() }}
+                </p>
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

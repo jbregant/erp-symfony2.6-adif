@@ -1,0 +1,18 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.codigo|default('-') }}", 
+    "{{ entity.denominacionEstado|default('-') }}", 
+    "{{ entity.descripcionEstado|default('-') }}", 
+    {
+    "show" : " {{ path( "estadotramo_show", { "id": entity.id }) }}"
+    {% if entity.esEditable %}
+        , "edit" : " {{ path( "estadotramo_edit", { "id": entity.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

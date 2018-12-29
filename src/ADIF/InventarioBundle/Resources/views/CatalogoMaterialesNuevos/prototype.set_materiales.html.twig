@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-6 form_field">
+      <div class="form-group">
+          {{ form_label(setMaterial.IdComponente) }}
+          <div class="form_field">
+              {{ form_widget(setMaterial.IdComponente) }}
+          </div>
+      </div>
+  </div>
+  <div class="col-md-2 form_field">
+      <div class="form-group">
+          {{ form_label(setMaterial.cantidad) }}
+          <div class="form_field">
+              {{ form_widget(setMaterial.cantidad) }}
+          </div>
+      </div>
+  </div>
+  <div class="col-md-1">
+      <a href="#" class="btn btn-sm red delete-link-inline
+         prototype-link-remove-set-material accion-borrar"
+         data-placement="top" data-original-title="Eliminar Material">
+          <i class="fa fa-times-circle"></i>
+      </a>
+  </div>
+</div>

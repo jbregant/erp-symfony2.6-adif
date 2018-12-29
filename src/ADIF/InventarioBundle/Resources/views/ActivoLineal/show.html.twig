@@ -1,0 +1,189 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/inventario/activolineal/show.js') }}" ></script>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del Activo Lineal: <strong>{{ entity.numeroInterno }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="tabbable-custom nav-justified">
+
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active">
+                        <a href="#tab_1" data-toggle="tab">General </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_2" data-toggle="tab">Atributos </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_3" data-toggle="tab">Propiedades </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_4" data-toggle="tab">Relevamiento </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_5" data-toggle="tab">Activo Fijo </a>
+                    </li>
+                     <li class="">
+                        <a href="#tab_6" data-toggle="tab">Im&aacute;genes </a>
+                    </li>
+                </ul>
+
+                <div class="portlet box blue" style="margin-top:20px;">
+                    <div class="portlet-title">
+                        <div class="caption">Datos Generales</div>
+
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <div class="form-body">
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Número Interno</label>
+                                        <div class="detalle_show">{{ entity.numeroInterno|default('-') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Operador</label>
+                                        <div class="detalle_show">{{ entity.operador }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Línea</label>
+                                        <div class="detalle_show">{{ entity.linea }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Estado de Conservación</label>
+                                        <div class="detalle_show">{{ entity.estadoConservacion|default('-') }}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Ramal</label>
+                                        <div class="detalle_show">{{ entity.ramal }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">División</label>
+                                        <div class="detalle_show">{{ entity.division }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Corredor</label>
+                                        <div class="detalle_show">{{ entity.corredor }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Estado de Inventario</label>
+                                        <div class="detalle_show">{{ entity.estadoInventario }}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de Vía</label>
+                                        <div class="detalle_show">{{ entity.tipoVia|default('-') }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Progresiva Inicio Tramo</label>
+                                        <div class="detalle_show">{{ entity.progresivaInicioTramo|number_format(3,',','') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Progresiva Final Tramo</label>
+                                        <div class="detalle_show">{{ entity.progresivaFinalTramo|number_format(3,',','') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Kilometraje</label>
+                                        <div class="detalle_show">{{ entity.kilometraje|number_format(3,',','') }}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" style="border: transparent; padding: 0;">
+
+                    {# TAB 1 - General #}
+                    <div id="tab_1" class="tab-pane active">
+                        {% include('@ADIFInventario/ActivoLineal/show.datos_generales.html.twig') %}
+                    </div>
+
+                    {# TAB 2 - Atributos #}
+                    <div id="tab_2" class="tab-pane">
+                        {% include('@ADIFInventario/ActivoLineal/show.atributos.html.twig') %}
+                    </div>
+
+                    {# TAB 3 - Propiedades #}
+                    <div id="tab_3" class="tab-pane">
+                        {% include('@ADIFInventario/ActivoLineal/show.propiedades.html.twig') %}
+                    </div>
+
+                    {# TAB 4 - Relevamiento #}
+                    <div id="tab_4" class="tab-pane">
+                        <!-- include('@ADIFInventario/ActivoLineal/show.relevamiento.html.twig') %}-->
+                    </div>
+
+                    {# TAB 5 - Activo Fijo #}
+                    <div id="tab_5" class="tab-pane">
+                        {% include('@ADIFInventario/ActivoLineal/show.activo_fijo.html.twig') %}
+                    </div>
+                    {# TAB 6 - Fotos #}
+                    <div id="tab_6" class="tab-pane">
+                        {% include('@ADIFInventario/ActivoLineal/show.datos_fotos.html.twig') %}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"
+                        back-url="{{ path('activolineal') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

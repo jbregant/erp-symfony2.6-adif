@@ -1,0 +1,38 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Obras
+    </a>
+    <ul class="dropdown-menu">
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_OBRAS_FUENTE_FINANCIAMIENTO') %}
+            <li>
+                <a href="{{ path('fuentefinanciamiento') }}">
+                    Fuentes de financiamiento
+                </a>
+            </li>  
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_OBRAS_CATEGORIA_OBRA') %}
+            <li>
+                <a href="{{ path('categoriaobra') }}">
+                    Categor&iacute;as de obra
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_OBRAS_TIPO_OBRA') %}
+            <li>
+                <a href="{{ path('obras_tiposobra') }}">
+                    Tipos de obra
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_OBRAS_TIPO_DOCUMENTO_FINANCIERO') %}
+            <li>
+                <a href="{{ path('tipodocumentofinanciero') }}">
+                    Tipos de documento financiero
+                </a>
+            </li>  
+        {% endif %}      
+    </ul>
+</li>

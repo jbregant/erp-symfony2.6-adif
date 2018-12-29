@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del anticipo de consultor
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha</label>
+                        <div class="detalle_show">{{ entity.fecha|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Consultor</label>
+                        <div class="detalle_show">{{ entity.consultor }}</div>
+                    </div>
+                </div>            
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Contrato</label>
+                        <div class="detalle_show">{{ entity.contrato }}</div>
+                    </div>
+                </div>            
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Monto</label>
+                        <div class="detalle_show">{{ entity.monto|money_format }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('anticiposcontratoconsultoria') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

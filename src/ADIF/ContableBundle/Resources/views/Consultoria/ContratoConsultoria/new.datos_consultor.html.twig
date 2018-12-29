@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-group">
+            {{ form_label(form.consultor) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.consultor) }}
+                {{ form_widget(form.idConsultor) }}
+            </div>
+        </div>
+    </div>                     
+    <div class="col-md-5">
+        <div class="form-group">
+            {{ form_label(form.consultor_razonSocial) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.consultor_razonSocial) }}
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.consultor_cuit) }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.consultor_cuit) }}
+            </div>
+        </div>
+    </div>
+</div>

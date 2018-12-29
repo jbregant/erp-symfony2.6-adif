@@ -1,0 +1,45 @@
+<div class="formulario-comprobante cleardiv" style="display: none">
+
+    {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+    {% include ':Form:fieldsErrors.html.twig' %}
+
+    {% if edit %} 
+        <input type="hidden" name="_method" value="PUT" />
+    {% endif %} 
+
+    {# Datos del Proveedor #}
+    {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.datos_proveedor.html.twig') %}
+
+    {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.header.html.twig') %}
+
+    <div class="div_ctn_seccion" style="min-height: 45px">
+        <div class="btn btn-info btn-sm label_seccion">Detalle</div>
+        {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.agregar_renglon_comprobante.html.twig') %}
+    </div>     
+
+    <div class="div_ctn_seccion">
+        <div class="btn btn-info btn-sm label_seccion">Percepciones e impuestos</div>
+        <div class="row">
+            {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.agregar_impuesto.html.twig') %}
+
+            {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.agregar_percepcion.html.twig') %}
+        </div>
+    </div>
+
+    {% include('@ADIFContable/Comprobante/new.footer.html.twig') %}
+
+    <div class="form-actions">
+        <div class="pull-left">
+            <button type="button" class="btn default button-back" 
+                    back-url="{{ path('egresovalor') }}">Cancelar</button>
+        </div>
+        <div class="pull-right">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+        </div>
+    </div>
+
+    {{ form_widget(form._token) }}
+
+    {{ form_end(form, {"render_rest": false}) }}
+</div>

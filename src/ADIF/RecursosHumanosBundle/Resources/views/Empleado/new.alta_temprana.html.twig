@@ -1,0 +1,437 @@
+<div id="tipo_contratacion_datos" style="display:none;"></div>
+<div class="row">
+    <div class="col-md-6 clearfix">
+        <div class="form-group">
+            {{ form_label(form.condicion, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.condicion) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="adif_recursoshumanosbundle_empleado_tiposContrato">
+    <div class="col-md-12 clearfix">
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Tipo de contrataci&oacute;n</legend>
+            {% if edit %}<a id="empleado_tiposContrato_historial" class="btn btn-info btn-history pull-right"><i class="fa fa-history"></i> Historial</a>{% endif %}
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button class="btn green tipo_contrato_agregar">
+                            <i class="fa fa-plus"></i>
+                            Agregar tipo de contrataci&oacute;n
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row row_headers_tipo_contrato" {{form.tiposContrato|length == 0 ? 'style="display:none"' : '' }}>
+                <div class="col-md-3">
+                    <label class="control-label required">Tipo de contrato</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label required">Inicio</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label">Fin</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label">Descripcion</label>
+                </div>
+            </div>
+                        
+            <div class="row row_tipo_contrato_nuevo" style="display: none;">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <select id="adif_recursoshumanosbundle_empleado_tiposContrato___name___tipoContrato" 
+                                    sname="adif_recursoshumanosbundle_empleado[tiposContrato][__name__][tipoContrato]" 
+                                    class="form-control">
+                                    {% for choice_tipo_contrato in form.tiposContrato.vars.prototype.tipoContrato.vars.choices %}
+                                        <option value="{{choice_tipo_contrato.data.id}}">{{choice_tipo_contrato.data.codigo}} - {{choice_tipo_contrato.data.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                <input type="text" id="adif_recursoshumanosbundle_empleado_tiposContrato___name___fechaDesde" sname="adif_recursoshumanosbundle_empleado[tiposContrato][__name__][fechaDesde]" required="required" class="form-control datepicker" value="{{"now"|date('d/m/Y')}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                <input type="text" id="adif_recursoshumanosbundle_empleado_tiposContrato___name___fechaHasta" sname="adif_recursoshumanosbundle_empleado[tiposContrato][__name__][fechaHasta]" class="form-control  datepicker" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_recursoshumanosbundle_empleado_tiposContrato___name___descripcion" sname="adif_recursoshumanosbundle_empleado[tiposContrato][__name__][descripcion]" class="form-control" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <button class="btn red tipo_contrato_borrar">
+                            <i class="fa fa-trash-o"></i>
+                            Borrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ctn_rows_tipo_contrato">
+                {% for tipoContrato in form.tiposContrato %}
+                <div class="row row_tipo_contrato">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoContrato.tipoContrato) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoContrato.fechaDesde) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoContrato.fechaHasta) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoContrato.descripcion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <button class="btn red tipo_contrato_borrar">
+                                <i class="fa fa-trash-o"></i>
+                                Borrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <div>
+                    <input style="display:none;" type="text" id="adif_recursoshumanosbundle_empleado_tiposContrato_count" name="adif_recursoshumanosbundle_empleado_tiposContrato_count" value="{{ form.tiposContrato|length }}" />
+                </div>
+            </div>
+                
+        </fieldset>
+    </div>        
+</div>
+            
+<div class="row"  id="adif_recursoshumanosbundle_empleado_obrasSociales">
+    <div class="col-md-12 clearfix">
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Licenciamiento</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button class="btn green tipo_licencia_agregar">
+                            <i class="fa fa-plus"></i>
+                            Agregar licencia
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row row_headers_tipo_licencia" {{form.tiposLicencia|length == 0 ? 'style="display:none"' : '' }}>
+                <div class="col-md-3">
+                    <label class="control-label required">Tipo de licencia</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label required">Inicio</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label required">Fin</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label">Observaci&oacute;n</label>
+                </div>
+            </div>
+            
+            <div class="row row_tipo_licencia_nuevo" style="display: none;">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <select id="adif_recursoshumanosbundle_empleado_tiposLicencia___name___tipoLicencia" 
+                                    sname="adif_recursoshumanosbundle_empleado[tiposLicencia][__name__][tipoLicencia]" 
+                                    class="form-control">
+                                    {% for choice_tipo_licencia in form.tiposLicencia.vars.prototype.tipoLicencia.vars.choices %}
+                                        <option value="{{choice_tipo_licencia.data.id}}">{{choice_tipo_licencia.data.codigo}} - {{choice_tipo_licencia.data.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                <input type="text" id="adif_recursoshumanosbundle_empleado_tiposLicencia___name___fechaDesde" sname="adif_recursoshumanosbundle_empleado[tiposLicencia][__name__][fechaDesde]" required="required" class="form-control datepicker" value="{{"now"|date('d/m/Y')}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                <input type="text" id="adif_recursoshumanosbundle_empleado_tiposLicencia___name___fechaHasta" sname="adif_recursoshumanosbundle_empleado[tiposLicencia][__name__][fechaHasta]" required="required" class="form-control datepicker" value="{{"now"|date('d/m/Y')}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_recursoshumanosbundle_empleado_tiposLicencia___name___observaciones" sname="adif_recursoshumanosbundle_empleado[tiposLicencia][__name__][observaciones]" class="form-control" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <button class="btn red tipo_licencia_borrar">
+                            <i class="fa fa-trash-o"></i>
+                            Borrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ctn_rows_tipo_licencia">
+                {% for tipoLicencia in form.tiposLicencia %}
+                <div class="row row_tipo_licencia">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoLicencia.tipoLicencia) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoLicencia.fechaDesde) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoLicencia.fechaHasta) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(tipoLicencia.observaciones) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <button class="btn red tipo_licencia_borrar">
+                                <i class="fa fa-trash-o"></i>
+                                Borrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <div>
+                    <input style="display:none;" type="text" id="adif_recursoshumanosbundle_empleado_tiposLicencia_count" name="adif_recursoshumanosbundle_empleado_tiposLicencia_count" value="{{ form.tiposLicencia|length }}" />
+                </div>
+            </div>
+        </fieldset>
+    </div>        
+</div>
+
+<div class="row">
+    <div class="col-md-12 clearfix">
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Obra social</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button class="btn green obra_social_agregar">
+                            <i class="fa fa-plus"></i>
+                            Agregar obra social
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row row_headers_obra_social" {{form.obrasSociales|length == 0 ? 'style="display:none"' : '' }}>
+                <div class="col-md-5">
+                    <label class="control-label required">Obra social</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label required">Inicio</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label">Fin</label>
+                </div>
+            </div>
+            
+            <div class="row row_obra_social_nuevo" style="display: none;">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <select id="adif_recursoshumanosbundle_empleado_obrasSociales___name___obraSocial" 
+                                    sname="adif_recursoshumanosbundle_empleado[obrasSociales][__name__][obraSocial]" 
+                                    class="form-control">
+                                    {% for choice_obra_social in form.obrasSociales.vars.prototype.obraSocial.vars.choices %}
+                                        <option value="{{choice_obra_social.data.id}}">{{choice_obra_social.data.codigo}} - {{choice_obra_social.data.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_recursoshumanosbundle_empleado_obrasSociales___name___fechaDesde" sname="adif_recursoshumanosbundle_empleado[obrasSociales][__name__][fechaDesde]" required="required" class="form-control datepicker" value="{{"now"|date('d/m/Y')}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_recursoshumanosbundle_empleado_obrasSociales___name___fechaHasta" sname="adif_recursoshumanosbundle_empleado[obrasSociales][__name__][fechaHasta]" class="form-control datepicker" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <button class="btn red obra_social_borrar">
+                            <i class="fa fa-trash-o"></i>
+                            Borrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ctn_rows_obra_social">
+                {% for obraSocial in form.obrasSociales %}
+                <div class="row row_obra_social">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(obraSocial.obraSocial) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(obraSocial.fechaDesde) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(obraSocial.fechaHasta) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <button class="btn red obra_social_borrar">
+                                <i class="fa fa-trash-o"></i>
+                                Borrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <div>
+                    <input style="display:none;" type="text" id="adif_recursoshumanosbundle_empleado_obrasSociales_count" name="adif_recursoshumanosbundle_empleado_obrasSociales_count" value="{{ form.obrasSociales|length }}" />
+                </div>
+            </div>
+        </fieldset>
+    </div>        
+</div>
+{% if edit %}
+    <div id="ctn_historial_contrataciones" style="display: none;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover table-striped  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha inicio</th>
+                                <th>Fecha fin</th>
+                                <th>Tipo de contrataci&oacute;n</th>
+                                <th>Descripci&oacute;n</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tipoContrato in empleado.tiposContrato %}
+                                <tr tr_index="{{ loop.index }}">
+                                    <td width="150px" class="text-center">{{ tipoContrato.fechaDesde|date('d/m/Y') }}</td>
+                                    <td width="150px" class="text-center">{{ tipoContrato.fechaHasta ? tipoContrato.fechaHasta|date('d/m/Y') : '<span class="label label-sm label-success">Actual</span>' }}</td>
+                                    <td class="">{{ tipoContrato.tipoContrato ? tipoContrato.tipoContrato : '--' }}</td>
+                                    <td class="">{{ tipoContrato.descripcion ? tipoContrato.descripcion : '--' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

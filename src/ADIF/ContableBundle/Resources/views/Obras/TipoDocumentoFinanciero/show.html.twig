@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del tipo de documento financiero: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <div class="detalle_show">{{ entity.nombre }}</div>
+                    </div>
+                </div>    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta contable</label>
+                        <div class="detalle_show">{{ entity.cuentaContable }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">R&eacute;gimen retenci&oacute;n IVA</label>
+                        <div class="detalle_show">{{ entity.regimenRetencionIVA }}</div>
+                    </div>
+                </div>    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">R&eacute;gimen retenci&oacute;n IIBB</label>
+                        <div class="detalle_show">{{ entity.regimenRetencionIIBB }}</div>
+                    </div>
+                </div>                    
+            </div>
+            <div class="row"> 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">R&eacute;gimen retenci&oacute;n SUSS</label>
+                        <div class="detalle_show">{{ entity.regimenRetencionSUSS }}</div>
+                    </div>
+                </div>    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">R&eacute;gimen retenci&oacute;n Ganancias</label>
+                        <div class="detalle_show">{{ entity.regimenRetencionGanancias }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Imputa a la cuenta del Tipo de Documento Financiero</label>
+                        <div class="detalle_show">{{ entity.imputaCuentaTipoDocumento  ? 'S&iacute;' : 'No' }}</div>
+                    </div>
+                </div>    
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('tipodocumentofinanciero') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

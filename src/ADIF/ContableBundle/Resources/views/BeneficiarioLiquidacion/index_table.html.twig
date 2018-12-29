@@ -1,0 +1,17 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.razonSocial|default('-') }}", 
+    "{{ entity.cuit|default('-') }}", 
+    "{{ entity.domicilio|default('-') }}", 
+    "{{ entity.cuentasContables|join('<br\>') }}",
+    {
+    "show" : " {{ path( "beneficiarios_liquidacion_show", { "id": entity.id }) }}", 
+    "edit" : " {{ path( "beneficiarios_liquidacion_edit", { "id": entity.id }) }}" 
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

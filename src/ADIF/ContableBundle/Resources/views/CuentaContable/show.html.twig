@@ -1,0 +1,97 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la cuenta contable: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Cuenta contable padre</label>
+                        <div class="detalle_show">
+                            {{ entity.cuentaContablePadre|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"> 
+                    <div class="form-group">
+                        <label class="control-label">Cuenta presupuestaria econ&oacute;mica</label>
+                        <div class="detalle_show">
+                            {{ entity.cuentaPresupuestariaEconomica|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"> 
+                    <div class="form-group">                        
+                        <label class="control-label">Cuenta presupuestaria</label>
+                        <div class="detalle_show">
+                            {{ entity.cuentaPresupuestariaObjetoGasto|default('-') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row cleardiv">
+                <div class="col-md-4">
+                    <div class="form-group">                        
+                        <label class="control-label">C&oacute;digo</label>
+                        <div class="detalle_show">
+                            {{ entity.codigoCuentaContable|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Denominaci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.denominacionCuentaContable|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Es imputable</label>
+                        <div class="detalle_show">
+                            {{ entity.esImputable ? 'Si' : 'No' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">                        
+                        <label class="control-label">Moneda</label>
+                        <div class="detalle_show">
+                            {{ entity.tipoMoneda|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">                       
+                        <label class="control-label">Descripci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.descripcionCuentaContable|default('-') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('cuentacontable') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

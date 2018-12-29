@@ -1,0 +1,25 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+{#    {% set primera = entity.codigo[0:4] %}
+    {% set segunda = entity.codigo[4:2] %}
+    {% set tercera = entity.codigo[6:8] %}
+    {% set cuarta = entity.codigo[14:12] %}#}
+    {% set tipoRenglon = entity.numeroTransaccion[0:2] %}
+    {% set referencia = entity.numeroTransaccion[2:6] %}    
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    {% if entity.fecha %}"{{ entity.fecha|date('d/m/Y') }}",{% endif %}    
+{#    "{{ entity.numeroTransaccion ? (entity.esManual ? entity.numeroTransaccion : "<mark class='punto_venta'>" ~ tipoRenglon ~ "</mark><mark class='numero_comprobante'>" ~ referencia ~"</mark>") : '-' }}", #}
+    "{{ entity.referencia }}",
+{#    "{{ entity.codigo? primera ~ "<mark class='punto_venta'>" ~ segunda ~ "</mark><mark class='numero_comprobante'>" ~ tercera ~"</mark>" ~ cuarta : '-' }}",#}
+    "{{ entity.codigo ? entity.codigo : (entity.observacion ? entity.observacion|nl2br|escape_json : '-') }}",
+    "{{ entity.monto|money_format }}", 
+    "{{ entity.esManual }}",
+    "{{ entity.id }}",
+    "{{ entity.codigo ? entity.codigo : '-' }}",
+    "{{ entity.tipoRenglon ? entity.tipoRenglon : '-' }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

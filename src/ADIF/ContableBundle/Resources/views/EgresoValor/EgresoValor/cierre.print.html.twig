@@ -1,0 +1,51 @@
+<htmlpageheader name="default_header">
+    <table class="w-100" border="1" style="padding: 0px;">
+        <tbody>
+            <tr>
+                {% include('PDF/logo.datos.adif.html.twig') %}
+                <td class="hlt w-25">
+                    <div class="w-100 f-12">Cierre de caja chica</div>
+                    <div class="w-100 f-12">{{ entity.responsableEgresoValor.nombre }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</htmlpageheader>
+
+<sethtmlpageheader name="default_header" value="1" show-this-page="1"/>
+
+{% block content %}
+    <h5>Cierre de Caja Chica</h5>
+    <table class="w-100 t-left" border="0">
+        <tbody>
+            <tr>
+                <td class="f-12" style="width: 20%">Responsable:</td>
+                <td class="f-12 bold">{{ entity.responsableEgresoValor.nombre }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">{{ entity.responsableEgresoValor.tipoDocumento }}:</td>
+                <td class="f-12 bold">{{ entity.responsableEgresoValor.nroDocumento }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">N&ordm; carpeta:</td>
+                <td class="f-12 bold">{{ entity.carpeta }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Gerencia:</td>
+                <td class="f-12 bold">{{ entity.gerencia }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Monto:</td>
+                <td class="f-12 bold">{{ entity.importe|money_format }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Fecha de creaci&oacute;n:</td>
+                <td class="f-12 bold">{{ fechaCreacion|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <td class="f-12">Fecha de cierre</td>
+                <td class="f-12 bold">{{ entity.fechaCierre|date('d/m/Y') }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

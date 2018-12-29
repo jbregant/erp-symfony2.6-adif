@@ -1,0 +1,23 @@
+imports:
+    - { resource: config.yml }
+
+twig:
+    exception_controller: custom.twig.controller.exception:showAction
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        console:
+            type:  console
+            
+services:
+    custom.twig.controller.exception:
+        class: ADIF\BaseBundle\Controller\ExceptionController
+        arguments: [@twig, %kernel.debug%]

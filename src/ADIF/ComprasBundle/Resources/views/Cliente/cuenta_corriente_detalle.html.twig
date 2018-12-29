@@ -1,0 +1,119 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% set EstadoComprobante = 'ADIF\\ContableBundle\\Entity\\EstadoComprobante' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #table-cuenta-corriente-cliente-detalle tbody tr.cobro td {
+            background-color: #E7F9E3 !important;
+        }
+        #table-cuenta-corriente-cliente-detalle tbody tr.comprobante-anulado td {
+            color: rgb(152, 152, 152);
+        }
+        #table-cuenta-corriente-cliente-detalle tbody tr.comprobante td {
+            background-color: #F7E3F9 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# PriceFormat #}
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+
+{% endblock%}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Cuenta corriente <b>{{ cliente.clienteProveedor.razonSocial ~  ' - ' ~ cliente.clienteProveedor.cuit }}</b></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+
+                    </div>
+
+                    <table 
+                        class="table datatable table-bordered table-striped flip-content table-condensed export-excel" 
+                        id="table-cuenta-corriente-cliente-detalle" 
+                        dataexport-title="cliente-cuenta-corriente">
+                        <thead>
+                            <tr class="replace-inputs filter" style="display: none;">
+                                <th class="entity_id"></th>
+                                <th>Fecha</th>
+                                <th>Tipo de comprobante</th>
+                                <th>N&ordm; de comprobante</th>
+                                <th>Monto</th>
+                                <th>Detalle</th>
+                                <th>Saldo</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th class="no-order">Fecha</th>
+                                <th class="no-order">Tipo de comprobante</th>
+                                <th class="no-order">N&ordm; de comprobante</th>
+                                <th class="no-order">Monto</th>
+                                <th class="no-order">Detalle</th>
+                                <th class="no-order">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set saldo = 0%}
+                            {% for comprobante in contrato.comprobantesVenta %}
+                                <tr class="comprobante{{comprobante.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO')? '-anulado' : ''}}">
+                                    <td>{{ comprobante.id }}</td>
+                                    <td class="text-left bold">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                    <td class="text-left bold">{{ comprobante.tipoComprobante|default('-') }} ({{ comprobante.letraComprobante|default('-') }})</td>
+                                    <td class="text-left bold">{{ comprobante.numeroCompleto|default('-') }}</td>
+                                    <td class="text-left bold">{{ comprobante.total|money_format }}</td>
+                                    <td class="text-left bold">{{ comprobante.observaciones|default('-') }}{{ comprobante.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO')?' (ANULADO)':'' }}</td>
+                                    {% if comprobante.estadoComprobante.id != constant(EstadoComprobante ~ '::__ESTADO_ANULADO') %}
+                                        {% set saldo = saldo + comprobante.total%}
+                                    {% endif %}
+                                    <td class="text-right bold">{{ saldo|money_format }}</td>
+                                </tr>
+                                {% for cobro in comprobante.cobros %}
+                                    <tr class="cobro">
+                                        <td>{{ cobro.id }}</td>
+                                        <td class="text-right">{{ cobro.fecha|date('d/m/Y') }}</td>
+                                        <td class="text-right">{{ cobro.stringTipo|default('-') }}</td>
+                                        <td class="text-right">{{ cobro.stringReferencias|default('-') }}</td>
+                                        <td class="text-right">{{ cobro.monto|money_format }}</td>
+                                        <td class="text-right"></td>
+                                        {% set saldo = saldo - cobro.monto%}
+                                        <td class="text-right bold">{{ saldo|money_format }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="pull-left">
+            <button type="button" class="btn default button-back" 
+                    back-url="{{ path( 'cliente_cta_cte', { 'idCliente': cliente.id }) }}">Volver</button>
+        </div>
+    </div>
+{% endblock %}

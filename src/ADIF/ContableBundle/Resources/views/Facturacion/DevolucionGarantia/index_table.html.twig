@@ -1,0 +1,20 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaDevolucion|date('d/m/Y') }}",
+    "{{ entity.cuponGarantia.cliente.cuitAndRazonSocial }}", 
+    "{{ entity.cuponGarantia.contrato }}", 
+    "{{ entity.cuponGarantia.numeroCupon }}", 
+    "{{ entity.importe|money_format }}", 
+    {
+    "show" : " {{ path( "devolucion_garantia_show", { "id": entity.id }) }}"
+    {% if entity.esEditable %}
+        ,"edit" : " {{ path( "devolucion_garantia_edit", { "id": entity.id }) }}" 
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

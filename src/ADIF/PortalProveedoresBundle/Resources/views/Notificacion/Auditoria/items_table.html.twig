@@ -1,0 +1,10 @@
+{
+"data": [
+{% if entity %}
+[
+	"{{ entity.enviadas }}",
+    "{{ entity.leidas }}", 
+    "{{ entity.noLeidas }}"
+]
+{% endif %}
+]}

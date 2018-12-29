@@ -1,0 +1,40 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del estado: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Denominaci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.denominacionEstadoProveedor }}                        
+                        </div>
+                    </div>
+                </div>                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Descripci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.descripcionEstadoProveedor|default('-') }}                        
+                        </div>
+                    </div>
+                </div>            
+            </div>
+            <div class="form-actions">         
+                <button type="button" class="btn default button-back" >
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,588 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset('js/lib/colorbox-master/colorbox.css') }}" rel="stylesheet" type="text/css"/>
+
+    <link href="{{ asset(css_path ~ 'custom/compras/cotizacion/show.cotizacion.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Requerimiento {{ cotizacion.requerimiento.numero }}
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+
+        <div class="portlet-body form">
+
+            <div class="form-body">
+
+                <form name="adif_comprasbundle_cotizacion" method="post" 
+                      action="{{ path('cotizacion_guardar_cotizacion') }}" class="horizontal-form" 
+                      novalidate="novalidate" enctype='multipart/form-data'>
+
+                    <fieldset class="form-section-fieldset">
+
+                        <legend class="form-section-legend">Datos del proveedor</legend>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label required">Fecha cotizaci&oacute;n</label>
+                                    <div class="input-group">
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_comprasbundle_cotizacion_fecha_cotizacion" 
+                                                   name="adif_comprasbundle_cotizacion[fecha_cotizacion]" 
+                                                   class="form-control datepicker fecha_custom" required="required"
+                                                   value="{{ cotizacion.fechaCotizacion is not null ? cotizacion.fechaCotizacion|date('d/m/Y') : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Raz&oacute;n social</label>
+                                    <div class="detalle_show">{{ cotizacion.proveedor.clienteProveedor.razonSocial }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">CUIT</label>
+                                    <div class="detalle_show">{{ cotizacion.proveedor.clienteProveedor.CUIT|default('-') }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Fecha invitaci&oacute;n</label>
+                                    <div class="input-group">
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_comprasbundle_cotizacion_fecha_invitacion" 
+                                                   name="adif_comprasbundle_cotizacion[fecha_invitacion]" 
+                                                   class="form-control datepicker fecha_custom" required="required"
+                                                   value="{{ cotizacion.fechaInvitacion is not null ? cotizacion.fechaInvitacion|date('d/m/Y') : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">        
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Datos de contacto</label>
+                                    <div class="detalle_show">
+                                        {% for contacto in cotizacion.proveedor.clienteProveedor.datosContacto %}
+                                            {% if not loop.first %}
+                                                | 
+                                            {% endif %}
+                                            <span class="bold">
+                                                {{ contacto.tipoContacto }}:
+                                            </span> 
+                                            {{ contacto }}
+                                        {% else %}
+                                            -
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% include 'ADIFComprasBundle:Cotizacion:new_archivos.html.twig' %}
+                    </fieldset>
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box green-seagreen">
+                                <div class="portlet-title">
+
+                                    <div class="caption">
+                                        Cotizaciones
+                                    </div>
+                                    {#
+                                    <div class="pull-right">
+                                        <div class="precio-total col-md pull-right">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button">Total</button>
+                                                </span>
+                                                <input type="text" id="adif_comprasbundle_cotizacion_precio" 
+                                                       name="adif_comprasbundle_cotizacion[precio]" readonly="readonly" 
+                                                       class="form-control money-format" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    #}
+                                </div>
+
+                                <div class="portlet-body">
+                                    <table 
+                                        class="table table-bordered table-striped table-condensed 
+                                        flip-content dt-multiselect" id="table-cotizaciones" >
+                                        <thead>
+                                            <tr class="replace-inputs filter">
+                                                <th></th>
+                                                <th class="not-in-filter"></th> 
+                                                <th>Rengl&oacute;n</th>
+                                                <th>Bien econ&oacute;mico</th>
+                                                <th>Descripci&oacute;n</th>
+                                                <th class="hidden">Cantidad original</th>
+                                                <th>Cantidad cotizada</th>
+                                                <th>Unidad</th>
+                                                <th>Precio unitario sin IVA</th>                                                
+                                                <th class="hidden">Id % IVA</th>
+                                                <th>Al&iacute;cuota IVA</th>
+                                                <th>Monto IVA</th>
+                                                <th>Precio total IVA inc.</th>
+                                                <th class="hidden" >Id Tipo moneda</th>
+                                                <th class="hidden" >Tipo cambio</th>
+                                                <th>Observaciones</th>
+                                                <th class="not-in-filter"></th>
+                                            </tr>
+                                            <tr class="headers">
+                                                <th class="no-order entity_id"></th>
+                                                <th class="text-center table-checkbox no-order">
+                                                    <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                                                           data-set="#table-invitaciones .checkboxes" />
+                                                </th> 
+                                                <th>Rengl&oacute;n</th> 
+                                                <th class="text-center">Bien econ&oacute;mico</th> 
+                                                <th>Descripci&oacute;n</th>
+                                                <th class="hidden">Cantidad original</th>
+                                                <th>Cantidad cotizada</th>
+                                                <th>Unidad</th>
+                                                <th currency class="text-center" >Precio unitario sin IVA</th>
+                                                <th class="hidden" >Id % IVA</th>
+                                                <th currency class="text-center">Al&iacute;cuota IVA</th>
+                                                <th currency class="text-center">Monto total IVA</th>
+                                                <th currency class="text-center" >Precio total IVA inc.</th>
+                                                <th class="hidden" >Id Tipo moneda</th>
+                                                <th class="hidden" >Tipo cambio</th>
+                                                <th>Observaciones</th>
+                                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for renglon in cotizacion.renglonesCotizacion %}
+
+                                                {% set simboloTipoMoneda = renglon.tipoMoneda.simboloTipoMoneda|default('$') %}
+
+                                                <tr data-simbolo-tipo-moneda="{{ simboloTipoMoneda }}">
+                                                    <td>
+                                                        <input type="hidden" value=" {{ renglon.id }} "/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" class="checkboxes not-checkbox-transform" value="" />
+                                                    </td>
+                                                    <td class="nowrap">{{ renglon.renglonRequerimiento.numero }}</td>
+                                                    <td>{{ renglon.renglonRequerimiento.renglonSolicitudCompra.bienEconomico }}</td>
+                                                    <td>{{ renglon.renglonRequerimiento.renglonSolicitudCompra.descripcion|default('-') }}</td>
+                                                    <td class="hidden">{{ renglon.renglonRequerimiento.cantidad }}</td>
+                                                    <td class="cantidad nowrap">{{ renglon.cantidad }}</td>
+                                                    <td class="nowrap">{{ renglon.renglonRequerimiento.renglonSolicitudCompra.unidadMedida }}</td>
+                                                    <td class="precio-unitario-cotizado money-format nowrap">{{ renglon.getPrecioUnitario(false)|money_format(simboloTipoMoneda, 1, 4) }}</td>
+                                                    <td class="hidden">{{ renglon.idAlicuotaIva }}</td>
+                                                    <td class="porcentaje-iva nowrap">
+                                                        {{ renglon.alicuotaIva is not null ? renglon.alicuotaIva.valor|currency_format ~ ' %' : '' }}
+                                                    </td>
+                                                    <td class="monto-iva money-format nowrap">{{ renglon.getMontoTotalIva(false)|money_format(simboloTipoMoneda, 1, 4) }}</td>
+                                                    <td class="precio-total-cotizado money-format nowrap">{{ renglon.getMontoTotal(false)|money_format(simboloTipoMoneda, 1, 4) }}</td>
+                                                    <td class="hidden">{{ renglon.idTipoMoneda }}</td>
+                                                    <td class="hidden">{{ renglon.tipoCambio }}</td>
+                                                    <td>{{ renglon.observacion|default('-') }}</td>
+                                                    <td class="ctn_acciones text-center nowrap">
+                                                        {% if not renglon.cotizacionElegida  %}
+                                                            <a href="#" class="btn btn-xs green tooltips editar_renglon_cotizacion" 
+                                                               data-original-title="Editar">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box blue-hoki">
+                                <div class="portlet-title cotizacion-title">
+
+                                    <div class="caption caption-adicional">
+                                        Adicionales de la cotizaci&oacute;n
+                                    </div>
+                                    <div class="pull-right">
+                                        <div class="precio-total col-md pull-right hidden">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button">Total</button>
+                                                </span>
+                                                <input type="text" id="adif_comprasbundle_cotizacion_adicionales" 
+                                                       name="adif_comprasbundle_cotizacion[adicionales]" readonly="readonly" 
+                                                       class="form-control money-format" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="portlet-body">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm blue-chambray tooltips agregar-adicional" data-placement="right" 
+                                                data-original-title="Agregar adicional">
+                                            Agregar adicional &nbsp;<i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <table 
+                                        class="table table-bordered table-striped table-condensed 
+                                        flip-content dt-multiselect" id="table-adicionales-cotizacion" >
+                                        <thead> 
+                                            <tr class="replace-inputs filter">
+                                                <th class="hidden"></th>
+                                                <th class="not-in-filter"></th>
+                                                <th class="hidden">Tipo ID</th>
+                                                <th>Tipo</th> 
+                                                <th class="hidden">Signo ID</th>
+                                                <th>Signo</th>
+                                                <th class="hidden">Tipo valor ID</th>
+                                                <th>Valor</th>
+                                                <th class="hidden">Alicuota IVA ID</th>
+                                                <th>Alicuota IVA</th>
+                                                <th class="hidden" >Tipo moneda ID</th>
+                                                <th class="hidden" >Tipo cambio</th>
+                                                <th>Observaci&oacute;n</th>                          
+                                                <th class="not-in-filter"></th>
+                                            </tr>
+                                            <tr class="headers">
+                                                <th class="no-order hidden"></th>
+                                                <th class="text-center table-checkbox no-order">
+                                                    <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                                                           data-set="#table-invitaciones .checkboxes" />
+                                                </th>
+                                                <th class="hidden">Tipo ID</th>
+                                                <th>Tipo</th>
+                                                <th class="hidden">Signo ID</th>
+                                                <th>Signo</th>
+                                                <th class="hidden">Tipo valor ID</th>
+                                                <th>Valor</th>
+                                                <th class="hidden">Alicuota IVA ID</th>
+                                                <th>Alicuota IVA</th>
+                                                <th class="hidden" >Tipo moneda ID</th>
+                                                <th class="hidden" >Tipo cambio</th>
+                                                <th>Observaci&oacute;n</th>                            
+                                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for adicional in cotizacion.adicionalesCotizacion %}
+                                                
+                                                {% set simboloTipoMoneda = adicional.tipoMoneda.simboloTipoMoneda|default('$') %}
+
+                                                <tr data-simbolo-tipo-moneda="{{ simboloTipoMoneda }}">
+                                                    <td class="hidden">{{ adicional.id }}</td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" class="checkboxes not-checkbox-transform" value="" />
+                                                    </td>
+                                                    <td class="hidden">{{ adicional.tipoAdicional.id }}</td>
+                                                    <td>{{ adicional.tipoAdicional }}</td>
+                                                    <td class="hidden">{{ adicional.signo }}</td>
+                                                    <td>{{ adicional.signo == '+' ? 'Suma (+)' : 'Resta (-)' }}</td>
+                                                    <td class="hidden tipo-valor">{{ adicional.tipoValor }}</td>
+                                                    <td currency class="monto-adicional">
+                                                        {{ adicional.tipoValor == '$' 
+                                                            ? adicional.getValor(false)|money_format(simboloTipoMoneda, 1, 4) 
+                                                            : adicional.valor ~ ' %'
+                                                        }}
+                                                    </td>
+                                                    <td class="hidden">{{ adicional.idAlicuotaIva }}</td>
+                                                    <td>{{ adicional.alicuotaIva }}</td>
+                                                    <td class="hidden">{{ adicional.idTipoMoneda }}</td>
+                                                    <td class="hidden">{{ adicional.tipoCambio }}</td>
+                                                    <td>{{ adicional.observacion|default('-') }}</td>
+                                                    <td class="ctn_acciones text-center nowrap">
+                                                        <a href="#" 
+                                                           class="btn btn-xs green tooltips editar_adicional" 
+                                                           data-original-title="Editar"  href="#">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                        <a class="btn btn-xs red tooltips eliminar_adicional" 
+                                                           data-original-title="Eliminar" href="#">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="pull-left">
+                            <button type="button" class="btn default button-back"
+                                    back-url="{{ path('cotizacion_show_invitaciones', { 'idRequerimiento': cotizacion.requerimiento.id }) }}" >
+                                <i class="m-icon-swapleft"></i> Volver
+                            </button>
+                        </div>
+
+                        <div class="pull-right">
+                            <button type="submit" id="adif_comprasbundle_cotizacion_submit" 
+                                    name="adif_comprasbundle_cotizacion[submit]" class="btn blue">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="adicional_form_content">
+
+        {{ form_start(form_adicional, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ form_label(form_adicional.tipoAdicional) }}
+                    <a href="{{ path('tipoadicional_new', {"popup": true }) }}" 
+                       class="label label-sm label-info tooltips agregar_tipo_adicional"
+                       data-original-title="Agregar nuevo tipo de adicional">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.tipoAdicional) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form_adicional.signo) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.signo) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form_adicional.tipoValor) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.tipoValor) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form_adicional.valor) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.valor) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form_adicional.alicuotaIva) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.alicuotaIva) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    {{ form_label(form_adicional.tipoMoneda) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <select class="choice form-control" required="required"
+                                id="adif_comprasbundle_adicionalcotizacion_tipoMoneda" 
+                                name="adif_comprasbundle_adicionalcotizacion_tipoMoneda">
+                            {% for tipoMoneda in tipoMonedas %}
+                                <option data-simbolo-tipo-moneda="{{ tipoMoneda.simboloTipoMoneda }}" 
+                                        value="{{ tipoMoneda.id }}">
+                                    {{ tipoMoneda.denominacionTipoMoneda }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form_adicional.tipoCambio) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.tipoCambio) }}
+                    </div>
+                </div>
+            </div>   
+        </div>     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ form_label(form_adicional.observacion) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form_adicional.observacion) }}
+                    </div>
+                </div>
+            </div>
+        </div>        
+
+        {{ form_widget(form_adicional._token) }}
+        {{ form_end(form_adicional, {"render_rest": false}) }}
+
+    </div>
+
+    <div class="renglon_cotizacion_form_content">
+
+        <form id="form_renglon_cotizacion" method="post" name="form_renglon_cotizacion">
+			<div id="form_renglon_cotizacion_mensajes"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label required" 
+                               for="adif_comprasbundle_rengloncotizacion_cantidad">
+                            Cantidad cotizada
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_comprasbundle_rengloncotizacion_cantidad" 
+                                   name="adif_comprasbundle_rengloncotizacion[cantidad]" required="required" 
+                                   class="form-control currency" data-digits="2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label required" 
+                               for="adif_comprasbundle_rengloncotizacion_precioUnitario">
+                            Precio unitario sin IVA
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_comprasbundle_rengloncotizacion_precioUnitario" 
+                                   name="adif_comprasbundle_rengloncotizacion[precioUnitario]" required="required" 
+                                   class="form-control money-format" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label required" 
+                               for="adif_comprasbundle_rengloncotizacion_alicuotaIva">
+                            Al&iacute;cuota IVA
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <select class="choice form-control"
+                                    id="adif_comprasbundle_rengloncotizacion_alicuotaIva" name="adif_comprasbundle_rengloncotizacion_alicuotaIva">
+                                {% for alicuotaIva in alicuotasIva %}
+                                    <option value="{{ alicuotaIva.id }}">{{ alicuotaIva.valor|currency_format ~ ' %'}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label required" 
+                               for="adif_comprasbundle_rengloncotizacion_tipoMoneda">
+                            Moneda
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <select class="choice form-control" required="required"
+                                    id="adif_comprasbundle_rengloncotizacion_tipoMoneda" name="adif_comprasbundle_rengloncotizacion_tipoMoneda">
+                                {% for tipoMoneda in tipoMonedas %}
+                                    <option data-simbolo-tipo-moneda="{{ tipoMoneda.simboloTipoMoneda }}" value="{{ tipoMoneda.id }}">{{ tipoMoneda.denominacionTipoMoneda }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label required" 
+                               for="adif_comprasbundle_rengloncotizacion_tipoCambio">
+                            Tipo cambio
+                        </label>
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            <input type="text" id="adif_comprasbundle_rengloncotizacion_tipoCambio" 
+                                   name="adif_comprasbundle_rengloncotizacion[tipoCambio]" required="required" 
+                                   value="1" class="form-control money-format" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label" 
+                               for="adif_comprasbundle_rengloncotizacion_observacion">
+                            Observaciones
+                        </label>
+                        <div class="input right">
+                            <input type="text" id="adif_comprasbundle_rengloncotizacion_observacion" 
+                                   name="adif_comprasbundle_rengloncotizacion[observacion]" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+		<script>
+			$(document).ready(function(){ initCurrencies(); });
+		</script>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        var cotizacionId = "{{ cotizacion.id }}";
+    </script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset('js/lib/colorbox-master/jquery.colorbox-min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/lib/colorbox-master/i18n/jquery.colorbox-es.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var porcentajeTopeEntreJustiprecioYCotizacion = "{{ porcentaje_tope_justiprecio_cotizacion }}";
+    </script>
+
+    <script src="{{ asset(js_path ~ 'functions.js') }}"></script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/cotizacion/show.cotizacion.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

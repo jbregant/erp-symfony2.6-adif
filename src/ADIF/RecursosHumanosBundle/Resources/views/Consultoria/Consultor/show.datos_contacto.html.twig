@@ -1,0 +1,111 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Informaci&oacute;n</legend>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <div class="detalle_show">{{ consultor.email|default('-') }}</div>
+            </div>
+        </div>     
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Tel&eacute;fono</label>
+                <div class="detalle_show">{{ consultor.telefono|default('-') }}</div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<div class="row">      
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Domicilio comercial</legend>
+
+            <div class="row">   
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Calle</label>
+                        <div class="detalle_show">{{ consultor.domicilioComercial is not null ? consultor.domicilioComercial.calle|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm;</label>
+                        <div class="detalle_show">{{ consultor.domicilioComercial is not null ? consultor.domicilioComercial.numero|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Piso</label>
+                        <div class="detalle_show">{{ consultor.domicilioComercial is not null ? consultor.domicilioComercial.piso|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Dto.</label>
+                        <div class="detalle_show">{{ consultor.domicilioComercial is not null ? consultor.domicilioComercial.depto|default('-') : '-' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Localidad</label>
+                        <div class="detalle_show">{{ consultor.domicilioComercial is not null ? consultor.domicilioComercial.localidad|default('-') : '-' }}</div>
+                    </div>                
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Domicilio fiscal</legend>
+
+            <div class="row">   
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Calle</label>
+                        <div class="detalle_show">{{ consultor.domicilioFiscal is not null ? consultor.domicilioFiscal.calle|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm;</label>
+                        <div class="detalle_show">{{ consultor.domicilioFiscal is not null ? consultor.domicilioFiscal.numero|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Piso</label>
+                        <div class="detalle_show">{{ consultor.domicilioFiscal is not null ? consultor.domicilioFiscal.piso|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Dto.</label>
+                        <div class="detalle_show">{{ consultor.domicilioFiscal is not null ? consultor.domicilioFiscal.depto|default('-') : '-' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Localidad</label>
+                        <div class="detalle_show">{{ consultor.domicilioFiscal is not null ? consultor.domicilioFiscal.localidad|default('-') : '-' }}</div>
+                    </div>                
+                </div>
+            </div>
+
+        </fieldset>
+    </div>   
+</div>

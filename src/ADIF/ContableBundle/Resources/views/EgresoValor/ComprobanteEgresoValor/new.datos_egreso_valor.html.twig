@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Responsable</label>
+            <div class="detalle_show">{{ egresoValor.responsableEgresoValor.nombre }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Gerencia</label>
+            <div class="detalle_show">{{ egresoValor.gerencia }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">N&ordm; carpeta</label>
+            <div class="detalle_show">{{ egresoValor.carpeta }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Saldo actual</label>
+            <div class="detalle_show saldo-actual">{{ egresoValor.saldo|money_format }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Rendici&oacute;n</label>
+            <div class="detalle_show money-format saldo-rendicion">0</div>
+        </div>
+    </div>  
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Saldo final</label>
+            <div class="detalle_show money-format saldo-final">0</div>
+        </div>
+    </div>
+</div>

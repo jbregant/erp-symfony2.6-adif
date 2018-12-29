@@ -1,0 +1,18 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Configuraci&oacute;n
+    </a>
+    <ul class="dropdown-menu">
+        {# CONFIGURACION GENERAL #}
+        {% include ':Menu:Inventario/menu_configuracion_general.html.twig' %}
+
+        {# CONFIGURACION MATERIALES RODANTES #}
+        {% include ':Menu:Inventario/menu_configuracion_MR.html.twig' %}
+
+        {# CONFIGURACION MATERIALES NUEVOS Y PRODUCIDOS DE OBRA #}
+        {% include ':Menu:Inventario/menu_configuracion_MNPO.html.twig' %}
+
+        {# CONFIGURACION ACTIVOS LIENALES #}
+        {% include ':Menu:Inventario/menu_configuracion_AL.html.twig' %}
+    </ul>
+</li>

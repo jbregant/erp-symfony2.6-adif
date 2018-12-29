@@ -1,0 +1,84 @@
+{% set rubro = '' %}
+{% set evaluacionLog = '' %}
+{
+"data": [
+{% for entity in entities %}
+    {% for proveedorRubro in entity.idDatoPersonal.proveedorRubro %}
+        {% if proveedorRubro.fechaBaja is null %}
+            {% set rubro = rubro ~ proveedorRubro.rubroClase.rubro.denominacion ~ '<br>' | raw %}
+        {% endif %}
+    {% endfor %}
+    {% for proveedorEvaluacionLog in entity.proveedorEvaluacionLog %}
+        {% set evaluacionLog = evaluacionLog ~ proveedorEvaluacionLog.descripcion ~ '<br>' | raw %}
+    {% endfor %}
+    [
+    "{{ entity.idDatoPersonal.id }}",
+    "{{ entity.idDatoPersonal.id }}",
+    {% if entity.idDatoPersonal.tipoPersona.id is defined and entity.idDatoPersonal.tipoPersona.id == '1' %}
+        "{{ entity.idDatoPersonal.nombre }} {{ entity.idDatoPersonal.apellido }}"
+    {% else %}
+        "{{ entity.idDatoPersonal.razonSocial }}"
+    {% endif %},
+    {% if entity.idDatoPersonal.proveedor is defined and entity.idDatoPersonal.proveedor == '1'%}
+        "{{ entity.idDatoPersonal.proveedor }}"
+    {% else %}
+        "2"
+    {% endif %},
+    {% if entity.idDatoPersonal.cuit is null %}
+        "{{ entity.idDatoPersonal.numeroIdTributaria }}"
+    {% else %}
+        "{{ entity.idDatoPersonal.cuit }}"
+    {% endif %},
+    "{{ rubro }}",
+    {% set rubro = '' %}
+    "{{ entity.idDatoPersonal.tipoProveedor.extranjero is defined and entity.idDatoPersonal.tipoProveedor.extranjero == 0 ? 'SI' : 'NO' }}",
+    {
+    "id": "{{ entity.estadoEvaluacion.id }}",
+    "denominacion" : "{{ entity.estadoEvaluacion.denominacion }}"
+    },
+    {
+    "id": "{{ entity.estadoEvaluacionGalo.id }}",
+    "denominacion": "{{ entity.estadoEvaluacionGalo.denominacion }}"
+    },
+    {
+    "id": "{{ entity.estadoEvaluacionGafFinanzas.id }}",
+    "denominacion": "{{ entity.estadoEvaluacionGafFinanzas.denominacion }}"
+    },
+    {
+    "id": "{{ entity.estadoEvaluacionGafImpuestos.id }}",
+    "denominacion": "{{ entity.estadoEvaluacionGafImpuestos.denominacion }}"
+    },
+    {
+    "id": "{{ entity.estadoEvaluacionGcshm.id }}",
+    "denominacion": "{{ entity.estadoEvaluacionGcshm.denominacion }}"
+    },
+    "{{ entity.fechaCreacion|date('d/m/Y') }}",
+    "{{ entity.ultimaActualizacion|date('d/m/Y') }}",
+    "{{ evaluacionLog|default('-') }}",
+    {
+    {%  if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GALO") %}
+        "show_galo": "{{ path( 'proveedor_evaluacion_show_galo', { 'id': entity.idDatoPersonal.id }) }}",
+        "show_gaf_finanzas": "{{ path( 'proveedor_evaluacion_show_gaf_finanzas', { 'id': entity.idDatoPersonal.id }) }}",
+        "show_gaf_impuestos": "{{ path( 'proveedor_evaluacion_show_gaf_impuestos', { 'id': entity.idDatoPersonal.id }) }}",
+        "show_gcshm": "{{ path( 'proveedor_evaluacion_show_gcshm', { 'id': entity.idDatoPersonal.id }) }}"
+    {% elseif is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GAF_FINZNAZAS") %}
+        "show_gaf_finanzas": "{{ path( 'proveedor_evaluacion_show_gaf_finanzas', { 'id': entity.idDatoPersonal.id }) }}"
+    {% elseif is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GAF_IMPUESTOS") %}
+        "show_gaf_impuestos": "{{ path( 'proveedor_evaluacion_show_gaf_impuestos', { 'id': entity.idDatoPersonal.id }) }}"
+    {% elseif is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION_GCSHM") %}
+        "show_gcshm": "{{ path( 'proveedor_evaluacion_show_gcshm', { 'id': entity.idDatoPersonal.id }) }}"
+    {% else %}
+        "":""
+    {% endif %}
+    {% if entity.MotivoRechazo is not null %}
+        ,"motivoRechazo" : "{{ entity.MotivoRechazo }}"
+    {% endif %}
+    {% if entity.MotivoRechazoInterno is not null %}
+        ,"motivoRechazoInterno" : "{{ entity.MotivoRechazoInterno }}"
+    {% endif %}
+    }
+    ]
+    {% set evaluacionLog = '' %}
+    {{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

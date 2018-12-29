@@ -1,0 +1,53 @@
+
+<table 
+    class="table table-bordered table-striped table-condensed flip-content dt-multiselect" 
+    id="table-requerimiento-{{ tipo }}" dataexport-title="requerimiento">
+    <thead>
+        <tr class="replace-inputs filter">
+            <th class="entity_id"></th>
+            <th class="not-in-filter"></th>
+            <th>N&uacute;mero</th>
+			<th class="nowrap">N&uacute;meros de SC</th>
+            <th data-type="date">Fecha</th>
+            <th>Descripci&oacute;n</th>
+            <th class="nowrap">Justiprecio total</th>
+            <th data-type="select" 
+                data-select-mode="embedded">
+                <select class="input-filter">
+                    <option value="">Todos</option>
+                    {% for tipo in tipos_contratacion %}
+                        <option value="{{ tipo.denominacion }}">{{ tipo.denominacion }}</option>
+                    {% endfor %}
+                </select>
+            </th>  
+            <th>Usuario</th>                               
+            <th data-type="select" 
+                data-select-mode="embedded">
+                <select class="input-filter">
+                    <option value="">Todos</option> 
+                    {% for estado in estados_requerimiento %}
+                        <option value="{{ estado.denominacionEstadoRequerimiento }}">{{ estado.denominacionEstadoRequerimiento }}</option>
+                    {% endfor %}
+                </select>
+            </th>                             
+            <th class="not-in-filter"></th>
+        </tr>
+        <tr class="headers">
+            <th class="no-order"></th>
+            <th class="text-center table-checkbox no-order">
+                <input type="checkbox" class="group-checkable" 
+                       data-set="#table-requerimiento .checkboxes" />
+            </th>             
+            <th>N&uacute;mero</th>
+			<th class="nowrap">N&uacute;meros de SC</th>			
+            <th date export-format="date" >Fecha</th>
+            <th>Descripci&oacute;n</th>
+            <th currency class="nowrap">Justiprecio total</th>
+            <th>Tipo de contrataci&oacute;n</th>
+            <th>Usuario</th>                 
+            <th>Estado</th>                           
+            <th class="text-center no-order ctn_acciones">Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

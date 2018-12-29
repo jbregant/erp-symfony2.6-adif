@@ -1,0 +1,117 @@
+<?php
+
+namespace ADIF\ContableBundle\Form\Consultoria;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+class RenglonComprobanteConsultoriaType extends AbstractType {
+
+    private $emContable;
+    
+    public function __construct($emContable = null ) {
+
+        $this->emContable = $emContable;
+        //parent::__construct();
+    }
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+                ->add('descripcion', null, array(
+                    'required' => true,
+                    'label' => 'Detalle',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control '))
+                )
+                ->add('cantidad', null, array(
+                    'required' => true,
+                    'label' => 'Cantidad',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control numberPositive'))
+                )
+                ->add('precioUnitario', null, array(
+                    'required' => true,
+                    'label' => 'Precio unitario',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control numberPositive'))
+                )
+                ->add('bonificacionTipo', null, array(
+                    'required' => true,
+                    'label' => 'Tipo bonificaci&oacute;n',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control '))
+                )
+                ->add('bonificacionValor', null, array(
+                    'required' => false,
+                    'label' => 'Valor bonificaci&oacute;n',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control '))
+                )
+                ->add('montoNeto', null, array(
+                    'label' => 'Neto',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => 'form-control numberPositive'))
+                )
+                ->add('montoIva', null, array(
+                    'label' => 'Monto IVA',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => 'form-control numberPositive'))
+                )
+                ->add('observaciones', null, array(
+                    'required' => false,
+                    'label' => 'Observaciones',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control '))
+                )
+                ->add('numeroCuota', null, array(
+                    'required' => false,
+                    'label' => 'Numero Cuota',
+                    'label_attr' => array('class' => 'control-label'),
+                    'attr' => array('class' => ' form-control '))
+                )
+                ->add('alicuotaIva', EntityType::clase, array(
+                    'class' => 'ADIF\ContableBundle\Entity\AlicuotaIva',
+                    'label' => 'IVA',
+                    'em' => $this->emContable,
+                    'attr' => array('class' => ' form-control choice '),
+                    'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder('ai')->orderBy('ai.valor', 'ASC');
+            })
+                )
+                ->add('cicloFacturacion', EntityType::clase, array(
+                    'class' => 'ADIF\ContableBundle\Entity\Facturacion\CicloFacturacion',
+                    'label' => 'Ciclo facturacion',
+                    'em' => $this->emContable,
+                    'property' => 'id',
+                    'required' => false,
+                    'attr' => array('class' => ' form-control choice '))
+                )
+                ->add('mes', 'hidden', array(
+                    'mapped' => false)
+                )
+        ;
+    }
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+        $resolver->setDefaults(array(
+            'data_class' => 'ADIF\ContableBundle\Entity\Consultoria\RenglonComprobanteConsultoria'
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName() {
+        return 'adif_contablebundle_rengloncomprobanteconsultoria';
+    }
+
+}

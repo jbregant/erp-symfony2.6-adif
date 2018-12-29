@@ -1,0 +1,25 @@
+
+.tr-detalle-importe td {
+    padding: .2em !important
+}
+
+.tr-detalle-importe td.hlt {
+    background-color: #fffcd8;
+    color: #000;
+}
+
+.tr-detalle-saldo td {
+    padding: .4em !important    
+}
+
+.link-detalle-importe {
+    margin-left: 1em
+}
+
+.link-detalle-importe  {
+    width: 21px;
+}
+
+.link-detalle-importe i {
+    font-size: 11px;
+}

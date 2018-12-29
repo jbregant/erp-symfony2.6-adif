@@ -1,0 +1,126 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css" href="">
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte de cobranzas AABE y ADIF</div>
+                </div>
+                <div class="portlet-body">
+
+                    <div class="table-toolbar" style="margin-top: 3em">
+
+                        <div class="btn-group pull-left" style="margin-top: -3em">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaInicio" 
+                                               class="control-label">Fecha inicio</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                                   name="adif_contablebundle_filtro[fechaInicio]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha fin</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>
+
+
+                    </div>
+
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-reportecobranzas"
+                        dataexport-title="reportecobranzas" data-toggler="1">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>  
+                                <th data-type="date">Fecha</th>                                      
+                                <th>Comprobante</th>
+                                <th>Contrato</th>
+                                <th>Concepto</th>
+                                <th>Cliente</th>
+                                <th>Importe AABE</th>
+                                <th>Importe ADIF</th>                               
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-facturacion\comprobanteventa .checkboxes" />
+                                </th>                              
+                                <th date export-format="date" class="text-center">Fecha</th>                                
+                                <th class="nowrap text-center">Comprobante</th>
+                                <th class="nowrap text-center">Contrato</th>
+                                <th class="nowrap text-center">Concepto</th>
+                                <th class="nowrap text-center">Cliente</th>
+                                <th currency class="nowrap text-center">Importe AABE</th>
+                                <th currency class="nowrap text-center">Importe ADIF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/cobranza/rengloncobranza/reporte_cobranza_aabe_adif.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+{% endblock %}

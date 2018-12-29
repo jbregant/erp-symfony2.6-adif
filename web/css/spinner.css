@@ -1,0 +1,17 @@
+
+#ajax-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    z-index: 1234;
+    background: rgba(248, 248, 248, .9);
+    opacity: .7
+}
+
+.body-disabled {
+    overflow: hidden !important;
+}
+
+

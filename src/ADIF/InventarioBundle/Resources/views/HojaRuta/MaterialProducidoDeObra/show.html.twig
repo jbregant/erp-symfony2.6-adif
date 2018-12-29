@@ -1,0 +1,134 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var hojaRuta = '{{ idHojaRuta|default('') }}';
+        var indiceTipo = '{{ indice | default('1') }}';
+        var errores = '0';
+        var isShow = true;
+        var id_prefix = 'adif_inventariobundle_hojaruta_materialproducidodeobra_';
+        var campos = [ 'provincia', 'linea', 'almacen', 'tipoMaterial', 'grupoMaterial', 'estadoConservacion'];
+    </script>
+    <script src="{{ asset('js/custom/inventario/hojaruta/MaterialProducidoDeObra/new.js') }}" ></script>
+    <script src="{{ asset('js/custom/inventario/hojaruta/hojaRuta_fn.js')}}"></script>
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la item hoja ruta material producido de obra: <strong> {{ entity.denominacion }} </strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+
+            <fieldset class="form-section-fieldset">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Denominación</label>
+                            <div class="detalle_show">{{ entity.denominacion }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Usuario</label>
+                            <div class="detalle_show">{{ entity.usuarioAsignado }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Fecha de Vencimiento</label>
+                            <div class="detalle_show">{{ entity.fechaVencimiento|date('d/m/Y') }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Estado</label>
+                            <div class="detalle_show">{{ entity.estadoHojaRuta }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Tipo de Relevamiento</label>
+                            <div class="detalle_show">
+                                {{ entity.tipoRelevamiento }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Fecha de Alta</label>
+                            <div class="detalle_show">
+                                {{ entity.fechaCreacion|date('d/m/Y') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+
+            <div class="portlet box blue" >
+                <div class="portlet-title">
+                    <div class="caption">Items Material Producido de Obra </div>
+
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <fieldset class="form-section-fieldset" >
+                        <table
+                            class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel"
+                            id="table-item"
+                            dataexport-title="hojaruta-item-activolineal">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th></th>
+                                    <th class="not-in-filter"></th>
+                                    <th>Provincia</th>
+                                    <th>L&iacute;nea</th>
+                                    <th>Almac&eacute;n/Obrador</th>
+                                    <th>Tipo de Material</th>
+                                    <th>Grupo de Material</th>
+                                    <th>Estado de Conservaci&oacute;n</th>
+                                    <th class="not-in-filter"></th>
+                                </tr>
+                                <tr class="headers">
+                                    <th class="no-order entity_id"></th>
+                                    <th class="text-center table-checkbox no-order">
+                                        <input type="checkbox" class="group-checkable" data-set="#table-item .checkboxes" />
+                                    </th>
+                                    <th>Provincia</th>
+                                    <th>L&iacute;nea</th>
+                                    <th>Almac&eacute;n/Obrador</th>
+                                    <th>Tipo de Material</th>
+                                    <th>Grupo de Material</th>
+                                    <th>Estado de Conservaci&oacute;n</th>
+                                    <th class="text-center no-order ctn_acciones">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"
+                        back-url="{{ path('hojaruta', { "indice": indice }) }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

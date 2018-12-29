@@ -1,0 +1,27 @@
+{
+"data": [
+{% for bienEconomico in bienesEconomicos %}
+    [
+    "{{ bienEconomico.id }}",
+    "{{ bienEconomico.id }}",
+    "{{ bienEconomico.codigoBienEconomico }}",
+    "{{ bienEconomico.esProducto ? 'Producto' : 'Servicio' }}",
+    "{{ bienEconomico.denominacionBienEconomico|decode }}",
+    "{{ bienEconomico.rubro }}",
+    "{{ bienEconomico.requiereEspecificacionTecnica ? 'Si' : 'No' }}",
+    "{{ bienEconomico.regimenSUSS }}",
+    "{{ bienEconomico.regimenIVA }}",
+    "{{ bienEconomico.regimenIIBB }}",
+    "{{ bienEconomico.regimenGanancias }}",
+    "{{ bienEconomico.cuentaContable }}",
+    {
+    "aliasTipoImportancia" : "{{ bienEconomico.aliasTipoImportancia }}",
+    "estadoBienEconomico" : "{{ bienEconomico.estadoBienEconomico  }}"   
+    },
+    {
+    "show" : "{{ path( 'bieneconomico_show', { 'id': bienEconomico.id }) }}",
+    "edit" : "{{ path( 'bieneconomico_edit', { 'id': bienEconomico.id }) }}"   
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

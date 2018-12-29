@@ -1,0 +1,94 @@
+<div class="row row_renglon_adicional_nuevo" style="display: none;">
+    <input type="text" id="adif_contablebundle_comprobantecompra_adicionales___name___idAdicionalCotizacion" sname="adif_contablebundle_comprobantecompra[adicionales][__name__][idAdicionalCotizacion]" class="form-control ignore" value="" style="display: none;">
+    <div class="col-md-3">
+        <div class="form-group">                                
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_adicionales___name___tipoAdicional" 
+                        sname="adif_contablebundle_comprobantecompra[adicionales][__name__][tipoAdicional]" 
+                        class="form-control ignore"
+                        required="required">
+                    {% for choice_tipo_adicional in form.adicionales.vars.prototype.tipoAdicional.vars.choices %}
+                        <option value="{{choice_tipo_adicional.data.id}}">{{choice_tipo_adicional.data.denominacionAdicional}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>                
+                <select id="adif_contablebundle_comprobantecompra_adicionales___name___signo" 
+                        sname="adif_contablebundle_comprobantecompra[adicionales][__name__][signo]" 
+                        class="form-control ignore"
+                        required="required">
+                    {% for choice_signo in form.adicionales.vars.prototype.signo.vars.choices %}
+                        <option value="{{choice_signo.data}}">{{choice_signo.label}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="input-icon left">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_adicionales___name___tipoValor" 
+                        sname="adif_contablebundle_comprobantecompra[adicionales][__name__][tipoValor]" 
+                        class="form-control ignore"
+                        required="required">
+                    {% for choice_tipo_valor in form.adicionales.vars.prototype.tipoValor.vars.choices %}
+                        <option value="{{choice_tipo_valor.data}}">{{choice_tipo_valor.label}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_adicionales___name___valor" sname="adif_contablebundle_comprobantecompra[adicionales][__name__][valor]" required="required" class="form-control currency ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_adicionales___name___montoNeto" sname="adif_contablebundle_comprobantecompra[adicionales][__name__][montoNeto]" required="required" class="form-control currency ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="adif_contablebundle_comprobantecompra_adicionales___name___alicuotaIva" 
+                        sname="adif_contablebundle_comprobantecompra[adicionales][__name__][alicuotaIva]" 
+                        class="form-control ignore"
+                        required="required">
+                    {% for choice_alicuota_iva in form.adicionales.vars.prototype.alicuotaIva.vars.choices %}
+                        <option value="{{choice_alicuota_iva.data.id}}">{{choice_alicuota_iva.data.valor}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="adif_contablebundle_comprobantecompra_adicionales___name___montoIva" sname="adif_contablebundle_comprobantecompra[adicionales][__name__][montoIva]" required="required" class="form-control currency ignore" value="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <button class="btn btn-sm red renglon_adicional_borrar">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>

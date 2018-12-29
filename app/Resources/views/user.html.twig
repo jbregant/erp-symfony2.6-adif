@@ -1,0 +1,42 @@
+<!-- BEGIN USER LOGIN DROPDOWN -->
+{% if is_granted("ROLE_USER") %}
+    <li class="dropdown user">
+        <a href="#" class="dropdown-toggle text-middle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+            <span class="username">
+                {% if is_granted("ROLE_USER") %}
+                    {{ app.user.username }}
+                {% endif %}
+            </span>
+            <i class="fa fa-angle-down text-center"></i>
+        </a>
+
+        <ul class="dropdown-menu">
+            {#si no es usuario de active directory puede modificar su password#}
+            {% if app.user.password != null %}
+                <li>
+                    <a href="{{ path('fos_user_change_password') }}">
+                        <i class="fa fa-user"></i> Cambiar contrase&ntilde;a
+                    </a>
+                </li>
+                <li class="divider">
+                </li>
+            {% endif %}
+            <li>
+                <a href="javascript:;" id="trigger_fullscreen">
+                    <i class="fa fa-arrows"></i> Pantalla completa
+                </a>
+            </li>
+			<li>
+                <a href="{{ path('multiempresa_cambiar') }}" id="cambiar_empresa">
+                    <i class="fa fa-exchange"></i> Cambiar de empresa
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('fos_user_security_logout') }}">                                            
+                    <i class="fa fa-key"></i> Salir
+                </a>
+            </li>
+        </ul>
+    </li>
+{% endif %}
+<!-- END USER LOGIN DROPDOWN -->

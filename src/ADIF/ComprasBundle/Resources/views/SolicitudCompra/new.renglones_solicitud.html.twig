@@ -1,0 +1,21 @@
+
+<div class="cleardiv row">
+    <div class="col-md-12">
+
+        <div class="form-group prototype-renglon-solicitud" 
+             data-prototype="{% filter escape %}{% include 'ADIFComprasBundle:SolicitudCompra:prototype.renglon_solicitud.html.twig' with {'renglon': form.renglonesSolicitudCompra.vars.prototype} %}{% endfilter %}">
+                {% for renglon in form.renglonesSolicitudCompra %}
+                    {% include 'ADIFComprasBundle:SolicitudCompra:prototype.renglon_solicitud.html.twig' %}
+                {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#" class="btn btn-sm green prototype-link-add-renglon-solicitud tooltips" 
+                   data-placement="right" data-original-title="Agregar rengl&oacute;n">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

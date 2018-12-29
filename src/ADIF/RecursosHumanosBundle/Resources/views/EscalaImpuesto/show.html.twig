@@ -1,0 +1,75 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del impuesto: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Mes</label>
+                        <div class="detalle_show">                                {{ entity.mes }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto desde</label>
+                        <div class="detalle_show">                                {{ entity.montoDesde }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto hasta</label>
+                        <div class="detalle_show">                                {{ entity.montoHasta }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto fijo</label>
+                        <div class="detalle_show">                                {{ entity.montoFijo }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Porcentaje a sumar</label>
+                        <div class="detalle_show">                                {{ entity.porcentajeASumar }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Vigencia desde</label>
+                        <div class="detalle_show">                                {{ entity.vigenciaDesde|date('d/m/Y') }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Vigencia hasta</label>
+                        <div class="detalle_show">                                {{ entity.vigenciaHasta|date('d/m/Y') }}                        </div>
+                    </div>
+                </div>
+                                        </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('escala_impuesto_mes') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

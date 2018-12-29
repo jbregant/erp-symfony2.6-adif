@@ -1,0 +1,114 @@
+{% extends '::base.html.twig' %}    
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+<style type="text/css" href="">
+    .tabla {
+        width: 60%; 
+        margin-top: 15px; 
+        float:left;
+    }
+    
+    .ejemplo-formato {
+        vertical-align: top;
+        display: inline-block;
+        font-size: 1.3em;
+        margin: 2em;
+    }
+
+    .ejemplo-formato strong {
+        margin-left: 1em
+    }
+</style>
+
+{% endblock %}
+
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Configuraci&oacute;n del plan de cuentas</div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+
+                        {% if planDeCuentas is null or 
+                             (planDeCuentas is not null and planDeCuentas.segmentos is empty) %}
+                        <a class="btn btn-sm green tooltips" 
+                           data-placement="right" 
+                           data-original-title="Configurar plan de cuentas" 
+                           href=" {{ path( 'plandecuentas_configuracion_new') }} ">
+                            Configurar plan de cuentas
+                        </a>
+                        {% else %}
+                        <a class="btn btn-sm green tooltips" 
+                           data-placement="right" 
+                           data-original-title="Editar configuraci&oacute;n del plan de cuentas" 
+                           href="{{ path( 'plandecuentas_configuracion_edit', { 'id': planDeCuentas.id }) }}">
+                            Editar configuraci&oacute;n
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if planDeCuentas is not null and planDeCuentas.segmentos is not empty %}
+                <div class="clearfix"></div> 
+                <div>                
+                    <table class="table table-bordered centered tabla">
+                        <tbody>
+                            <tr>
+                                <th class="text-right">Posici&oacute;n</th>
+                                {% for segmento in planDeCuentas.segmentos %}                            
+                                <td class="text-center">  
+                                    <span class="badge badge-primary">
+                                        {{ segmento.posicion }}
+                                    </span>
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th class="text-right">Longitud</th>
+                                {% for segmento in planDeCuentas.segmentos %}                            
+                                    <td class="text-center">{{ "X"|repeat(segmento.longitud) }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th class="text-right">Separador</th>
+                                {% for segmento in planDeCuentas.segmentos %}                            
+                                    <td class="text-center">{{ segmento.separador|default('&nbsp;') }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th class="text-right">Centro de Costo</th>
+                                {% for segmento in planDeCuentas.segmentos %} 
+                                <td class="text-center">
+                                    {% if segmento.indicaCentroDeCosto %}
+                                    <i class="fa fa-bool fa-check "></i>
+                                    {% else %}
+                                    <i class="fa fa-bool fa-times"></i>                                    
+                                    {% endif %}
+                                </td>
+                                {% endfor %}
+                            </tr>                        
+                        </tbody>
+                    </table>
+                    <span class="ejemplo-formato">
+                        Ejemplo:
+                        <strong>
+                            {% for segmento in planDeCuentas.segmentos %}
+                                {{- ((loop.first ? "1" : "0")|repeat(segmento.longitud) ~ segmento.separador) -}} 
+                            {% endfor %}
+                        </strong>
+                    </span>                
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

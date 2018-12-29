@@ -1,0 +1,36 @@
+
+a.download-link {
+    font-size: 11px;
+    margin-left: .8em;
+}
+
+.renglon-aprobado {
+    background-color: #f0faf2
+}
+
+.renglon-desaprobado {
+    background-color: #ffe3e3
+}
+
+fieldset.renglon-desaprobado {    
+    background-color: rgba(251,236,236,.3);
+    border-color: red
+}
+
+fieldset.renglon-desaprobado .money-format{
+    background-color: #FFF !important
+}
+
+.renglon-default.odd {
+    background-color: #f5f5f5
+}
+
+.renglon-aprobado td.action,
+.renglon-desaprobado td.action,
+.renglon-default td.action {
+    background-color: #FFF
+}
+
+.truncate {
+    cursor:pointer;
+}

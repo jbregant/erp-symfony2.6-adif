@@ -1,0 +1,101 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Proveedores
+    </a>
+    <ul class="dropdown-menu">
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_ADMINISTRACION') %}
+            <li>
+                <a href="{{ path('proveedor') }}">
+                    Administraci&oacute;n de datos
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_COMPROBANTE') %}
+            <li class="dropdown-submenu">
+                <a href="">
+                    Comprobantes
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('comprobantes_compra') }}">
+                            Comprobantes de compra
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('comprobanteobra') }}">
+                            Comprobantes de obras
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_PORTAL_PROVEEDORES') %}
+            <li class="dropdown-submenu">
+                <a href="">
+                    Portal de Proveedores
+                </a>
+                <ul class="dropdown-menu">
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_EVALUACION') %}
+                        <li>
+                            <a href="{{ path('proveedor_evaluacion') }}">
+                                Panel de Evaluaci&oacute;n
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_CREAR_NOTIFICACION') %}
+                        <li>
+                            <a href="{{ path('notificacion') }}">
+                                Notificaciones de Portal
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_ADMINISTRACION_PORTAL') %}
+                        <li class="dropdown-submenu">
+                            <a href="">
+                                Administraci&oacute;n del Portal
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_ADMINISTRACION_PORTAL_CANTIDAD_VISITAS') %}
+
+                                    <li>
+                                        <a href="{{ path('visitas') }}">
+                                            Cantidad de Visitas Diarias al Portal
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_ADMINISTRACION_PORTAL_TIEMPO_RESPUESTA') %}
+                                    <li>
+                                        <a href="{{ path('tiemporespuesta') }}">
+                                            Tiempo de Respuesta (en segundos)
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_ADMINISTRACION_PORTAL_ERRORES_INTEGRACION_DATOS') %}
+                                    <li>
+                                        <a href="{{ path('errorintegracion') }}">
+                                            Reporte de Errores en la Integraci&oacute;n de Datos
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES_PANEL_ADMINISTRACION_PORTAL_DISTRIBUCION_USUARIOS') %}
+                                    <li>
+                                        <a href="{{ path('portal_usuarios') }}">
+                                            Distribuci&oacute;n de Usuarios
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>
+
+
+
+
+

@@ -1,0 +1,86 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption">Administrar Hojas de Ruta</div>
+        </div>
+        <div class="portlet-body">
+          <div class="btn-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="control-label">
+                  Tipo Material
+                </label>
+                <div class="control-label">
+                  {#<select name="tipo_material" id="tipo_material" disabled>#}
+                  <select name="tipo_material" id="tipo_material" data-id-material="{{indice}}">
+                    {% if is_granted("ROLE_INVENTARIO_HOJA_RUTA_AL") %}
+                      <option value="3">Activo Lineal</option>
+                    {% endif %}
+
+                    {% if is_granted("ROLE_INVENTARIO_HOJA_RUTA_MN") %}
+                      <option value="2">Material Nuevo</option>
+                    {% endif %}
+
+                    {% if is_granted("ROLE_INVENTARIO_HOJA_RUTA_MPO") %}
+                      <option value="1">Material Producido de Obra</option>
+                    {% endif %}
+
+                    {% if is_granted("ROLE_INVENTARIO_HOJA_RUTA_MR") %}
+                      <option value="4">Material Rodante</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div class="table-toolbar">
+            <div class="btn-group">
+              <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear hojaruta" id="link_btn_hr" href=" {{ path( 'hojaruta_new') }}/1 ">
+                Crear Hoja de Ruta
+                <i class="fa fa-plus"></i>
+              </a>
+            </div>
+          </div>
+          <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" id="table-hojaruta" dataexport-title="hojaruta">
+            <thead>
+              <tr class="replace-inputs filter">
+                <th></th>
+                <th class="not-in-filter"></th>
+                <th>Descripción</th>
+                <th>Usuario</th>
+                <!-- es del campo usuarioasignado -->
+                <th>Fecha de Vencimiento</th>
+                <th>Estado</th>
+                <th class="not-in-filter"></th>
+              </tr>
+              <tr class="headers">
+                <th class="no-order entity_id"></th>
+                <th class="text-center table-checkbox no-order">
+                  <input type="checkbox" class="group-checkable" data-set="#table-hojaruta .checkboxes"/>
+                </th>
+                <th>Descripción</th>
+                <th>Usuario</th>
+                <!-- es del campo usuarioasignado -->
+                <th>Fecha de Vencimiento</th>
+                <th>Estado</th>
+                <th class="text-center no-order ctn_acciones">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('js/custom/inventario/hojaruta/index.js') }}"></script>
+{% endblock %}

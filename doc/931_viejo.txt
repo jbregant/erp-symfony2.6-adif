@@ -1,0 +1,179 @@
+/**
+     * Genera el archivo de exportacion 931
+     *
+     * @Route("/liquidacion/exportar931/{id}", name="liquidaciones_exportar_931")
+     * @Method("GET")     
+     */    
+    public function exportar931Action($id) {
+        $em = $this->getDoctrine()->getManager($this->getEntityManager());
+
+        $entity = $em->getRepository('ADIFRecursosHumanosBundle:Liquidacion')->find($id);
+                
+        if (!$entity) {
+            throw $this->createNotFoundException('No se puede encontrar la entidad Liquidacion.');
+        }
+        
+        $filename = 'exportacion_36.txt';
+        $path = $this->get('kernel')->getRootDir() . '/../web/uploads/formularios_931/'.$filename;        
+        
+        $f = fopen($path, "w");
+        
+        foreach ($entity->getLiquidacionEmpleados() as $liquidacionEmpleado) {
+            /* @var $liquidacionEmpleado \ADIF\RecursosHumanosBundle\Entity\LiquidacionEmpleado */
+            /* @var $empleado \ADIF\RecursosHumanosBundle\Entity\Empleado */
+            /* @var $persona \ADIF\RecursosHumanosBundle\Entity\Persona */
+            
+            $empleado = $liquidacionEmpleado->getEmpleado();
+            $persona = $empleado->getPersona();
+            
+            $char_pad_string = ' ';
+            $char_pad_int = ' ';
+            $char_pad_importe = ' ';
+            
+            $type_pad_string = STR_PAD_RIGHT;
+            $type_pad_int = STR_PAD_RIGHT;
+            $type_pad_importe = STR_PAD_RIGHT;
+            
+            $remunerativo_s_t = $liquidacionEmpleado->getBruto1() + $liquidacionEmpleado->getBruto2();
+            $remunerativo_c_t = $liquidacionEmpleado->getMontoRemunerativoConTope();
+            $no_remunerativo = $liquidacionEmpleado->getNoRemunerativo();
+            
+            $campos = $this->cargarCampos931($liquidacionEmpleado);
+                        
+            /* 1 */ $cadena = str_replace('-', '', $persona->getCuil());
+            /* 2 */ $cadena .= str_pad($persona->getApellido(). ' '.$persona->getNombre(), 30, $char_pad_string, $type_pad_string);
+            /* 3 */ $cadena .= $empleado->tieneConyuge();
+            /* 4 */ $cadena .= str_pad($empleado->getCantidadHijos(), 2, $char_pad_int, $type_pad_int);
+            /* 5 */ $cadena .= str_pad('1', 3, $char_pad_int, $type_pad_int);  //Código de situación
+            /* 6 */ $cadena .= '   ';  
+            /* 7 */ $cadena .= str_pad('49', 3, $char_pad_int, $type_pad_int);  //Código de actividad
+            /* 8 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Código de zona
+            /* 9 */ $cadena .= str_pad('0', 5, $char_pad_importe, $type_pad_importe);  //Porcentaje de aporte adicional SS
+            /* 10 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Porcentaje de reducción
+            /* 11 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Código de modalidad de contratación
+            /* 12 */ $cadena .= str_pad('0', 6, $char_pad_string, $type_pad_string);  //Código de obra social
+            /* 13 */ $cadena .= str_pad('0', 2, $char_pad_int, $type_pad_int);  //Cantidad de adherentes
+            /* 14 */ $cadena .= str_pad(number_format($remunerativo_s_t + $no_remunerativo, 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Remuneración total
+            /* 15 */ $cadena .= str_pad(number_format($remunerativo_c_t, 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible aportes
+            /* 16 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible contribuciones
+            /* 17 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Asignaciones familiares pagadas
+            /* 18 */ $cadena .= str_pad(number_format($campos[18], 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Importe aporte SIJP
+            /* 19 */ $cadena .= str_pad(number_format($campos[19], 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Importe aporte INSSJP
+            /* 20 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Importe aporte adicional SS
+            /* 21 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Importe aporte voluntario
+            /* 22 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Importe excedente aportes SS
+            /* 23 */ $cadena .= str_pad($campos[18] + $campos[19] , 15, $char_pad_importe, $type_pad_importe);  //Importe neto total aportes SS
+            /* 24 */ $cadena .= str_pad($campos[24] , 15, $char_pad_importe, $type_pad_importe);  //Importe aportes OS
+            /* 25 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Importe adicional OS
+            /* 26 */ $cadena .= str_pad($campos[26] , 15, $char_pad_importe, $type_pad_importe);  //Importe aporte ANSSAL
+            /* 27 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Importe excedentes aportes OS
+            /* 28 */ $cadena .= str_pad($campos[24] + $campos[26] , 15, $char_pad_importe, $type_pad_importe);  //Importe total aportes OS
+            /* 29 */ $cadena .= str_pad($campos[29] , 15, $char_pad_importe, $type_pad_importe);  //Importe contribucion SIJP
+            /* 30 */ $cadena .= str_pad($campos[30] , 15, $char_pad_importe, $type_pad_importe);  //Importe contribucion INSSJP
+            /* 31 */ $cadena .= str_pad($campos[31] , 15, $char_pad_importe, $type_pad_importe);  //Importe contribucion FNE
+            /* 32 */ $cadena .= str_pad($campos[32] , 15, $char_pad_importe, $type_pad_importe);  //Importe contribucion asig familiares
+            /* 33 */ $cadena .= str_pad($campos[29] + $campos[30] + $campos[31] + $campos[32] , 15, $char_pad_importe, $type_pad_importe);  //Importe total contribuciones SS
+            /* 34 */ $cadena .= str_pad($campos[34] , 15, $char_pad_importe, $type_pad_importe);  //Importe contribucion OS
+            
+            /* ??????? *//* 35 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Importe contribucion ANSSAL
+            
+            /* 36 */ $cadena .= str_pad($persona->getDomicilio()->getLocalidad()->getProvincia(). ' '.$persona->getDomicilio()->getLocalidad(), 50, $char_pad_string, $type_pad_string);
+            /* 37 */ $cadena .= str_pad($campos[34] /*+ $campos[35] */, 15, $char_pad_importe, $type_pad_importe);  //Importe total contribuciones OS
+            /* 38 */ $cadena .= str_pad('0', 2, $char_pad_int, $type_pad_int);  //Código de siniestrado
+            /* 39 */ $cadena .= '0';  //Marca de corresponde reducción
+            /* 40 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 3
+            /* 41 */ $cadena .= str_pad(number_format($remunerativo_c_t, 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 4
+            /* 42 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Aporte adicional OS
+            /* 43 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Capital de recomposición LRT
+            
+            /* ??????? *//* 44 */ $cadena .= str_pad('0', 1, $char_pad_int, $type_pad_int);  //Tipo de emplesa
+            
+            /* 45 */ $cadena .= str_pad('1', 1, $char_pad_int, $type_pad_int);  //Régimen
+            /* 46 */ $cadena .= str_pad('0' , 15, $char_pad_importe, $type_pad_importe);  //Renatea
+            
+            /* ??????? *//* 47 */ $cadena .= str_pad('0', 2, $char_pad_int, $type_pad_int);  //Dias trabajados
+            
+            /* 48 */ $cadena .= str_pad($campos[48], 15, $char_pad_importe, $type_pad_importe);  //Hs extras monto
+            /* 49 */ $cadena .= str_pad($campos[49], 15, $char_pad_importe, $type_pad_importe);  //SAC
+            /* 50 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Sueldo adicional
+            /* 51 */ $cadena .= str_pad($campos[51], 15, $char_pad_importe, $type_pad_importe);  //Vacaciones
+            /* 52 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Zona desfavorable
+            
+            /* ??????? *//* 53 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Situación 1
+            /* ??????? *//* 54 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Situación 2
+            /* ??????? *//* 55 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Situación 3
+            /* ??????? *//* 56 */ $cadena .= str_pad('0', 2, $char_pad_int, $type_pad_int);  //Dia 1
+            /* ??????? *//* 57 */ $cadena .= str_pad('0', 2, $char_pad_int, $type_pad_int);  //Dia 2
+            /* ??????? *//* 58 */ $cadena .= str_pad('0', 2, $char_pad_int, $type_pad_int);  //Dia 3
+            
+            /* 59 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', '') , 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 5
+            /* 60 */ $cadena .= $empleado->getIdSubcategoria()->getCategoria()->getConvenio()->getId() == Convenio::__FUERA_DE_CONVENIO ? 0 : 1; //Marca convencionado
+            
+            /* ??????? *//* 61 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Dto 1273 OS
+            /* ??????? *//* 62 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Dto 1273 INSSJP
+            
+            /* 63 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', ''), 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 6
+            /* 64 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Aporte diferencial SIJIP
+            
+            /* ??????? *//* 65 */ $cadena .= '0';  //Tipo operación
+            
+            /* 66 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Adicionales
+            /* 67 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Premios
+            /* 68 */ $cadena .= str_pad('0', 3, $char_pad_int, $type_pad_int);  //Cantidad horas extra
+            /* 69 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', ''), 15, $char_pad_importe, $type_pad_importe);  //Sueldo Dto 788 05 Remuneración 8
+            
+            /* ??????? *//* 70 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Aportes SS Dto 788 05
+            
+            /* 71 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', ''), 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 7
+            
+            /* ??????? *//* 72 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Aportes res 33 41 SSS
+            
+            /* 73 */ $cadena .= str_pad(number_format($remunerativo_s_t, 2, ',', ''), 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 8            
+            /* 74 */ $cadena .= str_pad(number_format($no_remunerativo, 2, ',', ''), 15, $char_pad_importe, $type_pad_importe);  //Conceptos no remunerativos
+            /* 75 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Rectificación de remuneración
+            /* 76 */ $cadena .= str_pad($campos[76], 15, $char_pad_importe, $type_pad_importe);  //SAC
+            /* 77 */ $cadena .= str_pad(number_format($remunerativo_s_t + $no_remunerativo, 2, ',', ''), 15, $char_pad_importe, $type_pad_importe);  //Remuneración imponible 9
+            /* 78 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Cantidad horas trabajadas
+            /* 79 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Porcentaje tarea dif
+            /* 80 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Importe contribución tarea dif
+            /* 81 */ $cadena .= str_pad('0', 15, $char_pad_importe, $type_pad_importe);  //Importe contribución tarea dif compen
+            
+            
+            fwrite($f, $cadena);
+            fwrite($f, chr(13) . chr(10));
+        }
+        
+        fclose($f);
+        
+        $response = new BinaryFileResponse($path);
+        $d = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+        $response->headers->set('Content-Type', 'text/plain');
+        $response->headers->set('Content-Disposition', $d);
+        
+        return $response;
+    }
+    
+    private function formatConcepto($concepto){
+        $concepto ? $concepto->getMonto() : 0;
+    }
+    
+    private function cargarCampos931(\ADIF\RecursosHumanosBundle\Entity\LiquidacionEmpleado $liquidacionEmpleado){
+        return array(
+            18 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(100)),
+            19 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(102)),
+            24 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(101)),
+            26 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(102)),            
+            29 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(200)),
+            30 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(201)),
+            31 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(203)),
+            32 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(202)),
+            34 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(201)),
+            48 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(30)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(31)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(32)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(33)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(34)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(35)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(36)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(37)),
+            49 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(51)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(52)) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(53)),
+            51 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(48) + $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(49))),
+            76 => $this->formatConcepto($liquidacionEmpleado->getConceptoCodigo(72))
+        );
+    }

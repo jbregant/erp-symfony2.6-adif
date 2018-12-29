@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del archivo: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <div class="detalle_show">{{ entity.nombre }}</div>
+                    </div>
+                </div>                    
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Descripci&oacute;n</label>
+                        <div class="detalle_show">{{ entity.descripcion }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">&nbsp;</label>
+                        <div class="clearfix"></div>
+                            <a class="btn yellow col-md-12" href="/uploads/empleados/archivos/{{ entity.idEmpleado.id }}/{{ entity.archivo }}"><i class="fa fa-download"></i> Descargar</a>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn default button-back" back-url="{{ path('archivosempleado', {'idEmpleado': entity.idEmpleado.id }) }}"><i class="m-icon-swapleft"></i> Volver</button>
+        </div>
+    </div>
+{% endblock %}

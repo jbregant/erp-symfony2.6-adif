@@ -1,0 +1,93 @@
+{{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate','action' :  path('netcash_generar'),'method' : 'POST'} }) }}
+
+{% include ':Form:fieldsErrors.html.twig' %}
+
+{% set totalNetCash = 0 %}
+{% for autorizacion in autorizaciones %}
+    {% set totalNetCash = totalNetCash + autorizacion.montoNeto %}
+{% endfor %}                        
+<fieldset>
+    <legend>Datos del Net Cash</legend>
+    <div class="row">            
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label required" for="generar_netcash_cuenta_bancaria">Cuenta</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <select id="generar_netcash" name="cuenta_bancaria" class="form-control choice required">
+                        <option value="" selected="selected">-- Elija una cuenta --</option>
+                        {% for cuentaBancariaADIF in cuentasBancoAdif %}
+                            <option value="{{ cuentaBancariaADIF.id }}">{{ cuentaBancariaADIF }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label required" for="generar_netcash_fecha_entrega">Fecha de entrega</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="generar_netcash_fecha_entrega" name="fecha_entrega" class="form-control required datepicker">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label required" for="generar_netcash_fecha_pago">Fecha de pago</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="generar_netcash_fecha_pago" name="fecha_pago" class="form-control required datepicker">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Monto total</label>
+                <div>
+                    <input type="text" disabled="disabled" class="form-control text-right" value="{{ totalNetCash|money_format }}">
+                    <input type="text" class="form-control hidden" name="monto_total" value="{{ totalNetCash }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<br/>
+<fieldset>
+    <legend>Autorizaciones contables</legend>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-scrollable">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>N&uacute;mero</th>
+                            <th>Proveedor</th>
+                            <th>Concepto</th>
+                            <th>Bruto</th>
+                            <th>Retenciones</th>
+                            <th>Neto</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    {% for autorizacion in autorizaciones %}
+                        <tr>
+                            <td>{{ autorizacion.fechaAutorizacionContable|date('d/m/Y') }}</td>
+                            <td>{{ autorizacion.numeroAutorizacionContable|default('-')}}</td>
+                            <td>{{ autorizacion.beneficiario|default('-') }}</td>                        
+                            <td>{{ autorizacion.concepto }}</td>
+                            <td class="nowrap">{{ autorizacion.totalBruto|money_format }}</td>
+                            <td class="nowrap">{{ autorizacion.montoRetenciones|money_format }}</td>
+                            <td class="nowrap">{{ autorizacion.montoNeto|money_format }}</td>
+                            <td>{{ autorizacion.usuario|default('-') }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div> 
+        </div> 
+    </div>
+</fieldset>
+
+{{ form_widget(form._token) }}
+{{ form_end(form, {"render_rest": false}) }}

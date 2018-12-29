@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del : <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Grupo</label>
+                        <div class="detalle_show">                                {{ entity.grupo }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Alicuota</label>
+                        <div class="detalle_show">                                {{ entity.alicuota }} %                        </div>
+                    </div>
+                </div>
+                                    </div>
+									
+			<div class="row hidden">
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">¿Es proveedor?</label>
+                        <div class="detalle_show">
+							{% if entity.esProveedor %}Si{% else %}No{% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('iibb_caba', {esProveedor: entity.esProveedor}) }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

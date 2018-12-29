@@ -1,0 +1,77 @@
+<div class="row row_renglon_pago_nuevo" style="display: none;">
+    <div class="col-md-3 row_cuenta_bancaria">
+        <div class="form-group">
+            <label class="control-label required" for="pago_renglones___name___cuenta_bancaria">Cuenta</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="pago_renglones___name___cuenta_bancaria" sname="pago[renglones][__name__][cuenta_bancaria]" class="form-control choice ignore">
+                    <option value="" selected="selected">-- Elija una cuenta --</option>
+                    {% for cuentaBancariaADIF in cuentasBancoAdif %}
+                        <option value="{{ cuentaBancariaADIF.id }}">{{ cuentaBancariaADIF }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 row_forma_pago">
+        <div class="form-group">
+            <label class="control-label required" for="pago_renglones___name___forma_pago">Forma de pago</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="pago_renglones___name___forma_pago" sname="pago[renglones][__name__][forma_pago]" class="form-control choice ignore">
+                    <option value="" selected="selected">-- Elija una forma de pago --</option>
+                    <option value="1">Cheque</option>
+                    <option value="2">Transferencia</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 hidden chequeraDiv">
+        <div class="form-group">
+            <label class="control-label" for="pago_renglones___name___chequera">Chequera</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <select id="pago_renglones___name___chequera" sname="pago[renglones][__name__][chequera]" class="form-control choice ignore">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 hidden chequeDiv">
+        <div class="form-group">
+            <label class="control-label" for="pago_renglones___name___cheque">N&ordm; cheque</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="pago_renglones___name___cheque" sname="pago[renglones][__name__][cheque]" class="form-control ignore">
+            </div>
+        </div>
+    </div>                                        
+    <div class="col-md-2 hidden transferenciaDivEmpty transferenciaDiv">
+    </div>                                        
+    <div class="col-md-2 hidden transferenciaDiv">
+        <div class="form-group">
+            <label class="control-label" for="pago_renglones___name___transferencia">N&ordm; transferencia</label>
+            <div class="input-icon right">
+                <i class="fa"></i>
+                <input type="text" id="pago_renglones___name___transferencia" sname="pago[renglones][__name__][transferencia]" class="form-control ignore">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 pull-right div_monto_eliminar">
+        <div class="col-md-8 montoDiv">
+            <div class="form-group">
+                <label class="control-label" for="pago_renglones___name___monto">Monto</label>
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="pago_renglones___name___monto" sname="pago[renglones][__name__][monto]" class="form-control ignore numberPositive">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <button class="btn btn-sm red renglon_pago_borrar delete-link-inline">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

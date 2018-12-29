@@ -1,0 +1,126 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+        
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/datepicker.js') }}"  type="text/javascript"></script>
+    
+    <script src="{{ asset('js/custom/rrhh/empleado/novedades.js') }}" ></script>
+{% endblock%}
+    
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .portlet-body{
+            overflow-x: auto; 
+        }
+        
+        .table-striped>tbody>tr:nth-child(odd)>td.concepto-si,
+        .concepto-si{
+            background-color: #35AA47;
+            color: white;
+        }
+        
+        .table-responsive table {
+            margin-bottom: 0 !important;
+        }
+        
+        td.historico{
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        
+        #table-child{
+            max-width: 1000px !important;
+        }
+    </style>
+{% endblock%}
+
+{% block body -%}
+    
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Novedades por empleado</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+{#                    <div class="btn-group pull-right">#}
+                        <div class="btn-group pull-right" >
+                            <button id="btn_filtrar_empleados_con_valor" class="btn btn-sm red tooltips" data-placement="right" data-original-title="Mostrar s&oacute;lo empleados con novedades cargadas" >
+                                <i class="fa fa-search-minus"></i>
+                                Mostrar s&oacute;lo empleados con valores
+                            </button>
+                            <button style="display: none;" id="btn_filtrar_empleados_todos" class="btn btn-sm red tooltips" data-placement="right" data-original-title="Mostrar todos los empleados" >
+                                <i class="fa fa-search-plus"></i>
+                                Mostrar todos los empleados
+                            </button>
+                        </div>
+{#                    </div>#}
+                </div>
+                <table
+                    style="display: none;"
+                    class="table table-bordered table-striped table-condensed flip-content  dt-multiselect export-excel" 
+                    id="table-empleado-novedades"
+                    dataexport-title="Novedades por empleado"
+                    >
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                            <th class="not-in-filter"></th>
+                            <th>Legajo</th>
+                            <th>CUIT</th>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th data-type="select" 
+                                data-select-ajax="convenios/lista_convenios" 
+                                data-select-value="nombre" 
+                                data-select-label="nombre"
+                                data-select-all="Todos">Convenio</th>
+                            {% for concepto in novedades %}
+                                <th></th>
+                            {% endfor %}
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable not-checkbox-transform" />
+                            </th>
+                            <th class="text-center no-order th-ver-historial"></th>
+                            <th numeric>Legajo</th>
+                            <th>CUIT</th>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th>Convenio</th>
+                            {% for concepto in novedades %}
+                                <th c_id="{{ concepto.id }}" class="th-concepto tooltips nowrap" data-placement="top" data-original-title="{{ concepto.codigo }} - {{ concepto.descripcion }}">{{ concepto.codigo }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

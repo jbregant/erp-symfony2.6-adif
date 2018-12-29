@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la conciliacionbancaria\renglonconciliacion: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fechamovimientobancario</label>
+                        <div class="detalle_show">                                {{ entity.fechaMovimientoBancario|date('d/m/Y H:i:s') }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Descripcion</label>
+                        <div class="detalle_show">                                {{ entity.descripcion }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Numeroreferencia</label>
+                        <div class="detalle_show">                                {{ entity.numeroReferencia }}                        </div>
+                    </div>
+                </div>
+                                            <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto</label>
+                        <div class="detalle_show">                                {{ entity.monto }}                        </div>
+                    </div>
+                </div>
+                                    </div>
+                    <div class="row">
+                                        </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('renglonesconciliacion') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+
+<table 
+    class="table table-bordered table-striped table-condensed flip-content dt-multiselect" 
+    id="table-renglonsolicitudcompra">
+    <thead>
+        <tr class="replace-inputs filter">
+            <th class="entity_id"></th>
+            <th class="not-in-filter"></th>
+            <th>Solicitud</th>
+            <th>Prioridad</th>
+            <th>Rubro</th>
+            <th>Bien econ&oacute;mico</th>
+            <th>Descripci&oacute;n</th>
+            <th>Cantidad pendiente</th>
+            <th>Unidad</th>
+            <th>Justiprecio unitario</th>
+            <th>Justiprecio total</th>
+            <th class="not-in-filter"></th>
+        </tr>
+        <tr class="headers">
+            <th class="no-order"></th>
+            <th class="text-center table-checkbox no-order">
+                <input type="checkbox" class="group-checkable not-checkbox-transform" 
+                       data-set="#table-renglonsolicitudcompra .checkboxes" />
+            </th>
+            <th>Solicitud</th>
+            <th class="nowrap">Prioridad</th>
+            <th>Rubro</th>
+            <th>Bien econ&oacute;mico</th>
+            <th>Descripci&oacute;n</th>
+            <th numeric class="nowrap">Cantidad pendiente</th>
+            <th>Unidad</th>
+            <th currency class="nowrap">Justiprecio unitario</th>
+            <th currency class="nowrap">Justiprecio total</th>
+            <th class="text-center no-order ctn_acciones">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if renglonesSolicitudCompra is defined %}
+            {% for renglonSolicitudCompra in renglonesSolicitudCompra %}
+                <tr>
+                    <td><input type="hidden" e_id value=" {{ renglonSolicitudCompra.id }} "/></td>
+                    <td class="text-center">
+                        <input type="checkbox" class="checkboxes not-checkbox-transform" value="" />
+                    </td>
+                    <td class="nowrap">{{ renglonSolicitudCompra.solicitudCompra.numero }}</td>                            
+                    <td>{{ renglonSolicitudCompra.prioridad }}</td>                             
+                    <td class="nowrap">{{ renglonSolicitudCompra.rubro }}</td>                            
+                    <td>{{ renglonSolicitudCompra.bienEconomico }}</td>
+                    <td>{{ renglonSolicitudCompra.descripcion|default('-') }}</td>
+                    <td>{{ renglonSolicitudCompra.cantidadPendiente }}</td>
+                    <td>{{ renglonSolicitudCompra.unidadMedida }}</td>
+                    <td>{{ renglonSolicitudCompra.justiprecioUnitario|money_format('$', 1, 4) }}</td>
+                    <td>{{ renglonSolicitudCompra.justiprecioTotal|money_format('$', 1, 4) }}</td>
+                    <td class="ctn_acciones text-center nowrap">
+                        <a class="btn btn-xs green tooltips agregar_renglon_requerimiento" 
+                           data-original-title="Agregar a requerimiento" href="#">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>

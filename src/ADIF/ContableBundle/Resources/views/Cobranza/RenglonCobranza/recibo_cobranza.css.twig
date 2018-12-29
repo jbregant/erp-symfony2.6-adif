@@ -1,0 +1,118 @@
+@page {
+    margin: 0;
+    marks: none;    
+}
+
+@media print {
+    .page-break-after {
+        page-break-after: always;
+    }
+}
+
+body {
+    margin:0;
+    padding:0;
+    font-size: 0.85em;
+    font-family: Helvetica;    
+}
+
+.comprobante-electronico-content {
+    background-image: url("{{ app.request.getSchemeAndHttpHost() ~ '/images/background_recibo.jpg' }}");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 297mm;
+    width: 210mm;
+} 
+
+.datos_cliente {
+    padding-left: 30mm;
+    font-size: 12px;
+    padding-top: 0mm;
+}
+
+.valor_recibido_en_letras {
+    width: 200mm;
+    padding-left: 10mm;
+    padding-top: 1mm;   
+    font-size: 14px; 
+    font-weight: bold;
+    height: 10mm;
+    vertical-align: top;
+}
+
+.detalle {
+    padding-left: 20mm;
+    padding-top: 8mm;   
+    font-size: 12px;
+{#    height: 10mm;#}
+    vertical-align: top;
+}
+
+.comprobante_descripcion {
+    width: 125mm;
+    padding-right: 3mm;
+    padding-left: 14mm;
+    font-size: 12px;
+    text-align: left;
+}
+
+.comprobante_moneda {
+    width: 30mm;
+    text-align: left;
+    font-size: 12px;  
+    padding-left: 23mm;
+}
+
+.comprobante_importe {
+    width: 45mm;
+    text-align: right;  
+    font-size: 12px;
+    padding-right: 2mm;
+}
+
+.total_comprobantes {
+    padding-left: 158mm;
+}
+
+
+.renglon_tipo {
+    width: 50mm;
+    padding-right: 3mm;
+    padding-left: 14mm;
+    font-size: 12px;
+    text-align: left;
+}
+
+.renglon_banco {
+    width: 90mm;
+    text-align: left;
+    font-size: 12px;  
+    padding-left: 12mm;
+}
+
+.renglon_vencimiento {
+    width: 40mm;
+    text-align: left;
+    font-size: 12px;  
+    padding-left: 8mm;
+}
+.renglon_importe {
+    width: 25mm;
+    text-align: right;  
+    font-size: 12px;
+    padding-right: 5mm;
+}
+
+.total_cobranzas {
+    width: 205mm;
+    text-align: right;  
+    font-size: 12px;
+    padding-right: 5mm;
+}
+
+.page {
+    position: relative;
+    page-break-after: always;
+    height: 360mm;
+    width: 100%;
+}

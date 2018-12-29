@@ -1,0 +1,956 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% set EstadoComprobante = 'ADIF\\ContableBundle\\Entity\\EstadoComprobante' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .resta {
+            font-size: 11px;
+        }
+        .row-cc td {
+            padding: 2px 1.3em 2px .5em !important;
+        }
+        .oscuro td {
+            background-color: rgb(247, 247, 247);
+            padding: 0px 1.3em 0px .5em !important;
+        }
+        .sin-color td {
+            font-size: 11px;
+            padding: 0px 1.3em 0px .5em !important;
+        }
+        .oscuro.row-cc {
+            font-size: 11px;
+        }
+        .table>tbody>tr>td.borrar{
+            border: none !important;
+        }
+    </style>
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    {% set id_contratos = 0 %}
+	{% set id_contratos_cupones = 0 %}
+    {% set id_cotratos_cupones_garantia = '' %}
+
+    {% set array_contratos_id = [] %}
+    {% set array_contratos_saldo = [] %}
+
+    {% set id_comprobantes = '' %}
+
+
+    {% set total_anticipos = 0 %}
+    {% set total_contratos = 0 %}
+    {% set total_cupones_garantia = 0 %}
+    {% set total_comprobantes_sin_contrato = 0 %}
+    {% set total_cupones_sin_contrato = 0 %}
+    {% set total_cupones_con_contrato = 0 %}
+    
+    
+	{% set saldo = 0 %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Cuenta corriente <b>{{ cliente.clienteProveedor.razonSocial ~  ' - ' ~ cliente.clienteProveedor.cuit }} - ID Cliente
+						{{ cliente.id }}
+					</b></div>
+                    <div class="caption pull-right">Saldo total: <b><span id="total_cc_cliente"></span></b></div>
+                </div>
+                <div class="portlet-body">
+
+                    {% if contratos is not empty or comprobantes_sin_contrato is not empty or anticipos is not empty %}
+                        <div class="table-toolbar">
+                            <div class="text-align:right checkbox-detalle">
+                                <input id="checkbox-detalle" type="checkbox">
+                                <label  for="checkbox-detalle" class="control-label">Mostrar hist&oacute;rico</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table
+                                    class="mostrar-todos table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel"
+                                    id="cuenta_corriente_cliente" dataexport-title="cuenta_corriente_cliente"
+                                    data-toggler="1" data-no-ordenable="1">
+                                    <thead>
+                                        <tr class="replace-inputs filter">
+                                            <th class="not-in-filter hidden entity_id"></th>
+                                            <th>Contrato</th>
+                                            <th>Fecha</th>
+                                            <th>ID Comprobante</th>
+                                            <th>Tipo de comprobante</th>
+                                            <th>N&ordm; de comprobante</th>
+                                            <th>Detalle</th>
+                                            <th>Debe</th>
+                                            <th>Haber</th>
+                                            <th>Saldo</th>
+                                            <th>Saldo del contrato</th>
+                                        </tr>
+                                        <tr class="headers">
+                                            <th class="no-order hidden"></th>
+                                            <th class="no-order">Contrato</th>
+                                            <th class="no-order" width="5%">Fecha</th>
+                                            <th class="no-order" width="5%">ID Comprobante</th>
+                                            <th class="no-order" width="13%">Tipo de comprobante</th>
+                                            <th class="no-order" width="13%">N&ordm; de comprobante</th>
+                                            <th class="no-order" width="21%">Detalle</th>
+                                            <th class="no-order" width="9%">Debe</th>
+                                            <th class="no-order" width="9%">Haber</th>
+                                            <th class="no-order" width="9%">Saldo</th>
+                                            <th class="no-order" width="9%">Saldo del contrato</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for contrato in contratos if contrato.comprobantesEnCuentaCorriente is not empty %}
+                                            <tr class="suma oscuro row-cc" id="fila_contrato_{{ contrato.id }}">
+                                                <td></td>
+                                                <td>
+                                                    <i>{{ contrato.claseContrato | upper }} N&ordm; {{ contrato.numeroContrato }} - ID Contrato {{contrato.id}}</i> &nbsp;
+                                                    <a href="" title="Ver detalle del contrato" class="mostrar-contrato" target="" id="{{ contrato.id }}">
+                                                        <i class="fa fa-search"></i>
+                                                    </a>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-right" id="total_contrato_{{ contrato.id }}"></td>
+                                            </tr>
+                                            {% set saldo = 0 %}
+                                            {% set notas_credito = [] %}
+                                            {% set cupones_garantia = [] %}
+                                            {% for comprobante in contrato.comprobantesEnCuentaCorriente %}
+												{% set hiddenComprobante = '' %}
+                                                {% set comprobante_anulado = comprobante.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO') %}
+												{% set saldoComprobante = comprobante.saldoALaFecha( date() ) %}
+
+                                                {% if ( comprobante.tipoComprobante.id == 7 and comprobante.saldar == 1 ) or comprobante.tipoComprobante.id != 7 %}
+                                                    {% if not comprobante.esNotaCredito %}
+
+                                                        {% if comprobante.esCupon and comprobante.esCuponGarantia %}
+                                                            {% set cupones_garantia = cupones_garantia|merge([comprobante]) %}
+                                                        {% else %}
+
+                                                            {% set ocultable = '' %}
+                                                            {% if saldoComprobante == 0 %}
+                                                                {% set hiddenComprobante = 'hidden' %}
+                                                                {% set ocultable = 'ocultable' %}
+                                                            {% endif %}
+
+                                                            {# No quiero que se muestren los cupones, los muestro abajo de todo #}
+                                                            {% if ( comprobante.tipoComprobante.id == 7 and comprobante.saldar == 1) or comprobante.tipoComprobante.id != 7 %}
+
+                                                                <tr class="suma {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante.id }} {{ hiddenComprobante }} ">
+                                                                    <td>{{ comprobante.id }}</td>
+                                                                    <td class="borrar"></td>
+                                                                    <td class="text-left">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                                                    <!-- <td class="text-left">{{ comprobante.fechaVencimiento ? comprobante.fechaVencimiento|date('d/m/Y') : '-' }}</td> -->
+                                                                    <td class="text-left">{{ comprobante.id }}</td>
+                                                                    <td class="text-left">{{ comprobante.tipoComprobante|default('-') }} ({{ comprobante.letraComprobante|default('-') }})</td>
+                                                                    <td class="text-left">{{ comprobante.numeroCompleto|default('-') }}</td>
+                                                                    <td class="text-left">{{ comprobante.observaciones }}</td>
+                                                                    {% if comprobante.tipoComprobante.id == 1 or comprobante.tipoComprobante.id == 2 or (comprobante.tipoComprobante.id == 7 ) %}
+                                                                        {# Nota de debito #}
+                                                                        <td class="text-left">{{ comprobante.total|money_format}}</td>
+                                                                        <td class="text-left">{{ 0|money_format }}</td>
+                                                                    {% else %}
+                                                                        {# las demas.... #}
+                                                                        <td class="text-left">{{ 0|money_format }}</td>
+                                                                        {% if comprobante.total >= 0 %}
+                                                                            <td class="text-left">{{ comprobante.total|money_format }}</td>
+                                                                        {% else %}
+                                                                            <td class="text-left">{{ (comprobante.total * -1)|money_format }}</td>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                    <td class="text-right">
+                                                                        {% if comprobante.tipoComprobante.id == 7 %}
+                                                                            {{ comprobante.total|money_format }}
+                                                                            {% set saldo = saldo + comprobante.total %}
+                                                                        {% else %}
+                                                                            {% if not comprobante_anulado and saldoComprobante > 0 %}
+                                                                                {{ saldoComprobante|money_format }}
+                                                                                {% set saldo = saldo + saldoComprobante %}
+                                                                            {% else %}
+                                                                                {{ 0|money_format }}
+                                                                                {% set id_comprobantes = id_comprobantes  ~ ',' ~ comprobante.id %}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td class="borrar"></td>
+                                                                </tr>
+
+                                                                {% for cobro in comprobante.cobros %}
+
+                                                                    <tr class="resta row-cc comprobante_{{ comprobante.id }} {{ ocultable }} {{ hiddenComprobante }}">
+                                                                        <td>{{ cobro.id }}</td>
+                                                                        <td class="borrar"></td>
+                                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.fechaCobranza|date('d/m/Y') }}</td>
+                                                                        <td class="text-right">{{ comprobante.id }}</td>
+                                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.stringTipo|default('-') }}</td>
+                                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.numeroRecibo|default('-') }}</td>
+                                                                        <td class="text-left"></td>
+                                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ (cobro.monto* -1)|money_format }}</td>
+                                                                        <td class="text-right"></td>
+                                                                        <td class="borrar"></td>
+                                                                        {% if saldoComprobante == 0 %}
+                                                                            {% set id_comprobantes = id_comprobantes ~ ',' ~ comprobante.id %}
+                                                                        {% endif %}
+                                                                    </tr>
+
+
+                                                                {% endfor %}
+
+                                                                {% set comprobantes_ajuste = comprobante.comprobantesAjustes %}
+                                                                {% for comprobante_ajuste in comprobantes_ajuste %}
+
+                                                                    {% set comprobante_anulado = comprobante.fechaAnulacion != null %}
+                                                                    {% set hidden = '' %}
+                                                                    {% set trClassSumaResta = 'suma' %}
+
+                                                                    {% set ocultable = '' %}
+                                                                    {% if saldoComprobante == 0 %}
+                                                                        {% set hidden = 'hidden' %}
+                                                                        {% set ocultable = 'ocultable' %}
+                                                                    {% endif %}
+
+                                                                    {% if comprobante_ajuste.esNotaCredito == true %}
+                                                                        {% set trClassSumaResta = 'resta' %}
+                                                                    {% endif %}
+
+                                                                    <tr class="{{ trClassSumaResta }} {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante_ajuste.id }} {{ ocultable }} {{ hidden }}">
+                                                                        <td>{{ comprobante_ajuste.id }}</td>
+                                                                        <td class="borrar"></td>
+                                                                        <td class="text-right">{{ comprobante_ajuste.fechaComprobante|date('d/m/Y') }}</td>
+                                                                        <td class="text-right">{{ comprobante_ajuste.id }}</td>
+                                                                        {% if is_granted('ROLE_ANULAR_COMPROBANTE_AJUSTE') %}
+                                                                            <td class="text-right">
+                                                                                <a href="{{ path('comprobante_ajuste_show', { 'id': comprobante_ajuste.id }) }}">{{ comprobante_ajuste.detalle }}</a>
+                                                                            </td>
+                                                                        {% else %}
+                                                                            <td class="text-right">{{ comprobante_ajuste.detalle }}</td>
+                                                                        {% endif %}
+                                                                        <td class="text-left">-</td>
+                                                                        <td class="text-left">{{ comprobante_ajuste.observaciones }}</td>
+                                                                        {% if comprobante_ajuste.esNotaCredito == false %}
+                                                                            {# Nota de debito #}
+                                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ comprobante_ajuste.total|money_format }}</td>
+                                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                                        {% else %}
+                                                                            {# Nota de credito #}
+                                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ comprobante_ajuste.total|money_format }}</td>
+                                                                        {% endif %}
+                                                                        <td class="text-right"></td>
+                                                                        <td class="borrar"></td>
+                                                                    </tr>
+                                                                {% endfor %}
+
+                                                            {% endif %}
+
+                                                        {% endif %}
+
+                                                    {% else %}
+                                                        {# Es nota de credito #}
+                                                        {% if comprobante.saldo > 0 %}
+                                                            {% set notas_credito = notas_credito|merge([comprobante]) %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% for nota_credito in notas_credito %}
+                                                {% set comprobante_anulado = nota_credito.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO') %}
+                                                <tr class="suma {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ nota_credito.id }}">
+                                                    <td>{{ nota_credito.id }}</td>
+                                                    <td class="borrar"></td>
+
+                                                    <td class="text-left">{{ nota_credito.fechaComprobante|date('d/m/Y') }}</td>
+                                                    <td class="text-left">{{ nota_credito.id }}</td>
+                                                    <td class="text-left">{{ nota_credito.tipoComprobante|default('-') }} ({{ nota_credito.letraComprobante|default('-') }})</td>
+                                                    <td class="text-left">{{ nota_credito.numeroCompleto|default('-') }}</td>
+                                                    <td class="text-left">{{ (((((nota_credito.observaciones|split(' - ', 2))|last)|split(' del '))|first) ~ (comprobante_anulado? ' (ANULADO)' : ''))|default('-') }}</td>
+                                                    <td class="text-left">{{ 0|money_format }}</td>
+                                                    <td class="text-left">{{ nota_credito.total|money_format }}</td>
+
+                                                    <td class="text-right">
+                                                        {% if not comprobante_anulado and nota_credito.saldo > 0 %}
+                                                            ({{ (nota_credito.saldo * -1)|money_format }})
+                                                            {% set saldo = saldo + nota_credito.saldo %}
+                                                        {% else %}
+                                                            {{ 0|money_format }}
+                                                            {% set id_comprobantes = id_comprobantes ~ ',' ~ nota_credito.id %}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="borrar"></td>
+                                                </tr>
+
+                                            {% endfor %}
+
+                                            {% set id_contratos = id_contratos ~ ',' ~ contrato.id %}
+                                            {% set array_contratos_id = array_contratos_id|merge([contrato.id]) %}
+                                            {#{% set saldos = saldos ~ ',' ~ saldo %}#}
+                                            {% set array_contratos_saldo = array_contratos_saldo|merge([saldo]) %}
+                                            {% set total_contratos = total_contratos + saldo %}
+                                            {% set saldo_garantia = 0 %}
+                                            {% if cupones_garantia is not empty %}
+                                                <tr class="suma sin-color row-cc" id="garantia_{{ contrato.id }}">
+                                                    <td></td>
+                                                    <td><i>CUPONES DE GARANTIA</i></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-right"></td>
+                                                </tr>
+
+                                                {% for comprobante in cupones_garantia %}
+
+                                                    {% set comprobante_anulado = comprobante.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO') %}
+                                                    <tr class="suma {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante.id }}">
+                                                        <td>{{ comprobante.id }}</td>
+                                                        <td class="borrar"></td>
+                                                        <td class="text-left">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                                        <td class="text-left">{{ comprobante.id }}</td>
+                                                        <td class="text-left">{{ comprobante.tipoComprobante|default('-') }} ({{ comprobante.letraComprobante|default('-') }})</td>
+                                                        <td class="text-left">{{ comprobante.numeroCompleto|default('-') }}</td>
+                                                        <td class="text-left">{{ (((((comprobante.observaciones|split(' - ', 3))|last)|split(' del '))|first) ~ (comprobante_anulado? ' (ANULADO)' : ''))|default('-') }}</td>
+                                                        <td class="text-left">{{ comprobante.total|money_format }}</td>
+                                                        <td class="text-left">{{ 0|money_format }}</td>
+                                                        <td class="text-right">
+                                                            {% if not comprobante_anulado and comprobante.saldo > 0 %}
+                                                                {{ comprobante.saldo|money_format }}
+                                                                {% set saldo_garantia = saldo_garantia + comprobante.saldo %}
+                                                            {% else %}
+                                                                {{ 0|money_format }}
+                                                                {% set id_comprobantes = id_comprobantes  ~ ',' ~ comprobante.id %}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="borrar"></td>
+                                                    </tr>
+                                                    {% for cobro in comprobante.cobros %}
+                                                        <tr class="resta row-cc comprobante_{{ comprobante.id }}">
+                                                            <td>{{ cobro.id }}</td>
+                                                            <td class="borrar"></td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.fecha|date('d/m/Y') }}</td>
+                                                            <td class="text-left">{{ comprobante.id }}</td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.stringTipo|default('-') }}</td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.numeroRecibo|default('-') }}</td>
+                                                            <td class="text-left"></td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.monto|money_format }}</td>
+                                                            <td class="text-right"></td>
+                                                            <td class="borrar"></td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                {% endfor %}
+
+                                            {% endif %}
+                                            {% if saldo_garantia == 0  %}
+                                                {% set id_cotratos_cupones_garantia = id_cotratos_cupones_garantia ~ ',' ~ contrato.id %}
+                                            {% endif %}
+                                            {% set saldo = saldo + saldo_garantia %}
+                                        {% endfor %}
+
+                                        {% if comprobantes_sin_contrato is not empty %}
+                                            <tr class="suma oscuro row-cc">
+                                                <td></td>
+                                                <td><i>COMPROBANTES SIN CONTRATO ASOCIADO</i></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-right"><i id="td_total_comprobantes_sin_contrato"></i></td>
+                                            </tr>
+                                            {% for comprobante in comprobantes_sin_contrato %}
+
+												{% set saldoComprobante = comprobante.saldoALaFecha( date() ) %}
+                                                {% set comprobante_anulado = comprobante.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO') %}
+                                                
+                                                {% if ( comprobante.tipoComprobante.id == 7 and comprobante.saldar == 1 ) or comprobante.tipoComprobante.id != 7 %}
+                                                    <tr class="suma {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante.id }}">
+                                                        <td>{{ comprobante.id }}</td>
+                                                        <td class="borrar"></td>
+                                                        <td class="text-left">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                                        <td class="text-left">{{ comprobante.id }}</td>
+                                                        <td class="text-left">{{ comprobante.tipoComprobante|default('-') }} ({{ comprobante.letraComprobante|default('-') }})</td>
+                                                        <td class="text-left">{{ comprobante.numeroCompleto|default('-') }}</td>
+                                                        <td class="text-left">{{ (((((comprobante.observaciones|split(' - ', 3))|last)|split(' del '))|first) ~ (comprobante_anulado? ' (ANULADO)' : ''))|default('-') }}</td>
+
+                                                        {# DEBE #}
+                                                        {% if comprobante.tipoComprobante.id == 1 or comprobante.tipoComprobante.id == 2 or comprobante.tipoComprobante.id == 7 %}
+                                                            {# Nota de debito #}
+                                                            <td class="text-left">{{ comprobante.total|money_format }}</td>
+                                                            <td class="text-left">{{ 0|money_format }}</td>
+                                                        {% else %}
+                                                            {# las demas.... #}
+                                                            <td class="text-left">{{ 0|money_format }}</td>
+                                                            <td class="text-left">{{ comprobante.total|money_format }}</td>
+                                                        {% endif %}
+                                                        <td class="text-right">
+                                                            {# MODIFICACIONES #}
+
+                                                                {% if not comprobante_anulado and saldoComprobante > 0 %}
+                                                                    {{ saldoComprobante|money_format }}
+                                                                {% else %}
+                                                                    {{ saldoComprobante|money_format }}
+                                                                    {% set id_comprobantes = id_comprobantes  ~ ',' ~ comprobante.id %}
+                                                                {% endif %}
+
+                                                                {% if comprobante.tipoComprobante.id != 7 %}
+                                                                    {% if not comprobante.esNotaCredito %}
+                                                                        {% set total_comprobantes_sin_contrato = total_comprobantes_sin_contrato + saldoComprobante %}
+                                                                    {% else %}
+                                                                        {% set total_comprobantes_sin_contrato = total_comprobantes_sin_contrato + saldoComprobante %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                
+                                                            {# FIN MODIFICACIONES #}
+                                                        </td>
+                                                        <td class="borrar"></td>
+                                                    </tr>
+                                                {% endif %}
+                                                {% for cobro in comprobante.cobros %}
+                                                    <tr class="resta row-cc comprobante_{{ comprobante.id }}">
+                                                        <td>{{ cobro.id }}</td>
+                                                        <td class="borrar"></td>
+                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.fecha|date('d/m/Y') }}</td>
+                                                        <td class="text-left">{{ comprobante.id }}</td>
+                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.stringTipo|default('-') }}</td>
+                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.numeroRecibo|default('-') }}</td>
+                                                        <td class="text-left"></td>
+                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                        <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.monto|money_format }}</td>
+                                                        <td class="text-right"></td>
+                                                        <td class="borrar"></td>
+														{% if saldoComprobante == 0 %}
+															{% set id_comprobantes = id_comprobantes ~ ',' ~ comprobante.id %}
+														{% endif %}
+                                                    </tr>
+                                                {% endfor %}
+
+												{% set comprobantes_ajuste = comprobante.comprobantesAjustes %}
+												{% for comprobante_ajuste in comprobantes_ajuste %}
+
+													{% set comprobante_anulado = comprobante.fechaAnulacion != null %}
+													{% set hidden = '' %}
+													{% set trClassSumaResta = 'suma' %}
+
+													{% set ocultable = '' %}
+													{% if saldoComprobante == 0 %}
+														{% set hidden = 'hidden' %}
+														{% set ocultable = 'ocultable' %}
+													{% endif %}
+
+													{% if comprobante_ajuste.esNotaCredito == true %}
+														{% set trClassSumaResta = 'resta' %}
+													{% endif %}
+
+													<tr class="{{ trClassSumaResta }} {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante_ajuste.id }} {{ ocultable }} {{ hidden }}">
+														<td>{{ comprobante_ajuste.id }}</td>
+														<td class="borrar"></td>
+														<td class="text-right">{{ comprobante_ajuste.fechaComprobante|date('d/m/Y') }}</td>
+														<td class="text-right">{{ comprobante_ajuste.id }}</td>
+														{% if is_granted('ROLE_ANULAR_COMPROBANTE_AJUSTE') %}
+															<td class="text-right">
+																<a href="{{ path('comprobante_ajuste_show', { 'id': comprobante_ajuste.id }) }}">{{ comprobante_ajuste.detalle }}</a>
+															</td>
+														{% else %}
+															<td class="text-left">{{ comprobante_ajuste.detalle }}</td>
+														{% endif %}
+
+														<td class="text-left">-</td>
+														<td class="text-left">{{ comprobante_ajuste.observaciones }}</td>
+														{% if comprobante_ajuste.esNotaCredito == false %}
+															{# Nota de debito #}
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ comprobante_ajuste.total|money_format }}</td><!-- debe -->
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td><!-- haber -->
+														{% else %}
+															{# Nota de credito #}
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td><!-- debe -->
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ comprobante_ajuste.total|money_format }}</td><!-- haber -->
+														{% endif %}
+														<td class="text-right"></td>
+														<td class="borrar"></td>
+													</tr>
+												{% endfor %}
+
+                                            {% endfor %}
+
+                                        {% endif %}
+
+                                        {% if anticipos is not empty %}
+                                            <tr class="suma oscuro row-cc">
+                                                <td></td>
+                                                <td><i>ANTICIPOS DE CLIENTE</i></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-right"><i id="td_total_anticipos"></i></td>
+                                            </tr>
+                                            {% for anticipo in anticipos %}
+                                                {#{%  set primer_renglon = anticipo.cobroRenglonCobranza.renglonesCobranza|length > 0 ? anticipo.cobroRenglonCobranza.renglonesCobranza|first : anticipo.cobroRenglonCobranza.cheques|first %}                                            #}
+                                                {% set total_anticipos = total_anticipos + anticipo.saldo %}
+                                                <tr class="suma row-cc">
+                                                    <td>{{ anticipo.id }}</td>
+                                                    <td class="borrar"></td>
+                                                    <td class="text-left">{{ anticipo.cobroRenglonCobranza.fechaCobranza|date('d/m/Y') }}</td>
+                                                    <td class="text-left">{{ anticipo.id }}</td>
+                                                    <td class="text-left">{{ anticipo.cobroRenglonCobranza.stringTipo }}</td>
+                                                    <td class="text-left"> {{ anticipo.cobroRenglonCobranza.numeroRecibo }}</td>
+                                                    {#<td class="text-left"> {{ primer_renglon.numeroRecibo }}</td>#}
+                                                    <td class="text-left">Anticipo {{ anticipo.cobroRenglonCobranza.monto > 0 ? 'autom&aacute;tico' : 'manual' }}</td>
+                                                    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                    <td class="text-left">{{ (anticipo.monto * -1)|money_format }}</td>
+                                                    <td class="text-right">{{ (anticipo.saldo * -1)|money_format }}</td>
+                                                    <td class="borrar"></td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+						{% for contrato in contratos if contrato.comprobantesEnCuentaCorriente is not empty %}
+							<div id="detalle-contrato-{{contrato.id}}"  style="display:none">
+								<table
+									class="table table-bordered table-striped table-condensed table-hover export-custom"
+									dataexport-title="Detalle del contrato">
+									<thead>
+										<tr class="headers">
+											<th colspan="3"><b>Contrato "{{ contrato.claseContrato | upper }} N&ordm; {{ contrato.numeroContrato }}"</b></th>
+										</tr>
+										<tr class="headers">
+											<th>Monto total</th>
+											<th>Monto ejecutado</th>
+											<th>Saldo</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>{{ contrato.importeTotal|money_format }}</td>
+											<td>{{ (contrato.importeTotal - contrato.saldoPendienteFacturacion)|money_format }}</td>
+											<td>{{ contrato.saldoPendienteFacturacion|money_format }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						{% endfor %}
+                    {% else %}
+                        <div class="note note-info">
+                            <h4 class="block">El cliente no posee datos en su cuenta corriente</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="row">
+        <div class="col-md-12">
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption">Cupones</div>
+                    <div class="tools">
+						<a href="javascript:;" class="expand"></a>
+					</div>
+                </div>
+                <div class="portlet-body" style="border: thin solid #E5E5E5; display: none;">
+
+					<div class="row">
+						<div class="col-md-12">
+                            <div class="table-toolbar clear">
+                                <div class="btn-group pull-right">
+                                    {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                    <div class="btn-group" id="btn_saldar">
+                                        <button class="btn btn-sm green" type="button" data-placement="right" data-original-title="Saldar cupones seleccionados">
+                                            <i class="fa fa-dollar"></i>
+                                            Subir cup&oacute;n
+                                        </button>
+                                        <button data-toggle="dropdown" class="btn btn-sm green dropdown-toggle" type="button">
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a href="" cuenta-corriente-cliente-table="cupones_cliente" data-que-exportar="todos">Todos</a></li>
+                                            <li class="hide-if-non-selected"><a href="" cuenta-corriente-cliente-table="cupones_cliente" data-que-exportar="seleccionados">Seleccionados</a></li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+							<table
+								class="mostrar-todos table table-bordered table-striped table-condensed flip-content datatable dt-multiselect"
+								id="cupones_cliente" dataexport-title="cupones_cliente"
+								data-toggler="1" data-no-ordenable="1">
+
+								<thead>
+									<tr class="replace-inputs filter">
+										<th class="not-in-filter hidden entity_id"></th>
+										<th>Contrato</th>
+                                        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                        <th class="no-order"></th>
+                                        {% endif %}
+										<th>Fecha</th>
+										<th>ID Comprobante</th>
+										<th>Tipo de comprobante</th>
+										<th>N&ordm; de comprobante</th>
+										<th>Detalle</th>
+										<th>Debe</th>
+										<th>Haber</th>
+										<th>Saldo</th>
+										<th>Saldo del contrato</th>
+									</tr>
+									<tr class="headers">
+                                        <th class="no-order"></th>
+										<th class="no-order">Contrato</th>
+                                        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                        <th class="no-order"></th>
+                                        {% endif %}
+										<th class="no-order" width="5%">Fecha</th>
+										<th class="no-order" width="5%">ID Comprobante</th>
+										<th class="no-order" width="13%">Tipo de comprobante</th>
+										<th class="no-order" width="13%">N&ordm; de comprobante</th>
+										<th class="no-order" width="21%">Detalle</th>
+										<th class="no-order" width="9%">Debe</th>
+										<th class="no-order" width="9%">Haber</th>
+										<th class="no-order" width="9%">Saldo</th>
+										<th class="no-order" width="9%">Saldo del contrato</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									{# Cupones #}
+
+                                        {% for contrato in contratos if contrato.comprobantesEnCuentaCorriente is not empty %}
+											<tr class="suma oscuro row-cc" id="fila_contrato_cupon_{{ contrato.id }}">
+                                                <td></td>
+												<td>
+													<i>CUPONES - {{ contrato.claseContrato | upper }} N&ordm; {{ contrato.numeroContrato }} - ID Contrato {{contrato.id}}</i> &nbsp;
+													<a href="" title="Ver detalle del contrato" class="mostrar-contrato" target="" id="{{ contrato.id }}">
+														<i class="fa fa-search"></i>
+													</a>
+												</td>
+                                                {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                                <td></td>
+                                                {% endif %}
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+                                                <td></td>
+                                                <td></td>
+												<td></td>
+												<td></td>
+                                                <td class="text-right" id="td_total_cupones_con_contrato"></td>
+											</tr>
+											{% set tieneCupones = false %}
+											{% for comprobante in contrato.comprobantesEnCuentaCorriente %}
+												{# Solo cupones #}
+												{% set hiddenComprobante = '' %}
+												{% if comprobante.tipoComprobante.id == 7 and comprobante.saldar is null %}
+													{% set tieneCupones = true %}
+													{% if comprobante.cobros is not empty %}
+														{# Significa que tiene cobros y quiero que no se muestren, que pasen al historico #}
+														{% set hiddenComprobante = 'hidden' %}
+													{% endif %}
+
+													<tr id="{{ comprobante.id }}" class="suma anulado row-cc comprobante_{{ comprobante.id }} {{ hiddenComprobante }} ">
+														<td>{{ comprobante.id }}</td>
+														<td class="borrar"></td>
+                                                        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                                        <td class="text-center table-checkbox no-order">
+                                                            <input type="checkbox" class="group-checkable not-checkbox-transform" id="{{ comprobante.id }}" />
+                                                        </td>
+                                                        {% endif %}
+														<td class="text-left" id="{{ comprobante.id }}_fechaComprobante">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+														<!-- <td class="text-left">{{ comprobante.fechaVencimiento ? comprobante.fechaVencimiento|date('d/m/Y') : '-' }}</td> -->
+														<td class="text-left">{{ comprobante.id }}</td>
+														<td class="text-left">{{ comprobante.tipoComprobante|default('-') }} ({{ comprobante.letraComprobante|default('-') }})</td>
+														<td class="text-left">{{ comprobante.numeroCompleto|default('-') }}</td>
+														<td class="text-left">{{ comprobante.observaciones }}</td>
+														{% if comprobante.total >= 0 %}
+															<td class="text-left">{{ comprobante.total|money_format }}</td><!-- Debe -->
+															<td class="text-left">{{ 0|money_format }}</td><!-- Haber -->
+														{% else %}
+															<td class="text-left">{{ 0|money_format  }}</td><!-- Debe -->
+															<td class="text-left">{{ (comprobante.total * -1)|money_format }}</td><!-- Haber -->
+														{% endif %}
+															
+														<td class="text-right" id="{{ comprobante.id }}_saldo">
+															{% set saldoComprobante = comprobante.total %}
+															{% if saldoComprobante >= 0 %}
+																{{ comprobante.total|money_format }}
+																{% set total_cupones_con_contrato = total_cupones_con_contrato + comprobante.total %}
+															{% else %}
+																{{ comprobante.total|money_format }}
+																{% set id_comprobantes = id_comprobantes  ~ ',' ~ comprobante.id %}
+															{% endif %}
+														</td>
+														<td class="borrar"></td>
+													</tr>
+
+													{% for cobro in comprobante.cobros %}
+
+														<tr class="resta anulado row-cc comprobante_{{ comprobante.id }} ocultable {{ hiddenComprobante }}">
+															<td>{{ cobro.id }}</td>
+															<td class="borrar"></td>
+                                                            <td class="borrar"></td>
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.fechaCobranza|date('d/m/Y') }}</td>
+															<td class="text-right">{{ comprobante.id }}</td>
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.stringTipo|default('-') }}</td>
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.numeroRecibo|default('-') }}</td>
+															<td class="text-left"></td>
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+															<td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ (cobro.monto* -1)|money_format }}</td>
+															<td class="text-right">0</td>
+															<td class="borrar"></td>
+															{% set id_comprobantes = id_comprobantes ~ ',' ~ comprobante.id %}
+														</tr>
+
+													{% endfor %}
+
+												{% endif %}
+
+											{% endfor %}
+
+											{% if tieneCupones == false %}
+												{% set id_contratos_cupones = id_contratos_cupones ~ ',' ~ contrato.id %}
+											{% endif %}
+
+										{% endfor %}                                        
+                                        
+                                        {# CUPONES SIN CONTRATO #}
+                                        
+                                        {% if comprobantes_sin_contrato is not empty %}
+                                            {% set cantidadCupones = 0 %}
+                                            
+                                            {% for comprobante in comprobantes_sin_contrato %}
+
+												{% set saldoComprobante = comprobante.saldoALaFecha( date() ) %}
+                                                {% set comprobante_anulado = comprobante.estadoComprobante.id == constant(EstadoComprobante ~ '::__ESTADO_ANULADO') %}
+                                                
+                                                {% if comprobante.tipoComprobante.id == 7 and comprobante.saldar is null %}
+                                                    {% set cantidadCupones = cantidadCupones + 1 %}
+                                                    {% if cantidadCupones == 1 %}
+                                                        <tr class="suma oscuro row-cc">
+                                                            <td></td>
+                                                            <td><i>CUPONES SIN CONTRATO ASOCIADO</i></td>
+                                                            {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                                            <td></td>
+                                                            {% endif %}
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td class="text-right"><i id="td_total_cupones_sin_contrato"></i></td>
+                                                        </tr> 
+                                                    {% endif %}
+                                                    {% set tieneCupones = true %}
+                                                    <tr class="suma {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante.id }}">
+                                                        <td>{{ comprobante.id }}</td>
+                                                        <td class="borrar"></td>
+                                                        {% if is_granted('ROLE_MENU_CUENTAS_POR_COBRAR_SUBIR_CUPON') %}
+                                                        <td class="text-center table-checkbox no-order">
+                                                            <input type="checkbox" class="group-checkable not-checkbox-transform" id="{{ comprobante.id }}" />
+                                                        </td>
+                                                        {% endif %}
+                                                        <td class="text-left">{{ comprobante.fechaComprobante|date('d/m/Y') }}</td>
+                                                        <td class="text-left">{{ comprobante.id }}</td>
+                                                        <td class="text-left">{{ comprobante.tipoComprobante|default('-') }} ({{ comprobante.letraComprobante|default('-') }})</td>
+                                                        <td class="text-left">{{ comprobante.numeroCompleto|default('-') }}</td>
+                                                        <td class="text-left">{{ (((((comprobante.observaciones|split(' - ', 3))|last)|split(' del '))|first) ~ (comprobante_anulado? ' (ANULADO)' : ''))|default('-') }}</td>
+
+                                                        {# DEBE #}
+                                                        {% if comprobante.total > 0 %}
+                                                            {# Nota de debito #}
+                                                            <td class="text-left">{{ comprobante.total|money_format }}</td>
+                                                            <td class="text-left">{{ 0|money_format }}</td>
+                                                        {% else %}
+                                                            {# las demas.... #}
+                                                            <td class="text-left">{{ 0|money_format }}</td>
+                                                            <td class="text-left">{{ (comprobante.total *-1)|money_format }}</td>
+                                                        {% endif %}
+                                                        <td class="text-right">
+                                                            {# MODIFICACIONES #}
+
+                                                                {% if not comprobante_anulado and saldoComprobante > 0 %}
+                                                                    {{ saldoComprobante|money_format }}
+                                                                {% else %}
+                                                                    {{ saldoComprobante|money_format }}
+                                                                    {% set id_comprobantes = id_comprobantes  ~ ',' ~ comprobante.id %}
+                                                                {% endif %}
+
+                                                                {% set total_cupones_sin_contrato = total_cupones_sin_contrato + saldoComprobante %}
+                                                            
+                                                            {# FIN MODIFICACIONES #}
+                                                        </td>
+                                                        <td class="borrar"></td>
+                                                    </tr>
+
+                                                    {% for cobro in comprobante.cobros %}
+
+                                                        <tr class="resta row-cc comprobante_{{ comprobante.id }}">
+                                                            <td>{{ cobro.id }}</td>
+                                                            <td class="borrar"></td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.fecha|date('d/m/Y') }}</td>
+                                                            <td class="text-left">{{ comprobante.id }}</td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.stringTipo|default('-') }}</td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.numeroRecibo|default('-') }}</td>
+                                                            <td class="text-left"></td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td>
+                                                            <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ cobro.monto|money_format }}</td>
+                                                            <td class="text-right"></td>
+                                                            <td class="borrar"></td>
+                                                            {% if saldoComprobante == 0 %}
+                                                                {% set id_comprobantes = id_comprobantes ~ ',' ~ comprobante.id %}
+                                                            {% endif %}
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    {% set comprobantes_ajuste = comprobante.comprobantesAjustes %}
+                                                    {% for comprobante_ajuste in comprobantes_ajuste %}
+
+                                                        {% set comprobante_anulado = comprobante.fechaAnulacion != null %}
+                                                        {% set hidden = '' %}
+                                                        {% set trClassSumaResta = 'suma' %}
+
+                                                        {% set ocultable = '' %}
+                                                        {% if saldoComprobante == 0 %}
+                                                            {% set hidden = 'hidden' %}
+                                                            {% set ocultable = 'ocultable' %}
+                                                        {% endif %}
+
+                                                        {% if comprobante_ajuste.esNotaCredito == true %}
+                                                            {% set trClassSumaResta = 'resta' %}
+                                                        {% endif %}
+
+                                                        <tr class="{{ trClassSumaResta }} {{ comprobante_anulado ? 'anulado' : '' }} row-cc comprobante_{{ comprobante_ajuste.id }} {{ ocultable }} {{ hidden }}">
+                                                            <td>{{ comprobante_ajuste.id }}</td>
+                                                            <td class="borrar"></td>
+                                                            <td class="text-right">{{ comprobante_ajuste.fechaComprobante|date('d/m/Y') }}</td>
+                                                            <td class="text-right">{{ comprobante_ajuste.id }}</td>
+                                                            {% if is_granted('ROLE_ANULAR_COMPROBANTE_AJUSTE') %}
+                                                                <td class="text-right">
+                                                                    <a href="{{ path('comprobante_ajuste_show', { 'id': comprobante_ajuste.id }) }}">{{ comprobante_ajuste.detalle }}</a>
+                                                                </td>
+                                                            {% else %}
+                                                                <td class="text-left">{{ comprobante_ajuste.detalle }}</td>
+                                                            {% endif %}
+
+                                                            <td class="text-left">-</td>
+                                                            <td class="text-left">{{ comprobante_ajuste.observaciones }}</td>
+                                                            {% if comprobante_ajuste.esNotaCredito == false %}
+                                                                {# Nota de debito #}
+                                                                <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ comprobante_ajuste.total|money_format }}</td><!-- debe -->
+                                                                <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td><!-- haber -->
+                                                            {% else %}
+                                                                {# Nota de credito #}
+                                                                <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ 0|money_format }}</td><!-- debe -->
+                                                                <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;{{ comprobante_ajuste.total|money_format }}</td><!-- haber -->
+                                                            {% endif %}
+                                                            <td class="text-right"></td>
+                                                            <td class="borrar"></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                            {% endfor %}
+
+                                        {% endif %}
+                                        
+                                        {# FIN CUPONES SIN CONTRATO #}
+									{# Fin cupones#}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="form-actions">
+        <div class="pull-left">
+            <button type="button" class="btn default button-back"
+                    back-url="{{ path( 'cliente') }}">Volver</button>
+        </div>
+    </div>
+
+    <input type="hidden" id="id_cliente_cc" value="{{ cliente.id }}">
+    <input type="hidden" id="id_comprobantes_hidden" value="{{ id_comprobantes }}" /> {#ES PARA OCULTAR COMPROBANTES POR EL HISTROICO#}
+    <input type="hidden" id="id_contratos_hidden" value="{{ id_contratos }}" /> {# ES PARA PODER ENCONTRAR LOS INPUTS CON LOS SALDOS #}
+	<input type="hidden" id="id_contratos_cupones_hidden" value="{{ id_contratos_cupones }}" /> {# ES PARA PODER ENCONTRAR LOS INPUTS CON LOS SALDOS #}
+    {% for contrato_id in array_contratos_id %}
+        <input type="hidden" id="saldo_contrato_id_{{ contrato_id }}" value="{{ array_contratos_saldo[loop.index0] | money_format }}" />
+    {% endfor %}
+    
+    {% for contrato_id in array_contratos_id %}
+        <input type="hidden" id="saldo_contrato_id_{{ contrato_id }}" value="{{ array_contratos_saldo[loop.index0] | money_format }}" />
+    {% endfor %}
+{#    <input type="hidden" id="saldos_hidden" value="{{ saldos }}" />#}
+{#    <input type="hidden" id="total_cupones_garantia_hidden" value="{{ total_anticipos | money_format }}" />#}
+    <input type="hidden" id="id_cotratos_cupones_garantia_hidden" value="{{ id_cotratos_cupones_garantia }}" />
+    <input type="hidden" id="total_comprobantes_sin_contrato_hidden" value="{{ total_comprobantes_sin_contrato | money_format }}" />
+    <input type="hidden" id="total_cupones_sin_contrato_hidden" value="{{ total_cupones_sin_contrato | money_format }}" />
+    <input type="hidden" id="total_cupones_con_contrato_hidden" value="{{ total_cupones_con_contrato | money_format }}" />
+    <input type="hidden" id="total_anticipos_hidden" value="{{ (total_anticipos * -1) | money_format }}" />
+    <input type="hidden" id="total_cuenta_corriente_hidden" value="{{ (total_contratos + total_cupones_garantia + total_comprobantes_sin_contrato + total_cupones_sin_contrato - total_anticipos) | money_format }}" />
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# PriceFormat #}
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+    <script src="{{ asset(js_path ~ 'custom/compras/cliente/cc_detalle.js') }}" ></script>
+
+{% endblock%}

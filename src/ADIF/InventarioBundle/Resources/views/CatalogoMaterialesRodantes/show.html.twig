@@ -1,0 +1,193 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+  <div class="portlet box blue">
+    <div class="portlet-title">
+      <div class="caption">
+        Detalles de Materiales Rodantes:<strong>{{ entity.numeroInterno }}</strong>
+      </div>
+      <div class="tools">
+        <a href="javascript:;" class="collapse"></a>
+      </div>
+    </div>
+    <div class="portlet-body">
+      <div class="tabbable-custom nav-justified">
+        <ul class="nav nav-tabs nav-justified">
+          <li class="active">
+            <a href="#tab_1" data-toggle="tab">General</a>
+          </li>
+          <li class="">
+            <a href="#tab_2" data-toggle="tab">Compras</a>
+          </li>
+          <li class="">
+            <a href="#tab_3" data-toggle="tab">Ubicaci&oacute;n</a>
+          </li>
+          <li class="">
+            <a href="#tab_4" data-toggle="tab">Inspecciones T&eacute;cnicas</a>
+          </li>
+          <li class="">
+            <a href="#tab_5" data-toggle="tab">Propiedades</a>
+          </li>
+          <li class="">
+            <a href="#tab_6" data-toggle="tab">Activo Fijo</a>
+          </li>
+          <li class="">
+            <a href="#tab_7" data-toggle="tab">Im&aacute;genes</a>
+          </li>
+        </ul>
+
+        <div class="portlet box blue" style="margin-top:20px;">
+            <div class="portlet-title">
+                <div class="caption">Datos Generales</div>
+
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-body">
+                    <div class="row">
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">N&uacute;mero Interno</label>
+                              <div class="detalle_show">{{ entity.numeroInterno|default('-') }}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">N&uacute;mero de Vehiculo</label>
+                              <div class="detalle_show">{{ entity.numeroVehiculo|default('-') }}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label class="control-label">Grupo de Rodante</label>
+                              <div class="detalle_show">{{ entity.idGrupoRodante|default('-') }}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label class="control-label">Tipo de Rodante</label>
+                              <div class="detalle_show">{{ entity.idTipoRodante|default('-') }}</div>
+                          </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label class="control-label">Descripci&oacute;n</label>
+                              <div class="detalle_show">{{ entity.denominacion|default('-') }}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label class="control-label">Descripci&oacute;n para otro Lenguaje</label>
+                              <div class="detalle_show">{{ entity.denominacionOtroLenguaje|default('-') }}</div>
+                          </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">Valor Actual</label>
+                              <div class="detalle_show">{{ entity.valorActual|default('-') }}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">¿Es item de Inventario?</label>
+                              <div class="detalle_show">{{ entity.participaInventario ? 'Si':'No'|default('-')}}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">¿Es item para Compras?</label>
+                              <div class="detalle_show">{{ entity.participaVenta ? 'Si':'No'|default('-')}}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">¿Es Activo Fijo?</label>
+                              <div class="detalle_show">{{ entity.esActivoFijo ? 'Si':'No'|default('-')}}</div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="form-group">
+                              <label class="control-label">Estado</label>
+                              <div class="detalle_show">{{ entity.idEstadoInventario|default('-') }}</div>
+                          </div>
+                      </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" style="border: transparent; padding: 0;">
+
+            {# TAB 1 - General #}
+            <div id="tab_1" class="tab-pane active">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_generales.html.twig') %}
+            </div>
+
+            {# TAB 2 - Compras #}
+            <div id="tab_2" class="tab-pane">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_compras.html.twig') %}
+            </div>
+
+            {# TAB 3 - Ubicacion #}
+            <div id="tab_3" class="tab-pane">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_ubicacion.html.twig') %}
+            </div>
+
+            {# TAB 4 - Inspeciones Tecnicas #}
+            <div id="tab_4" class="tab-pane">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_inspeccion.html.twig') %}
+            </div>
+
+            {# TAB 5 - Propiedades #}
+            <div id="tab_5" class="tab-pane">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_propiedades.html.twig') %}
+            </div>
+
+            {# TAB 6 - Activo Fijo #}
+            <div id="tab_6" class="tab-pane">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_activo_fijo.html.twig') %}
+            </div>
+
+            {# TAB 7 - Fotos #}
+            <div id="tab_7" class="tab-pane">
+                {% include('@ADIFInventario/CatalogoMaterialesRodantes/show.datos_fotos.html.twig') %}
+            </div>
+
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn default button-back" back-url="{{ path('catalogomaterialesrodantes') }}">
+          <i class="m-icon-swapleft"></i>
+          Volver
+        </button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

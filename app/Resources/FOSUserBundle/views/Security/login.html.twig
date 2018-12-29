@@ -1,0 +1,135 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <!-- BEGIN BODY -->
+    <body class="login">
+        <!-- BEGIN LOGO -->
+        <div class="logo" style="padding-top: 5%">
+            <img src="{{ asset(image_path ~ 'trenes_argentinos.png') }}" alt="logo" class="img-responsive"/>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN LOGIN -->
+        <div class="content">
+            <!-- BEGIN LOGIN FORM -->
+            <form class="login-form" action="{{ path("fos_user_security_check") }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                <h3 class="form-title">Ingreso al sistema</h3>
+
+                {% if error or app.request.get('error') %}
+                    <div id="server_error" style="display: block;" class="alert alert-danger display-hide">
+                        <button class="close" data-close="alert"></button>
+                        <span>
+                            <strong>Acceso incorrecto</strong><br>
+                            {% if error %}
+                                {{ error|trans }}
+                            {% else %}
+                                Nombre de usuario o contrase&ntilde;a incorrectos.
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+
+                <div id="client_error" class="alert alert-danger display-hide">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+                        Ingrese su nombre de usuario y contrase&ntilde;a
+                    </span>
+                </div>
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                    <label class="control-label visible-ie8 visible-ie9">Nombre de usuario</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Nombre de usuario" name="_username" value="{{ last_username }}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">Contrase&ntilde;a</label>
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Contrase&ntilde;a" name="_password"/>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="control-label">Elegir empresa</label>
+					<div class="input-icon">
+						<select name="empresa" id="empresa" class="form-control choice">
+							<option value="1">Adifse</option>
+							<option value="2">Fase</option>
+						</select>
+					</div>
+				</div>
+				
+                <div class="form-actions">
+                    <button type="submit" name="_submit" class="btn blue" style="margin-left: 33%;">
+                        Ingresar <i class="m-icon-swapright m-icon-white"></i>
+                    </button>
+                </div>
+            </form>
+            <!-- END LOGIN FORM -->
+            <!-- BEGIN FORGOT PASSWORD FORM -->
+            <form class="forget-form" action="" method="post">
+                <h3>Olvid&oacute; su contrase&ntilde;a?</h3>
+                <p>
+                    Ingrese su direcci&oacute;n de email para reiniciar su contrase&ntilde;a
+                </p>
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fa fa-envelope"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="back-btn" class="btn">
+                        <i class="m-icon-swapleft"></i> Volver </button>
+                    <button type="submit" class="btn blue pull-right">
+                        Enviar <i class="m-icon-swapright m-icon-white"></i>
+                    </button>
+                </div>
+            </form>
+            <!-- END FORGOT PASSWORD FORM -->
+        </div>
+        <!-- END LOGIN -->
+        <!-- BEGIN COPYRIGHT -->
+        <div class="copyright">
+            {{ "now"|date("Y") }} &copy; 
+        </div>
+        <!-- END COPYRIGHT -->
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <!-- BEGIN CORE PLUGINS -->
+        <!--[if lt IE 9]>
+                <script src="{{ asset(theme_path ~ 'plugins/respond.min.js') }}"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/excanvas.min.js') }}"></script> 
+        <![endif]-->
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-migrate-1.2.1.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery.blockui.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/jquery.cokie.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/uniform/jquery.uniform.min.js') }}" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path ~ 'plugins/backstretch/jquery.backstretch.min.js') }}" type="text/javascript"></script>
+        <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="{{ asset(theme_path ~ 'scripts/core/app.js') }}" type="text/javascript"></script>
+        {#<script src="{{ asset(theme_path ~ 'scripts/custom/login-soft.js') }}" type="text/javascript"></script>#}
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <script src="{{ asset(js_path ~ 'custom/autenticacion/security/login.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+        <script>
+            jQuery(document).ready(function () {
+                App.init();
+                Login.init();
+            });
+        </script>
+        <!-- END JAVASCRIPTS -->
+    </body>
+    <!-- END BODY -->
+{% endblock fos_user_content %}

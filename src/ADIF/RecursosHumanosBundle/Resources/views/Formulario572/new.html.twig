@@ -1,0 +1,156 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% set edit = form.vars.value.id != null %}
+
+{% set ConstanteTipoConceptoGanancia = 'ADIF\\RecursosHumanosBundle\\Entity\\Constantes\\ConstanteTipoConceptoGanancia' %}
+
+{% set esBorrable = false %}
+
+{% set esEditableSoloMonto = false %}
+
+{% set esEditable = false %}
+
+{% set periodo = 0 %}
+
+{% block body -%}
+
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Formulario 572. Empleado: <b>{{ empleado }}</b>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %} 
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.anio) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.anio) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form_label(form.fechaFormulario) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaFormulario) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cleardiv"></div>
+
+                <fieldset class="form-section-fieldset concepto-formulario572-content">
+
+                    <legend class="form-section-legend">Conceptos</legend>
+
+                    <div class="form-group prototype-concepto-formulario572" 
+                         data-prototype="{% filter escape %}{% include 'ADIFRecursosHumanosBundle:Formulario572:prototype.concepto.html.twig' with {'concepto': form.conceptos.vars.prototype} %}{% endfilter %}">                      
+                        {% for concepto in form.conceptos %}
+                            {% set esBorrable = concepto.vars.value.esBorrable %}
+                            {% set esEditableSoloMonto = concepto.vars.value.esEditableSoloMonto %}
+                            {% set esEditable = concepto.vars.value.esEditable %}
+                            {% set periodo = concepto.vars.value.detalleConceptoFormulario572Aplicado != null ? concepto.vars.value.detalleConceptoFormulario572Aplicado.periodo : concepto.vars.value.mesDesde %}
+                            {% include 'ADIFRecursosHumanosBundle:Formulario572:prototype.concepto.html.twig' %}
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" class="btn green prototype-link-add-concepto-formulario572" 
+                               data-placement="right" data-original-title="Agregar Concepto">
+                                Agregar Concepto <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+
+                    <button type="button" class="btn default button-back">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        var conceptos ={{ conceptos|json_encode|raw }} ;
+                var anioActual ={{ anioActual }} ;
+                var aniosFormularios ={{ aniosFormularios|json_encode|raw }} ;</script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/custom/rrhh/formulario572/new.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .concepto572row {
+            border-bottom: 1px solid rgb(204, 204, 204);
+            border-top: 1px solid rgb(204, 204, 204);
+            margin-bottom: 7px;
+            padding-top: 4px;
+            padding-left: 10px;
+            border-right: 1px solid #ccc;
+        }
+        [es-editable*="0"],[es-editable-monto*="0"] {
+            background-color: rgb(244, 244, 244);
+        }
+        [es-editable-monto*="1"],[es-borrable*="1"] {
+            background-color: white;
+        }
+    </style>
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+{% endblock%}

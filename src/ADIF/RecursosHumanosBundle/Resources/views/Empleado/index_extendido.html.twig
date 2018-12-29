@@ -1,0 +1,192 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+<script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+<script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+
+{#validacion form#}
+<script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.min.js') }}" type="text/javascript"></script>        
+<script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+<script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+<script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+<script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+<script src="{{ asset('js/custom/rrhh/empleado/index_extendido.js') }}" ></script>
+
+<script type="text/javascript">
+
+    var novedades ={{ novedades|json_encode|raw }};
+
+</script>
+
+{% endblock%}
+
+{% block stylesheets %}
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'css/plugins.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/select2/select2-metronic.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+    #btn_liquidar, #btn_asignar_conceptos, #btn_asignar_novedades{
+        margin-left: 5px;
+    }
+
+    .icon-f572{
+        margin-left: 2px;
+    }
+    
+    #button_vista_normal{
+        margin-top: -4px;
+    }
+</style>
+{% endblock%}
+
+{% block body -%}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Empleados</div>
+                <a id="button_vista_normal" class="tooltips btn btn-sm bg-grey pull-right" data-placement="left" data-original-title="Ver empleados en vista normal" href="{{ path('empleados') }}">Vista normal</a>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar clear">
+                    {% if is_granted("ROLE_RRHH_ALTA_EMPLEADOS") and is_granted("ROLE_CREAR_EMPLEADOS") %}
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear empleado" href=" {{ path('empleados_new') }} ">Crear empleado <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content  dt-multiselect export-excel" 
+                    id="table-empleado"
+                    dataexport-title="Empleados">
+                    <thead>
+                        <tr class="replace-inputs filter" >
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                            <th>Legajo</th>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th>Cuil</th>
+                            <th>Tel&eacute;fono</th>
+                            <th>Celular</th>
+							<th>Domiliio</th>
+							<th>Localidad</th>
+                            <th data-type="date">Fecha de nacimiento</th>
+                            <th>Edad</th>
+                            <th>Estado civil</th>
+                            <th>Tipo de contrato</th>
+                            <th>Categor&iacute;a</th>
+                            <th>Subcategor&iacute;a</th>
+                            <th>Convenio</th>
+							<th>Puesto</th>
+							<th>Superior</th>
+							<th>Banco</th>
+							<th>Tipo de Cuenta</th>
+							<th>CBU</th>
+							<th>Obra Social</th>
+                            <th data-type="date">Ingreso a planta</th>
+                            <th>Antiguedad</th>
+                            <th>T&iacute;tulo</th>
+                            <th>Nivel educaci&oacute;n</th>
+                            <th data-type="date">Inicio primer contrato</th>
+                            <th data-type="date">Inicio &uacute;ltimo contrato</th>
+                            <th data-type="date">Fin &uacute;ltimo contrato</th>
+                            <th data-type="date">Fecha inicio antiguedad</th>
+                            <th>Per&iacute;odos contratados</th>
+                            <th>Gerencia</th>
+                            <th>Subgerencia</th>
+                            <th>&Aacute;rea</th>
+							<th>Nivel organizacional</th>
+                            <th>Bruto</th>
+                            <th>Ganancias</th>
+                            <th>Neto</th>
+                            <th>Rango remuneraci&oacute;n</th>
+							<th>Fecha de Egreso</th>
+							<th>Motivo de Egreso</th>
+							<th>Afiliaci&oacute;n UF</th>
+							<th>Afiliaci&oacute;n APDFA</th>
+                            <th>Area rrhh</th>
+                            <th>Tablero MT</th>
+                            <th>Mail</th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable not-checkbox-transform" />
+                            </th>
+                            <th numeric export-format="number">Legajo</th>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th>Cuil</th>
+                            <th>Tel&eacute;fono</th>
+                            <th>Celular</th>
+							<th>Domiliio</th>
+							<th>Localidad</th>
+                            <th export-format="date">Fecha de nacimiento</th>
+                            <th numeric>Edad</th>
+                            <th>Estado civil</th>
+                            <th>Tipo de contrato</th>
+                            <th>Categor&iacute;a</th>
+                            <th>Subcategor&iacute;a</th>
+                            <th>Convenio</th>
+							<th>Puesto</th>
+							<th>Superior</th>
+							<th>Banco</th>
+							<th>Tipo de Cuenta</th>
+							<th>CBU</th>
+							<th>Obra Social</th>
+                            <th export-format="date">Ingreso a planta</th>
+                            <th>Antiguedad</th>
+                            <th>T&iacute;tulo</th>
+                            <th>Nivel educaci&oacute;n</th>
+                            <th export-format="date">Inicio primer contrato</th>
+                            <th export-format="date">Inicio &uacute;ltimo contrato</th>
+                            <th export-format="date">Fin &uacute;ltimo contrato</th>
+                            <th export-format="date">Fecha inicio antiguedad</th>
+                            <th>Per&iacute;odos contratados</th>
+                            <th>Gerencia</th>
+                            <th>Subgerencia</th>
+                            <th>&Aacute;rea</th>
+							<th>Nivel organizacional</th>
+                            <th class="text-right" export-format="currency">Bruto</th>
+                            <th class="text-right" export-format="currency">Ganancias</th>
+                            <th class="text-right" export-format="currency">Neto</th>
+                            <th>Rango remuneraci&oacute;n</th>
+                            <th>Fecha de Egreso</th>
+                            <th>Motivo de Egreso</th>
+                            <th>Afiliaci&oacute;n UF</th>
+                            <th>Afiliaci&oacute;n APDFA</th>
+                            <th>Area rrhh</th>
+                            <th>Tablero MT</th>
+                            <th>Mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

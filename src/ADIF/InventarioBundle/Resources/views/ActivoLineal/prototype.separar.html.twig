@@ -1,0 +1,58 @@
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">Tramo</div>
+
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="form-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_label(activoLineal.progresivaInicioTramo) }}
+                        <div class="form_field">
+                            {{ form_widget(activoLineal.progresivaInicioTramo) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_label(activoLineal.progresivaFinalTramo) }}
+                        <div class="form_field">
+                            {{ form_widget(activoLineal.progresivaFinalTramo) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_label(activoLineal.estadoConservacion) }}
+                        <div class="form_field">
+                            {{ form_widget(activoLineal.estadoConservacion) }}
+                        </div>
+                    </div>
+                </div>
+                {% if activoLineal.valoresAtributo is not empty %}
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_label(activoLineal.valoresAtributo) }}
+                        </div>
+                    </div>
+                    {% for key,valorAtributo in activoLineal.valoresAtributo %}
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ entity.valoresAtributo[key].atributo }}
+                                <div class="form_field">
+                                    <div style="display: none;">{{ form_widget(valorAtributo.atributo) }}</div>
+                                    {{ form_widget(valorAtributo.valoresAtributo) }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>      
+    </div>
+</div>

@@ -1,0 +1,117 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom/rrhh/empleado_archivo/new.js') }}" ></script>
+{% endblock %}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-reorder"></i>Archivo
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse">
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        {{ form_start(form, {'attr': {'id': 'adif_recursoshumanosbundle_empleadoarchivo','class' : 'horizontal-form dropzone', 'novalidate': 'novalidate'}} ) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+        {% if edit %} 
+            <input type="hidden" name="_method" value="PUT" />
+        {% endif %} 
+
+        <div class="form-body">
+            <div class="row">                        
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.nombre, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.descripcion, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.descripcion) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if edit %} 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        Archivo actual 
+                        <div class="right">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                    <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                        <i class="fa fa-file"></i>&nbsp;
+                                        <span class="fileinput-filename">
+                                            {{ form.vars.value.archivo }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %} 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.file, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="right">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                    <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                        <span class="fileinput-filename">
+                                        </span>
+                                    </div>
+                                    <span class="input-group-addon btn default btn-file">
+                                        <span class="fileinput-new">
+                                            Seleccionar archivo
+                                        </span>
+                                        <span class="fileinput-exists">
+                                            Cambiar
+                                        </span>
+                                        {{ form_widget(form.file) }}
+                                    </span>
+                                    <a href="#" class="input-group-addon btn default fileinput-exists" data-dismiss="fileinput">
+                                        Remover
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% if edit %}<span class="help-block">El archivo actual se reemplazar&aacute; con el seleccionado</span>{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions right">
+            <button type="button" class="btn default button-back" back-url="{{ path('archivosempleado', {'idEmpleado': empleado.id}) }}">Cancelar</button>
+            {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+        </div>
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+    </div>
+</div>
+{% endblock %}

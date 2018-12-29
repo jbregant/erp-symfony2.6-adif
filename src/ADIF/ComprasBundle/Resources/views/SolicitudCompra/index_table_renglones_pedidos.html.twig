@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in renglonesPedidoInterno %}
+    [
+    "{{ entity['id'] }}",
+    "{{ entity['id'] }}",
+    "{{ entity['fecha_pedido'] }}",
+    "{{ entity['origen'] }}",
+    "{{ entity['usuario'] }}",
+    "{{ entity['rubro']|default('-') }}",
+    "{{ entity['bien_economico']|default('-') }}",
+    "{{ entity['descripcion']|default('-')|escape_json }}",
+    "{{ entity['cantidad_solicitada'] }}",
+    "{{ entity['cantidad_pendiente'] }}",
+    "{{ entity['unidad_medida'] }}",
+    "{{ entity['prioridad'] }}",
+    {
+    "cargar_stock" : "#"    
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

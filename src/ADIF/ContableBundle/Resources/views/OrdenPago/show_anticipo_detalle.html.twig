@@ -1,0 +1,8 @@
+{% if(entity.montoAnticipos > 0) %}
+	{% for anticipo in entity.anticipos %}
+		<tr regimen="anticipo"> 
+			<td>Anticipo</td>
+			<td class="text-right bold">{{ anticipo.monto|money_format }}</td>
+		</tr>
+	{% endfor %}
+{% endif %}

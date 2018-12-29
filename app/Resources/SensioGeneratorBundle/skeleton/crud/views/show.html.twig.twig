@@ -1,0 +1,51 @@
+{{'{% extends \'::base.html.twig\' %}'}}
+
+{% set excludedVariables = ['id', 'fechaCreacion', 'fechaUltimaActualizacion', 'fechaBaja'] %}
+
+{% block body %}
+{{'{% block body -%}'}}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la {{ entity|lower }}: <strong>{{ '{{ entity }}' }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+            {%- set index = 0 %}
+            {%- set cant = fields|length %}    
+            {% for field, metadata in fields if (metadata.fieldName not in excludedVariables) %}
+                {%- set index = index+1 %}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">{{ field|capitalize }}</label>
+                        <div class="detalle_show">
+                            {%- if metadata.type in ['date', 'datetime'] %}
+                                {{ '{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'d/m/Y H:i:s\') }}' }}
+                            {%- else %}
+                                {{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}
+                            {%- endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if index % 2 == 0 and not (index == cant-1) %}
+                    </div>
+                    <div class="row">
+                {% endif %}
+            {% endfor %}
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ "{{ path('" ~ route_name_prefix~"') }}" }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{{ "{% endblock %}" }}
+{% endblock body %}

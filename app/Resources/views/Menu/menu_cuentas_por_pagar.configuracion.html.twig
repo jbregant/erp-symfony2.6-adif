@@ -1,0 +1,22 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Configuraci&oacute;n
+    </a>
+    <ul class="dropdown-menu">
+
+        {# CONFIGURACION COMPRAS #}
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_COMPRAS') %}
+            {% include ':Menu:menu_configuracion_compras.html.twig' %}
+        {% endif %}
+
+        {# CONFIGURACION PROVEEDORES #}
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_PROVEEDORES') %}
+            {% include ':Menu:menu_configuracion_proveedores.html.twig' %}
+        {% endif %}
+
+        {# CONFIGURACION OBRAS #}
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION_OBRAS') %}
+            {% include ':Menu:menu_configuracion_obras.html.twig' %}
+        {% endif %}
+    </ul>
+</li>

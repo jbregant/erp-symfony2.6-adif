@@ -1,0 +1,52 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Contratos</legend>
+
+    <div class="row">
+        <table 
+            class="table datatable table-bordered table-striped table-condensed 
+            flip-content" id="table-contratoconsultoria"
+            dataexport-title="contratoconsultoria">
+            <thead>
+                <tr class="replace-inputs filter">
+                    <th></th>
+                    <th>N&ordm; contrato</th>
+                    <th>N&ordm; carpeta</th>
+                    <th>Consultor</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Importe</th>
+                    <th>Saldo pendiente facturaci&oacute;n</th>
+                    <th>Gerencia</th>
+                </tr>
+                <tr class="headers">
+                    <th class="no-order entity_id"></th>
+                    <th class="nowrap">N&ordm; contrato</th>
+                    <th class="nowrap">N&ordm; carpeta</th>
+                    <th>Consultor</th>
+                    <th class="nowrap">Fecha inicio</th>
+                    <th class="nowrap">Fecha fin</th>
+                    <th class="nowrap">Importe</th>
+                    <th class="text-center nowrap">Saldo pendiente fact.</th>
+                    <th class="nowrap">Gerencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contrato in contratos %}
+                    <tr>
+                        <td>{{ contrato.id }}</td>
+                        <td>{{ contrato.numeroContrato|default('-') }}</td>
+                        <td>{{ contrato.numeroCarpeta|default('-') }}</td>
+                        <td>{{ contrato.consultor.cuitAndRazonSocial|default('-') }}</td> 
+                        <td>{{ contrato.fechaInicio|date('d/m/Y') }}</td>
+                        <td>{{ contrato.fechaFin|date('d/m/Y') }}</td>
+                        <td class="nowrap">{{ contrato.importeTotal|money_format }}</td>
+                        <td class="nowrap">{{ contrato.saldoPendienteFacturacion|money_format(contrato.simboloTipoMoneda) }}</td>
+                        <td class="nowrap">{{ contrato.gerencia|default('-') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</fieldset>

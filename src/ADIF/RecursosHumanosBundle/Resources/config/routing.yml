@@ -1,0 +1,3 @@
+adif_recursos_humanos_homepage:
+    pattern:  /
+    defaults: { _controller: ADIFRecursosHumanosBundle:Default:index }

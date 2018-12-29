@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include ':PDF:default.css.twig' %}	
+        
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    <htmlpageheader name="default_header">
+        <table class="w-100" border="1" style="margin-top: 0px;">
+            <tbody>
+                <tr>
+                    <td class="w-25 t-center"><img src="{{ app.request.getSchemeAndHttpHost() ~ '/images/trenes_argetntinos_infraestructura_logo.png' }}" /></td>
+                    <td class="bold" style="font-size: 10px;">
+                        AV. RAMOS MEJIA 1302 - Capital Federal <br/>
+                        Tel&eacute;fono: 54 9 11 4318-3617 - Fax: 54 9 11 4318-8308 <br/>
+                        CUIT 30-71069599-3
+                    </td>
+                    <td class="hlt t-center w-25" style="border-top:0;text-align:left;">
+                        {% block aditional_header %}
+
+                        {% endblock %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </htmlpageheader>
+                    
+    <sethtmlpageheader name="default_header" value="on" />
+
+    {% block content %}{% endblock %}
+
+    {% include ':PDF:footer.html.twig' %}
+    </body>
+</html>

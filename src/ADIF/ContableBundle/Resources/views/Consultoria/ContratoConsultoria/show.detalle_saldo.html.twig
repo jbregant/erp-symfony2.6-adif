@@ -1,0 +1,128 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/facturacion/contrato/show.css') }}" 
+          rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del saldo del contrato: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tipo</label>
+                        <div class="detalle_show">{{ entity.claseContrato }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&deg; contrato</label>
+                        <div class="detalle_show">{{ entity.numeroContrato }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Consultor</label>
+                        <div class="detalle_show">{{ entity.consultor }}</div>
+                    </div>
+                </div> 
+            </div>
+            <div class="row">  
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha inicio</label>
+                        <div class="detalle_show">{{ entity.fechaInicio|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Fecha fin</label>
+                        <div class="detalle_show">{{ entity.fechaFin|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Estado</label>
+                        <div class="detalle_show">{{ entity.estadoContrato }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Monto contrato</label>
+                        <div class="detalle_show">{{ entity.importeTotal|money_format(entity.simboloTipoMoneda) }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="cleardiv">
+                <legend>Composici&oacute;n del saldo</legend>
+
+                {% if entity.comprobantesConsultoria is not empty %}
+
+                    {% include 'ADIFContableBundle:Consultoria/ContratoConsultoria:show.tabla_comprobantes.html.twig' with {'comprobantes': entity.comprobantesConsultoria, 'muestraSaldo': true } %}
+
+                {% else %}
+                    <span>El contrato no contiene comprobantes que modifiquen su saldo.</span>
+                {% endif %}
+            </fieldset>
+
+            <fieldset class="cleardiv margin-top-20">
+                <legend>Anticipos</legend>
+
+                {% if entity.anticipos is not empty %}
+
+                    {% include 'ADIFContableBundle:Consultoria/ContratoConsultoria:show.tabla_anticipos.html.twig' %}
+
+                {% else %}
+                    <span>El contrato no posee anticipos cargados.</span>
+                {% endif %}
+            </fieldset>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back" 
+                            back-url="{{ path('contratoconsultoria') }}">
+                        <i class="m-icon-swapleft"></i> Volver
+                    </button>
+                </div>
+
+                <div class="pull-right">
+                    <a type="button" class="btn green-seagreen tooltips" 
+                       data-original-title="Ver hist&oacute;rico del contrato"
+                       href="#">
+                        <i class="fa fa-exchange"></i> Ver hist&oacute;rico
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/consultoria/contratoconsultoria/show.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock %}

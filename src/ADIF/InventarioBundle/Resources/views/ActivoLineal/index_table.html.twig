@@ -1,0 +1,44 @@
+{
+    "data": [
+        {% for entity in entities %}
+            [
+                "{{ entity.id }}",
+                "{{ entity.id }}",
+                {% autoescape  %}
+                "{{ entity.operador|default('-') }}",
+                "{{ entity.linea|default('-') }}",
+                "{{ entity.division|default('-') }}",
+                "{{ entity.corredor|default('-') }}",
+                "{{ entity.ramal|default('-') }}",
+                "{{ entity.categoria|default('-') }}",
+                "{{ entity.progresivaInicioTramo|number_format(3,',','')|default('-') }}",
+                "{{ entity.progresivaFinalTramo|number_format(3,',','')|default('-') }}",
+                "{{ entity.tipoVia|default('-') }}",
+                "{{ entity.kilometraje|number_format(3,',','')|default('-') }}",
+                "{{ entity.tipoActivo|default('-') }}",
+                "{{ entity.estacion|default(entity.zonaVia) }}",
+                "{{ entity.tipoServicio|default('-') }}",
+                "{{ entity.estadoConservacion|default('-') }}",
+                "{{ entity.balasto|default('-') }}",
+                "{{ entity.rieles|default('-') }}",
+                "{{ entity.durmientes|default('-') }}",
+                "{{ entity.velocidad|default('-') }}",
+                "{{ entity.capacidad|default('-') }}",
+                "{{ entity.estadoInventario|default('-') }}",
+                {% endautoescape %}
+                {
+                    "show" : " {{ path( "activolineal_show", { "id": entity.id }) }}"
+                    {% if not is_granted("ROLE_SOLO_LECTURA") %}
+                        {% if is_granted("ROLE_INVENTARIO_ACTIVO_LINEAL_MODIFICAR") %}
+                            ,"edit" : " {{ path( "activolineal_edit", { "id": entity.id }) }}"
+                        {% endif %}
+                        {% if is_granted("ROLE_INVENTARIO_ACTIVO_LINEAL_SEPARAR_UNIR") %}
+                            ,"separar" : " {{ path( "activolineal_separar", { "id": entity.id }) }}"
+                        {% endif %}
+                    {% endif %}
+                    ,"es_punto" : {{ entity.progresivaInicioTramo == entity.progresivaFinalTramo ? "true" : "false" }}
+                }
+            ]{{ (loop.last ? '' : ',') }}
+        {% endfor %}
+    ]
+}

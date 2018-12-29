@@ -1,0 +1,28 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Propiedades</legend>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table
+                class="table table-bordered table-striped table-condensed flip-content"
+                id="table-activolineal" >
+
+                <thead>
+                    <tr class="replace-inputs">
+                        <th>Propiedad</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for valorPropiedad in entity.valoresPropiedad %}
+                        <tr class="replace-inputs">
+                            <td>{{ valorPropiedad.idPropiedad.denominacion|default('-') }}</td>
+                            <td>{{ valorPropiedad.valor|default('-') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,123 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'autocomplete.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/compra/new.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/comprobante/venta/new.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%}
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+
+    <div>
+        {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+        {% include ':Form:fieldsErrors.html.twig' %}
+
+        {% if edit %} 
+            <input type="hidden" name="_method" value="PUT" />
+        {% endif %} 
+
+        <div class="form-body form-comprobante">
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Devoluci&oacute;n de garant&iacute;a</div>
+
+                {% include('@ADIFContable/Facturacion/DevolucionGarantia/new.datos_cliente.html.twig') %}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Cupones del cliente</label>
+                            <table id="table_cupones" 
+                                   class="table table-bordered table-striped table-condensed table-hover" 
+                                   style="display: none;">
+                                <thead>
+                                    <tr class="headers">
+                                        <th>N&deg; contrato</th>
+                                        <th>Fecha</th>
+                                        <th>N&deg; cup&oacute;n</th>
+                                        <th>Total</th>
+                                        <th>Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div_ctn_seccion">
+                <div class="btn btn-info btn-sm label_seccion">Detalle</div>
+                
+                <div class="row">     
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(form.fechaDevolucion) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.fechaDevolucion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.importe) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.importe) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.cuponGarantia) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+        </div>
+
+        <div class="form-actions">
+            <div class="pull-left">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('devolucion_garantia') }}">Cancelar</button>
+            </div>
+            <div class="pull-right">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {"render_rest": false}) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-ui-autocomplete/jquery-ui-autocomplete.min.js') }}"></script>
+
+    <script src="{{ asset('js/custom/contable/facturacion/devoluciongarantia/new.js') }}" ></script>
+
+{% endblock %}

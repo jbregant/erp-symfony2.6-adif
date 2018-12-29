@@ -1,0 +1,44 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Activo Fijo</legend>
+
+    <div class="row">                        
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.valorOrigen) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.valorOrigen) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.rubro) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.rubro) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.metodoAmortizacion) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.metodoAmortizacion) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.vidaUtil) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.vidaUtil) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

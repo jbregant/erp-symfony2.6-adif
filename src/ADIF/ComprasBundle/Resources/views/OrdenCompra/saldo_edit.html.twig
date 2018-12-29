@@ -1,0 +1,82 @@
+
+<div class="row">
+    <div class="col-md-6">
+        <a id="agregar_renglon_oc" class="btn btn-sm green-jungle tooltips" 
+           data-placement="right" data-original-title="Agregar rengl&oacute;n">
+            Agregar rengl&oacute;n <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row cleardiv" id="saldos-oc-renglones" style="display: none;">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Renglones</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                </div>
+                <table id="table-saldos-oc-renglones" dataexport-title="saldos-oc-renglones" 
+                       class="table datatable table-striped table-hover 
+                       table-bordered table-condensed dt-multiselect export-excel">
+                    <thead>
+                        <tr class="headers">
+                            <th class="no-order entity_id">
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" 
+                                       data-set="#table-saldos-oc-renglones .checkboxes" />
+                            </th>
+                            <th date class="nowrap text-center">Descripci&oacute;n</th>
+                            <th date class="nowrap text-center">Cantidad</th>
+                            <th date class="nowrap text-center">P. Unitario</th>
+                            <th date class="nowrap text-center">Neto</th>
+                            <th date class="nowrap text-center">% IVA</th>
+                            <th date class="nowrap text-center">IVA</th>
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="saldos-oc-adicionales" style="display: none;">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Adicionales</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                </div>
+                <table id="table-saldos-oc-adicionales" dataexport-title="saldos-oc-adicionales" class="table datatable table-striped table-hover table-bordered table-condensed dt-multiselect export-excel">
+                    <thead>
+                        <tr class="headers">
+                            <th class="no-order entity_id">
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-saldos-oc-adicionales .checkboxes" />
+                            </th>
+                            <th date class="nowrap text-center">Tipo</th>
+                            <th date class="nowrap text-center">Signo</th>
+                            <th date class="nowrap text-center">Valor</th>
+                            <th date class="nowrap text-center">% IVA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'ADIFComprasBundle:OrdenCompra:form.renglon.orden_compra.html.twig' %}
+
+<script type="text/javascript">
+    var tipoAdicional = {{ tipoAdicional|json_encode|raw }};
+            var alicuotaIva = {{ alicuotaIva|json_encode|raw }};
+</script>

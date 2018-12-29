@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.idLiquidacion|default('-') }}", 
+    "{{ entity.idConceptoVersion|default('-') }}", 
+    "{{ entity.monto|default('-') }}", 
+{
+"show" : " {{ path( "renglonesretencionliquidacion_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "renglonesretencionliquidacion_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,104 @@
+services:
+    adif.crossbundle.listener.contable:
+        class: ADIF\ContableBundle\EventListener\PostLoadEventSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+        arguments:
+            - @doctrine    
+    
+    adif_contabilidad.listener.comprobante:
+        class: ADIF\ContableBundle\EventListener\ComprobanteListener
+        arguments: ["@service_container"]
+        tags:
+          - { name: doctrine.event_listener, event: prePersist }
+          
+    adif.contabilidad_presupuestaria_service:
+        class: ADIF\ContableBundle\Service\ContabilidadPresupuestariaService
+        arguments:
+            - @service_container
+
+    adif.asiento_service:
+        class: ADIF\ContableBundle\Service\AsientoContableService
+        arguments:
+            - @service_container
+
+    adif.retenciones_service:
+        class: ADIF\ContableBundle\Service\RetencionesService
+        arguments:
+            - @doctrine
+            - @kernel
+            - @service_container
+
+    adif.orden_pago_service:
+        class: ADIF\ContableBundle\Service\OrdenPagoService
+        arguments:
+            - @service_container
+
+    adif.comprobante_retencion_service:
+        class: ADIF\ContableBundle\Service\ComprobanteRetencionService
+        arguments:
+            - @doctrine
+
+    adif.chequera_service:
+        class: ADIF\ContableBundle\Service\ChequeraService
+        arguments:
+            - @doctrine
+
+    adif.contrato_service:
+        class: ADIF\ContableBundle\Service\ContratoService
+        arguments:
+            - @doctrine
+
+    adif.talonario_service:
+        class: ADIF\ContableBundle\Service\TalonarioService
+        arguments:
+            - @doctrine
+
+    adif.cupon_venta_service:
+        class: ADIF\ContableBundle\Service\CuponVentaService
+        arguments:
+            - @doctrine
+
+    adif.percepciones_service:
+        class: ADIF\ContableBundle\Service\PercepcionesService
+        arguments:
+            - @doctrine
+
+    adif.wsaa_service:
+        class: ADIF\ContableBundle\Service\WSAAService     
+        arguments:
+            - @service_container 
+            
+    adif.wsfe_service:
+        class: ADIF\ContableBundle\Service\WSFEService
+        arguments:
+            - @service_container
+            - @adif.wsaa_service
+            - @doctrine            
+
+    adif.tipomoneda_service:
+        class: ADIF\ContableBundle\Service\TipoMonedaService
+        arguments:
+            - @doctrine
+
+    adif.cobranza_service:
+        class: ADIF\ContableBundle\Service\CobranzaService
+        arguments:
+            - @doctrine      
+            
+    namer.adjunto_documento_financiero:
+        class: ADIF\ContableBundle\Namer\DocumentoFinancieroArchivoNamer
+        tags:
+            - { name: namer }
+            
+    namer.adjunto_licitacion:
+        class: ADIF\ContableBundle\Namer\LicitacionArchivoNamer
+        tags:
+            - { name: namer }
+    
+    adif.netcash_service:
+        class: ADIF\ContableBundle\Service\NetCashService
+        arguments:
+            - @doctrine

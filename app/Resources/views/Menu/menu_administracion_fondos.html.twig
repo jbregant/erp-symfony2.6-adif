@@ -1,0 +1,33 @@
+
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Adm. de fondos <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu">
+
+        {# CONFIGURACION #}
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_CONFIGURACION') %}
+            {% include ':Menu:menu_administracion_fondos.configuracion.html.twig' %}
+        {% endif %}
+
+        {# BANCOS #}
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_BANCOS")%}
+            {% include ':Menu:menu_administracion_fondos.bancos.html.twig' %}
+        {% endif %}
+
+        {# INGRESO DE FONDOS #}
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_INGRESO_FONDOS") %}
+            {% include ':Menu:menu_administracion_fondos.ingreso_fondos.html.twig' %}
+        {% endif %}
+
+        {# EGRESO DE FONDOS #}
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_EGRESO_FONDOS") %}
+            {% include ':Menu:menu_administracion_fondos.egreso_fondos.html.twig' %}
+        {% endif %}
+
+        {# REPORTES #}
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_REPORTES") %}
+            {% include ':Menu:menu_administracion_fondos.reportes.html.twig' %}
+        {% endif %}
+    </ul>
+</li>

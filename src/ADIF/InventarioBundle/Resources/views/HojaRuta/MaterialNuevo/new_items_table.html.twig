@@ -1,0 +1,20 @@
+{
+"data": [
+{% for key, item in result %}
+[
+    "{{ item.id }}",
+    "{{ item.id }}",
+    {% autoescape  %}
+    "{{ item.provincia|default('-') }}", 
+    "{{ item.linea|default('-') }}", 
+    "{{ item.almacen|default('-') }}", 
+    "{{ item.tipoMaterial|default('-') }}", 
+    "{{ item.grupoMaterial|default('-') }}", 
+    "{{ item.estadoConservacion|default('-') }}", 
+    {% endautoescape %}
+{
+    "delete" : "{{ item.id }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

@@ -1,0 +1,44 @@
+
+{% set ConstanteEstadoSolicitud = 'ADIF\\ComprasBundle\\Entity\\Constantes\\ConstanteEstadoSolicitud' %}
+
+{
+"data": [
+{% for entity in solicitudes %}
+    [
+    "{{ entity['id'] }}",
+    "{{ entity['id'] }}",
+    "{{ entity['numero'] }}",
+    "{{ entity['fecha_solicitud'] }}",
+    "{{ entity['tipo_solicitud_compra'] }}",
+    "{{ entity['origen'] }}",
+    "{{ entity['descripcion']|default('-')|escape_json }}",
+    "{{ entity['justiprecio']|money_format('$', 1, 2) }}",
+    {
+    "estadoSolicitudCompra" : "{{ entity['estado'] }}",
+    "estadoClass" : "{{'state state-' ~ entity['alias_tipo_importancia'] }}"   
+    },
+    {
+    {% if puede_visar and entity['estado'] == constant(ConstanteEstadoSolicitud ~ '::ESTADO_SOLICITUD_APROBADA') %}
+        "visar" : "{{ path( 'solicitudcompra_visar', { 'id': entity['id'] }) }}",
+    {% endif %}
+
+    "show" : "{{ path( 'solicitudcompra_show', { 'id': entity['id'] }) }}",
+    "checkShow": "{{ es_entidad_autorizante and entity['estado'] == constant(ConstanteEstadoSolicitud ~ '::ESTADO_SOLICITUD_PENDIENTE_AUTORIZACION') ? 1 : 0 }}"
+
+    {% if entity['es_editable'] %}
+        ,"edit" : "{{ path( 'solicitudcompra_edit', { 'id': entity['id'] }) }}"
+    {% endif %}
+
+    ,"historico" : "{{ path( 'solicitudcompra_historico', { 'id': entity['id'] }) }}"
+
+    {% if entity['estado'] == constant(ConstanteEstadoSolicitud ~ '::ESTADO_SOLICITUD_SUPERVISADA') %}
+        ,"print" : "{{ path( 'solicitudescompra_print', { 'id': entity['id'] }) }}"
+    {% endif %}
+
+    {% if entity['es_anulable'] and is_granted('ROLE_COMPRAS_ANULAR_SOLICITUD') %}
+        ,"anular" : "{{ path( 'solicitudcompra_anular', { 'id': entity['id'] }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

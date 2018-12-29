@@ -1,0 +1,14 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaCobranza ? entity.fechaCobranza|date('d/m/Y') : '--' }}",
+    {% if entity.fecha %}"{{ entity.fecha|date('d/m/Y') }}",{% endif %}    
+    "{{ entity|default('-') }}", 
+    "{{ entity.monto|money_format }}", 
+    "{{ entity.id }}"    
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

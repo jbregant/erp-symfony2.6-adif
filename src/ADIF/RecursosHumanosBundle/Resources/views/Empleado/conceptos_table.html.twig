@@ -1,0 +1,17 @@
+{
+  "data": [
+{% for empleado in empleados %}
+[
+    "{{ empleado[0].id }}",
+    "{{ empleado[0].id }}",
+    "{{ empleado[0].nroLegajo }}",
+    "{{ empleado[0].persona.cuil }}",
+    "{{ empleado[0].persona.apellido }}",
+    "{{ empleado[0].persona.nombre }}",
+    "{{ empleado[0].idSubcategoria.idCategoria.idConvenio.nombre }}",
+    {% for concepto in conceptos %}
+        "{{ concepto.id in empleado[1]|split(',') ? 'Si' : '' }}"{{ (loop.last ? '' : ',') }}
+    {% endfor %}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

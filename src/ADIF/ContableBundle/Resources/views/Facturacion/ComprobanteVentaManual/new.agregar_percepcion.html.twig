@@ -1,0 +1,33 @@
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="row row_headers_renglon_percepcion" style="display:none; margin-top: 5px;">
+            <div class="col-md-5">
+                <label class="control-label">Concepto</label>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <label class="control-label">Monto</label>
+            </div>
+        </div>
+
+        {% include('@ADIFContable/Facturacion/ComprobanteVentaManual/new.form_renglon_percepcion.html.twig') %} 
+
+        <div class="ctn_rows_renglon_percepcion"></div>
+
+        <div class="row row_footer row_footer_renglon_percepcion row_subtotal" style="display:none;">
+            <div class="col-md-7">
+                <input class="form-control subtotal_input" type="text" readonly="readonly" value="SUBTOTAL" style="text-align: right;">
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input type="text" id="adif_contablebundle_comprobanteventa_renglonesPercepcion_subtotal" readonly="readonly" class="form-control currency" value="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

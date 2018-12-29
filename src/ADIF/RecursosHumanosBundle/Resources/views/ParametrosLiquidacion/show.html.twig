@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del par&aacute;metro: <strong>{{ entity.nombre }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <div class="detalle_show">{{ entity.nombre }}</div>
+                    </div>
+                </div>                
+                <div class="col-md-3">            
+                    <div class="form-group {{ entity.esPorcentaje ? 'green' : ''  }}">
+                        <label class="control-label">Porcentaje</label>
+                        <div class="detalle_show">{{ entity.esPorcentaje ? 'Si' : 'No'  }}</div>
+                    </div>            
+                </div>                                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Valor</label>
+                        <div class="detalle_show">{{ entity.valor|number_format(2, ',', '.') }}</div>
+                    </div>
+                </div>            
+            </div>
+            <button type="button" class="btn default button-back" back-url="{{ path('parametros_liquidacion') }}"><i class="m-icon-swapleft"></i>Volver</button>
+        </div>
+    </div>
+{% endblock %}

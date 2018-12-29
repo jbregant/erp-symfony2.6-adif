@@ -1,0 +1,133 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_adif_user: adif
+    database_adif_password: adif
+    database_name_adif_autenticacion: adifprod_autenticacion
+    database_name_adif_rrhh: adifprod_rrhh
+    database_name_adif_contable: adifprod_contable
+    database_name_adif_compras: adifprod_compras
+    database_name_adif_warehouse: adifprod_warehouse
+
+    adif_organization_name: "Trenes Argentinos Infraestructura"
+    adif_cuit: 30-71069599-3
+    adif_favicon:
+    adif_logo:
+   
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: adif_autenticacion
+        connections:
+            adif_autenticacion:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name_adif_autenticacion%"
+                user:     "%database_adif_user%"
+                password: "%database_adif_password%"
+                charset:  UTF8
+            adif_rrhh:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name_adif_rrhh%"
+                user:     "%database_adif_user%"
+                password: "%database_adif_password%"
+                charset:  UTF8
+                logging: false
+                profiling: false
+            adif_contable:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name_adif_contable%"
+                user:     "%database_adif_user%"
+                password: "%database_adif_password%"
+                charset:  UTF8
+                mapping_types:
+                   enum: string
+            adif_compras:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name_adif_compras%"
+                user:     "%database_adif_user%"
+                password: "%database_adif_password%"
+                charset:  UTF8
+            adif_warehouse:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name_adif_warehouse%"
+                user:     "%database_adif_user%"
+                password: "%database_adif_password%"
+                charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        #auto_mapping: false
+        default_entity_manager: adif_autenticacion
+        entity_managers:            
+            adif_autenticacion:
+                connection: adif_autenticacion
+                mappings:
+                    ADIFAutenticacionBundle: ~
+            adif_rrhh:
+                connection: adif_rrhh
+                filters:
+                    softdeleteable:
+                      class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                      enabled: true
+                mappings:
+                    ADIFRecursosHumanosBundle: ~
+                dql:
+                    string_functions:
+                        IFNULL: ADIF\BaseBundle\DQL\IfNull
+                        DAY:  ADIF\BaseBundle\DQL\Day
+                        MONTH: ADIF\BaseBundle\DQL\Month
+                        YEAR: ADIF\BaseBundle\DQL\Year
+                        GROUP_CONCAT: ADIF\BaseBundle\DQL\GroupConcat
+            adif_contable:
+                connection: adif_contable
+                filters:
+                    softdeleteable:
+                      class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                      enabled: true
+                mappings:
+                    ADIFContableBundle: ~
+                dql:
+                    string_functions:
+                        IFNULL: ADIF\BaseBundle\DQL\IfNull
+                        DAY:  ADIF\BaseBundle\DQL\Day
+                        MONTH: ADIF\BaseBundle\DQL\Month
+                        YEAR: ADIF\BaseBundle\DQL\Year
+                        GROUP_CONCAT: ADIF\BaseBundle\DQL\GroupConcat
+            adif_compras:
+                connection: adif_compras
+                filters:
+                    softdeleteable:
+                      class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                      enabled: true
+                mappings:
+                    ADIFComprasBundle: ~
+                dql:
+                    string_functions:
+                        IFNULL: ADIF\BaseBundle\DQL\IfNull
+                        DAY:  ADIF\BaseBundle\DQL\Day
+                        MONTH: ADIF\BaseBundle\DQL\Month
+                        YEAR: ADIF\BaseBundle\DQL\Year
+                        GROUP_CONCAT: ADIF\BaseBundle\DQL\GroupConcat
+            adif_warehouse:
+                connection: adif_warehouse
+                filters:
+                    softdeleteable:
+                      class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                      enabled: true
+                mappings:
+                    ADIFWarehouseBundle: ~
+                dql:
+                    string_functions:
+                        IFNULL: ADIF\BaseBundle\DQL\IfNull
+                        DAY:  ADIF\BaseBundle\DQL\Day
+                        MONTH: ADIF\BaseBundle\DQL\Month
+                        YEAR: ADIF\BaseBundle\DQL\Year
+                        GROUP_CONCAT: ADIF\BaseBundle\DQL\GroupConcat

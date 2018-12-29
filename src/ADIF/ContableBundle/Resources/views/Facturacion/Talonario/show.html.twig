@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del talonario
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Tipo de comprobante</label>
+                        <div class="detalle_show">{{ entity.tipoComprobante }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Letra</label>
+                        <div class="detalle_show">{{ entity.letraComprobante }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Punto de venta</label>
+                        <div class="detalle_show">{{ entity.puntoVenta }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Numero inicio</label>
+                        <div class="detalle_show">{{ entity.numeroDesde }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Numero fin</label>
+                        <div class="detalle_show">{{ entity.numeroHasta }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">    
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label"># CAI</label>
+                        <div class="detalle_show">{{ entity.codigoAutorizacionImpresionTalonario.numero }}</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Vencimiento CAI</label>
+                        <div class="detalle_show">{{ entity.codigoAutorizacionImpresionTalonario.fechaVencimiento|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('talonarios') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

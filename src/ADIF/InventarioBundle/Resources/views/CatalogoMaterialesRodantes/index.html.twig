@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet box blue">
+        <div class="portlet-title">
+          <div class="caption">Listado de Materiales Rodantes</div>
+        </div>
+        <div class="portlet-body">
+          <div class="table-toolbar">
+            {% if is_granted("ROLE_INVENTARIO_MATERIAL_RODANTE_MODIFICAR") %}
+                <div class="btn-group">
+                  <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear Nuevo" href=" {{ path( 'catalogomaterialesrodantes_new') }} ">
+                    Crear Nuevo
+                    <i class="fa fa-plus"></i>
+                  </a>
+                </div>
+            {% endif %}
+          </div>
+          <table class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" id="table-catalogomaterialesrodantes" dataexport-title="catalogomaterialesrodantes">
+            <thead>
+              <tr class="replace-inputs filter">
+                <th></th>
+                <th class="not-in-filter"></th>
+                <th>Grupo de Rodante</th>
+                <th>Tipo de Rodante</th>
+                <th>N&uacute;m. de Vehiculo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Estado de Conservaci&oacute;n</th>
+                <th>Estado de Servicio</th>
+                <th>C&oacute;digo de Tr&aacute;fico</th>
+                <th>L&iacute;nea</th>
+                <th>Operador</th>
+                <th>Ubicacion</th>
+                <th>Estado</th>
+                <th class="not-in-filter"></th>
+              </tr>
+              <tr class="headers">
+                <th class="no-order entity_id"></th>
+                <th class="text-center table-checkbox no-order">
+                  <input type="checkbox" class="group-checkable" data-set="#table-catalogomaterialesrodantes .checkboxes"/>
+                </th>
+                <th>Grupo de Rodantes</th>
+                <th>Tipo de Rodante</th>
+                <th>N&uacute;m. de Vehiculo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Estado de Conservaci&oacute;n</th>
+                <th>Estado de Servicio</th>
+                <th>C&oacute;digo de Tr&aacute;fico</th>
+                <th>L&iacute;nea</th>
+                <th>Operador</th>
+                <th>Ubicacion</th>
+                <th>Estado</th>
+                <th class="text-center no-order ctn_acciones">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('js/custom/inventario/catalogomaterialesrodantes/index.js') }}"></script>
+{% endblock %}

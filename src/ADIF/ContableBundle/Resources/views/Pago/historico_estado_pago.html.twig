@@ -1,0 +1,75 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'css/pages/timeline.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/contable/ordenpago/timeline.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                {{ title|default('Hist&oacute;rico de estados') }}
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="timeline">
+
+                        {% for estadoPagoHistorico in historicoEstados %}
+
+                            <li class="{{'timeline-'~ estadoPagoHistorico.estadoPago.tipoImportancia.colorTipoImportancia }} {% if loop.last %}timeline-noline{%endif%}">
+                                <div class="timeline-time">
+                                    <span class="time">{{ estadoPagoHistorico.estadoPago }}</span>
+                                    <span class="date">{{ estadoPagoHistorico.fecha|date('d/m/y H:i:s') }}</span>
+                                </div>
+
+                                <div class="timeline-icon">
+                                    {% if loop.first %}
+                                        <i class="fa fa-circle"></i>
+                                    {% else %}
+                                        <i class="fa fa-check"></i>
+                                    {%endif%}
+                                </div>
+
+                                <div class="timeline-body">
+                                    <div class="timeline-body-head">
+                                        <div class="timeline-body-head-caption">
+                                            <span class="timeline-body-title">
+                                                {{ estadoPagoHistorico.estadoPago }}
+                                            </span>
+                                            <span class="timeline-body-time">
+                                                {{ ' (' ~  estadoPagoHistorico.fecha|date('d/m/y H:i:s') ~ ')'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-body-content">
+                                        <span class="font-grey-cascade">                                            
+                                            {{ estadoPagoHistorico.usuario.nombreCompleto ~ ' (' ~ estadoPagoHistorico.usuario|default('-') ~ ')' }}
+                                        </span>
+                                    </div>
+                                    <div class="timeline-footer"></div>
+                                </div>
+                            {% endfor  %}
+                    </ul>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn default button-back"><i class="m-icon-swapleft">
+                    </i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

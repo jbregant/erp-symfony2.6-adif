@@ -1,0 +1,105 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <style type="text/css" href="">
+        .truncate {
+            cursor:pointer;
+        }
+
+        .tooltip-inner {
+            max-width: 400px
+        }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">Auditor&iacute;a</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed 
+                    flip-content dt-multiselect export-excel" 
+                    id="table-logger" dataexport-title="logger">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th class="entity_id"></th>
+                            <th class="not-in-filter"></th>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                            <th>Acci&oacute;n</th>
+                            <th>Id Entidad</th>
+                            <th>Clase Entidad</th>
+                            <th>SQL</th>
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-logger .checkboxes" />
+                            </th>
+                            <th datetime >Fecha</th>
+                            <th>Usuario</th>
+                            <th>Acci&oacute;n</th>
+                            <th numeric class="nowrap">Id Entidad</th>
+                            <th>Clase Entidad</th>
+                            <th>SQL</th>
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in entities %}
+                        <tr>
+                            <td>
+                                {{ entity.id }}
+                            </td>
+                            <td class="text-center">
+                                <input type="checkbox" class="checkboxes" value="" />
+                            </td>
+                            <td class="nowrap">{{ entity.fecha|date('d/m/Y H:i:s') }}</td>
+                            <td>{{ entity.usuario }}</td>
+                            <td>{{ entity.accion }}</td>
+                            <td>{{ entity.idEntidad }}</td>
+                            <td class="nowrap">{{ entity.claseEntidad }}</td>
+                            <td>
+                                <span class="truncate tooltips" data-original-title="{{ entity.query }}">
+                                    {{ entity.query }}
+                                </span>
+                            </td>
+                            <td class="ctn_acciones text-center nowrap">
+                                <a href=" {{ path( 'auditoria_show', { 'id': entity.id }) }} " 
+                                   class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset(js_path ~ 'custom/autenticacion/auditoria/index.js') }}"></script>
+
+{% endblock %}

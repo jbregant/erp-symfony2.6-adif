@@ -1,0 +1,22 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    {
+    "estado" : "{{ entity.estadoRenglonDeclaracionJurada }}",
+    "id" : "{{ entity.id }}"   
+    },
+    "{{ entity.tipoImpuesto }}",
+    "{{ entity.regimen }}",
+    "{{ entity.nombreBeneficiario }}",
+    "{{ entity.ordenPago is not null ? entity.ordenPago.fechaContable|date('d/m/Y') : entity.fecha|date('d/m/Y') }}",
+    "{{ entity.ordenPago is not null ? entity.ordenPago.numeroOrdenPago : '' }}",
+    "{{ entity.monto|money_format }}",
+    {
+    "id" : "{{ entity.id }}",
+    "monto": "{{ entity.monto }}"
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

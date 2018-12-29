@@ -1,0 +1,130 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles de la comprobante de ajuste: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">    
+			
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Comprobante que se ajusto</label>
+                        <div class="detalle_show">{{ entity.idComprobante }} - 
+							{{ entity.comprobante.tipoComprobante }} "{{ entity.comprobante.letraComprobante }}" {{ entity.comprobante.numeroCompleto }}</div>
+                    </div>
+                </div>
+				
+				{% if entity.idProveedor != null %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Proveedor</label>
+							<div class="detalle_show">{{ entity.proveedor }}</div>
+						</div>
+					</div>
+				{% endif %}
+				
+				{% if entity.idCliente != null %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Cliente</label>
+							<div class="detalle_show">{{ entity.cliente }}</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+			
+			<div class="row">
+				
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Total</label>
+                        <div class="detalle_show">{{ entity.total|money_format }}</div>
+                    </div>
+                </div>
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fecha comprobante</label>
+                        <div class="detalle_show">{{ entity.fechaComprobante|date('d/m/Y H:i:s') }}</div>
+                    </div>
+                </div>
+				
+			</div>
+			
+			<div class="row">
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Tipo de ajuste</label>
+						{% if entity.esNotaCredito == 1 %}
+							<div class="detalle_show">Ajuste de cr&eacute;dito</div>
+						{% else %}
+							<div class="detalle_show">Ajuste de d&eacute;bito</div>
+						{% endif %}
+                    </div>
+                </div>
+				
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Observaciones</label>
+                        <div class="detalle_show">{{ entity.observaciones }}</div>
+                    </div>
+                </div>
+				
+			</div>
+			
+            <div class="form-actions">
+                <button type="button" class="btn default button-back">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+			
+				<a 
+					href="{{ path('comprobante_ajuste_anular', { 'id': entity.id }) }}" 
+					class="btn btn-xl red tooltips pull-right accion-borrar" 
+					data-original-title="Borrar">
+					<i class="fa fa-times">&nbsp;Borrar</i>
+				</a>
+            </div>
+        </div>
+    </div>
+	
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+	
+	<script>
+		$(document).ready(function() {
+			$('.accion-borrar').off().on('click', function (e) {
+				e.preventDefault();
+				var a_href = $(this).attr('href');
+				show_confirm({
+					title: 'Confirmar',
+					type: 'warning',
+					msg: '¿Confirma la eliminaci&oacute;n?',
+					callbackOK: function () {
+						location.href = a_href;
+					}
+				});
+				e.stopPropagation();
+			});
+			
+			$('.button-back').on('click', function(e) {
+				e.preventDefault();
+				window.history.back();
+			});
+		});
+	</script>
+	
+{% endblock%} 

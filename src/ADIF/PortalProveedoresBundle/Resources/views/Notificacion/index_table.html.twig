@@ -1,0 +1,25 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+	"{{ entity.id }}",
+    "{{ entity.titulo|default('-') }}", 
+    {% if entity.fechaDesde %}"{{ entity.fechaDesde|date('d/m/Y') }}",{% endif %} 
+    {% if entity.fechaHasta %}"{{ entity.fechaHasta|date('d/m/Y') }}",{% endif %} 
+    "{{ entity.autor|default('-') }}",  
+    "{{ entity.estadoId|default('-') }}", 
+    {# "{{ entity.mensaje|default('-') }}",  #}
+    {# "{{ entity.idUsuarioCreacion|default('-') }}",   #}
+    {# "{{ entity.idUsuarioUltimaModificacion|default('-') }}",  #} 
+{
+"show" : " {{ path( "notificacion_show", { "id": entity.id }) }}",
+{% if date('now'|date('m/d/Y')) <= entity.fechaHasta %}
+"edit" : " {{ path( "notificacion_edit", { "id": entity.id }) }}",
+{% endif %}
+"auditoria" : " {{ path( "notificacion_auditoria", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

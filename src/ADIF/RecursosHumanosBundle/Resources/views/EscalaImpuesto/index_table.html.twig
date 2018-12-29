@@ -1,0 +1,20 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.mes|default('-') }}", 
+    "{{ entity.montoDesde|default('-') }}", 
+    "{{ entity.montoHasta|default('-') }}", 
+    "{{ entity.montoFijo|default('-') }}", 
+    "{{ entity.porcentajeASumar|default('-') }}", 
+    {% if entity.vigenciaDesde %}"{{ entity.vigenciaDesde|date('d/m/Y') }}",{% endif %} 
+    {% if entity.vigenciaHasta %}"{{ entity.vigenciaHasta|date('d/m/Y') }}",{% endif %} 
+{
+"show" : " {{ path( "escala_impuesto_mes_show", { "id": entity.id }) }}", 
+"edit" : " {{ path( "escala_impuesto_mes_edit", { "id": entity.id }) }}" 
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

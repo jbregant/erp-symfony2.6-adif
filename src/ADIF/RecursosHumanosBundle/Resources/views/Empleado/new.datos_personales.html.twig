@@ -1,0 +1,230 @@
+{# empty Twig template #}
+{% if edit %}
+<div id="empleado_edit_datos_personales">
+    {% if empleado.persona.domicilio != null and empleado.persona.domicilio.localidad != null and empleado.persona.domicilio.localidad.provincia != null %}
+        <input type="hidden" value="{{ empleado.persona.domicilio.localidad.id }}" name="empleado_edit_datos_personales_localidad"/>
+        <input type="hidden" value="{{ empleado.persona.domicilio.localidad.provincia.id }}" name="empleado_edit_datos_personales_provincia"/>
+    {% else %}
+        <input type="hidden" value="" name="empleado_edit_datos_personales_localidad"/>
+        <input type="hidden" value="" name="empleado_edit_datos_personales_provincia"/>
+    {% endif %}
+</div>
+{% endif %}
+<div class="row">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.apellido, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.apellido) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.nombre, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.nombre) }}
+                    </div>
+                </div>
+            </div>
+            <!--        </div>
+                    <div class="row">-->
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.idTipoDocumento, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.idTipoDocumento) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.nroDocumento, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.nroDocumento) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.sexo, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.sexo) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.fechaNacimiento, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.fechaNacimiento) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.cuil, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.cuil) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.idEstadoCivil, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.idEstadoCivil) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.idNacionalidad, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.idNacionalidad) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.telefono, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.telefono) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.celular, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.celular) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.persona.email, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.persona.email) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.foto, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="clearfix" ></div>
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+                <div class="fileinput-new thumbnail" style="height: 146px; width: 189px;">
+                    {% if empleado.foto %}
+                    <img src="/uploads/empleados/fotos/{{ empleado.foto }}" alt="Foto empleado"/>
+                    {% else %}
+                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=Sin+imagen" alt=""/>
+                    {% endif %}
+
+                </div>
+                <div class="fileinput-preview fileinput-exists thumbnail" style="height: 146px; width: 189px;">
+                </div>
+                <div>
+                    <span class="btn default btn-file">
+                        <span class="fileinput-new">
+                            Seleccionar imagen
+                        </span>
+                        <span class="fileinput-exists">
+                            Cambiar
+                        </span>
+                        {{ form_widget(form.foto) }}
+{#                        <input type="file" name="foto_nombre" tabindex="-1">#}
+                    </span>
+                    <a href="#" class="btn default fileinput-exists" data-dismiss="fileinput">
+                        Borrar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.calle, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.calle) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.numero, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.numero) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.piso, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.piso) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.depto, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.depto) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.idProvincia, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.idProvincia) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.localidad, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.localidad) }}
+            </div>
+        </div>                
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            {{ form_label(form.persona.domicilio.codPostal, null, {'label_attr': {'class': 'control-label'}})  }}
+            <div class="input-icon right">
+                <i class="fa"></i>
+                {{ form_widget(form.persona.domicilio.codPostal) }}
+            </div>
+        </div>                
+    </div>
+</div>

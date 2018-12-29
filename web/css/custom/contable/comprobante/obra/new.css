@@ -1,0 +1,14 @@
+
+.table tbody tr.selected td, 
+.table tbody tr.selected th {
+    background-color: #e0ffd7;
+    font-weight: bold
+}
+
+.row.row_renglon_comprobante {
+    margin: 1em 0 2em;
+}
+
+.renglon_comprobante_borrar {
+    margin-top: 1.5em;
+}

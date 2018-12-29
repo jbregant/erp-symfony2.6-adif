@@ -1,0 +1,146 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    {# DatePicker #}
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+    {# Switch #}
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/compras/clienteproveedor/clienteproveedor.css') }}" rel="stylesheet" type="text/css" />
+    {# Lo tengo que sacar ? #}
+
+    <link href="{{ asset(theme_path ~ 'plugins/jstree/dist/themes/default/style.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption" style="font-size: 18px !important">Detalles Material Producido de Obra </div>
+
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+
+            <div class="form-body">
+                <div class="tabbable-custom nav-justified">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab" style="font-size: 14px !important" >General </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_2" data-toggle="tab" style="font-size: 14px !important">Compras</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_3" data-toggle="tab" style="font-size: 14px !important">Inventarios</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_4" data-toggle="tab" style="font-size: 14px !important">Propiedades</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_5" data-toggle="tab" style="font-size: 14px !important">Im&aacute;genes</a>
+                        </li>
+                    </ul>
+                    {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/show.datos_cabecera.html.twig') %}
+
+                    <div class="tab-content" style="border: transparent; padding: 0;">
+
+                        {# TAB 1 - General #}
+                        <div id="tab_1" class="tab-pane active">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/show.datos_generales.html.twig') %}
+                        </div>
+
+                        {# TAB 2 - Compras #}
+                        <div id="tab_2" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/show.datos_compras.html.twig') %}
+                        </div>
+
+                        {# TAB 3 - Inventarios #}
+                        <div id="tab_3" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/show.datos_inventarios.html.twig') %}
+                        </div>
+
+                        {# TAB 4 - Propiedades #}
+                        <div id="tab_4" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/show.datos_propiedades.html.twig') %}
+                        </div>
+
+                        {# TAB 5 - Fotos #}
+                        <div id="tab_5" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/show.datos_fotos.html.twig') %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('catalogomaterialesproducidosdeobra') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+{#                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}#}
+                </div>
+            </div>
+
+{#            {{ form_widget(form._token) }}#}
+
+{#            {{ form_end(form, {"render_rest": false}) }}#}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{#{% block javascripts %}#}
+
+{#    {{ parent() }}#}
+
+    {# Select2 #}
+    {#<script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+#}
+    {# Validator #}
+    {#<script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+#}
+    {# InputMask #}
+{#    <script src="{{ asset(theme_path ~ 'plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>#}
+
+    {# DatePicker #}
+{#    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>#}
+{#    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>#}
+
+    {# Switch #}
+{#    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>#}
+
+    {# FileStyle #}
+{#    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript" ></script>#}
+
+    {# Raty #}
+{#    <script src="{{ asset(theme_path ~ 'plugins/jquery-raty/jquery.raty.js') }}" type="text/javascript"></script>#}
+
+    {# JsTree #}
+{#    <script src="{{ asset(theme_path ~ 'plugins/jstree/dist/jstree.min.js') }}" ></script>#}
+
+{#    <script src="{{ asset(js_path ~ 'custom/inventario/catalogomaterialesproducidosdeobra/new.js') }}" ></script>#}
+    {# revisar !!!! #}
+{#    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+#}
+{#{% endblock %}#}

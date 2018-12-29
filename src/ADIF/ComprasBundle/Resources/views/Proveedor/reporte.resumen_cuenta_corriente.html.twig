@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte resumen cuenta corriente</div>
+                </div>
+                <div class="portlet-body">
+                    
+                    <div class="table-toolbar" style="margin-top: 3em">
+                        
+                        <div class="btn-group pull-left" style="margin-top: -3em">
+
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label for="adif_contablebundle_filtro_fechaFin" 
+                                               class="control-label">Fecha hasta</label>
+                                        <div class="input-icon right">
+                                            <i class="fa"></i>
+                                            <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                                   name="adif_contablebundle_filtro[fechaFin]" 
+                                                   class="form-control datepicker fecha_custom"
+                                                   value="{{ "now"|date("d/m/Y") }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <button class="btn btn-small blue-hoki form-control" id="filtrar">
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>                        
+                        </div>                        
+                        
+                    </div>  
+
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                        id="table-reporte" dataexport-title="resumen_cc_proveedor"
+                        data-toggler="1">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>C&oacute;digo</th>
+                                <th>Raz&oacute;n social</th>
+                                <th>CUIT</th>
+                                <th>Tipo de contrataci&oacute;n</th>
+                                <th>N&uacute;mero de contrato</th>
+                                <th>Cuenta contable</th>
+                                <th>Saldo pendiente de pago</th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" 
+                                           data-set="#table-reporte .checkboxes" />
+                                </th>
+                                <th class="text-center">C&oacute;digo</th>
+                                <th>Raz&oacute;n social</th>
+                                <th class="text-center">CUIT</th>
+                                <th class="text-center">Tipo de contrataci&oacute;n</th>
+                                <th class="text-center nowrap">N&uacute;mero de contrato</th>
+                                <th class="text-center">Cuenta contable</th>
+                                <th currency  class="text-center">Saldo pendiente de pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+{#                            {% for entity in proveedores %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+                                    <td>{{ entity.codigo|default('-') }}</td>
+                                    <td>{{ entity.razonSocial|default('-') }}</td>
+                                    <td class="nowrap">{{ entity.cuit|default('-')  }}</td>
+                                    <td class="nowrap {{ entity.muestraDetalle ? 'text-center' : '' }}">{{ entity.tipoContratacion|default('-') }}</td>
+                                    <td class="nowrap {{ entity.muestraDetalle ? 'text-center' : '' }}">{{ entity.numero|default('-') }}</td>
+                                    <td class="nowrap">{{ entity.cuentaContable|default('-') }}</td>
+                                    <td class="text-right">{{ entity.saldoPendientePago|money_format }}</td>
+                                </tr>
+                            {% endfor %}#}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/proveedor/reporte_resumen_cuenta_corriente.js') }}" ></script>
+
+{% endblock %}

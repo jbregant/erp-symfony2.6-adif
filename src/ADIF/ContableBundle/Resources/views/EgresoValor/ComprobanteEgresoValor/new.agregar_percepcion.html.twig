@@ -1,0 +1,34 @@
+<div class="col-md-6">
+    <a id="agregar_renglon_percepcion" class="btn btn-sm green-jungle tooltips" 
+       data-placement="right" data-original-title="Agregar percepci&oacute;n" >
+        Agregar percepci&oacute;n <i class="fa fa-plus"></i>
+    </a>
+
+    <div class="row row_headers_renglon_percepcion" style="display:none;margin-top: 5px;">
+        <div class="col-md-4">
+            <label class="control-label">Concepto</label>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+            <label class="control-label">Monto</label>
+        </div>
+    </div>
+
+    {% include('@ADIFContable/EgresoValor/ComprobanteEgresoValor/new.form_renglon_percepcion.html.twig') %} 
+
+    <div class="ctn_rows_renglon_percepcion"></div>
+
+    <div class="row row_footer row_footer_renglon_percepcion row_subtotal" style="display:none;">
+        <div class="col-md-8">
+            <input class="form-control subtotal_input" type="text" readonly="readonly" value="SUBTOTAL" style="text-align: right;">
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" id="adif_contablebundle_comprobanteegresovalor_renglonesPercepcion_subtotal" readonly="readonly" class="form-control currency" value="0">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

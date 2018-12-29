@@ -1,0 +1,121 @@
+{% extends '::base.html.twig' %}  
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Ejercicios contables</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group">
+                            <a class="btn btn-sm green tooltips" data-placement="right" 
+                               data-original-title="Crear ejercicio contable" 
+                               href=" {{ path( 'ejercicio_new') }} ">
+                                Crear ejercicio <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed flip-content datatable dt-multiselect export-excel" 
+                        id="table-ejerciciocontable"
+                        dataexport-title="ejerciciocontable">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Denominaci&oacute;n</th>
+                                <th data-type="date">Fecha inicio</th>
+                                <th data-type="date">Fecha fin</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-ejerciciocontable .checkboxes" />
+                                </th>
+                                <th>Denominaci&oacute;n</th>
+                                <th date export-format="date">Fecha inicio</th>
+                                <th date export-format="date">Fecha fin</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td> {{ entity.id }} </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="checkboxes" value="" />
+                                    </td>
+                                    <td>{{ entity.denominacionEjercicio }}</td>
+                                    <td>
+                                        {% if entity.fechaInicio %}
+                                            {{ entity.fechaInicio|date('d/m/Y') }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if entity.fechaFin %}
+                                            {{ entity.fechaFin|date('d/m/Y') }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="ctn_acciones text-center nowrap">
+                                        <a href=" {{ path( 'ejercicio_show', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs blue tooltips" data-original-title="Ver detalle">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <a href=" {{ path( 'ejercicio_edit', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs green tooltips" data-original-title="Editar">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a href=" {{ path( 'asientocontable_refundicion_resultados', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs yellow-lemon tooltips link-asiento-formal" data-original-title="Refundici&oacute;n de resultados">
+                                            <i class="fa fa-letter">Re</i>
+                                        </a>
+                                        <a href=" {{ path( 'asientocontable_cierre_ejercicio', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs red-thunderbird tooltips link-asiento-formal" data-original-title="Cierre de ejercicio">
+                                            <i class="fa fa-letter">Ci</i>
+                                        </a>
+                                        <a href=" {{ path( 'asientocontable_apertura_ejercicio', { 'id': entity.id }) }} " 
+                                           class="btn btn-xs green-jungle tooltips link-asiento-formal" data-original-title="Apertura de ejercicio">
+                                            <i class="fa fa-letter">Ap</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detalle_asiento_formal" class="hidden">     
+        <form name="adif_contablebundle_detalle_asiento_formal" 
+              method="post" action="" class="horizontal-form" novalidate="novalidate">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label required" for="adif_contablebundle_asientocontable_fechaContable">Fecha contable</label>
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><div class="input-icon right">
+                                <i class="fa" data-original-title=""></i>
+                                <input type="text" id="adif_contablebundle_asientocontable_fechaContable" 
+                                       name="adif_contablebundle_asientocontable[fechaContable]" 
+                                       required="required" class="form-control datepicker fecha_custom">
+                            </div>
+                        </div>
+                    </div> 
+                </div> 
+            </div> 
+        </form>           
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/contable/ejercicio/index.js') }}" ></script>
+
+{% endblock %}

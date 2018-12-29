@@ -1,0 +1,155 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%} 
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del pedido: <strong>{{ entity }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Fecha del pedido</label>
+                        <div class="detalle_show">
+                            {{ entity.fechaPedido|date('d/m/Y') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Centro de costo</label>
+                        <div class="detalle_show">{{ entity.centroCosto|default('-') }}</div>
+                    </div>
+                </div>
+                <div class="col-md-5">                
+                    <div class="form-group">
+                        <label class="control-label">Justificaci&oacute;n</label>
+                        {% if entity.justificacion is not null %}
+                            <a  class="download-link" target="_blank"
+                                href="{{ asset('uploads/justificacion_pedido_interno/' ~ entity.justificacion.nombreArchivo) }}">
+                                (Descargar)
+                            </a>
+                        {% endif %}
+                        <div class="detalle_show">
+                            {% if entity.justificacion is not null %}
+                                {{ entity.justificacion.nombre }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="row">  
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">N&deg; de referencia otros sistemas</label>
+                        <div class="detalle_show">
+                            {{ entity.numeroReferencia|default('-') }}
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label class="control-label">Observaci&oacute;n</label>
+                        <div class="detalle_show">
+                            {{ entity.observacion|nl2br|default('-') }}
+                        </div>
+                    </div>
+                </div>   
+            </div>
+
+            <fieldset>
+
+                <legend>Renglones</legend>
+
+                {% if entity.renglonesPedidoInterno is not empty %}
+                    <table  class="table datatable table-bordered table-striped" 
+                            id="table-pedidointerno">
+                        <thead>
+                            <tr class="headers">
+                                <th class="no-order entity_id hidden"></th>
+                                <th class="nowrap">N&deg;</th>
+                                <th>Rubro</th>                            
+                                <th class="nowrap">Bien econ&oacute;mico</th>
+                                <th>Descripci&oacute;n</th>                            
+                                <th numeric class="nowrap" >Cantidad</th>                            
+                                <th class="nowrap">Unidad</th>
+                                <th class="nowrap">Prioridad</th>
+                                <th class="nowrap">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for renglon in entity.renglonesPedidoInterno %}
+                                <tr>
+                                    <td class="hidden">
+                                        <input type="hidden" value="{{ renglon.id }}"/>
+                                    </td>                                    
+                                    <td>{{ loop.index }}</td>
+                                    <td class="truncate tooltips nowrap" data-original-title="{{ renglon.bienEconomico.rubro }}">
+                                        {{ renglon.bienEconomico.rubro }}
+                                    </td>
+                                    <td class="truncate tooltips nowrap" data-original-title="{{ renglon.bienEconomico }}">
+                                        {{ renglon.bienEconomico }}
+                                    </td>
+                                    <td class="">
+                                        {{ renglon.descripcion|nl2br|default('-') }}
+                                    </td>
+                                    <td>{{ renglon.cantidadSolicitada }}</td>
+                                    <td class="nowrap">{{ renglon.unidadMedida }}</td>
+                                    <td>{{ renglon.prioridad }}</td>
+                                    <td class="nowrap">{{ renglon.estadoRenglonPedidoInterno }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span>La solicitud no contiene &iacute;tems.</span>
+                {% endif %}
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('pedidointerno') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# DotDotDot #}
+    <script type="text/javascript" src="{{ asset(theme_path ~ 'plugins/jquery-dotdotdot/jquery.dotdotdot.js') }}"></script>
+
+    <script src="{{ asset('js/custom/compras/pedidointerno/show.js') }}" ></script>
+
+{% endblock %}

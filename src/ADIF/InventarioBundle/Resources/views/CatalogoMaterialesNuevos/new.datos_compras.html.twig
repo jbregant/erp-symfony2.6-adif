@@ -1,0 +1,145 @@
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Compras</legend>
+    <div class="row">
+    	<div class="col-md-2">
+            <div class="form-group">
+                 {{ form_label(form.sujetoAImpuesto) }}
+{#                ¿Sujeto a impuestos?#}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.sujetoAImpuesto) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.factor1) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                   {{ form_widget(form.catalogoMaterialesNuevosCompra.factor1) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.factor2) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.factor2) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.factor3) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.factor3) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.factor4) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.factor4) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.grupoAduana) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.grupoAduana) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.tipoImpuesto) }}
+{#                Tipo de Impuesto#}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.tipoImpuesto) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.unidadMedida) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.unidadMedida) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.itemPorUnidadCompra) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.itemPorUnidadCompra) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.catalogoMaterialesNuevosCompra.unidadMedidaPackaging) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.catalogoMaterialesNuevosCompra.unidadMedidaPackaging) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                {{ form_label(form.medida) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.medida) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.peso) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.peso) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_label(form.volumen) }}
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    {{ form_widget(form.volumen) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</fieldset>

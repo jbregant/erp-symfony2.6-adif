@@ -1,0 +1,17 @@
+<div class="portlet box green-seagreen">
+    <div class="portlet-title">
+        <div class="caption">
+            Declaraciones juradas {{ tipo_ddjj|replace({'-': " "})|upper }}
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body"> 
+        <table class="table table-bordered table-striped table-condensed 
+               flip-content dt-multiselect table-ddjj" 
+               id="table-ddjj-{{ tipo_ddjj|lower }}" data-tipo-ddjj="{{ tipo_ddjj }}">
+            {% include('@ADIFContable/DeclaracionJurada/cuerpo_tabla_declaraciones_juradas.html.twig') %}
+        </table>
+    </div>
+</div>

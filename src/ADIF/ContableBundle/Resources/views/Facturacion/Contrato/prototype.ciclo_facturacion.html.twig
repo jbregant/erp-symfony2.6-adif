@@ -1,0 +1,60 @@
+<div class="row row_ciclo_facturacion" data-index="">
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(cicloFacturacion.fechaInicio) }}
+            <div class="form_field">
+                {{ form_widget(cicloFacturacion.fechaInicio) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(cicloFacturacion.fechaFin) }}
+            <div class="form_field">
+                {{ form_widget(cicloFacturacion.fechaFin) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 form_field">
+        <div class="form-group">
+            {{ form_label(cicloFacturacion.cantidadUnidadTiempo) }}
+            <div class="form_field">
+                {{ form_widget(cicloFacturacion.cantidadUnidadTiempo) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(cicloFacturacion.unidadTiempo) }}
+            <div class="form_field">
+                {{ form_widget(cicloFacturacion.unidadTiempo) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(cicloFacturacion.cantidadFacturas) }}
+            <div class="form_field">
+                {{ form_widget(cicloFacturacion.cantidadFacturas) }}
+            </div>
+        </div>
+    </div>
+
+    {{ form_widget(cicloFacturacion.cantidadFacturasPendientes) }}
+
+    <div class="col-md-2 form_field">
+        <div class="form-group">
+            {{ form_label(cicloFacturacion.importe) }}
+            <div class="form_field">
+                {{ form_widget(cicloFacturacion.importe) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-ciclo-facturacion accion-borrar" 
+           data-placement="top" data-original-title="Eliminar ciclo">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

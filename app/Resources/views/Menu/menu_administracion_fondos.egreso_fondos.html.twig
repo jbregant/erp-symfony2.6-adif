@@ -1,0 +1,86 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Egreso de fondos
+    </a>    
+    <ul class="dropdown-menu">
+
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_EGRESO_VALOR") %}
+            <li>
+                <a href="{{ path('egresovalor') }}">
+                    Egresos de valor
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted("ROLE_MENU_ADMINISTRACION_FONDOS_DEVOLUCION_GARANTIA") %}
+            <li>
+                <a href="{{ path('devolucion_garantia') }}">
+                    Devoluciones de garant&iacute;a
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_ORDEN_PAGO') %}
+            <li>
+                <a href="{{ path('ordenpago') }}">
+                    &Oacute;rdenes de pago
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('orden_pago_general') }}">
+                    Egresos varios
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('pago_parcial') }}">
+                    Pagos parciales
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_ANTICIPO') %}
+            <li class="dropdown-submenu">
+                <a href="">
+                    Anticipos
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('anticipossueldo') }}">
+                            A empleados
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('anticiposproveedor') }}">
+                            A proveedores
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('anticiposcontratoconsultoria') }}">
+                            A consultores
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_ADMINISTRACION_FONDOS_OTROS_EGRESOS') %}
+            <li class="dropdown-submenu">
+                <a href="">
+                    Otros egresos
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('renglonesretencionliquidacion') }}">
+                            Ret. liq. sueldos a depositar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('renglonesretencionliquidacion_historico') }}">
+                            Hist&oacute;rico ret. liq. sueldos a depositar
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>

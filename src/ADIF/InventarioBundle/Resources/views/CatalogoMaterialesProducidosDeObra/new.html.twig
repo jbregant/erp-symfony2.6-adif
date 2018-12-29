@@ -1,0 +1,106 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/custom/inventario/catalogomaterialesproducidosdeobra/new.js') }}" ></script>
+
+    <!--<script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>-->
+
+{% endblock %}
+
+
+{% set edit = form.vars.value.id != null %}
+
+{% block body -%}
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">Material Producido de Obra</div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            {{ form_start(form, {'attr': {'class' : 'horizontal-form','novalidate': 'novalidate'} }) }}
+
+            {% include ':Form:fieldsErrors.html.twig' %}
+
+            {% if edit %}
+                <input type="hidden" name="_method" value="PUT" />
+            {% endif %}
+
+            <div class="form-body">
+                <div class="tabbable-custom nav-justified">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab">General </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_2" data-toggle="tab">Compras </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_3" data-toggle="tab">Inventarios </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_4" data-toggle="tab">Propiedades </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_5" data-toggle="tab">Im&aacute;genes </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- Datos Generales -->
+                        {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/new.datos_cabecera.html.twig') %}
+
+                        {# TAB 1 - General #}
+                        <div id="tab_1" class="tab-pane active">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/new.datos_generales.html.twig') %}
+                        </div>
+
+                        {# TAB 2 - Compras #}
+                        <div id="tab_2" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/new.datos_compras.html.twig') %}
+                        </div>
+
+                        {# TAB 3 - Inventarios #}
+                        <div id="tab_3" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/new.datos_inventarios.html.twig') %}
+                        </div>
+
+                        {# TAB 4 - Propiedades #}
+                        <div id="tab_4" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/new.datos_propiedades.html.twig') %}
+                        </div>
+
+                        {# TAB 5 - Fotos #}
+                        <div id="tab_5" class="tab-pane">
+                            {% include('@ADIFInventario/CatalogoMaterialesProducidosDeObra/new.datos_fotos.html.twig') %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-left">
+                    <button type="button" class="btn default button-back"
+                            back-url="{{ path('catalogomaterialesproducidosdeobra') }}">Cancelar</button>
+                </div>
+                <div class="pull-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn blue'}}) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {"render_rest": false}) }}
+        </div>
+    </div>
+
+{% endblock %}

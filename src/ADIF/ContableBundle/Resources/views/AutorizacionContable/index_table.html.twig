@@ -1,0 +1,47 @@
+
+{% set EstadoOrdenPago = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteEstadoOrdenPago' %}
+
+{
+"data": [
+{% for entity in autorizacionesContables %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.fechaAutorizacionContable|date('d/m/Y') }}",
+    "{{ entity.numeroAutorizacionContable }}",
+    "{{ entity.proveedor }}",
+    "{{ entity.concepto|decode }}",
+    "{{ entity.totalBruto|money_format }}",
+    "{{ entity.montoRetenciones|money_format }}",
+    "{{ entity.montoNeto|money_format }}",
+    "{{ entity.usuarioCreacion|default('-') }}",
+    {
+    "estado" : "{{ (entity.estadoOrdenPago == constant(EstadoOrdenPago ~ '::ESTADO_PAGADA'))? constant(EstadoOrdenPago ~ '::___ESTADO_OP_ASIGNADA') : entity.estadoOrdenPago }}",
+    "estadoClass" : "{{ (entity.aliasTipoImportanciaEstadoOrdenPago is not null ? entity.aliasTipoImportanciaEstadoOrdenPago : 'default') }}"   
+    },
+    {
+    {% if entity.estadoOrdenPago == constant(EstadoOrdenPago ~ '::ESTADO_PENDIENTE_AUTORIZACION') and entity.requiereVisado and 
+        (
+            is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE") or
+            is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE_RRHH") or 
+            is_granted("ROLE_VISAR_AUTORIZACION_CONTABLE_EGRESO_VALOR")
+        )
+    %}
+        "visar" : "{{ path(entity.pathAC ~ '_visar', { 'id': entity.id }) }}",    
+    {% endif %}
+    "show" : "{{ path( entity.path ~ '_show', { 'id': entity.id }) }}",
+    "historico_general" : "{{ path( entity.path ~ '_historico_general', { 'id': entity.id }) }}",
+    {% if entity.estadoOrdenPago == constant(EstadoOrdenPago ~ '::ESTADO_PENDIENTE_PAGO') %}
+        {% if is_granted('ROLE_TESORERIA') %}
+            "pagar" : "{{ path( entity.path ~ '_pagar', { 'id': entity.id }) }}",    
+        {% endif %}
+    {% endif %}
+    "imprimir" : "{{ path( entity.pathAC ~ '_print', { 'id': entity.id }) }}"
+    {% if entity.estadoOrdenPago != constant(EstadoOrdenPago ~ '::ESTADO_ANULADA') and  entity.estadoOrdenPago != constant(EstadoOrdenPago ~ '::ESTADO_PAGADA') %}
+        ,"anular" : "{{ path( entity.pathAC ~ '_anular', { 'id': entity.id }) }}"
+    {% endif %}
+    },
+    "{{ entity.id }}" 
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

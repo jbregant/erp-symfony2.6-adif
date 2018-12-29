@@ -1,0 +1,16 @@
+{
+"data": [
+{% for entity in entities %}
+[
+"{{ entity.id }}",
+"{{ entity.id }}",
+    "{{ entity.denominacion|default('-') }}",
+    "{{ entity.grupoRodante.denominacion|default('-') }}",
+{
+"show" : " {{ path( "tiporodante_show", { "id": entity.id }) }}",
+"edit" : " {{ path( "tiporodante_edit", { "id": entity.id }) }}",
+"delete" : " {{ path( "tiporodante_delete", { "id": entity.id }) }}"
+}
+]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

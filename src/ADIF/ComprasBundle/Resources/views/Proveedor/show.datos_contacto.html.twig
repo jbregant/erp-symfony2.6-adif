@@ -1,0 +1,171 @@
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Informaci&oacute;n</legend>
+
+    {% for datoContacto in proveedor.clienteProveedor.datosContacto %}
+        <div class="row">   
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="control-label">Tipo de contacto</label>
+                    <div class="detalle_show">{{ datoContacto.tipoContacto|default('-') }}</div>
+                </div>
+            </div>         
+            <div class="col-md-7">
+                <div class="form-group">
+                    <label class="control-label">Descripci&oacute;n</label>
+                    <div class="detalle_show">{{ datoContacto.descripcionDatoContacto|default('-') }}</div>
+                </div>
+            </div>            
+        </div>
+    {% else %}
+        -
+    {% endfor %}
+</fieldset>
+
+<div class="row">      
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Domicilio comercial</legend>
+
+            <div class="row">   
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Calle</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioComercial is not null ? proveedor.clienteProveedor.domicilioComercial.calle|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm;</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioComercial is not null ? proveedor.clienteProveedor.domicilioComercial.numero|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Piso</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioComercial is not null ? proveedor.clienteProveedor.domicilioComercial.piso|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Dto.</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioComercial is not null ? proveedor.clienteProveedor.domicilioComercial.depto|default('-') : '-' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Localidad</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioComercial is not null ? proveedor.clienteProveedor.domicilioComercial.localidad|default('-') : '-' }}</div>
+                    </div>                
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="col-md-6">
+        <fieldset class="form-section-fieldset">
+
+            <legend class="form-section-legend">Domicilio legal</legend>
+
+            <div class="row">   
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">Calle</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioLegal is not null ? proveedor.clienteProveedor.domicilioLegal.calle|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">N&ordm;</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioLegal is not null ? proveedor.clienteProveedor.domicilioLegal.numero|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Piso</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioLegal is not null ? proveedor.clienteProveedor.domicilioLegal.piso|default('-') : '-' }}</div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Dto.</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioLegal is not null ? proveedor.clienteProveedor.domicilioLegal.depto|default('-') : '-' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Localidad</label>
+                        <div class="detalle_show">{{ proveedor.clienteProveedor.domicilioLegal is not null ? proveedor.clienteProveedor.domicilioLegal.localidad|default('-') : '-' }}</div>
+                    </div>                
+                </div>
+            </div>
+
+        </fieldset>
+    </div>   
+</div>
+
+<fieldset class="form-section-fieldset">
+
+    <legend class="form-section-legend">Contactos</legend>
+
+    {% for contactoProveedor in proveedor.contactosProveedor %}
+        <div class="row">
+
+            <fieldset class="form-section-fieldset">
+
+                <legend class="form-section-legend">Contacto</legend>
+
+                <div class="row">   
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Nombre</label>
+                            <div class="detalle_show">{{ contactoProveedor.nombre|default('-') }}</div>
+                        </div>
+                    </div>         
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Cargo</label>
+                            <div class="detalle_show">{{ contactoProveedor.cargo|default('-') }}</div>
+                        </div>
+                    </div>         
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="control-label">Observaci&oacute;n</label>
+                            <div class="detalle_show">{{ contactoProveedor.observacion|default('-') }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                {% for datoContacto in contactoProveedor.datosContacto %}
+                    <div class="row">   
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label">Tipo de contacto</label>
+                                <div class="detalle_show">{{ datoContacto.tipoContacto|default('-') }}</div>
+                            </div>
+                        </div>         
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label class="control-label">Descripci&oacute;n</label>
+                                <div class="detalle_show">{{ datoContacto.descripcionDatoContacto|default('-') }}</div>
+                            </div>
+                        </div>            
+                    </div>
+                {% endfor %}
+
+            </fieldset>
+        </div>    
+    {% else %}
+        -
+    {% endfor %}
+</fieldset>

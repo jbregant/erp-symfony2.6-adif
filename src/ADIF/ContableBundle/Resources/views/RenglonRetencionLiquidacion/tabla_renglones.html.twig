@@ -1,0 +1,28 @@
+<div class="portlet box green-seagreen">
+    <div class="portlet-title">
+        <div class="caption">
+            Retenciones {{ beneficiario }}
+        </div>
+        <div class="tools">
+            <a class="collapse" href="javascript:;"></a>
+        </div>
+    </div>
+    <div class="portlet-body">        
+        <div class="table-toolbar">
+            {% if(not historico) %}
+            <div class="btn-group pull-right">
+                <a id="button-ac-{{ idBeneficiario }}" class="btn btn-sm red-intense tooltips button-ac"
+                   data-placement="left" data-original-title="Crear autorizaci&oacute;n contable" 
+                   href="#">
+                    Autorizaci&oacute;n contable <i class="fa fa-plus"></i>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        <table class="table table-bordered table-striped table-condensed 
+               flip-content dt-multiselect table-retenciones" 
+               id="table-retenciones-{{ idBeneficiario }}">
+            {% include('@ADIFContable/RenglonRetencionLiquidacion/cuerpo_tabla_retenciones.html.twig') %}
+        </table>
+    </div>
+</div>

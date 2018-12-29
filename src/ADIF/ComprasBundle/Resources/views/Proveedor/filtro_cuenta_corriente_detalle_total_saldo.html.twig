@@ -1,0 +1,24 @@
+<div class="col-md-12">    
+    <div class="row">
+        <div class="col-md-12">                      
+            <table>
+                <thead>
+                    <tr class="headers">
+                        <th>CUIT</th>
+                        <th>Razon social</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proveedor in proveedores %}
+                    <tr>
+                        <td>{{ proveedor.proveedor.cuit }}</td>
+                        <td>{{ proveedor.proveedor.razonSocial }}</td>
+                        <td>{{ proveedor.saldo|money_format }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+{% extends '::base.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/asientocontable/asientocontable.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Reporte control de provisi&oacute;n de obras en curso</div>
+                </div>
+
+                <div class="portlet-body">        
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaInicio" 
+                                           class="control-label">Fecha inicio</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaInicio" 
+                                               name="adif_contablebundle_filtro[fechaInicio]" 
+                                               class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="adif_contablebundle_filtro_fechaFin" 
+                                           class="control-label">Fecha fin</label>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" id="adif_contablebundle_filtro_fechaFin" 
+                                               name="adif_contablebundle_filtro[fechaFin]" 
+                                               class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button class="btn btn-small blue-hoki form-control" id="filtrar_reporte_provision_obra_acumulado">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row cleardiv">
+                        <div class="col-md-12">
+                            <div class="portlet box reporte-portlet">
+                                
+                                <div class="portlet-body libro_diario_content">
+                                    <div class="table-toolbar clear"></div>
+                                    <div class="table-responsive">
+                                        <table 
+                                            class="table table-bordered table-striped table-condensed flip-content export-excel hide" 
+                                            id="reporte_provision_obra_acumulado_table" 
+                                            dataexport-title="Reporte_provision_obra">
+                                            <thead>
+                                                <tr class="replace-inputs filter">
+                                                    <th class="entity_id"></th>
+                                                    <th class="text-center">ID asiento</th>
+                                                    <th class="text-center">C&oacute;digo cuenta contable</th>
+                                                    <th class="text-center">Denominaci&oacute;n cuenta contable</th>
+                                                    <th class="text-center">Observaci&oacute;n. asiento contable</th>
+                                                    <th class="text-center nowrap">Total</th>
+                                                    <th class="text-center">Fecha</th>
+                                                </tr>
+                                                <tr class="headers">
+                                                    <th class="entity_id"></th>
+                                                    <th class="text-center">ID asiento</th>
+                                                    <th class="text-center">C&oacute;digo cuenta contable</th>
+                                                    <th class="text-center">Denominaci&oacute;n cuenta contable</th>
+                                                    <th class="text-center">Observaci&oacute;n. asiento contable</th>
+                                                    <th class="text-center nowrap" numeric>Total</th>
+                                                    <th class="text-center" date>Fecha</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/config/fechas_filtro.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/asientocontable/reporte.js') }}" ></script>
+    <script src="{{ asset('js/custom/contable/asientocontable/reporte_provision_obra_acumulado.js') }}" ></script>
+
+{% endblock %}

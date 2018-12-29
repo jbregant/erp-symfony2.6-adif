@@ -1,0 +1,19 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.cliente.clienteProveedor.razonSocial ~ '<br/>' ~ entity.cliente.clienteProveedor.cuit }}",     
+    {% if entity.fecha %}"{{ entity.fecha|date('d/m/Y') }}",{% endif %} 
+    "{{ entity.referencias }}",
+    { 
+    "saldo" : "{{ entity.saldo|money_format }}",
+    "id": "{{ entity.id }}"
+    },    
+    "{{ entity.cliente.id|default('-') }}",
+    "{{ entity.id }}",
+    "{{ entity.monto|default('-') }}"    
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

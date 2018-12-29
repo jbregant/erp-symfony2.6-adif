@@ -1,0 +1,184 @@
+{% extends '::base_reducido.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+{% endblock%}
+
+{% block body -%}
+    <div class="row">
+        {% if (entityVieja is not null) %}
+            <div class="col-md-12">
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Detalles del Formulario 572 a reemplazar
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>                
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Empleado</label>
+                                    <div class="detalle_show">{{ entityVieja.empleado }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">CUIL</label>
+                                    <div class="detalle_show">{{ entityVieja.empleado.persona.cuil }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Año</label>
+                                    <div class="detalle_show">{{ entityVieja.anio }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">&Uacute;ltima Presentaci&oacute;n</label>
+                                    <div class="detalle_show">{{ entityVieja.fechaFormulario|date('d/m/Y') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <table 
+                            class="table table-bordered table-striped table-expanded mostrar-todos datatable flip-content" 
+                            id="table-formulario572-viejo">
+                            <thead>
+                                <tr class="replace-inputs filter">
+                                    <th>Concepto</th>
+                                    <th>Per&iacute;odo</th>
+                                    <th>Monto</th>
+                                    <th>CUIT</th>
+                                    <th>Detalle</th>
+                                </tr>
+                                <tr class="headers">
+                                    <th>Concepto</th>
+                                    <th>Per&iacute;odo</th>
+                                    <th currency >Monto</th>
+                                    <th>CUIT</th>
+                                    <th>Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for concepto in entityVieja.conceptos %}
+                                    <tr>
+                                        <td>{{ concepto.conceptoGanancia }}</td>
+                                        <td class="nowrap" >{{concepto.detalleConceptoFormulario572Aplicado is not null ? concepto.detalleConceptoFormulario572Aplicado.periodo : concepto.mesDesde ~ '-' ~ concepto.mesHasta }}</td>
+                                        <td class="nowrap" >{{ concepto.monto|money_format }}</td>
+                                        <td class="nowrap" >{{ concepto.detalleConceptoFormulario572 is not null ? concepto.detalleConceptoFormulario572.cuit|default('-') : '-' }}</td>
+                                        <td>{{ concepto.detalleConceptoFormulario572 is not null ? concepto.detalleConceptoFormulario572.detalle|default('-') : '-' }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Detalles del Formulario 572 a guardar
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>                
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Empleado</label>
+                                <div class="detalle_show">{{ entity.empleado }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">CUIL</label>
+                                <div class="detalle_show">{{ entity.empleado.persona.cuil }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Año</label>
+                                <div class="detalle_show">{{ entity.anio }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">&Uacute;ltima Presentaci&oacute;n</label>
+                                <div class="detalle_show">{{ entity.fechaFormulario|date('d/m/Y') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-expanded mostrar-todos datatable flip-content" 
+                        id="table-formulario572">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th>Concepto</th>
+                                <th>Per&iacute;odo</th>
+                                <th>Monto mensual</th>
+                                <th>CUIT</th>
+                                <th>Detalle</th>
+                            </tr>
+                            <tr class="headers">
+                                <th>Concepto</th>
+                                <th>Per&iacute;odo</th>
+                                <th currency >Monto mensual</th>
+                                <th>CUIT</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for concepto in entity.conceptos %}
+                                <tr>
+                                    <td>{{ concepto.conceptoGanancia }}</td>
+                                    <td class="nowrap" >{{concepto.detalleConceptoFormulario572Aplicado is not null ? concepto.detalleConceptoFormulario572Aplicado.periodo : concepto.mesDesde ~ '-' ~ concepto.mesHasta }}</td>
+                                    <td class="nowrap" >{{ concepto.monto|money_format }}</td>
+                                    <td class="nowrap" >{{ concepto.detalleConceptoFormulario572 is not null ? concepto.detalleConceptoFormulario572.cuit|default('-') : '-' }}</td>
+                                    <td>{{ concepto.detalleConceptoFormulario572 is not null ? concepto.detalleConceptoFormulario572.detalle|default('-') : '-' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="button" class="btn default button-back" 
+                back-url="{{ path('formulario572') }}">
+            <i class="m-icon-swapleft"></i> Volver
+        </button>
+
+        <a href="{{ path('formulario572_importar_confirmado') }}" 
+           class="btn green tooltips pull-right" data-original-title="Confirmar">
+            <i class="fa fa-pencil"></i> Confirmar
+        </a>
+    </div>
+
+{% endblock%}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>             
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}" type="text/javascript"></script>      
+
+{% endblock%}

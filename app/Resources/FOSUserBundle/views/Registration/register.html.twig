@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+{% endblock body %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var __hayError = {{ error is defined and error ? 1 : 0 }} ;
+        
+        var __esUsuarioAD = {{ usuario_active_directory is defined and usuario_active_directory ? 1 : 0 }} ;
+    </script>    
+    
+    <script src="{{ asset('js/custom/autenticacion/usuarios/register.js') }}" ></script>
+{% endblock %}
+

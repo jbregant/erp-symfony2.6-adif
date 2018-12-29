@@ -1,0 +1,56 @@
+<li class="timeline-red">
+    <div class="timeline-time">
+        <span class="time">Orden de compra n&deg; {{ ordenCompra.numero }}</span>
+        <span class="date">
+            {{ ordenCompra.fechaOrdenCompra|date('d/m/y') }}
+        </span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    Orden de compra n&deg; {{ ordenCompra.numero }}
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  ordenCompra.estadoOrdenCompra ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( 'ordenescompra_show', { 'id': ordenCompra.id }) }}" target="_blank">Ver detalle</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-7">
+                    <span class="bold">Proveedor: </span>{{ ordenCompra.proveedor.cuitAndRazonSocial|default('-') }}
+                </p>
+                <p class="col-md-5">
+                    <span class="bold">Monto: </span>{{ ordenCompra.monto|money_format }}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Contrataci&oacute;n: </span>{{ ordenCompra.tipoContratacion|default('-') }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">Cotizaci&oacute;n: </span>{{ ordenCompra.cotizacion ? 'N&deg; ' ~ ordenCompra.cotizacion.numero  : '-' }}
+                    {% if ordenCompra.cotizacion is not null %}
+                        <a class="link-detalle" href="{{ path( 'cotizacion_show_cotizacion', { 'id': ordenCompra.cotizacion.id }) }}" target="_blank">(ver detalle)</a>
+                    {% endif %}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">N&uacute;mero de carpeta: </span>{{ ordenCompra.numeroCarpeta|default('-') }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">Condici&oacute;n de pago: </span>{{ ordenCompra.condicionPago|default('-') }}
+                </p>
+                <p class="col-md-12 margin-top-10">
+                    <span class="bold">Domicilio de entrega: </span>{{ ordenCompra.domicilioEntrega|default('-') }}
+                </p>
+                <p class="col-md-12 margin-top-10"> 
+                    <span class="bold">Observaci&oacute;n: </span>{{ ordenCompra.observacion|default('-') }}
+                </p>
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

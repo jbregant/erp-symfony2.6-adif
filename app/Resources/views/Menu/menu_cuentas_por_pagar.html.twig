@@ -1,0 +1,66 @@
+
+<li class="classic-menu-dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="">
+        Cuentas por pagar <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu">
+
+        {# CONFIGURACION CUENTAS POR PAGAR #}
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_CONFIGURACION') %}
+            {% include ':Menu:menu_cuentas_por_pagar.configuracion.html.twig' %}
+        {% endif %}
+
+        {# MENU COMPRAS #}
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_COMPRAS") %}
+            {% include ':Menu:menu_compras.html.twig' %}
+        {% endif %}
+
+        {# MENU PROVEEDORES #}
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_PROVEEDORES") %}
+            {% include ':Menu:menu_proveedores.html.twig' %}
+        {% endif %}
+
+        {# MENU OBRAS #}
+        {% if is_granted("ROLE_MENU_CUENTAS_POR_PAGAR_OBRAS") %}
+            {% include ':Menu:menu_obras.html.twig' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_REPORTES') %}
+            <li class="dropdown-submenu">
+                <a href="javascript:;">
+                    Reportes
+                </a>
+                <ul class="dropdown-menu">
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_REPORTE_LIBRO_IVA_COMPRAS') %}
+                        <li>
+                            <a href="{{ path('comprobantes_compra_libroiva_compras') }}">
+                                Libro IVA compras
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_REPORTE_RESUMEN_CC_PROVEEDORES') %}
+                        <li>
+                            <a href="{{ path('proveedor_resumen_cuenta_corriente') }}">
+                                Resumen cuenta corriente proveedores
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_REPORTE_GENERAL') %}
+                        <li>
+                            <a href="{{ path('comprobantes_reporte_general') }}">
+                                Reporte general comprobantes
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MENU_CUENTAS_POR_PAGAR_REPORTE_VENCIMIENTO_PROVEEDORES') %}
+                        <li>
+                            <a href="{{ path('proveedor_reporte_vencimiento') }}">
+                                Reporte vencimiento proveedores
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</li>

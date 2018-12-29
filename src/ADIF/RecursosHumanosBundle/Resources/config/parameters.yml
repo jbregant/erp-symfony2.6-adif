@@ -1,0 +1,3 @@
+parameters:
+    entity_manager: recursos_humanos
+    empleados_upload_path_archivos: %web_dir%/uploads/empleados/archivos/

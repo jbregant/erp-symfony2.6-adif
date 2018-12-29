@@ -1,0 +1,144 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(theme_path ~ 'plugins/fancybox/source/jquery.fancybox.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'custom/compras/clienteproveedor/clienteproveedor.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset(css_path ~ 'compact.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #button_vista_extendida{ margin-top: -4px; }
+    </style>
+
+{% endblock %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Proveedores - Vista extendida</div>
+                    <a id="button_vista_extendida" class="tooltips btn btn-sm bg-grey pull-right" href="{{ path('proveedor') }}" data-placement="left" data-original-title="Ver proveedores">Vista común</a>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar"></div>
+                    <table 
+                        class="table table-bordered table-striped flip-content 
+                        table-condensed dt-multiselect export-excel" 
+                        id="table-proveedor" dataexport-title="proveedor">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>
+                                <th>Rubros</th>
+                                <th>CUIT/DNI</th>
+                                <th>Raz&oacute;n social</th>
+                                <th>Codigo</th>
+                                <th>Rep.legal</th>
+                                <th>Extranjero</th>
+                                <th>Direcci&oacute;n Comercial</th>
+                                <th>NºIIBB</th>
+                                <th>Condición IVA</th>
+                                <th>Exento IVA</th>
+                                <th>Condición GANANCIAS</th>
+                                <th>Exento GANANCIAS</th>
+                                <th>Condición SUSS</th>
+                                <th>Exento SUSS</th>
+                                <th>Condición IIBB</th>
+                                <th>Exento IIBB</th>
+                                <th>Calificación Fiscal</th>
+                                <th>Problemas AFIP</th>
+                                <th>Riesgo Fiscal</th>
+                                <th>Magnitudes Superadas</th>                                
+                                <th>Pasible IVA</th>
+                                <th>Pasible GANANCIAS</th>
+                                <th>Pasible SUSS</th>
+                                <th>Pasible IIBB</th>
+                                <th data-type="select" 
+                                    data-select-mode="embedded">
+                                    <select class="input-filter">
+                                        <option value="">Todos</option> 
+                                        {% for estado in estados_proveedor %}
+                                            <option value="{{ estado.denominacionEstadoProveedor }}">{{ estado.denominacionEstadoProveedor }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-proveedor .checkboxes" />
+                                </th>
+                                <th>Rubros</th>
+                                <th>CUIT/DNI</th>
+                                <th>Raz&oacute;n social</th>
+                                <th>Codigo</th>
+                                <th>Rep.legal</th>
+                                <th>Extranjero</th>
+                                <th>Direcci&oacute;n Comercial</th>
+                                <th>NºIIBB</th>
+                                <th>Condición IVA</th>
+                                <th>Exento IVA</th>
+                                <th>Condición GANANCIAS</th>
+                                <th>Exento GANANCIAS</th>
+                                <th>Condición SUSS</th>
+                                <th>Exento SUSS</th>
+                                <th>Condición IIBB</th>
+                                <th>Exento IIBB</th>
+                                <th>Calificación Fiscal</th>
+                                <th>Problemas AFIP</th>
+                                <th>Riesgo Fiscal</th>
+                                <th>Magnitudes Superadas</th>                                
+                                <th>Pasible IVA</th>
+                                <th>Pasible GANANCIAS</th>
+                                <th>Pasible SUSS</th>
+                                <th>Pasible IIBB</th>
+                                <th>Estado</th>        
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# Validation #}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-filestyle/bootstrap-filestyle.js') }}" type="text/javascript"></script>   
+
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/proveedor/index_extendido.js') }}" ></script>
+
+    <script type="text/javascript">
+        document.body.classList.add('compact');
+    </script>
+
+{% endblock%}

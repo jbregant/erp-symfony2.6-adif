@@ -1,0 +1,20 @@
+
+@media (min-width: 767px) {  
+
+    .timeline > li .timeline-icon, 
+    .timeline:before {
+        left: 30% !important;
+    }
+
+    .timeline > li .timeline-time {
+        width: 25% !important;
+    }
+
+    .timeline > li .timeline-body {
+        margin: 0 10% 15px 33% !important;
+    }
+}
+
+li [class^="fa-"], li [class*=" fa-"] {
+    width: auto;
+}

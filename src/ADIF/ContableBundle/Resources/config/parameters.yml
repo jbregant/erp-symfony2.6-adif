@@ -1,0 +1,6 @@
+parameters:
+    entity_manager: contable
+    directorio_retenciones: %kernel.root_dir%/logs/retenciones/ 
+    directorio_wssa_prod: /web/bundles/adifcontable/factura_electronica/certificates_prod/
+    directorio_wssa_test: /web/bundles/adifcontable/factura_electronica/certificates_dev/test2/
+    directorio_log_facturacion_electronica: %kernel.root_dir%/logs/facturacion/

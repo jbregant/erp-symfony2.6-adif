@@ -1,0 +1,71 @@
+
+{% if certificadoExencion is not null %}
+
+    <fieldset class="certificado-exencion-content">
+
+        <legend>Certificado de exenci&oacute;n</legend>
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label">N&uacute;mero</label>
+                        <div class="detalle_show">
+                            {{ certificadoExencion.numeroCertificado|default('-') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label class="control-label">R&eacute;gimen</label>
+                        <div class="detalle_show">{{ certificadoExencion.tipoRegimen|default('-') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Fecha desde</label>
+                    <div class="detalle_show">
+                        {{ certificadoExencion.fechaDesde|date('Y/m/d') }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Fecha hasta</label>
+                    <div class="detalle_show">
+                        {{ certificadoExencion.fechaHasta|date('Y/m/d') }}
+                    </div>   
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Porcentaje</label>
+                    <div class="detalle_show">{{ certificadoExencion.porcentajeExencion|default('-') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">            
+                    <label class="control-label">Adjunto</label>
+                    {% if  certificadoExencion is not null and certificadoExencion.adjunto is not null %} 
+                        <a  class="download-link" target="_blank"
+                            href="{{ asset('uploads/adjunto_exencion/' ~ certificadoExencion.adjunto.nombreArchivoClear) }}">
+                            (Descargar)
+                        </a>
+                        <div class="detalle_show">
+                            {{ certificadoExencion.adjunto.nombre }}
+                        </div>
+                    {% else %} 
+                        <div class="detalle_show">-</div>
+                    {% endif %} 
+                </div>
+            </div>
+        </div>
+    </fieldset>
+{% endif %}
+

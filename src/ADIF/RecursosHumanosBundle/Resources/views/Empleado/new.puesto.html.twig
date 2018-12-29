@@ -1,0 +1,306 @@
+{% if edit %}
+    <div id="empleado_edit_puesto">
+        <input type="hidden" value="{{ empleado.idSubcategoria.idCategoria.idConvenio.id }}" name="empleado_edit_puesto_convenio"/>
+        <input type="hidden" value="{{ empleado.idSubcategoria.idCategoria.id }}" name="empleado_edit_puesto_categoria"/>
+        <input type="hidden" value="{{ empleado.idSubcategoria.id }}" name="empleado_edit_puesto_subcategoria"/>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.fechaInicioAntiguedad, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.fechaInicioAntiguedad) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Categorizaci&oacute;n</legend>
+            {% if edit %}<a id="puesto_categoria_historial" class="btn btn-info btn-history pull-right"><i class="fa fa-history"></i> Historial</a>{% endif %}
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.idConvenio, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.idConvenio) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.idCategoria, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.idCategoria) }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.idSubcategoria, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.idSubcategoria) }}
+
+                    </div>
+                </div>
+            </div>
+
+            {% if edit %}
+                <input type="hidden" id="adif_recursoshumanosbundle_empleado_idSubcategoria_original" value="{{ empleado.subcategoria.id }}" />
+                <div class="col-md-3" id="subcategoria_fecha_ctn" style="display: none;" >
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class="control-label required">Fecha de cambio</label>
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                <input type="text" name="adif_recursoshumanosbundle_empleado_idSubcategoria_fecha" id="adif_recursoshumanosbundle_empleado_idSubcategoria_fecha" required="required" class="form-control datepicker" value="{{"now"|date('d/m/Y')}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </fieldset>
+
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Puesto</legend>
+            {% if edit %}<a id="puesto_puesto_historial" class="btn btn-info btn-history pull-right"><i class="fa fa-history"></i> Historial</a>{% endif %}
+			
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.idGerencia, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.idGerencia) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.idSubgerencia, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.idSubgerencia) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.idArea, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.idArea) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.nivelOrganizacional, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.nivelOrganizacional) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.idSector, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.idSector) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.puesto, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.puesto) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form_label(form.superior, null, {'label_attr': {'class': 'control-label'}})  }}
+						<div class="input-icon right">
+							<i class="fa"></i>
+							{{ form_widget(form.superior) }}
+						</div>
+					</div>
+				</div>
+			</div>
+        </fieldset>
+
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">ACDT / Remuneraci&oacute;n</legend>
+            <div class="row">  
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ form_label(form.acdt, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.acdt) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ form_label(form.rangoRemuneracion, null, {'label_attr': {'class': 'control-label'}})  }}
+                        <div class="input-icon right">
+                            <i class="fa"></i>
+                            {{ form_widget(form.rangoRemuneracion) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Formulario 649 inicial</legend>
+            {% if(empleado.formulario649 != null) %}
+                <div class="div_form_649">
+                    {% include('@ADIFRecursosHumanos/Empleado/fomulario649.html.twig') %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(form.presenta649) }}
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                {{ form_widget(form.presenta649) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="div_form_649" style="display: none;">
+                    {% include('@ADIFRecursosHumanos/Empleado/fomulario649.html.twig') %}
+                </div>
+            {% endif %}
+        </fieldset>
+
+        <fieldset class="form-section-fieldset">
+            <legend class="form-section-legend">Egreso</legend>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.fechaEgreso, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.fechaEgreso) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.motivoEgreso, null, {'label_attr': {'class': 'control-label'}})  }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.motivoEgreso) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(form.aplicaEscalaDiciembre, null, {'label_attr': {'class': 'control-label'}}) }}
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        {{ form_widget(form.aplicaEscalaDiciembre) }}
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    {% if edit %}
+        {#    <div class="col-md-12">#}
+        <div id="ctn_historial_puesto" style="display: none;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Sector</th>
+                                    <th>&Aacute;rea</th>
+                                    <th>Gerencia</th>
+                                    <th>Subgerencia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for puesto in empleado.puestosHistoricos %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td class="text-center">{{ puesto.fechaDesde|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ puesto.fechaHasta|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ puesto.sector ? puesto.sector : '--' }}</td>
+                                        <td class="text-center">{{ puesto.area ? puesto.area : '--' }}</td>
+                                        <td class="text-center">{{ puesto.gerencia ? puesto.gerencia : '--' }}</td>
+                                        <td class="text-center">{{ puesto.subgerencia ? puesto.subgerencia : '--' }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr class="success">
+                                    <td width="150px" class="text-center">{{ empleado.puestosHistoricos|length() > 0 ? empleado.puestosHistoricos.first.fechaHasta|date('d/m/Y') : empleado.fechaIngreso|date('d/m/Y') }}</td>
+                                    <td width="150px" class="text-center"><span class="label label-sm label-success">Actual</span></td>
+                                    <td class="text-center">{{ empleado.sector ? empleado.sector : '--'}}</td>
+                                    <td class="text-center">{{ empleado.area  ? empleado.area : '--'}}</td>
+                                    <td class="text-center">{{ empleado.gerencia  ? empleado.gerencia : '--'}}</td>
+                                    <td class="text-center">{{ empleado.subgerencia  ? empleado.subgerencia : '--'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div id="ctn_historial_categoria" style="display: none;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Convenio</th>
+                                    <th>Categor&iacute;a</th>
+                                    <th>Subcategor&iacute;a</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subHist in empleado.subcategoriasHistoricas %}
+                                    <tr tr_index="{{ loop.index }}">
+                                        <td class="text-center">{{ subHist.fechaDesde|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ subHist.fechaHasta|date('d/m/Y') }}</td>
+                                        <td class="text-center">{{ subHist.subcategoria.categoria.convenio }}</td>
+                                        <td class="text-center">{{ subHist.subcategoria.categoria }}</td>
+                                        <td class="text-center">{{ subHist.subcategoria }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr class="success">
+                                    <td width="150px" class="text-center">{{ empleado.subcategoriasHistoricas|length() > 0 ? empleado.subcategoriasHistoricas.last.fechaHasta|date('d/m/Y') : empleado.fechaIngreso|date('d/m/Y') }}</td>
+                                    <td width="150px" class="text-center"><span class="label label-sm label-success">Actual</span></td>
+                                    <td class="text-center">{{ empleado.subcategoria.categoria.convenio }}</td>
+                                    <td class="text-center">{{ empleado.subcategoria.categoria }}</td>
+                                    <td class="text-center">{{ empleado.subcategoria }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

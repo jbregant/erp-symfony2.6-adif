@@ -1,0 +1,15 @@
+<li class="dropdown-submenu">
+    <a href="">
+        Gesti&oacute;n de RRHH
+    </a>    
+    <ul class="dropdown-menu">
+        {% if is_granted("ROLE_MENU_RRHH_RELACION_DEPENDENCIA") %}
+            {% include ':Menu:menu_rrhh.gestion_rrhh.relacion_dependencia.html.twig' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_MENU_RRHH_LOCACION_SERVICIOS') %}
+            {% include ':Menu:menu_rrhh.gestion_rrhh.locacion_servicios.html.twig' %}
+        {% endif %}
+    </ul>
+
+</li>

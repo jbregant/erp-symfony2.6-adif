@@ -1,0 +1,19 @@
+<tr class="{{item.saldo == 0? ' hidden ocultable ' : ''}} {{ item.restaSaldo ? ' resta ' : ' suma '}} {{ item.anulado? ' anulado ' : '' }} row-cc">
+    <td>{{ item.id }}</td>
+    <td class="borrar"></td>
+    <td class="text-left">{{ item.restaSaldo ? '&nbsp;&nbsp;&nbsp;&nbsp;' : ''}}{{ item.fecha|date('d/m/Y') }}</td>
+	{% if item.tipoComprobante|preg_match('/^ajuste/i') == true and is_granted('ROLE_ANULAR_COMPROBANTE_AJUSTE') %}
+		{# Link para visualizar los comprobantes de ajustes #}
+		<td class="text-left">{{ item.restaSaldo ? '&nbsp;&nbsp;&nbsp;&nbsp;' : ''}}
+			<a href="{{ path('comprobante_ajuste_show', { 'id': id_comprobante_ajuste }) }}">
+				{{ item.tipoComprobante|default('-') }} {{ item.anulado? '(ANULADO)' : '' }}
+			</a>
+		</td>
+	{% else %}
+		<td class="text-left">{{ item.restaSaldo ? '&nbsp;&nbsp;&nbsp;&nbsp;' : ''}}{{ item.tipoComprobante|default('-') }} {{ item.anulado? '(ANULADO)' : '' }}</td>
+	{% endif %}
+    <td class="text-left">{{ item.restaSaldo ? '&nbsp;&nbsp;&nbsp;&nbsp;' : ''}}{{ '(' ~ item.id ~ ') - ' ~ item.numero|default('-') }}</td>
+    <td class="text-left">{{ item.restaSaldo ? '&nbsp;&nbsp;&nbsp;&nbsp;' : ''}}{{ item.monto < 0 ? '(' ~ (item.monto * -1 )|money_format ~ ')' : item.monto|money_format }}</td>
+    <td class="text-right">{{ item.restaSaldo ? '(' ~ (item.saldo)|money_format ~ ')' : item.saldo|money_format }}</td>
+    <td class="borrar"></td>
+</tr>

@@ -1,0 +1,34 @@
+
+{% set comprobantes = op.esOrdenPagoParcial ? [op.pagoParcial.comprobante] : op.comprobantes %}
+
+{% if comprobantes is not empty %}
+
+    <h5>{{ 'Comprobantes cancelados' ~ (op.esOrdenPagoParcial ? ' parcialmente' : '') }}</h5>
+
+
+    <table class="w-100 m-top" border="1" >
+        <thead>
+            <tr>
+                <th class="f-12 w-20">Fecha</th>
+                <th class="f-12 w-20">Tipo</th>
+                <th class="f-12 w-20">N&uacute;mero</th>
+                <th class="f-12 w-20">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comprobanteCompra in comprobantes %}
+                <tr>
+                    <td class="f-12 t-center">{{ comprobanteCompra.fechaComprobante|date('d/m/Y') }}</td>
+                    <td class="f-12 t-center">{{ comprobanteCompra.tipoComprobante ~ ' (' ~ comprobanteCompra.letraComprobante ~ ')' }}</td>
+                    <td class="f-12 t-center">{{ comprobanteCompra.puntoVenta ~ '-' ~ comprobanteCompra.numero }}</td>
+                    <td class="f-12 t-right">{{ (comprobanteCompra.total * (comprobanteCompra.esNotaCredito ? -1 : 1))|money_format }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if op.periodo is defined and op.periodo is not null %}
+        <h5>Per&iacute;odos: {{ op.periodo|default('-') }}</h5>    
+    {% endif %}
+
+{% endif %}

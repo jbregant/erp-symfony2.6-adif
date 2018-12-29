@@ -1,0 +1,65 @@
+<li class="timeline-red">
+    <div class="timeline-time">
+        <span class="time">Rengl&oacute;n de licitaci&oacute;n</span>
+        <span class="date">
+            {{ tramo.fechaCreacion|date('d/m/y') }}
+        </span>
+    </div>
+    <div class="timeline-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div class="timeline-body">
+        <div class="timeline-body-head">
+            <div class="timeline-body-head-caption">
+                <span class="timeline-body-title">
+                    Rengl&oacute;n de licitaci&oacute;n - {{ tramo.descripcion }}
+                </span>
+                <span class="timeline-body-time">{{ ' (' ~  tramo.estadoTramo ~ ')' }}</span>
+            </div>
+            <div class="timeline-body-head-actions">
+                <a href="{{ path( 'obras_tramos_show', { 'id': tramo.id }) }}" target="_blank">Ver detalle</a>
+            </div>
+        </div>
+        <div class="timeline-body-content">
+            <span class="font-grey-gallery">
+                <p class="col-md-7">
+                    <span class="bold">Proveedor: </span>{{ tramo.proveedor.cuitAndRazonSocial|default('-') }}
+                </p>
+                <p class="col-md-5">
+                    <span class="bold">Licitaci&oacute;n: </span>{{ tramo.licitacion|default('-') }}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Categor&iacute;a: </span>{{ tramo.categoriaObra|default('-') }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">Tipo: </span>{{ tramo.tipoObra|default('-') }}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Fuente de financiamiento: </span>{{ tramo.fuenteFinanciamiento|default('-') }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">Total contrato: </span>{{ tramo.totalContrato|money_format }}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Plazo: </span>{{ tramo.plazoDias ~ ' d&iacute;as' }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">Pct. fondo de reparo: </span>{{ tramo.porcentajeFondoReparo|default(0) ~ ' %' }}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Pct. avance inicial: </span>{{ tramo.porcentajeAvanceInicial|default(0) ~ ' %' }}
+                </p>
+                <p class="col-md-5 margin-top-10">
+                    <span class="bold">Pct. anticipo inicial: </span>{{ tramo.porcentajeAnticipoInicial|default(0) ~ ' %' }}
+                </p>
+                <p class="col-md-7 margin-top-10">
+                    <span class="bold">Fecha recepci&oacute;n provisoria: </span>{{ tramo.fechaRecepcionProvisoria ? tramo.fechaRecepcionProvisoria|date('d/m/Y') : '-' }}
+                </p>
+                <p class="col-md-5 margin-top-10"> 
+                    <span class="bold">Fecha recepci&oacute;n definitiva: </span>{{ tramo.fechaRecepcionDefinitiva ? tramo.fechaRecepcionDefinitiva|date('d/m/Y') : '-' }}
+                </p>
+            </span>
+        </div>
+        <div class="timeline-footer"></div>
+    </div>
+</li>

@@ -1,0 +1,21 @@
+{
+"data": [
+{% for entity in entities %}
+    [
+    "{{ entity.id }}",
+    "{{ entity.id }}",
+    "{{ entity.tipoContratacion.alias|default('-') }}",
+    "{{ entity.numero|default('-') }}", 
+    "{{ entity.anio|default('-') }}", 
+    {% if entity.fechaApertura %}"{{ entity.fechaApertura|date('d/m/Y') }}",{% endif %}
+    "{{ entity.importePliego|money_format }}", 
+    "{{ entity.importeLicitacion|money_format }}", 
+    {
+    "show" : " {{ path( "licitacion_compra_show", { "id": entity.id }) }}"    
+    {% if app.user.isGranted('ROLE_CUENTA_POR_PAGAR_EDITAR_LICITACION') %}
+        ,"edit" : " {{ path( "licitacion_compra_edit", { "id": entity.id }) }}" 
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

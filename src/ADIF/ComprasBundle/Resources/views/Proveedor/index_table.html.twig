@@ -1,0 +1,44 @@
+{
+"data": [
+{% for proveedor in proveedores %}
+    [
+    "{{ proveedor.id }}",
+    "{{ proveedor.id }}",
+    "{{ proveedor.cuitDni |default('-') }}",
+    "{{ proveedor.razonSocial|decode }}",
+    "{{ proveedor.codigoproveedor }}",
+    "{{ proveedor.representantelegal |default('-') }}",
+    "{{ proveedor.extrajero ? 'Si' : 'No' }}",
+    "{{ proveedor.dc_direccion |decode }}",
+    "{{ proveedor.numeroIIBB | escape_json |default('-') }}",
+    "{{ proveedor.condicionIVA }}",
+    "{{ proveedor.exentoIVA ? 'Si' : 'No' }}",
+    "{{ proveedor.condicionGANANCIAS }}",
+    "{{ proveedor.exentoGANANCIAS ? 'Si' : 'No' }}",
+    "{{ proveedor.condicionSUSS }}",
+    "{{ proveedor.exentoSUSS ? 'Si' : 'No' }}",
+    "{{ proveedor.condicionIIBB }}",
+    "{{ proveedor.exentoIIBB ? 'Si' : 'No' }}",
+    "{{ proveedor.calificacionfiscal }}",
+    "{{ proveedor.problemasafip ? 'Si' : 'No' }}",
+    "{{ proveedor.riesgofiscal ? 'Si' : 'No' }}",
+    "{{ proveedor.magnitudessuperadas ? 'Si' : 'No' }}",
+    {
+    "claseCalificacionFinal" : "{{ proveedor.calificacion is not null ? proveedor.claseCalificacionFinal : '' }}",
+    "calificacionFinal" : "{{ proveedor.calificacion is not null ? proveedor.calificacion : '-'   }}"   
+    },
+    
+    {
+    "aliasTipoImportancia" : "{{ proveedor.denominacionEstado is not null ? proveedor.aliasTipoImportancia : 'default' }}",
+    "estadoProveedor" : "{{ proveedor.denominacionEstado is not null ? proveedor.denominacionEstado : '-'  }}"   
+    },
+    {
+    "show" : "{{ path( 'proveedor_show', { 'id': proveedor.id }) }}"
+    {% if not is_granted("ROLE_SOLO_LECTURA") %}
+        ,"edit" : "{{ path( 'proveedor_edit', { 'id': proveedor.id }) }}",
+        "cta_cte" : "{{ path( 'proveedor_cta_cte_detalle_total', { 'idProveedor': proveedor.id }) }}"
+    {% endif %}
+    }
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

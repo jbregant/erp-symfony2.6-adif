@@ -1,0 +1,116 @@
+{% extends '::base_reducido.html.twig' %}  
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #table-cuenta-corriente tbody tr.tr-grouped td {
+            padding: 0.5em 0.7em;
+            background-color: #fff2a8;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+    
+    {# Datepicker #}
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# PriceFormat #}
+    <script src="{{ asset(js_path ~ 'lib/jquery.price_format.2.0.min.js') }}" type="text/javascript"></script>
+
+{#    <script src="{{ asset(js_path ~ 'custom/rrhh/consultoria/consultor/cuenta_corriente.js') }}" ></script>#}
+
+{% endblock%}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Cuenta corriente <b>{{ consultor.razonSocial ~  ' - ' ~ consultor.cuit }}</b> - Contrato: <b>{{ contrato.numeroContrato }}</b>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+
+                    </div>
+
+                    <table 
+                        class="table datatable table-bordered table-striped flip-content table-condensed export-excel" 
+                        id="table-cuenta-corriente-detalle" 
+                        dataexport-title="consultor-cuenta-corriente-detalle">
+                        <thead>
+                            <tr class="replace-inputs filter" style="display: none;">
+                                <th class="entity_id"></th>
+                                <th data-type="date">Fecha</th>
+                                <th>Tipo de comprobante</th>
+                                <th>N&ordm; de comprobante</th>
+                                <th>Monto</th>
+                                <th>Detalle</th>
+                                <th>Saldo</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order"></th>
+                                <th numeric export-format="number" class="no-order">N&ordm; de comprobante</th>
+                                <th class="no-order" date export-format="date">Fecha</th>
+                                <th class="no-order">Tipo de comprobante</th>
+                                <th class="no-order" currency>Monto</th>
+                                <th class="no-order">Detalle</th>
+                                <th class="no-order" currency>Saldo</th>
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set saldo = 0 %}
+                            {% for comprobante in comprobantes_html %}
+                                {% set resta = comprobante.deuda %}
+                                {% set monto_comprobante = comprobante.monto %}
+                                {% set saldo = (saldo + (resta ? -(monto_comprobante) : monto_comprobante))%}
+                                <tr>
+                                    <td>{{ comprobante.id }}</td>
+                                    <td width="10%" class="text-center">
+                                        <a target="_blank" href="{{ path(comprobante.es_op ? 'ordenpagoconsultoria_show' : 'comprobante_consultoria_show', { 'id' : comprobante.id }) }}"> {{ comprobante.numero }}
+                                        </a></td>
+                                    <td width="10%" class="text-center">{{ comprobante.fecha|date('d/m/Y') }}</td>
+                                    <td width="20%" class="text-{{ resta ? 'left' : 'right' }}">{{ comprobante.tipo }}</td>
+                                    <td width="10%" class="text-{{ resta ? 'left' : 'right' }}">{{ monto_comprobante|money_format }}</td>
+                                    <td width="30%" ></td>
+                                    <td width="10%" class="text-right">{{ saldo|money_format }}</th>
+                                    <td width="10%" class="text-center" width="10%">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="form-actions">
+                        <button type="button" class="btn default button-back">
+                            <i class="m-icon-swapleft"></i> Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

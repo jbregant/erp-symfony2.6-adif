@@ -1,0 +1,119 @@
+{% extends '::base_reducido.html.twig' %} 
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock%} 
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">Bienes econ&oacute;micos</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="btn-group pull-right hide-if-non-selected" id="btn_asignar_regimen">
+                            <a class="btn btn-sm blue-hoki tooltips" data-placement="right" 
+                               data-original-title="Asignar régimen de retención a bienes seleccionados" href="">
+                                <i class="fa fa-compress"></i> Asignar r&eacute;gimen de retenci&oacute;n                                
+                            </a>
+                        </div>
+                        {% if is_granted('ROLE_COMPRAS_CREACION_BIEN_ECONOMICO') %}
+                            <div class="btn-group">
+                                <a class="btn btn-sm green tooltips" data-placement="right" 
+                                   data-original-title="Crear bien econ&oacute;mico" 
+                                   href=" {{ path( 'bieneconomico_new') }} ">
+                                    Crear bien econ&oacute;mico <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <table 
+                        class="table table-bordered table-striped table-condensed
+                        flip-content dt-multiselect export-excel" 
+                        id="table-bieneconomico" dataexport-title="bieneconomico">
+                        <thead>
+                            <tr class="replace-inputs filter">
+                                <th></th>
+                                <th class="not-in-filter"></th>                            
+                                <th>C&oacute;digo</th>
+                                <th>Tipo</th>                         
+                                <th>Denominaci&oacute;n</th>
+                                <th>Rubro</th>
+                                <th>Esp. t&eacute;cnica</th>
+                                <th>R&eacute;gimen SUSS</th>
+                                <th>R&eacute;gimen IVA</th>
+                                <th>R&eacute;gimen IIBB</th>
+                                <th>R&eacute;gimen Ganancias</th>
+                                <th>Cuenta contable</th>
+                                <th data-type="select" 
+                                    data-select-ajax="bieneconomico/estados" 
+                                    data-select-value="denominacionEstadoBienEconomico" 
+                                    data-select-label="denominacionEstadoBienEconomico"
+                                    data-select-all="Todos">Estado</th>
+                                <th class="not-in-filter"></th>
+                            </tr>
+                            <tr class="headers">
+                                <th class="no-order entity_id"></th>
+                                <th class="text-center table-checkbox no-order">
+                                    <input type="checkbox" class="group-checkable" data-set="#table-bieneconomico .checkboxes" />
+                                </th>                            
+                                <th class="nowrap">C&oacute;digo</th>
+                                <th class="nowrap">Tipo</th>
+                                <th>Denominaci&oacute;n</th>
+                                <th>Rubro</th>
+                                <th class="nowrap">Esp. t&eacute;cnica</th>
+                                <th>R&eacute;gimen SUSS</th>
+                                <th>R&eacute;gimen IVA</th>
+                                <th>R&eacute;gimen IIBB</th>
+                                <th>R&eacute;gimen Ganancias</th>
+                                <th>Cuenta contable</th>
+                                <th class="nowrap">Estado</th>                           
+                                <th class="text-center no-order ctn_acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(js_path ~ 'config/form.js') }}"></script>
+
+    {# Select2 #}
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/select2/select2_locale_es.js') }}" type="text/javascript"></script>
+
+    {# DataTable #}
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.dataTables.columnFilter.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/DataTables-1.10.2/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(theme_path ~ 'plugins/data-tables/DT_bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/dataTables.js') }}"  type="text/javascript"></script>
+
+    {# Validate#}
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-validation/dist/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.validate.messages_es.js') }}" type="text/javascript"></script>
+    <script src="{{ asset(js_path ~ 'config/validation.js') }}"></script>
+
+    <script type="text/javascript">
+        var impuestos = {{ impuestos|json_encode|raw }};
+        var regimenes = {{ regimenes|json_encode|raw }};
+    </script>
+
+    <script src="{{ asset(js_path ~ 'custom/compras/bieneconomico/index.js') }}" ></script>
+
+{% endblock%}

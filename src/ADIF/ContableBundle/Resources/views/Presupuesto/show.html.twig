@@ -1,0 +1,395 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset(css_path ~ 'custom/contable/presupuesto/ejecucion.css') }}" 
+          rel="stylesheet" type="text/css" />
+
+    <style rel="stylesheet" type="text/css">
+        button.btn.btn-sm.green.excel-custom {
+            margin-left: 5px;
+        }
+        .presupuesto {
+            margin-bottom: 5px;
+        }
+    </style>
+
+
+{% endblock %}
+
+{% set ConstanteTipoAsientoPresupuestario = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteTipoAsientoPresupuestario' %}
+
+{% block body -%}
+    <div class="presupuesto" data-export-title="Ejecucion del presupuesto {{ entity.ejercicioContable }}">
+        <div class="input-group">
+            <div>
+                <input class="form-control" id="search" name="search" placeholder="Escriba para buscar" type="text" data-list=".busqueda">
+            </div>
+        </div>
+    </div>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                Detalles del presupuesto: <strong>{{ entity.ejercicioContable }}</strong>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>                
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tabbable-custom nav-justified">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active">
+                                <a href="#tab_1" data-toggle="tab">Corriente </a>
+                            </li>
+                            <li class="">
+                                <a href="#tab_2" data-toggle="tab">Capital </a>
+                            </li>
+                            <li class="">
+                                <a href="#tab_3" data-toggle="tab">Financiamiento </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            {# TAB 1 - Corriente #}
+                            <div id="tab_1" class="tab-pane active">
+                                <div class="portlet box purple-plum">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="bold">Cuentas corrientes</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <h4>Ingresos corrientes</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-corrientes-suma" >
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">C&oacute;digo cuenta corriente</th>
+                                                        <th class="text-center">Denominaci&oacute;n</th>
+                                                        <th export-format="currency" class="text-center" width="15%">Monto inicial</th>
+                                                        <th class="text-right" export-format="currency" width="15%">Monto actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="busqueda">
+                                                    {% set corriente = 0 %}
+                                                    {% set corriente_suma = 0 %}
+                                                    {% set corriente_actual = 0 %}
+                                                    {% set corriente_suma_actual = 0 %}
+                                                    
+                                                    {% for cuentaPresupuestaria in cuentasPresupuestariasCorrienteSuma %}
+
+                                                        {% include 'ADIFContableBundle:Presupuesto:show_tr_cuenta.html.twig' with {'cuentaPresupuestaria': cuentaPresupuestaria } %}
+
+                                                        {%if (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable) %}
+                                                            {% set corriente_suma = corriente_suma + cuentaPresupuestaria.montoInicial %}
+                                                            {% set corriente_suma_actual = corriente_suma_actual + cuentaPresupuestaria.montoActual %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right bold">Total ingresos corrientes</td>
+                                                        <td class="text-right bold"><span class="total-inicial">{{ corriente_suma_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <h4>Gastos corrientes</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-corrientes-resta" >
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">C&oacute;digo cuenta corriente</th>
+                                                        <th class="text-center">Denominaci&oacute;n</th>
+                                                        <th export-format="currency" class="text-center" width="15%">Monto inicial</th>
+                                                        <th class="text-right" export-format="currency" width="15%">Monto actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="busqueda">
+                                                    {% set corriente_resta = 0 %}
+                                                    {% set corriente_resta_actual = 0 %}
+                                                    
+                                                    {% for cuentaPresupuestaria in cuentasPresupuestariasCorrienteResta %}
+
+                                                        {% include 'ADIFContableBundle:Presupuesto:show_tr_cuenta.html.twig' with {'cuentaPresupuestaria': cuentaPresupuestaria } %}
+
+                                                        {%if (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable) %}
+                                                            {% set corriente_resta = corriente_resta + cuentaPresupuestaria.montoInicial %}
+                                                            {% set corriente_resta_actual = corriente_resta_actual + cuentaPresupuestaria.montoActual %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right bold">Total gastos corrientes</td>
+                                                        <td class="text-right bold"><span class="total-inicial">{{ corriente_resta_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-cuentas-corrientes" >
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right bold">Resultado econ&oacute;mico: Ahorro/(Desahorro)</td>
+                                                        {% set corriente = corriente_suma - corriente_resta %}
+                                                        {% set corriente_actual = corriente_suma_actual - corriente_resta_actual %}
+                                                        <td class="text-right bold" width="15%"><span class="total-inicial">{{ corriente_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {# TAB 2 - Capital #}
+                            <div id="tab_2" class="tab-pane">
+                                <div class="portlet box purple-plum">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="bold">Cuentas de capital</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <h4>Recursos de capital</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-capital-suma" >
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">C&oacute;digo cuenta capital</th>
+                                                        <th class="text-center">Denominaci&oacute;n</th>
+                                                        <th export-format="currency" class="text-center" width="15%">Monto inicial</th>
+                                                        <th class="text-right" export-format="currency" width="15%">Monto actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="busqueda">
+                                                    {% set capital_suma = 0 %}
+                                                    {% set capital_suma_actual = 0 %}
+                                                    {% set capital = 0 %}
+                                                    {% set capital_actual = 0 %}
+                                                    
+                                                    {% for cuentaPresupuestaria in cuentasPresupuestariasCapitalSuma %}
+
+                                                        {% include 'ADIFContableBundle:Presupuesto:show_tr_cuenta.html.twig' with {'cuentaPresupuestaria': cuentaPresupuestaria } %}
+
+                                                        {%if (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable) %}
+                                                            {% set capital_suma = capital_suma + cuentaPresupuestaria.montoInicial %}
+                                                            {% set capital_suma_actual = capital_suma_actual + cuentaPresupuestaria.montoActual %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right bold">Total recursos capital</td>
+                                                        <td class="text-right bold"><span class="total-inicial">{{ capital_suma_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <h4>Gastos de capital</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-capital-resta" >
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">C&oacute;digo cuenta de capital</th>
+                                                        <th class="text-center">Denominaci&oacute;n</th>
+                                                        <th export-format="currency" class="text-center" width="15%">Monto inicial</th>
+                                                        <th class="text-right" export-format="currency" width="15%">Monto actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="busqueda">
+                                                    {% set capital_resta = 0 %}
+                                                    {% set capital_resta_actual = 0 %}
+                                                    
+                                                    {% for cuentaPresupuestaria in cuentasPresupuestariasCapitalResta %}
+
+                                                        {% include 'ADIFContableBundle:Presupuesto:show_tr_cuenta.html.twig' with {'cuentaPresupuestaria': cuentaPresupuestaria } %}
+
+                                                        {%if (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable) %}
+                                                            {% set capital_resta = capital_resta + cuentaPresupuestaria.montoInicial %}
+                                                            {% set capital_resta_actual = capital_resta_actual + cuentaPresupuestaria.montoActual %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right bold">Total gastos de capital</td>
+                                                        <td class="text-right bold"><span class="total-inicial">{{ capital_resta_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-cuentas-capital" >
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right bold">Resultado financiero: Super&aacute;vit/(D&eacute;ficit)</td>
+                                                        {% set capital = capital_suma + corriente - capital_resta %}
+                                                        {% set capital_actual = capital_suma_actual + corriente_actual - capital_resta_actual %}
+                                                        <td class="text-right bold" width="15%"><span class="total-inicial">{{ capital_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {# TAB 3 - Financiammiento #}
+                            <div id="tab_3" class="tab-pane">
+                                <div class="portlet box purple-plum">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="bold">Cuentas de financiamiento</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <h4>Fuentes financieras</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-fuentes-suma" >
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">C&oacute;digo cuenta de financiamiento</th>
+                                                        <th class="text-center">Denominaci&oacute;n</th>
+                                                        <th export-format="currency" class="text-center" width="15%">Monto inicial</th>
+                                                        <th class="text-right" export-format="currency" width="15%">Monto actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="busqueda">
+                                                    {% set financiamiento_suma = 0 %}
+                                                    {% set financiamiento_suma_actual = 0 %}
+                                                    {% set financiamiento = 0 %}
+                                                    {% set financiamiento_actual = 0 %}
+                                                    {% set superavit = (capital > 0) ? capital : 0 %}
+                                                    {% set superavit_actual = (capital_actual > 0) ? capital_actual : 0 %}
+                                                    {% set deficit = (capital < 0)? capital * -1 : 0 %}
+                                                    {% set deficit_actual = (capital_actual < 0) ? capital_actual * -1 : 0 %}
+                                                    
+                                                    {% for cuentaPresupuestaria in cuentasPresupuestariasFinanciamientoSuma %}
+
+                                                        {% include 'ADIFContableBundle:Presupuesto:show_tr_cuenta.html.twig' with {'cuentaPresupuestaria': cuentaPresupuestaria } %}
+
+                                                        {%if (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable) %}
+                                                            {% set financiamiento_suma = financiamiento_suma + cuentaPresupuestaria.montoInicial %}
+                                                            {% set financiamiento_suma_actual = financiamiento_suma_actual + cuentaPresupuestaria.montoActual %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% set financiamiento_suma = financiamiento_suma + superavit %}
+                                                    {% set financiamiento_suma_actual = financiamiento_suma_actual + superavit_actual %}
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>Super&aacute;vit financiero</td>
+                                                        <td class="text-right">{{ superavit_actual|money_format }}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right bold">Total fuentes financieras</td>
+                                                        <td class="text-right bold"><span class="total-inicial">{{ financiamiento_suma_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <h4>Aplicaciones financieras</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-fuentes-resta" >
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">C&oacute;digo cuenta de financiamiento</th>
+                                                        <th class="text-center">Denominaci&oacute;n</th>
+                                                        <th export-format="currency" class="text-center" width="15%">Monto inicial</th>
+                                                        <th class="text-right" export-format="currency" width="15%">Monto actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="busqueda">
+                                                    {% set financiamiento_resta = 0 %}
+                                                    {% set financiamiento_resta_actual = 0 %}
+                                                    
+                                                    {% for cuentaPresupuestaria in cuentasPresupuestariasFinanciamientoResta %}
+
+                                                        {% include 'ADIFContableBundle:Presupuesto:show_tr_cuenta.html.twig' with {'cuentaPresupuestaria': cuentaPresupuestaria } %}
+
+                                                        {%if (cuentaPresupuestaria.cuentaPresupuestariaEconomica.esImputable) %}
+                                                            {% set financiamiento_resta = financiamiento_resta + cuentaPresupuestaria.montoInicial %}
+                                                            {% set financiamiento_resta_actual = financiamiento_resta_actual + cuentaPresupuestaria.montoActual %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% set financiamiento_resta = financiamiento_resta + deficit %}
+                                                    {% set financiamiento_resta_actual = financiamiento_resta_actual + deficit_actual %}
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>D&eacute;ficit financiero</td>
+                                                        <td class="text-right">{{ deficit_actual|money_format }}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right bold">Total aplicaciones financieras</td>
+                                                        <td class="text-right bold"><span class="total-inicial">{{ financiamiento_resta_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered table-condensed" 
+                                                   id="tabla-cuentas-fuentes" >
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right bold">Diferencia</td>
+                                                        {% set financiamiento = financiamiento_suma - financiamiento_resta %}
+                                                        {% set financiamiento_actual = financiamiento_suma_actual - financiamiento_resta_actual %}
+                                                        <td class="text-right bold" width="15%"><span class="total-inicial">{{ financiamiento_actual|money_format }}</span></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div> 
+            <div class="form-actions">
+                <button type="button" class="btn default button-back" 
+                        back-url="{{ path('presupuesto') }}">
+                    <i class="m-icon-swapleft"></i> Volver
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset(theme_path ~ 'plugins/jquery-autonumeric/autoNumeric.js') }}" ></script>
+    <script src="{{ asset(js_path ~ 'lib/jquery.hideseek.js') }}" type="text/javascript"></script>
+    <script>
+        var ejercicio = "{{ entity.ejercicioContable }}";
+    </script>
+
+    <script src="{{ asset('js/custom/contable/presupuesto/ejecucion.js') }}" ></script>
+{% endblock %}

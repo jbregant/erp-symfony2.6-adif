@@ -1,0 +1,34 @@
+<form class="horizontal-form" novalidate="novalidate" id="form_editar_fecha_aprobacion_tecnica" method="post" name="form_editar_fecha_aprobacion_tecnica">
+    <input type="hidden" id="documento_financiero_update_fecha_aprobacion_tecnica_path_ajax" value="{{ path('documento_financiero_update_fecha_aprobacion_tecnica') }}">
+    <input type="hidden" name="id" id="id" value="{{ id }}">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="adif_contablebundle_obras_documentofinanciero_fechaAprobacionTecnica" class="control-label">Aprobación técnica</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <input 
+                            type="text" 
+                            class="form-control datepicker" 
+                            name="adif_contablebundle_obras_documentofinanciero[fechaAprobacionTecnica]" 
+                            id="adif_contablebundle_obras_documentofinanciero_fechaAprobacionTecnica" 
+                            value="{{ fecha_aprobacion_tecnica }}"
+                            style="height: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    initDatepickers($("#adif_contablebundle_obras_documentofinanciero_fechaAprobacionTecnica"));
+});
+
+
+</script>

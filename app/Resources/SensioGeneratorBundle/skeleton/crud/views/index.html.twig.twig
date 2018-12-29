@@ -1,0 +1,61 @@
+{% block extends %} {{ "{% extends '::base.html.twig' %}" }} {% endblock extends %} 
+
+{% set excludedVariables = ['id', 'fechaCreacion', 'fechaUltimaActualizacion', 'fechaBaja'] %}
+
+{% block body %} 
+{{ "{% block body -%}" }}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">{{ entity }}</div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-sm green tooltips" data-placement="right" data-original-title="Crear {{ entity|lower }}" href="{{ " {{ path( '" ~ route_name_prefix ~ "_new') }} " }}">
+                            Crear {{ entity|lower }} <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <table 
+                    class="table table-bordered table-striped table-condensed flip-content dt-multiselect export-excel" 
+                    id="table-{{ entityTable|lower }}"
+                    dataexport-title="{{ entity|lower }}">
+                    <thead>
+                        <tr class="replace-inputs filter">
+                            <th></th>
+                            <th class="not-in-filter"></th>
+                            {% for field, metadata in fields if field not in excludedVariables %}
+                            <th>{{ field|replace({'_': ''})|capitalize }}</th>
+                            {% endfor %}
+                            <th class="not-in-filter"></th>
+                        </tr>
+                        <tr class="headers">
+                            <th class="no-order entity_id"></th>
+                            <th class="text-center table-checkbox no-order">
+                                <input type="checkbox" class="group-checkable" data-set="#table-{{ entity|lower }} .checkboxes" />
+                            </th>
+                            {% for field, metadata in fields if field not in excludedVariables %}
+                            <th>{{ field|replace({'_': ''})|capitalize }}</th>
+                            {% endfor %}
+                            <th class="text-center no-order ctn_acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{ "{% endblock %}" }} 
+{% endblock body %}
+
+{% block javascripts %}
+{{ "{% block javascripts %}" }}
+    {{ '{{ parent() }}' }}
+    <script src="{{ '{{ asset(\'js/custom/'~bundleName~'/'~entityPath|lower~'/index.js\') }}' }}" ></script>
+{{ "{% endblock %}" }}
+{% endblock javascripts %}

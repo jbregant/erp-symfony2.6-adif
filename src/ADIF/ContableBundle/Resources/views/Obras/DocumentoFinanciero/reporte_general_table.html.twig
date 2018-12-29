@@ -1,0 +1,38 @@
+{
+"data": [
+{% for documentoFinanciero in documentosFinancieros %}
+    [
+    "{{ documentoFinanciero.id }}",
+    "{{ documentoFinanciero.id }}",
+    "{{ documentoFinanciero.fechaCreacion is not null ? documentoFinanciero.fechaCreacion|date('d/m/Y') : '-' }}",
+    "{{ documentoFinanciero.tipoContratacionAlias|default('-') }}",
+    "{{ documentoFinanciero.numero|default('-') }}",
+    "{{ documentoFinanciero.anio|default('-') }}",
+    "{{ documentoFinanciero.renglon_nro|default('-') }}",
+    "{{ documentoFinanciero.descripcion|escape_json|default('-') }}",
+    "{{ documentoFinanciero.cuit|default('-') }}",
+    "{{ documentoFinanciero.razonSocial|default('-') }}",
+    "{{ documentoFinanciero.tipoDocumentoFinanciero|default('-') }}",
+    "{{ documentoFinanciero.numeroDocumentoFinanciero|default('-') }}",
+    "{{ documentoFinanciero.fechaAnulacion is not null ? documentoFinanciero.fechaAnulacion|date('d/m/Y') : '-' }}",
+    "{{ documentoFinanciero.montoSinIVA|money_format }}",
+    "{{ documentoFinanciero.correspondePago ? 'Si' : 'No' }}",
+    "{{ documentoFinanciero.comprobante|default('-') }}",
+    "{{ documentoFinanciero.totalComprobante|money_format }}",
+    "{{ documentoFinanciero.fechaIngresoADIF|date('d/m/Y') }}",
+    "{{ documentoFinanciero.fechaVencimiento|default('-') }}",
+    "{{ documentoFinanciero.fechaIngresoGerenciaAdministracion|date('d/m/Y') }}",
+    "{{ documentoFinanciero.numeroReferencia|default('-') }}",
+    "{{ documentoFinanciero.observaciones|default('-')|decode }}",
+    "{{ documentoFinanciero.fechaAprobacionTecnica is not null ? documentoFinanciero.fechaAprobacionTecnica|date('d/m/Y') : '-' }}",
+    "{{ documentoFinanciero.ordenPago|default('-') }}",
+    "{{ documentoFinanciero.pago|default('-') }}",
+    "{{ documentoFinanciero.fechaPago is not null ? documentoFinanciero.fechaPago|date('d/m/Y') : '-' }}",
+    "{{ documentoFinanciero.estadoPago|default('-') }}",
+    "{{ documentoFinanciero.montoNeto|money_format }}",
+	"{{ documentoFinanciero.porcentajeCertificacion}}",
+	"{{ documentoFinanciero.fechaInicio|date('d/m/Y') }}",
+	"{{ documentoFinanciero.fechaFin|date('d/m/Y') }}"
+    ]{{ (loop.last ? '' : ',') }}
+{% endfor %}
+]}

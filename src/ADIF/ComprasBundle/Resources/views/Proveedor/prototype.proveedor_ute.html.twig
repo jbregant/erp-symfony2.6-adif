@@ -1,0 +1,33 @@
+<div class="row row-proveedor-ute">
+    <div class="col-md-5 form_field">
+        <div class="form-group">
+            {{ form_label(proveedorUTE.proveedor) }}
+            <div class="form_field">
+                {{ form_widget(proveedorUTE.proveedor) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_field">
+        <div class="form-group">
+            {{ form_label(proveedorUTE.porcentajeRemuneracion) }}
+            <div class="form_field">
+                {{ form_widget(proveedorUTE.porcentajeRemuneracion) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_field">
+        <div class="form-group">
+            {{ form_label(proveedorUTE.porcentajeGanancia) }}
+            <div class="form_field">
+                {{ form_widget(proveedorUTE.porcentajeGanancia) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a href="#" class="btn btn-sm red delete-link-inline 
+           prototype-link-remove-proveedor-ute accion-borrar" 
+           data-placement="top" data-original-title="Eliminar proveedor">
+            <i class="fa fa-times-circle"></i>
+        </a>                   
+    </div>
+</div>

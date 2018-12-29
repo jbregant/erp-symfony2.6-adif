@@ -1,0 +1,143 @@
+
+{% set claseContrato = 'ADIF\\ContableBundle\\Entity\\Constantes\\ConstanteClaseContrato' %}
+
+{% for i in 0..1 %}
+    <div style="height: 10mm;">&nbsp;</div>
+    <div class="cupon_container">    
+        <table style="width: 185mm;">
+            <tbody>
+                <tr>
+                    <td style="width: 20mm;"><img src="{{ app.request.getSchemeAndHttpHost() ~ '/images/logo_2016_sm.png' }}"/></td>
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="datos_adif" style="font-weight: bold;">Administraci&oacute;n de Infraestructuras Ferroviarias S.E.</td>                            
+                                </tr>
+                                <tr>
+                                    <td class="datos_adif">Av. Dr. Jose Ramos Mejia 1302 - CABA - C1104AJN</td>
+                                </tr>
+                                <tr>
+                                    <td class="datos_adif">TEL / FAX 54 9 11 4318 3657/29</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>        
+                <tr>
+                    <td colspan="2" class="numero_cupon">Cupon de pago N&ordm;: {{ entity.numeroCupon }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="tabla_datos_cliente">
+            <tbody>
+                <tr>
+                    <td style="width: 120mm;">Sr/es:</td>
+                    <td>Fecha Emisi&oacute;n: <span style="font-weight: normal">{{ entity.fechaComprobante|date('d/m/Y') }}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        {% if entity.comprobanteImpresion is not null %}
+                            {{ entity.comprobanteImpresion.razonSocial|default('-') }}
+                        {% else %}
+                            {{ entity.cliente|default('-') }}
+                        {% endif %}
+                    </td>
+                    {% if entity.comprobanteImpresion is not null %}
+                        {{ entity.comprobanteImpresion.domicilioLegal|default('-') }}
+                    {% else %}                    
+                        {{ entity.cliente.clienteProveedor.domicilioLegal|default('-') }}
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        {% if entity.comprobanteImpresion is not null %}
+                            {{ entity.comprobanteImpresion.domicilioLegal|default('-') }}
+                        {% else %}
+                            {{ entity.cliente.clienteProveedor.domicilioLegal|default('-') }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        {% if entity.comprobanteImpresion is not null %}
+                            {{ entity.comprobanteImpresion.codigoPostal|default('-') }} - 
+                            {{ entity.comprobanteImpresion.localidad|default('-') }}, 
+                            {{ entity.comprobanteImpresion.provincia|default('-') }}
+                        {% else %}                        
+                            {{ entity.cliente.clienteProveedor.domicilioLegal.codPostal|default('-') }} - 
+                            {{ entity.cliente.clienteProveedor.domicilioLegal.localidad|default('-') }}, 
+                            {{ entity.cliente.clienteProveedor.domicilioLegal.localidad.provincia|default('-') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <table id="tabla_datos_contrato">
+            <tbody>
+                <tr>
+                    {% set numeroContrato = (entity.numeroContrato|default('')) ~ (entity.id == 35829 ? 'AF000000241' : '') ~ (entity.contrato.numeroContrato|default('')) %}
+                    <td>N&ordm; Contrato ADIF: {{ numeroContrato|default('-') }} </td>
+                </tr>
+                <tr>
+                    {% set numeroOnabe = (entity.numeroOnabe|default('')) ~ (entity.contrato.numeroOnabe|default('')) %}
+                    <td>N&ordm; Contrato ONABE: {{ numeroOnabe|default('-') }}</td>
+                </tr>
+                {% set numeroCarpeta = ((entity.codigoClaseContrato is not null and entity.codigoClaseContrato == constant(claseContrato ~ '::SERVIDUMBRE_DE_PASO')) ? entity.contrato.numeroCarpeta|default('') : '') != '' ? 'N&ordm; carpeta ' ~ entity.contrato.numeroCarpeta ~ ' - ' : '' %}
+                <tr>
+                    <td>Detalle: {{ numeroCarpeta ~ entity.observaciones|default('-') }}</td>
+                </tr>
+                <tr>
+                    <td>Fecha Vencimiento: {{ entity.fechaVencimiento is not null ? entity.fechaVencimiento|date('d/m/Y') : '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Per&iacute;odo: {{ entity.fechaComprobante|date('m') ~ '/' ~ entity.fechaComprobante|date('Y') }}</td>
+                </tr>
+                <tr>
+                    <td>Total a pagar: {{ entity.totalMCL|money_format }}</td>
+                </tr>
+                <tr>
+                    <td>Son pesos: {{ entity.totalMCL|number_format(2,'.','')|a_letras|capitalize }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <table id="tabla_datos_pago">
+            <tbody>
+                <tr>
+                    <td style="width: 38mm;">Importe a pagar:</td>
+                    <td style="border-bottom: 1px solid black;" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 38mm; vertical-align: top;">Forma de pago:</td>
+                    <td style="width: 60mm;">
+                        <table id="tabla_datos_condicion_pago">
+                            <tbody>
+                                <tr>
+                                    <td>Efectivo</td>
+                                    <td class="square">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>Cheque 24 Hs</td>
+                                    <td class="square">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 19mm;">48 Hs</td>
+                                    <td class="square">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 19mm;">72 Hs</td>
+                                    <td class="square">&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>           
+                    <td style="text-align: center; vertical-align: middle; letter-spacing: 3px;"><img src="{{ barCode }}" /><br />{{ barCodeNumber }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="padding-top: 3mm;">SOLICITAMOS UNA VEZ CUMPLIMENTADO EL PAGO, REMITIR COMPROBANTE VIA FAX AL 011-4318-3657, PARA SU APLICACI&Oacute;N EN CUENTA CORRIENTE</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
